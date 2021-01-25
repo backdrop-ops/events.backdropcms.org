@@ -1,0 +1,13 @@
+type = module
+name = Options
+description = Defines selection, check box and radio button widgets for text and numeric fields.
+package = Fields
+tags[] = Content
+version = BACKDROP_VERSION
+backdrop = 1.x
+dependencies[] = field
+
+; Added by Backdrop CMS packaging script on 2021-01-15
+project = backdrop
+version = 1.18.0
+timestamp = 1610761046

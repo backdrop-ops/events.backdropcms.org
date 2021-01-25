@@ -1,0 +1,14 @@
+type = module
+name = Views
+description = Create customized lists and queries from your database.
+package = Views
+tags[] = Site Architecture
+version = BACKDROP_VERSION
+backdrop = 1.x
+stylesheets[all][] = css/views.css
+required = TRUE
+
+; Added by Backdrop CMS packaging script on 2021-01-15
+project = backdrop
+version = 1.18.0
+timestamp = 1610761046

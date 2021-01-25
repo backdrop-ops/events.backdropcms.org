@@ -1,0 +1,14 @@
+type = module
+name = Layout
+description = Provides a drag and drop page building tool.
+package = Layouts
+tags[] = Blocks
+tags[] = Site Architecture
+version = BACKDROP_VERSION
+backdrop = 1.x
+required = TRUE
+
+; Added by Backdrop CMS packaging script on 2021-01-15
+project = backdrop
+version = 1.18.0
+timestamp = 1610761046

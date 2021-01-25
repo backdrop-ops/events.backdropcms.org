@@ -1,0 +1,16 @@
+type = module
+name = File
+description = Defines a file field type.
+package = Fields
+tags[] = Content
+tags[] = File Management
+tags[] = Media
+version = BACKDROP_VERSION
+backdrop = 1.x
+required = TRUE
+dependencies[] = field
+
+; Added by Backdrop CMS packaging script on 2021-01-15
+project = backdrop
+version = 1.18.0
+timestamp = 1610761046
