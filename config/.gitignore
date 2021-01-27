@@ -1,0 +1,16 @@
+# Ignore dev except readme 
+dev-active/*.json
+dev-active/.htaccess
+
+# Ignore all readme files
+live-active/README.md
+staging/README.md
+
+# Ignore all .htaccess files
+live-active/.htaccess
+staging/.htaccess
+
+# Ignore specific config files in staging
+staging/devel.settings.json
+
+

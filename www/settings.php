@@ -12,7 +12,7 @@
  * advanced database documentation at
  * https://api.backdropcms.org/database-configuration
  */
-$database = 'mysql://user:pass@localhost/database_name';
+$database = 'mysql://backdrop:backdrop01@127.0.0.1/backdropcms_events';
 $database_prefix = '';
 
 /**
@@ -77,7 +77,7 @@ $settings['update_free_access'] = FALSE;
  * @endcode
  *
  */
-$settings['hash_salt'] = '';
+$settings['hash_salt'] = 'JBjp3kEhJ5k5D05-ljJRLJMerYyzC655PBsr2u4vAoo';
 
 /**
  * Trusted host configuration (optional but highly recommended).
@@ -445,3 +445,4 @@ $settings['backdrop_drupal_compatibility'] = TRUE;
 if (file_exists(__DIR__ . '/settings.local.php')) {
   include __DIR__ . '/settings.local.php';
 }
+$database_charset = 'utf8mb4';
