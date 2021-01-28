@@ -1,0 +1,355 @@
+<?php
+
+/**
+ * @file
+ * Entity Registration Views integration
+ */
+
+/**
+ * Implements hook_views_api().
+ */
+function registration_views_views_api() {
+  return array(
+    'api' => 2,
+    'path' => backdrop_get_path('module', 'registration_views') . '/includes',
+  );
+}
+
+/**
+ * Implements hook_views_data().
+ */
+function registration_views_views_data() {
+  $data = array();
+
+  // Registration
+  $entity_info = entity_get_info('registration');
+  $data['registration']['table']['group']  = t('Registrations');
+  $data['registration']['table']['entity type'] = 'registration';
+  $data['registration']['table']['base'] = array(
+    'field' => $entity_info['entity keys']['id'],
+    'access query tag' => 'registration_access',
+    'title' => $label = t('Registrations'),
+  );
+
+  $property_info = entity_plus_get_all_property_info('registration');
+  foreach ($property_info as $property => $settings) {
+    if (isset($settings['schema field']) && in_array($settings['schema field'], $entity_info['schema_fields_sql']['base table'])) {
+      $data['registration'][$property] = array(
+        'title' => $settings['label'],
+        'real field' => $settings['schema field'],
+        'help' => $settings['description'],
+        'field' => array(
+          'handler' => 'views_handler_field',
+          'click sortable' => TRUE,
+        ),
+        'sort' => array(
+          'handler' => 'views_handler_sort',
+        ),
+        'filter' => array(
+          'handler' => 'views_handler_filter',
+        ),
+      );
+    }
+  }
+
+  $data['registration']['type']['relationship'] = array(
+    'handler' => 'views_handler_relationship',
+    'base' => 'registration_type',
+    'base field' => 'name',
+    'label' => t('Registration type'),
+  );
+
+  $data['registration']['user_uid']['title'] = t('User');
+  $data['registration']['user_uid']['help'] = t('The user registered for this event.');
+  $data['registration']['user_uid']['argument']['handler'] = 'views_handler_argument_numeric';
+  $data['registration']['user_uid']['filter']['handler'] = 'views_handler_filter_user_name';
+  $data['registration']['user_uid']['relationship'] = array(
+    'handler' => 'views_handler_relationship',
+    'base' => 'users',
+    'base field' => 'uid',
+    'label' => t('User'),
+  );
+  new views_handler_field_user();
+  $data['registration']['author_uid']['title'] = t('Author');
+  $data['registration']['author_uid']['help'] = t('The author of the registraion.');
+  $data['registration']['auther_uid']['argument']['handler'] = 'views_handler_argument_numeric';
+  $data['registration']['author_uid']['filter']['handler'] = 'views_handler_filter_user_name';
+  $data['registration']['author_uid']['relationship'] = array(
+    'handler' => 'views_handler_relationship',
+    'base' => 'users',
+    'base field' => 'uid',
+    'label' => t('Author'),
+  );
+
+  $data['registration']['created']['field']['handler'] = 'views_handler_field_date';
+  $data['registration']['created']['sort']['handler'] = 'views_handler_sort_date';
+  $data['registration']['created']['filter']['handler'] = 'views_handler_filter_date';
+
+  $data['registration']['updated']['field']['handler'] = 'views_handler_field_date';
+  $data['registration']['updated']['sort']['handler'] = 'views_handler_sort_date';
+  $data['registration']['updated']['filter']['handler'] = 'views_handler_filter_date';
+
+  $data['registration']['view_registration'] = array(
+    'field' => array(
+      'title' => t('View link'),
+      'help' => t('Provide a link to view a registration.'),
+      'handler' => 'registration_handler_field_registration_link',
+    ),
+  );
+
+  $data['registration']['edit_registration'] = array(
+    'field' => array(
+      'title' => t('Edit link'),
+      'help' => t('Provide a link to edit a registration.'),
+      'handler' => 'registration_handler_field_registration_link_edit',
+    ),
+  );
+
+  $data['registration']['delete_registration'] = array(
+    'field' => array(
+      'title' => t('Delete link'),
+      'help' => t('Provide a link to delete a registration.'),
+      'handler' => 'registration_handler_field_registration_link_delete',
+    ),
+  );
+
+  // Registration Entity
+  $data['registration_entity']['table']['group'] = t('Registration Settings');
+  $data['registration_entity']['table']['base'] = array(
+    'field' => 'entity_id',
+    'title' => t('Registration Settings'),
+    'help' => t('Contains information about registration settings for entities.'),
+    'weight' => -10,
+  );
+
+  $data['registration_entity']['open'] = array(
+    'title' => t('Open Date'),
+    'help' => t('When the entity will open for registrations.'),
+    'field' => array(
+      'handler' => 'registration_handler_field_entity_datetime',
+    ),
+  );
+
+  $data['registration_entity']['close'] = array(
+    'title' => t('Close Date'),
+    'help' => t('When the entity will no longer accept registrations.'),
+    'field' => array(
+      'handler' => 'registration_handler_field_entity_datetime',
+    ),
+  );
+
+  $data['registration_entity']['capacity_total'] = array(
+    'real field' => 'capacity',
+    'title' => t('Slots Total'),
+    'help' => t('Maximum number of slots for an entity.'),
+    'field' => array(
+      'handler' => 'registration_handler_field_entity_capacity_total',
+    ),
+  );
+
+  return $data;
+}
+
+/**
+ * Implements hook_entity_info_alter().
+ */
+function registration_views_entity_info_alter(&$entity_info) {
+  // Set our custom Views controller class.
+  $entity_info['registration']['views controller class'] = 'RegistrationViewsController';
+}
+
+/**
+ * Implements hook_action_info().
+ */
+function registration_views_action_info() {
+  return array(
+    'registration_views_set_state_action' => array(
+      'type' => 'registration',
+      'label' => t('Set the Registration State'),
+      'behavior' => array('changes_property'),
+      'configurable' => FALSE,
+      'vbo_configurable' => TRUE,
+      'triggers' => array('any'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_views_bulk_operation_form().
+ *
+ * Provides a configuration form for the VBO dialogue when configuring a view.
+ */
+function registration_views_set_state_action_views_bulk_operations_form($options) {
+  $form = array();
+  $form['default_registration_state'] = array(
+    '#type' => 'select',
+    '#title' => t('Status'),
+    '#options' => registration_get_states_options(),
+    '#default_value' => !empty($options['default_registration_state']) ? $options['default_registration_state'] : '',
+  );
+
+  return $form;
+}
+
+/**
+ * Per-action form for executing a bulk operation.
+ *
+ * Simply adds a form to select what state to set when performing a VBO
+ * set_state_action.
+ */
+function registration_views_set_state_action_form($settings) {
+  $form = array();
+  $form['registration_state'] = array(
+    '#type' => 'select',
+    '#title' => t('Status'),
+    '#options' => registration_get_states_options(),
+    '#default_value' => !empty($settings['settings']['default_registration_state']) ? $settings['settings']['default_registration_state'] : '',
+  );
+
+  return $form;
+}
+
+/**
+ * Submit handler for registration_views_set_state_action_form().
+ */
+function registration_views_set_state_action_submit($form, $form_state) {
+  $return = array();
+  $return['new_state'] = $form_state['values']['registration_state'];
+  return $return;
+}
+
+/**
+ * The actual action to set a Registration's State.
+ */
+function registration_views_set_state_action(&$node, $context) {
+  $context['registration']->state = $context['new_state'];
+  registration_save($context['registration']);
+}
+
+/**
+ * Implements hook_views_data_alter().
+ *
+ * Create relationships between registrations, and their related entities.
+ * Provide additional fields for entities with registrations.
+ */
+function registration_views_views_data_alter(&$data) {
+  // Add a state form field option for registrations.
+  $data['registration']['state_edit'] = array(
+    'field' => array(
+      'title' => t('State form field'),
+      'help' => t('Edit the registration state'),
+      'handler' => 'RegistrationViewsHandlerStateEdit',
+    ),
+  );
+
+  $registration_instances = registration_get_registration_instances();
+  $entity_info = entity_get_info();
+
+  foreach ($registration_instances as $instance) {
+    $entity_type = $instance['entity_type'];
+    $info = $entity_info[$entity_type];
+
+    // Entity to Registration.
+    $data[$info['base table']]['registration_rel'] = array(
+      'group' => t('Registration'),
+      'title' => t('@entity to Registration',
+        array('@entity' => ucfirst($info['label']))),
+      'help' => t('The Registration associated with the @entity entity.',
+        array('@entity' => ucfirst($info['label']))),
+      'relationship' => array(
+        'entity' => $entity_type,
+        'handler' => 'registration_handler_relationship',
+        'label' => t('@entity being the Registration',
+          array('@entity' => $entity_type)),
+        'base' => 'registration',
+        'base field' => 'entity_id',
+        'relationship field' => $info['entity keys']['id'],
+      ),
+    );
+
+    // Relate entities to registration settings.
+    $data[$info['base table']]['registration_settings_rel'] = array(
+      'group' => t('Registration Settings'),
+      'title' => t('@entity to Registration Settings', array('@entity' => ucfirst($info['label']))),
+      'help' => t('The Registration settings associated with the @entity entity.', array('@entity' => ucfirst($info['label']))),
+      'relationship' => array(
+        'entity' => $entity_type,
+        'handler' => 'registration_handler_relationship',
+        'label' => t('@entity being the Registration', array('@entity' => $entity_type)),
+        'base' => 'registration_entity',
+        'base field' => 'entity_id',
+        'relationship field' => $info['entity keys']['id'],
+      ),
+    );
+
+    // Host entity: registration settings link.
+    $data[$info['base table']]['registration_settings'] = array(
+      'real field' => $info['entity keys']['id'],
+      'group' => t('Registration Settings'),
+      'title' => t('Registration Settings Link'),
+      'help' => t('Provide a link to edit registration settings for an entity.'),
+      'field' => array(
+        'handler' => 'registration_handler_field_entity_settings_link',
+      ),
+    );
+
+    // Host entity: registration status.
+    $data[$info['base table']]['registration_status'] = array(
+      'real field' => $info['entity keys']['id'],
+      'group' => t('Registration Settings'),
+      'title' => t('Registration Status'),
+      'help' => t('Show registration status for an entity.'),
+      'field' => array(
+        'handler' => 'registration_handler_field_entity_registration_status',
+      ),
+    );
+
+    // Host entity: used slots.
+    $data[$info['base table']]['capacity_used'] = array(
+      'real field' => $info['entity keys']['id'],
+      'group' => t('Registration Settings'),
+      'title' => t('Spaces used'),
+      'help' => t('Current number of spaces used for this entity.'),
+      'field' => array(
+        'handler' => 'registration_handler_field_entity_capacity_used',
+      ),
+    );
+
+    // Registration to entity.
+    $data['registration']['registration_related_' . $entity_type] = array(
+      'group' => t('Registration'),
+      'title' => t('Registration to @entity',
+        array('@entity' => ucfirst($info['label']))),
+      'help' => t('The @entity entity that is associated with the Registration.',
+        array('@entity' => $info['label'])),
+      'relationship' => array(
+        'entity' => $entity_type,
+        'table' => 'registration',
+        'handler' => 'registration_handler_relationship',
+        'label' => t('@entity from Registration',
+          array('@entity' => $entity_type)),
+        'base' => $info['base table'],
+        'base field' => $info['entity keys']['id'],
+        'relationship field' => 'entity_id',
+      ),
+    );
+  }
+}
+
+/**
+ * Implements hook_autoload_info().
+ */
+function registration_views_autoload_info() {
+  return array(
+    'registration_handler_field_entity_capacity_total' => 'includes/registration_handler_field_entity_capacity_total.inc',
+    'registration_handler_field_entity_capacity_used' => 'includes/registration_handler_field_entity_capacity_used.inc',
+    'registration_handler_field_entity_datetime' => 'includes/registration_handler_field_entity_datetime.inc',
+    'registration_handler_field_entity_registration_status' => 'includes/registration_handler_field_entity_registration_status.inc',
+    'registration_handler_field_entity_settings_link' => 'includes/registration_handler_field_entity_settings_link.inc',
+    'registration_handler_field_registration_link' => 'includes/registration_handler_field_registration_link.inc',
+    'registration_handler_field_registration_link_delete' => 'includes/registration_handler_field_registration_link_delete.inc',
+    'registration_handler_field_registration_link_edit' => 'includes/registration_handler_field_registration_link_edit.inc',
+    'registration_handler_relationship' => 'includes/registration_handler_relationship.inc',
+    'RegistrationViewsHandlerStateEdit' => 'includes/registration_handler_state_edit.inc',
+  );
+}

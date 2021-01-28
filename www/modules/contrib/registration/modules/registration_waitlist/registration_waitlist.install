@@ -1,0 +1,22 @@
+<?php
+
+/**
+ * @file
+ * Schema and installation hooks for registration_waitlist module.
+ */
+
+/**
+ * Implements hook_enable().
+ */
+function registration_waitlist_enable() {
+  $waitlist_state = entity_create('registration_state', array(
+    'name' => REGISTRATION_WAITLIST_STATE,
+    'label' => t('Wait list'),
+    'description' => t('Special state for registrations after capacity is reached.'),
+    'default_state' => FALSE,
+    'active' => FALSE,
+    'show_on_form' => TRUE,
+    'weight' => 0,
+  ));
+  $waitlist_state->save();
+}
