@@ -1,0 +1,155 @@
+<?php
+/**
+ * @file
+ * Bootstrap integration.
+ */
+
+define('VIEWS_BOOTSTRAP_ASSETS_VERSION', '3.3.6');
+
+/**
+ * Implements hook_config_info().
+ */
+function views_bootstrap_config_info() {
+  $prefixes['views_bootstrap.settings'] = array(
+    'label' => t('views_bootstrap settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
+
+/**
+ * Implements hook_autoload_info.
+ */
+function views_bootstrap_autoload_info() {
+  return array(
+    'views_bootstrap_accordion_plugin_style' => 'plugins/accordion/views_bootstrap_accordion_plugin_style.inc',
+    'views_bootstrap_carousel_plugin_rows' => 'plugins/carousel/views_bootstrap_carousel_plugin_rows.inc',
+    'views_bootstrap_carousel_plugin_style' => 'plugins/carousel/views_bootstrap_carousel_plugin_style.inc',
+    'views_bootstrap_grid_plugin_style' => 'plugins/grid/views_bootstrap_grid_plugin_style.inc',
+    'views_bootstrap_list_group_plugin_style' => 'plugins/list_group/views_bootstrap_list_group_plugin_style.inc',
+    'views_bootstrap_media_plugin_style' => 'plugins/media/views_bootstrap_media_plugin_style.inc',
+    'views_bootstrap_tab_plugin_style' => 'plugins/tab/views_bootstrap_tab_plugin_style.inc',
+    'views_bootstrap_table_plugin_style' => 'plugins/table/views_bootstrap_table_plugin_style.inc',
+    'views_bootstrap_thumbnail_plugin_rows' => 'plugins/thumbnail/views_bootstrap_thumbnail_plugin_rows.inc',
+    'views_bootstrap_thumbnail_plugin_style' => 'plugins/thumbnail/views_bootstrap_thumbnail_plugin_style.inc',
+  );
+}
+
+/**
+ * Implements hook_views_api()
+ */
+function views_bootstrap_views_api() {
+  return array(
+    'api' => '3.0',
+    'path' => backdrop_get_path('module', 'views_bootstrap'),
+    'template_path' => backdrop_get_path('module', 'views_bootstrap'),
+  );
+}
+
+ /**
+ * Implements hook_page_menu().
+ */
+function views_bootstrap_menu() {
+  $items = array();
+
+  $items['admin/config/user-interface/views_bootstrap'] = array(
+    'title' => 'Views Bootstrap',
+    'description' => 'Administer Views Bootstrap settings',
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('views_bootstrap_settings'),
+    'access arguments' => array('access views_bootstrap settings'),
+    'file' => 'views_bootstrap.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  return $items;
+}
+
+/**
+ * Include Bootstrap CSS & JS assets if the site is configured to do so.
+ */
+function _views_bootstrap_include_bootstrap_assets() {
+  // We only want to include assets if the user says so.
+  $should_include_assets = config_get('views_bootstrap.settings', 'include_bootstrap_assets');
+
+  if (($should_include_assets)) {
+    $version = VIEWS_BOOTSTRAP_ASSETS_VERSION;
+
+    backdrop_add_css("https://maxcdn.bootstrapcdn.com/bootstrap/{$version}/css/bootstrap.min.css", array(
+      'type' => 'external',
+      'preprocess' => FALSE,
+      // Load very early so that it's very easy for other CSS to override it.
+      'group' => CSS_SYSTEM,
+      'weight' => -1000,
+    ));
+    backdrop_add_css( backdrop_get_path('module', 'views_bootstrap') . '/css/views_bootstrap.css', array(
+      'type' => 'file',
+      'preprocess' => TRUE,
+    ));
+    backdrop_add_js("https://maxcdn.bootstrapcdn.com/bootstrap/{$version}/js/bootstrap.min.js", array(
+      'type' => 'external',
+      'scope' => 'footer',
+      'preprocess' => FALSE,
+    ));
+  }
+}
+
+/**
+ * Split items by rows and columns.
+ * - Stolen from Drupal 8 template_preprocess_views_view_grid().
+ *
+ * @param $vars
+ * @param $columns
+ * @param bool $horizontal
+ *
+ * @return array
+ *
+ * @TODO: Use array_chunk().
+ */
+function _views_bootstrap_split_rows($vars, $columns, $horizontal = TRUE) {
+  $col = 0;
+  $row = 0;
+  $items = array();
+  $remainders = count($vars['rows']) % $columns;
+  $num_rows = floor(count($vars['rows']) / $columns);
+
+  // Iterate over each rendered views result row.
+  foreach ($vars['rows'] as $item) {
+
+    // Add the item.
+    if ($horizontal) {
+      $items[$row]['content'][$col]['content'] = $item;
+    }
+    else {
+      $items[$col]['content'][$row]['content'] = $item;
+    }
+
+    // Increase, decrease or reset appropriate integers.
+    if ($horizontal) {
+      if ($col == 0 && $col != ($columns - 1)) {
+        $col++;
+      }
+      elseif ($col >= ($columns - 1)) {
+        $col = 0;
+        $row++;
+      }
+      else {
+        $col++;
+      }
+    }
+    else {
+      $row++;
+      if (!$remainders && $row == $num_rows) {
+        $row = 0;
+        $col++;
+      }
+      elseif ($remainders && $row == $num_rows + 1) {
+        $row = 0;
+        $col++;
+        $remainders--;
+      }
+    }
+  }
+
+  return $items;
+}

@@ -1,0 +1,16 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the Views Bootstrap module.
+ */
+
+/**
+ * Add config option to include Bootstrap assets.
+ */
+function views_bootstrap_update_1100() {
+  $should_include_assets = config_get('views_bootstrap.settings', 'include_bootstrap_assets');
+  if ($should_include_assets === NULL) {
+     config_set('views_bootstrap.settings', 'include_bootstrap_assets', TRUE);
+  }
+}

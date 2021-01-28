@@ -1,0 +1,13 @@
+name = Views Bootstrap
+package = Views
+description = Bootstrap Components
+backdrop = 1.x
+version = 1.x-1.x
+dependencies[] = views
+type = module
+configure = admin/config/user-interface/views_bootstrap
+
+; Added by Backdrop CMS packaging script on 2019-04-20
+project = views_bootstrap
+version = 1.x-1.2.0
+timestamp = 1555799155
