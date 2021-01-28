@@ -12,8 +12,9 @@
  * advanced database documentation at
  * https://api.backdropcms.org/database-configuration
  */
-$database = 'mysql://backdrop:backdrop01@127.0.0.1/backdropcms_events';
+$database = 'mysql://user:pass@localhost/database_name';
 $database_prefix = '';
+$database_charset = 'utf8mb4';
 
 /**
  * Site configuration files location.
@@ -445,4 +446,3 @@ $settings['backdrop_drupal_compatibility'] = TRUE;
 if (file_exists(__DIR__ . '/settings.local.php')) {
   include __DIR__ . '/settings.local.php';
 }
-$database_charset = 'utf8mb4';
