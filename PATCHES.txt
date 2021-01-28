@@ -1,0 +1,60 @@
+CORE:
+-----
+
+none
+
+
+CONTRIB:
+---------
+
+Reference - alterable link structure
+  https://github.com/backdrop-contrib/reference/issues/34
+  https://github.com/backdrop-contrib/reference/pull/35.patch
+
+Reference - Prevents php fatals on term pages.
+  https://github.com/backdrop-contrib/reference/issues/32
+  https://github.com/backdrop-contrib/reference/pull/33
+
+Reference - feeds integration
+  https://github.com/backdrop-contrib/reference/issues/51
+  https://github.com/backdrop-contrib/reference/pull/54.patch
+
+Reference - un-linked title field formatter
+  https://github.com/backdrop-contrib/reference/issues/55
+  https://github.com/backdrop-contrib/reference/pull/56.patch
+
+Reference - max length on input field
+  https://github.com/backdrop-contrib/reference/issues/44
+  https://github.com/backdrop-contrib/reference/pull/45.patch
+
+Reference - views integration
+  https://github.com/backdrop-contrib/reference/issues/21
+  https://github.com/backdrop-contrib/reference/pull/47.patch
+
+
+registration - set admin paths
+  https://github.com/backdrop-contrib/registration/issues/12
+  https://github.com/backdrop-contrib/registration/pull/13.patch
+
+registration - translated nodes
+  https://github.com/backdrop-contrib/registration/issues/8
+  https://github.com/backdrop-contrib/registration/pull/9.patch
+
+registration - email confirmation
+  https://github.com/backdrop-contrib/registration/issues/11
+  https://github.com/backdrop-contrib/registration/pull/14.patch
+
+registration - fix token replacements:
+  https://github.com/backdrop-contrib/registration/issues/15
+  https://github.com/backdrop-contrib/registration/pull/16.patch
+
+registration - use an example registration for the preview
+  https://github.com/backdrop-contrib/registration/issues/17
+  https://github.com/backdrop-contrib/registration/pull/18.patch
+
+registration - add an email token for registrations
+  https://github.com/backdrop-contrib/registration/issues/19
+  https://github.com/backdrop-contrib/registration/pull/20.patch
+
+
+

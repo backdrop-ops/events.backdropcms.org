@@ -133,6 +133,18 @@ function registration_schema() {
         'not null' => TRUE,
         'default' => 1,
       ),
+      'send_confirmation' => array(
+        'description' => 'Boolean indicating whether confirmation emails should be sent.',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'confirmation_template' => array(
+        'description' => 'Confirmation email template.',
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+      ),
       'send_reminder' => array(
         'description' => 'Boolean indicating whether reminder emails should be sent. This is set to 0 once the reminders are sent.',
         'type' => 'int',
@@ -461,37 +473,6 @@ function registration_uninstall() {
     ->execute();
 }
 
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function registration_update_7100(&$sandbox) { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function registration_update_7101(&$sandbox) { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function registration_update_7102(&$sandbox) { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function registration_update_7103(&$sandbox) { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function registration_update_7104(&$sandbox) { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function registration_update_7105(&$sandbox) { }
-
-/**
- * Add the new default_state field to the registration_type table.
- */
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function registration_update_7106(&$sandbox) { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function registration_update_7107() { }
-
-// TODO The old hook_update_N functions cannot be applied to Backdrop.
-function registration_update_7108(&$sandbox) { }
-
 /**
  * Implements hook_update_last_removed().
  */
@@ -506,4 +487,25 @@ function registration_update_1000() {
   $config = config('registration.settings');
   $config->set('registration_paths_administrative', update_variable_get('registration_paths_administrative', 'FALSE'));
   update_variable_del('registration_paths_administrative');
+}
+
+/**
+ * Adds confirmation email fields to the registration DB table.
+ */
+function registration_update_1001(&$sandbox) {
+  $send_confirmation_spec = array(
+    'description' => 'Boolean indicating whether confirmation emails should be sent.',
+    'type' => 'int',
+    'not null' => TRUE,
+    'default' => 0,
+  );
+  db_add_field('registration_entity', 'send_confirmation', $send_confirmation_spec);
+
+  $confirmation_template_spec = array(
+    'description' => 'Confirmation email template.',
+    'type' => 'text',
+    'size' => 'big',
+    'not null' => FALSE,
+  );
+  db_add_field('registration_entity', 'confirmation_template', $confirmation_template_spec);
 }

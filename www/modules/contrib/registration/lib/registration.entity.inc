@@ -38,6 +38,13 @@ class Registration extends Entity {
   }
 
   /**
+   * Implements EntityInterface::bundle().
+   */
+  public function bundle() {
+    return $this->type;
+  }
+
+  /**
    * Build content for Registration.
    *
    * @return array

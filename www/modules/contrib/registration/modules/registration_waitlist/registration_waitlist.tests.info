@@ -4,8 +4,3 @@ description = Test Registration Wait List module.
 group = Registration
 file = registration_waitlist.test
 
-
-; Added by Backdrop CMS packaging script on 2020-10-30
-project = registration
-version = 1.x-1.0.0
-timestamp = 1604068159

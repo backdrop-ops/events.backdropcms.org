@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Field hooks.
@@ -21,6 +20,12 @@ function registration_field_info() {
           'scheduling' => array(
             'open' => NULL,
             'close' => NULL,
+          ),
+          'confirmation' => array(
+            'send_confirmation' => 0,
+            'confirmation_settings' => array(
+              'confirmation_template' => NULL,
+            ),
           ),
           'reminder' => array(
             'send_reminder' => 0,
@@ -318,6 +323,14 @@ function registration_form_field_ui_field_edit_form_alter(&$form, &$form_state, 
     $form['field']['cardinality']['#default_value'] = 1;
     $form['field']['cardinality']['#access'] = FALSE;
     $form['#validate'][] = 'registration_form_field_ui_field_edit_form_validate';
+
+    // Fix form state visibility rules.
+    $form['instance']['settings']['default_registration_settings']['confirmation']['confirmation_settings']['#states']['visible'] = array(
+      ':input[name="instance[settings][default_registration_settings][confirmation][send_confirmation]"]' => array('checked' => TRUE),
+    );
+    $form['instance']['settings']['default_registration_settings']['reminder']['reminder_settings']['#states']['visible'] = array(
+      ':input[name="instance[settings][default_registration_settings][reminder][send_reminder]"]' => array('checked' => TRUE),
+    );
   }
 }
 
@@ -358,6 +371,12 @@ function registration_form_field_ui_field_edit_form_validate(&$form, &$form_stat
     // Validate close date.
     if (!empty($default_settings['scheduling']['close']) && strtotime($default_settings['scheduling']['close']) === FALSE) {
       form_set_error($base_elem_key . 'scheduling][close', t('Date is invalid.'));
+    }
+
+    // If sending a confirmation, ensure template is set.
+    if ($default_settings['confirmation']['send_confirmation']
+       && (empty($default_settings['confirmation']['confirmation_settings']['confirmation_template']))) {
+      form_set_error($base_elem_key . 'confirmation][send_confirmation', t('If sending a confirmation, provide a template.'));
     }
 
     // If sending a reminder, ensure date and template are set.

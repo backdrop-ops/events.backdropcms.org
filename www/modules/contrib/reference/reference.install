@@ -1,0 +1,74 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the reference module.
+ */
+
+/**
+ * Implements hook_field_schema().
+ */
+function reference_field_schema($field) {
+  return array(
+    'columns' => array(
+      'target_id' => array(
+        'description' => 'The entity id of the target entity.',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+    ),
+    'indexes' => array(
+      'target' => array('target_id'),
+    ),
+  );
+}
+
+/**
+ * Implements hook_install().
+ */
+function reference_install() {
+  // Reset schema version, so update hooks can be processed after installation.
+  backdrop_set_installed_schema_version('reference', '0');
+}
+
+/**
+ * Helper function to update field base settings.
+ */
+function _reference_install_update_field_base_settings($settings, $target_enity_type) {
+  $settings['module'] = 'reference';
+  $settings['type'] = 'reference';
+
+  // Discard all settings except target entity type.
+  $settings['settings'] = array(
+    'entity_type' => $target_enity_type,
+  );
+
+  return $settings;
+}
+
+/**
+ * Helper function to update field instance settings.
+ */
+function _reference_install_update_field_instance_settings($settings, array $bundles) {
+  // Convert field instance.
+  $settings['widget']['module'] = 'reference';
+
+  // Always set widget type to 'reference_autocomplete'; there is no
+  // 'entityreference_autocomplete_tags' option in reference module.
+  $settings['widget']['type'] = 'reference_autocomplete';
+
+  // Remove widget settings; no longer used.
+  $settings['widget']['settings'] = array();
+
+  // Change widget to active.
+  $settings['widget']['active'] = 1;
+
+  // Add missing key.
+  $settings['default_value_function'] = NULL;
+
+  // Move bundle filtering to instance settings.
+  $settings['settings']['bundles'] = $bundles;
+
+  return $settings;
+}

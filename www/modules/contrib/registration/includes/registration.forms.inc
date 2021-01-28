@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Form definitions and callbacks for Registration.
@@ -180,6 +179,11 @@ function registration_form($form, &$form_state, Registration $registration) {
   }
   $form['#registration_settings'] = $settings;
 
+  if ($settings['send_confirmation']) {
+    // Ensure ours comes after the default.
+    $form['#submit'][] = 'registration_send_confirmation';
+  }
+
   return $form;
 }
 
@@ -308,6 +312,7 @@ function registration_form_submit($form, &$form_state) {
 
   // Save the registration and redirect.
   if (registration_save($registration)) {
+    $form_state['registration'] = $registration;
     $reg_config = registration_entity_settings($registration->entity_type, $registration->entity_id);
     if (!empty($reg_config['settings']['confirmation']) && strlen($reg_config['settings']['confirmation'])) {
       backdrop_set_message(t($reg_config['settings']['confirmation']));
@@ -333,6 +338,7 @@ function registration_form_submit($form, &$form_state) {
         }
       }
     }
+
     // Make sure to Start a Session and save the registration info so we
     // can check it for anonymous user access.
     backdrop_session_start();
@@ -340,6 +346,56 @@ function registration_form_submit($form, &$form_state) {
   }
   else {
     backdrop_set_message(t('There was a problem submitting your registration.'));
+  }
+}
+
+/**
+ * Submit handler for registration_form().
+ */
+function registration_send_confirmation($form, &$form_state) {
+  // Grab registration entity settings for confirmation email.
+  $entity_type = $form['#registration_settings']['entity_type'];
+  $entity_id = $form['#registration_settings']['entity_id'];
+  $settings = registration_entity_settings($entity_type, $entity_id);
+
+  // Send the confirmation email.
+  if ($settings['send_confirmation']) {
+    // Find an email address to send the confirmation.
+    if (isset($form_state['values']['anon_mail'])) {
+      $email = trim($form_state['values']['anon_mail']);
+    }
+    else {
+      global $user;
+      $email = $user->mail;
+    }
+
+    if (isset($email) && !empty($email) && valid_email_address($email)) {
+      $registration = $form_state['registration']; // Nice shorthand.
+      $entity = entity_load($entity_type, $entity_id);
+      $label = entity_label($entity_type, $entity);
+
+      $subject = t('Registration confirmation for !label', array('!label' => $label));
+      $context = array(
+        $entity_type => $entity,
+        'registration' => $registration,
+      );
+
+      if ($registration->user_uid) {
+        $account = user_load($registration->user_uid);
+        $context['user'] = $account;
+      }
+
+      $message = token_replace($settings['confirmation_template'], $context, array('clear' => TRUE));
+      $params = array(
+        'subject' => $subject,
+        'message' => $message,
+      );
+      global $language;
+      $from = $settings['settings']['from_address'];
+
+      // Send the confirmation email.
+      backdrop_mail('registration', 'confirmation', $email, $language, $params, $from);
+    }
   }
 }
 
@@ -440,17 +496,16 @@ function registration_registrations_broadcast_form($form, &$form_state, $entity_
   }
 
   // Add token support:
-  if (module_exists('token')) {
-    $form['token_tree'] = array(
-      '#theme' => 'token_tree_link',
-      '#token_types' => array(
-        $entity_type,
-        'registration',
-      ),
-      '#global_types' => FALSE,
-    );
-  }
+  $form['token_tree'] = array(
+    '#theme' => 'token_tree_link',
+    '#token_types' => array(
+      $entity_type,
+      'registration',
+    ),
+    '#global_types' => FALSE,
+  );
 
+  $form['actions'] = array('#type' => 'actions');
   $form['actions']['preview'] = array(
     '#type' => 'submit',
     '#value' => t('Preview'),
@@ -475,9 +530,21 @@ function registration_broadcast_preview($form, &$form_state) {
   $entity_id = $form_state['entity']['entity_id'];
   $message_template = $form_state['values']['message'];
   $entity = entity_load($entity_type, $entity_id);
-  if (module_exists('token')) {
-    $message = token_replace($message_template, array($entity_type => $entity));
+
+  // Select one registration at random.
+  $registration = array();
+  $registration_type = registration_get_entity_registration_type($entity_type, $entity);
+  $query = "SELECT registration_id FROM {registration} WHERE type = :type LIMIT 1";
+  $registration_id = db_query($query, array(':type' => $registration_type))->fetchField();
+  if ($registration_id) {
+    $registration = entity_load('registration', $registration_id);
   }
+
+  $data = array(
+    $entity_type => $entity,
+    'registration' => $registration,
+  );
+  $message = token_replace($message_template, $data);
 
   $form_state['registration_broadcast_preview'] = $message;
   $form_state['rebuild'] = TRUE;
@@ -584,6 +651,48 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     unset($form['scheduling']['close']['#maxlength']);
   }
 
+  $form['confirmation'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Confirmation'),
+    '#collapsible' => TRUE,
+    '#collapsed' => FALSE,
+    '#tree' => TRUE,
+  );
+  $form['confirmation']['send_confirmation'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Send confirmation email'),
+    '#default_value' => isset($settings['send_confirmation']) ? $settings['send_confirmation'] : -1,
+  );
+  $form['confirmation']['confirmation_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Settings'),
+    '#collapsible' => FALSE,
+    '#states' => array(
+      'visible' => array(
+        ':input[name="confirmation[send_confirmation]"]' => array('checked' => TRUE),
+      ),
+    ),
+  );
+  $form['confirmation']['confirmation_settings']['confirmation_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Reminder subject',
+    '#default_value' => t('Registration Confirmation for [entity:label]'),
+    '#size' => 128,
+    '#disabled' => TRUE,
+  );
+  $form['confirmation']['confirmation_settings']['confirmation_template'] = array(
+    '#type' => 'textarea',
+    '#title' => t('Template'),
+    '#default_value' => isset($settings['confirmation_template']) ? $settings['confirmation_template'] : '',
+    '#description' => t('The confirmation message sent to registrants. Tokens are supported, for example: [node:title].'),
+  );
+  // Add token support:
+  $form['confirmation']['confirmation_settings']['token_tree'] = array(
+    '#theme' => 'token_tree_link',
+    '#token_types' => array($entity_type, 'registration'),
+    '#global_types' => FALSE,
+  );
+
   $form['reminder'] = array(
     '#type' => 'fieldset',
     '#title' => t('Reminder'),
@@ -591,25 +700,22 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     '#collapsed' => FALSE,
     '#tree' => TRUE,
   );
-
   $form['reminder']['send_reminder'] = array(
     '#type' => 'checkbox',
     '#title' => t('Send Reminder'),
     '#description' => t('If checked, a reminder will be sent to registrants on the following date.'),
     '#default_value' => isset($settings['send_reminder']) ? $settings['send_reminder'] : -1,
   );
-
   $form['reminder']['reminder_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Settings'),
     '#collapsible' => FALSE,
     '#states' => array(
       'visible' => array(
-        ':input[name="send_reminder"]' => array('checked' => TRUE),
+        ':input[name="reminder[send_reminder]"]' => array('checked' => TRUE),
       ),
     ),
   );
-
   $form['reminder']['reminder_settings']['reminder_date'] = array(
     '#type' => 'textfield',
     '#title' => t('Reminder Date'),
@@ -621,6 +727,14 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     ),
     '#default_value' => !empty($settings['reminder_date']) ? $settings['reminder_date'] : '',
   );
+
+  $form['reminder']['reminder_settings']['reminder_subject'] = array(
+    '#type' => 'textfield',
+    '#title' => 'Reminder subject',
+    '#default_value' => t('Reminder for [entity:label]'),
+    '#size' => 128,
+    '#disabled' => TRUE,
+  );
   if ($date_popup_installed) {
     $form['reminder']['reminder_settings']['reminder_date']['#type'] = 'date_popup';
     $form['reminder']['reminder_settings']['reminder_date']['#date_format'] = 'Y-m-d H:i:s O';
@@ -629,25 +743,18 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     ));
     unset($form['reminder']['reminder_settings']['reminder_date']['#maxlength']);
   }
-
   $form['reminder']['reminder_settings']['reminder_template'] = array(
     '#type' => 'textarea',
     '#title' => t('Template'),
     '#default_value' => isset($settings['reminder_template']) ? $settings['reminder_template'] : '',
-    '#description' => t('The reminder message sent to registrants. Tokens are supported if the module is enabled, E.g., [node:title].'),
+    '#description' => t('The reminder message sent to registrants. Tokens are supported, for example: [node:title].'),
   );
-
   // Add token support:
-  if (module_exists('token')) {
-    $form['reminder']['reminder_settings']['token_tree'] = array(
-      '#theme' => 'token_tree_link',
-      '#token_types' => array(
-        $entity_type,
-        'registration',
-      ),
-      '#global_types' => FALSE,
-    );
-  }
+  $form['reminder']['reminder_settings']['token_tree'] = array(
+    '#theme' => 'token_tree_link',
+    '#token_types' => array($entity_type, 'registration'),
+    '#global_types' => FALSE,
+  );
 
   $form['settings'] = array(
     '#type' => 'fieldset',
@@ -656,7 +763,6 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     '#collapsed' => FALSE,
     '#tree' => TRUE,
   );
-
   $form['settings']['maximum_spaces'] = array(
     '#type' => 'textfield',
     '#title' => t('Spaces allowed'),
@@ -666,14 +772,12 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     '#description' => t('The maximum number of spaces allowed for each registrations. For no limit, use 0. (Default is 1)'),
     '#default_value' => isset($settings['settings']['maximum_spaces']) ? $settings['settings']['maximum_spaces'] : 1,
   );
-
   $form['settings']['multiple_registrations'] = array(
     '#type' => 'checkbox',
     '#title' => t('Allow multiple registrations'),
     '#description' => t('If selected, each person can create multiple registrations for this event.'),
     '#default_value' => isset($settings['settings']['multiple_registrations']) ? $settings['settings']['multiple_registrations'] : -1,
   );
-
   $form['settings']['from_address'] = array(
     '#type' => 'textfield',
     '#title' => t('From Address'),
@@ -681,7 +785,6 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     '#required' => TRUE,
     '#default_value' => isset($settings['settings']['from_address']) ? $settings['settings']['from_address'] : config_get('system.core', 'site_mail'),
   );
-
   $form['settings']['confirmation'] = array(
     '#type' => 'textfield',
     '#title' => t('Confirmation Message'),
@@ -691,7 +794,6 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     '#required' => FALSE,
     '#default_value' => isset($settings['settings']['confirmation']) ? $settings['settings']['confirmation'] : 'Registration has been saved.',
   );
-
   $form['settings']['confirmation_redirect'] = array(
     '#type' => 'textfield',
     '#title' => t('Confirmation redirect path'),
@@ -748,6 +850,20 @@ function registration_entity_settings_form_validate($form, &$form_state) {
   // Validate close date:
   if (!empty($form_state['values']['scheduling']['close']) && is_string($form_state['values']['scheduling']['close']) && strtotime($form_state['values']['scheduling']['close']) === FALSE) {
     form_set_error('scheduling][close', t('Date is invalid.'));
+  }
+
+  // If sending a confirmation, ensure template is set.
+  $confirmation = $form_state['values']['confirmation'];
+  if ($confirmation['send_confirmation']
+     && (empty($confirmation['confirmation_settings']['confirmation_template']))) {
+    form_set_error('confirmation][send_confirmation', t('If sending a confirmation, provide a template.'));
+  }
+
+  // If confirmation template is set, ensure we're sending a confirmation.
+  if (empty($reminder['send_confirmation'])) {
+    if (!empty($reminder['confirmation_settings']['confirmation_template'])) {
+      form_set_error('confirmation][confirmation_settings][confirmation_template', t('You have provided a confirmation template, but not opted to send a confirmation. Either check the box to send a confirmation, or do not provide a confirmation template.'));
+    }
   }
 
   // If sending a reminder, ensure date and template are set.
@@ -813,9 +929,11 @@ function registration_convert_form_settings($values) {
   $fields = array(
     'status' => $values['status'],
     'capacity' => $values['capacity'],
+    'send_confirmation' => isset($values['confirmation']['send_confirmation']) ? $values['confirmation']['send_confirmation'] : 0,
+    'confirmation_template' => isset($values['confirmation']['confirmation_settings']['confirmation_template']) ? $values['confirmation']['confirmation_settings']['confirmation_template'] : NULL,
     'send_reminder' => isset($values['reminder']['send_reminder']) ? $values['reminder']['send_reminder'] : 0,
-    'reminder_date' => NULL,
     'reminder_template' => isset($values['reminder']['reminder_settings']['reminder_template']) ? $values['reminder']['reminder_settings']['reminder_template'] : NULL,
+    'reminder_date' => NULL,
     'settings' => serialize($values['settings']),
     'open' => NULL,
     'close' => NULL,
