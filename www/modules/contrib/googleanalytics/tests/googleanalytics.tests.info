@@ -1,0 +1,40 @@
+[GoogleAnalyticsBasicTest]
+name = Google Analytics basic tests
+description = Test basic functionality of Google Analytics module.
+group = Google Analytics
+file = googleanalytics.test
+
+[GoogleAnalyticsCustomDimensionsAndMetricsTest]
+name = Google Analytics custom dimensions and metrics tests
+description = Test custom dimensions and metrics functionality of Google Analytics module.
+group = Google Analytics
+file = googleanalytics.test
+
+[GoogleAnalyticsCustomUrls]
+name = Google Analytics custom url tests
+description = Test custom url functionality of Google Analytics module.
+group = Google Analytics
+file = googleanalytics.test
+
+[GoogleAnalyticsStatusMessagesTest]
+name = Google Analytics status messages tests
+description = Test status messages functionality of Google Analytics module.
+group = Google Analytics
+file = googleanalytics.test
+
+[GoogleAnalyticsRolesTest]
+name = Google Analytics role tests
+description = Test roles functionality of Google Analytics module.
+group = Google Analytics
+file = googleanalytics.test
+
+[GoogleAnalyticsSearchTest]
+name = Google Analytics search tests
+description = Test search functionality of Google Analytics module.
+group = Google Analytics
+file = googleanalytics.test
+
+; Added by Backdrop CMS packaging script on 2021-01-14
+project = googleanalytics
+version = 1.x-2.6.0
+timestamp = 1610676953
