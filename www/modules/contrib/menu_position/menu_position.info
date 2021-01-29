@@ -1,0 +1,12 @@
+name = Menu position
+description = Customize menu position of nodes depending on their content type, associated terms and others conditions.
+backdrop = 1.x
+dependencies[] = menu
+type = module
+version = 1.x-1.0.2
+configure = admin/structure/menu-position
+
+; Added by Backdrop CMS packaging script on 2015-11-09
+project = menu_position
+version = 1.x-1.0.3
+timestamp = 1447062371
