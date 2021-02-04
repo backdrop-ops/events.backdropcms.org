@@ -242,6 +242,9 @@ article.view-mode-teaser {
   border-bottom: 2px solid #E8E6E5;
   margin-bottom: 25px;
 }
+article.view-mode-teaser:last-child {
+  border-bottom: 0;
+}
 article.view-mode-teaser h2 {
   margin: 0 0 15px 0;
 }
@@ -261,16 +264,21 @@ article.view-mode-teaser footer p {
   }
 }
 
+
 /*******************************************************************************
- * All nodes - Fields
+ * All nodes and terms - Fields
  ******************************************************************************/
-article .content .field {
+article .content .field,
+section .content .field {
   padding: 5px 0;
+  margin-bottom: 15px;
 }
-article .field-name-body a {
+article .field-name-body a,
+section .field-name-body a {
   text-decoration: underline;
 }
-article .field-name-field-image {
+article .field-name-field-image,
+section .field-name-field-image {
   text-align: center;
   margin-bottom: 15px;
 }
@@ -329,7 +337,7 @@ article.comment ul.links.inline {
  * All entity footers
  ******************************************************************************/
 article footer {
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.875rem; /* 16px */
   background-color: #f7f7f7;
   border: 1px solid #E8E6E5;
   border-radius: 10px;
@@ -685,8 +693,13 @@ a.feed-icon {
 @media (min-width: 48em) {  /* 768px @ 16px font size  -- MD */
   .l-footer .block-block-newsletter,
   .l-footer .block-block-3 {
-    padding: 50px;
-    padding-bottom: 50px;
+    padding: 15px 20px 15px 30px;
+  }
+}
+@media (min-width: 62em) { /* 992px @ 16px font size -- LG */
+  .l-footer .block-block-newsletter,
+  .l-footer .block-block-3 {
+    padding: 30px 50px 20px 40px;
   }
 }
 
