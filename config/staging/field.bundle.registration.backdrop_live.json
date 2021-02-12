@@ -1,0 +1,17 @@
+{
+    "_config_name": "field.bundle.registration.backdrop_live",
+    "bundle": "backdrop_live",
+    "entity_type": "registration",
+    "view_modes": [],
+    "extra_fields": {
+        "form": {
+            "who_is_registering": {
+                "weight": "2"
+            },
+            "anon_mail": {
+                "weight": "1"
+            }
+        },
+        "display": []
+    }
+}

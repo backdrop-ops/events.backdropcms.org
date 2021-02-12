@@ -1,0 +1,40 @@
+{
+    "_config_name": "node.type.faq",
+    "type": "faq",
+    "name": "FAQ",
+    "base": "node_content",
+    "module": "node",
+    "node_preview": "1",
+    "description": "Frequently Asked Questions",
+    "help": "",
+    "modified": true,
+    "disabled": false,
+    "has_title": true,
+    "title_label": "Question",
+    "settings": {
+        "menu_default": 0,
+        "menu_options": {
+            "user-menu": 0,
+            "management": 0,
+            "menu-footer-menu": 0,
+            "main-menu": 0
+        },
+        "menu_parent": "main-menu:0",
+        "status_default": 1,
+        "scheduling_enabled": 0,
+        "promote_enabled": 1,
+        "promote_default": 0,
+        "sticky_enabled": 0,
+        "sticky_default": 0,
+        "revision_enabled": 0,
+        "revision_default": 0,
+        "node_preview": "1",
+        "node_submitted": 0,
+        "node_submitted_format": "[node:created:medium] by [node:author]",
+        "node_user_picture": true,
+        "hidden_path": 1,
+        "language": 0,
+        "node_permissions": true
+    },
+    "orig_type": "faq"
+}

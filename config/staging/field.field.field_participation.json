@@ -1,0 +1,29 @@
+{
+    "_config_name": "field.field.field_participation",
+    "field_name": "field_participation",
+    "type": "list_text",
+    "translatable": false,
+    "module": "list",
+    "active": 1,
+    "locked": 0,
+    "cardinality": "1",
+    "deleted": 0,
+    "entity_types": [],
+    "settings": {
+        "allowed_values": {
+            "learn": "I would like to learn something specific at this event",
+            "discuss": "I would like to lead a discission at this event",
+            "present": "I would like to give a presentation at this event"
+        },
+        "allowed_values_function": "",
+        "field_permissions": {
+            "type": "0"
+        }
+    },
+    "storage": {
+        "type": "field_sql_storage",
+        "settings": [],
+        "module": "field_sql_storage",
+        "active": 1
+    }
+}
