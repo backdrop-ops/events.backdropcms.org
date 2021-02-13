@@ -5,7 +5,7 @@
     "base": "node_content",
     "module": "node",
     "node_preview": "1",
-    "description": "",
+    "description": "Presentations are pre-recorded talks or demonstrations, and can be discussed at events by creating and scheduling Discussions.",
     "help": "",
     "modified": true,
     "disabled": false,

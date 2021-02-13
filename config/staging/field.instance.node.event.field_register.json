@@ -1,0 +1,66 @@
+{
+    "_config_name": "field.instance.node.event.field_register",
+    "field_name": "field_register",
+    "entity_type": "node",
+    "bundle": "event",
+    "label": "Register",
+    "widget": {
+        "weight": "4",
+        "type": "registration_select",
+        "module": "registration",
+        "active": 0,
+        "settings": []
+    },
+    "description": "",
+    "required": 0,
+    "deleted": 0,
+    "default_value": [
+        {
+            "registration_type": ""
+        }
+    ],
+    "default_value_function": null,
+    "settings": {
+        "default_registration_settings": {
+            "status": 1,
+            "capacity": "100",
+            "scheduling": {
+                "open": "2021-02-13",
+                "close": "2021-03-13"
+            },
+            "confirmation": {
+                "send_confirmation": 1,
+                "confirmation_settings": {
+                    "confirmation_subject": "Registration Confirmation for [entity:label]",
+                    "confirmation_template": "Thank you for registering for Backdrop LIVE! \r\n\r\n@todo"
+                }
+            },
+            "reminder": {
+                "send_reminder": 0,
+                "reminder_settings": {
+                    "reminder_date": "",
+                    "reminder_subject": "Reminder for [entity:label]",
+                    "reminder_template": ""
+                }
+            },
+            "settings": {
+                "maximum_spaces": "0",
+                "multiple_registrations": 0,
+                "from_address": "noreply@backdropcms.org",
+                "confirmation": "Registration recieved.",
+                "confirmation_redirect": ""
+            }
+        },
+        "hide_register_tab": 1,
+        "user_register_form": false
+    },
+    "display": {
+        "default": {
+            "label": "hidden",
+            "type": "registration_form",
+            "weight": "3",
+            "settings": [],
+            "module": "registration"
+        }
+    }
+}

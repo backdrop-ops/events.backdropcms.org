@@ -1,7 +1,7 @@
 {
     "_config_name": "node.type.session",
     "type": "session",
-    "name": "Session",
+    "name": "Discussion",
     "base": "node_content",
     "module": "node",
     "node_preview": "1",
