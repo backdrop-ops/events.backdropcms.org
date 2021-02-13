@@ -1,0 +1,154 @@
+{
+    "_config_name": "layout.layout.home",
+    "path": "home",
+    "name": "home",
+    "title": "Home page",
+    "description": null,
+    "renderer_name": "standard",
+    "module": "standard",
+    "weight": 0,
+    "storage": 2,
+    "layout_template": "boxton",
+    "disabled": false,
+    "settings": {
+        "title": "Welcome to Backdrop",
+        "title_display": "none",
+        "title_block": "094cbc03-d088-4b3c-8361-977733540ae8"
+    },
+    "positions": {
+        "header": [
+            "d5fbf202-2b91-4512-8946-7032a4c2804b"
+        ],
+        "top": [
+            "094cbc03-d088-4b3c-8361-977733540ae8"
+        ],
+        "content": [
+            "da29a6db-05d2-4240-8e32-50cdfb546fba"
+        ],
+        "bottom": [],
+        "footer": [
+            "e6c19646-ebce-4b7a-8701-1d162298394a"
+        ],
+        "title": []
+    },
+    "contexts": [],
+    "content": {
+        "d5fbf202-2b91-4512-8946-7032a4c2804b": {
+            "plugin": "copy_blocks:region_copy",
+            "data": {
+                "module": "copy_blocks",
+                "delta": "region_copy",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": "",
+                    "source_region": "default:header"
+                },
+                "uuid": "d5fbf202-2b91-4512-8946-7032a4c2804b",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "094cbc03-d088-4b3c-8361-977733540ae8": {
+            "plugin": "layout:hero",
+            "data": {
+                "module": "layout",
+                "delta": "hero",
+                "settings": {
+                    "title_display": "default",
+                    "title": "Backdrop LIVE - March 13th, 2021",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "content": "<p>Backdrop Live is a global event designed to support and sustain all people who use Backdrop CMS.</p>\r\n",
+                    "format": "filtered_html",
+                    "image": null,
+                    "image_path": null,
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "094cbc03-d088-4b3c-8361-977733540ae8",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "da29a6db-05d2-4240-8e32-50cdfb546fba": {
+            "plugin": "views:events-block_1",
+            "data": {
+                "module": "views",
+                "delta": "events-block_1",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": "5",
+                    "offset": 0,
+                    "path": null,
+                    "fields_override": null,
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "da29a6db-05d2-4240-8e32-50cdfb546fba",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "e6c19646-ebce-4b7a-8701-1d162298394a": {
+            "plugin": "copy_blocks:region_copy",
+            "data": {
+                "module": "copy_blocks",
+                "delta": "region_copy",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": "",
+                    "source_region": "default:footer"
+                },
+                "uuid": "e6c19646-ebce-4b7a-8701-1d162298394a",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "_config_name": "field.field.field_schedule_date2",
+    "field_name": "field_schedule_date2",
+    "type": "datetime",
+    "translatable": false,
+    "module": "date",
+    "active": 1,
+    "locked": 0,
+    "cardinality": "1",
+    "deleted": 0,
+    "entity_types": [],
+    "settings": {
+        "granularity": {
+            "month": "month",
+            "day": "day",
+            "hour": "hour",
+            "minute": "minute",
+            "year": "year",
+            "second": 0
+        },
+        "tz_handling": "date",
+        "timezone_db": "America/Los_Angeles",
+        "cache_enabled": 0,
+        "cache_count": "4",
+        "todate": "",
+        "field_permissions": {
+            "type": "0"
+        }
+    },
+    "storage": {
+        "type": "field_sql_storage",
+        "settings": [],
+        "module": "field_sql_storage",
+        "active": 1
+    }
+}

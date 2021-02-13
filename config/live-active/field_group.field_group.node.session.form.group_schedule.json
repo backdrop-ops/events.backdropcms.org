@@ -1,0 +1,27 @@
+{
+    "_config_name": "field_group.field_group.node.session.form.group_schedule",
+    "group_name": "group_schedule",
+    "entity_type": "node",
+    "bundle": "session",
+    "mode": "form",
+    "children": [
+        "field_event",
+        "field_schedule_day",
+        "field_schedule_slot"
+    ],
+    "parent_name": "",
+    "weight": "4",
+    "label": "Schedule",
+    "format_type": "fieldset",
+    "format_settings": {
+        "formatter": "collapsible",
+        "instance_settings": {
+            "description": "",
+            "classes": "group-schedule field-group-fieldset",
+            "required_fields": 1,
+            "id": ""
+        }
+    },
+    "collapsible": true,
+    "collapsed": false
+}

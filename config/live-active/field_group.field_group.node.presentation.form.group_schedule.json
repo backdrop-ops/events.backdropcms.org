@@ -1,0 +1,25 @@
+{
+    "_config_name": "field_group.field_group.node.presentation.form.group_schedule",
+    "group_name": "group_schedule",
+    "entity_type": "node",
+    "bundle": "presentation",
+    "mode": "form",
+    "children": [
+        "field_event"
+    ],
+    "parent_name": "",
+    "weight": "3",
+    "label": "Schedule",
+    "format_type": "fieldset",
+    "format_settings": {
+        "formatter": "collapsible",
+        "instance_settings": {
+            "description": "",
+            "classes": "group-schedule field-group-fieldset",
+            "required_fields": 1,
+            "id": ""
+        }
+    },
+    "collapsible": true,
+    "collapsed": false
+}

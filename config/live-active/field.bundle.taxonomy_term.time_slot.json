@@ -1,0 +1,24 @@
+{
+    "_config_name": "field.bundle.taxonomy_term.time_slot",
+    "bundle": "time_slot",
+    "entity_type": "taxonomy_term",
+    "view_modes": [],
+    "extra_fields": {
+        "form": {
+            "name": {
+                "weight": "-5"
+            },
+            "description": {
+                "weight": "0"
+            }
+        },
+        "display": {
+            "description": {
+                "default": {
+                    "weight": "2",
+                    "visible": true
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "_config_name": "user.role.authenticated",
+    "name": "authenticated",
+    "label": "Authenticated",
+    "weight": "1",
+    "permissions": [
+        "access content",
+        "upload editor images",
+        "use text format filtered_html",
+        "create session content",
+        "create presentation content",
+        "edit own presentation content"
+    ]
+}

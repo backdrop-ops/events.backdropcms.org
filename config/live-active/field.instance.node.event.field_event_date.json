@@ -1,0 +1,48 @@
+{
+    "_config_name": "field.instance.node.event.field_event_date",
+    "field_name": "field_event_date",
+    "entity_type": "node",
+    "bundle": "event",
+    "label": "Date",
+    "widget": {
+        "weight": "1",
+        "type": "date_select",
+        "module": "date",
+        "active": 1,
+        "settings": {
+            "input_format": "M d 'y - g:i:sa",
+            "input_format_custom": "",
+            "year_range": "-1:+3",
+            "increment": "1",
+            "label_position": "none",
+            "text_parts": [],
+            "no_fieldset": 0
+        }
+    },
+    "description": "",
+    "required": 0,
+    "deleted": 0,
+    "default_value": null,
+    "default_value_function": null,
+    "settings": {
+        "default_value": "blank",
+        "default_value_code": "",
+        "default_value2": "same",
+        "default_value_code2": "",
+        "user_register_form": false
+    },
+    "display": {
+        "default": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "2",
+            "settings": []
+        },
+        "teaser": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "2",
+            "settings": []
+        }
+    }
+}
