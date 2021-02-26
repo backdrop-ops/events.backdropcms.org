@@ -1,0 +1,192 @@
+<?php
+/**
+ * @file
+ * Creates user accounts when people register anonymously.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function registration_account_form_registration_form_alter(&$form, &$form_state) {
+  $email_confirmation = FALSE;
+
+  // Remove the email confirmation handler (needs to come last).
+  if (in_array('registration_send_confirmation', $form['#submit'])) {
+    unset($form['#submit']['registration_send_confirmation']);
+    $email_confirmation = TRUE;
+  }
+
+  // Add our submit handler to the registration form.
+  $form['#submit'][] = 'registration_account_registration_form_submit';
+
+  if ($email_confirmation) {
+    // Add back the email confirmation handler, at the end.
+    $form['#submit'][] = 'registration_send_confirmation';
+  }
+}
+
+/**
+ * Submit handler for registration_form().
+ */
+function registration_account_registration_form_submit($form, &$form_state) {
+  $registration = $form_state['registration'];
+  $settings = registration_entity_settings($registration->entity_type, $registration->entity_id);
+  $account_creation = isset($settings['settings']['accounts']['account_creation'])? $settings['settings']['accounts']['account_creation'] : FALSE;
+
+  if ($account_creation) {
+    if ($form_state['values']['who_is_registering'] == REGISTRATION_REGISTRANT_TYPE_ANON) {
+      $registration = $form_state['registration'];
+      $email = trim($form_state['values']['anon_mail']);
+      $account_creation_role = isset($settings['settings']['accounts']['account_creation_role'])? $settings['settings']['accounts']['account_creation_role'] : '';
+      $account_creation_fields = isset($settings['settings']['accounts']['account_creation_fields'])? $settings['settings']['accounts']['account_creation_fields'] : '';
+
+      // Check for existing user account.
+      $query = "SELECT uid FROM {users} WHERE mail = :mail OR name = :mail OR init = :mail";
+      $uid = db_query($query, array(':mail' => $email))->fetchField();
+      if (!$uid) {
+        // Create a user account.
+        $data = array();
+        $data['name'] = $email;
+        $data['mail'] = $email;
+        $data['status'] = 1;
+
+        // Assign a role, if desired.
+        if (!empty($account_creation_role)) {
+          $data['roles'] = array($account_creation_role);
+        }
+        // Create the user account.
+        $account = entity_create('user', $data);
+        $account->save();
+
+        if ($account_creation_fields) {
+          $account = user_load($account->uid);
+          $fields = field_info_instances('registration', $registration->type);
+          foreach ($fields as $fieldname => $info) {
+            if (!empty($form_state['values'][$fieldname])) {
+              $lang = LANGUAGE_NONE;
+              $value = $form_state['values'][$fieldname];
+
+              if (property_exists($account, $fieldname) && empty($account->{$fieldname})) {
+                $account->{$fieldname} = $value;
+              }
+            }
+          }
+
+          // Save the user account.
+          $account->save();
+        }
+
+        // New account created, update registration record.
+        $registration->user_uid = $account->uid;
+      }
+      else {
+        // Account already exists, update registration record.
+        $registration->user_uid = $uid;
+      }
+
+      // Save the registration.
+      $registration->anon_mail = '';
+      registration_save($registration);
+      $form_state['registration'] = $registration;
+    }
+  }
+}
+
+/**
+ * Implements hook_registration_entity_settings().
+ */
+function registration_account_registration_entity_settings($settings) {
+
+  // Get valid user roles.
+  $roles = user_roles(TRUE);
+  if (isset($roles['authenticated'])) {
+    unset($roles['authenticated']);
+  }
+  array_unshift($roles, t('- None -'));
+
+  // Settings.
+  $account_creation = isset($settings['settings']['accounts']['account_creation'])? $settings['settings']['accounts']['account_creation'] : FALSE;
+  $account_creation_role = isset($settings['settings']['accounts']['account_creation_role'])? $settings['settings']['accounts']['account_creation_role'] : '';
+  $account_creation_fields = isset($settings['settings']['accounts']['account_creation_fields'])? $settings['settings']['accounts']['account_creation_fields'] : FALSE;
+
+  return array(
+    'accounts' => array(
+      '#type' => 'fieldset',
+      '#title' => t('Account creation settings'),
+      '#collapsible' => TRUE,
+      '#collapsed' => FALSE,
+      '#tree' => TRUE,
+      'account_creation' => array(
+        '#type' => 'checkbox',
+        '#title' => t('Create user accounts for anonymous registrations'),
+        '#default_value' => $account_creation,
+      ),
+      'account_creation_fields' => array(
+        '#type' => 'checkbox',
+        '#title' => t('Copy fields from registration to user account'),
+        '#description' => t('If the same fields are used on both the registration entity and the user account entity, values will be copied.'),
+        '#default_value' => $account_creation_fields,
+        '#states' => array(
+          'visible' => array(
+            ':input[name="settings[accounts][account_creation]"]' => array('checked' => TRUE),
+          ),
+        ),
+      ),
+      'account_creation_role' => array(
+        '#type' => 'select',
+        '#title' => t('User role to assign to new accounts'),
+        '#options' => $roles,
+        '#default_value' => $account_creation_role,
+        '#required' => TRUE,
+        '#states' => array(
+          'visible' => array(
+            ':input[name="settings[accounts][account_creation]"]' => array('checked' => TRUE),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function registration_account_form_field_ui_field_edit_form_alter(&$form, &$form_state, $form_id) {
+  if ($form['#field']['type'] == 'registration') {
+    // Fix form state visibility rules.
+    $form['instance']['settings']['default_registration_settings']['settings']['accounts']['account_creation_role']['#states']['visible'] = array(
+      ':input[name="instance[settings][default_registration_settings][settings][accounts][account_creation]"]' => array('checked' => TRUE),
+    );
+    $form['instance']['settings']['default_registration_settings']['settings']['accounts']['account_creation_fields']['#states']['visible'] = array(
+      ':input[name="instance[settings][default_registration_settings][settings][accounts][account_creation]"]' => array('checked' => TRUE),
+    );
+  }
+}
+
+/**
+ * Implements hook_token_info_alter().
+function registration_account_token_info_alter(&$data) {
+  // @todo this does not work. Why?
+  $data['tokens']['registration']['user']['one-time-login-url'] = array(
+    'name' => t('One-time login URL'),
+    'description' => t('The URL of the one-time login page for the user account.'),
+    'restricted' => TRUE,
+    'type' => 'url',
+  );
+}
+*/
+
+/**
+ * Implements hook_tokens_alter().
+ */
+function registration_account_tokens_alter(array &$replacements, array $context) {
+  if ($context['type'] == 'registration' && !empty($context['data']['registration'])) {
+    if ($entity_tokens = token_find_with_prefix($context['tokens'], 'user')) {
+      if (!empty($context['data']['user'])) {
+        $account = $context['data']['user'];
+        // Add the one-time log-in link.
+        $replacements['[registration:user:one-time-login-url]'] = user_pass_reset_url($account);
+      }
+    }
+  }
+}
