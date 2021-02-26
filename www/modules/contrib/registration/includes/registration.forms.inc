@@ -179,10 +179,14 @@ function registration_form($form, &$form_state, Registration $registration) {
   }
   $form['#registration_settings'] = $settings;
 
+  // @todo find out why this is necessary.
+  $form['#submit'][] = 'registration_form_submit';
+
   if ($settings['send_confirmation']) {
     // Ensure ours comes after the default.
     $form['#submit'][] = 'registration_send_confirmation';
   }
+
 
   return $form;
 }
