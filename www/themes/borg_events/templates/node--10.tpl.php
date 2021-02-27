@@ -30,7 +30,6 @@
   </div>
 
   <div id="smart-button-container">
-    <p id="descriptionError" style="visibility: hidden; color:red;">Please enter a description</p>
     <div class="paypal-form-item">
       <label for="amount">Donation </label><input name="amountInput" type="number" id="amount" value="20.00" ><span> USD</span>
     </div>
@@ -42,7 +41,6 @@
   function initPayPalButton() {
     var description = document.querySelector('#smart-button-container #description');
     var amount = document.querySelector('#smart-button-container #amount');
-    var descriptionError = document.querySelector('#smart-button-container #descriptionError');
     var priceError = document.querySelector('#smart-button-container #priceLabelError');
     var invoiceid = document.querySelector('#smart-button-container #invoiceid');
     var invoiceidError = document.querySelector('#smart-button-container #invoiceidError');
@@ -82,11 +80,6 @@
       },
 
       onClick: function () {
-        if (description.value.length < 1) {
-          descriptionError.style.visibility = "visible";
-        } else {
-          descriptionError.style.visibility = "hidden";
-        }
 
         if (amount.value.length < 1) {
           priceError.style.visibility = "visible";

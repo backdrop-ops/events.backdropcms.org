@@ -25,7 +25,6 @@
   padding-right: 15px;
 }
 
-iframe #buttons-container .paypal-button-number-1,
-iframe #buttons-container .paypal-button-number-2 {
-  display: none;
+#priceLabelError {
+  margin: 0;
 }
