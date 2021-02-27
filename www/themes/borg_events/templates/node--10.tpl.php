@@ -32,7 +32,7 @@
   <div id="smart-button-container">
     <p id="descriptionError" style="visibility: hidden; color:red;">Please enter a description</p>
     <div class="paypal-form-item">
-      <label for="amount">Donation </label><input name="amountInput" type="number" id="amount" value="" ><span> USD</span>
+      <label for="amount">Donation </label><input name="amountInput" type="number" id="amount" value="20.00" ><span> USD</span>
     </div>
     <p id="priceLabelError" style="visibility: hidden; color:red;">Please enter a price</p>
     <div style="margin-top: 0.625rem;" id="paypal-button-container"></div>
@@ -46,13 +46,8 @@
     var priceError = document.querySelector('#smart-button-container #priceLabelError');
     var invoiceid = document.querySelector('#smart-button-container #invoiceid');
     var invoiceidError = document.querySelector('#smart-button-container #invoiceidError');
-    var invoiceidDiv = document.querySelector('#smart-button-container #invoiceidDiv');
 
     var elArr = [description, amount];
-
-    if (invoiceidDiv.firstChild.innerHTML.length > 1) {
-      invoiceidDiv.style.display = "block";
-    }
 
     var purchase_units = [];
     purchase_units[0] = {};
@@ -73,10 +68,6 @@
 
       onInit: function (data, actions) {
         actions.disable();
-
-        if(invoiceidDiv.style.display === "block") {
-          elArr.push(invoiceid);
-        }
 
         elArr.forEach(function (item) {
           item.addEventListener('keyup', function (event) {
@@ -101,12 +92,6 @@
           priceError.style.visibility = "visible";
         } else {
           priceError.style.visibility = "hidden";
-        }
-
-        if (invoiceid.value.length < 1 && invoiceidDiv.style.display === "block") {
-          invoiceidError.style.visibility = "visible";
-        } else {
-          invoiceidError.style.visibility = "hidden";
         }
 
         purchase_units[0].description = description.value;
