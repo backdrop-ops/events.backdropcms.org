@@ -17,14 +17,10 @@
 ** Paypal Donate form
 *******************************************************************************/
 
-#smart-button-container {
-  background: pink;
-}
 #smart-button-container .paypal-form-item label {
   display: inline-block;
   padding-right: 15px;
 }
-
 #priceLabelError {
   margin: 0;
 }
