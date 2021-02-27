@@ -12,3 +12,20 @@
 .l-footer .block-menu-menu-footer-menu {
   right: 30px;
 }
+
+/*******************************************************************************
+** Paypal Donate form
+*******************************************************************************/
+
+#smart-button-container {
+  background: pink;
+}
+#smart-button-container .paypal-form-item label {
+  display: inline-block;
+  padding-right: 15px;
+}
+
+iframe #buttons-container .paypal-button-number-1,
+iframe #buttons-container .paypal-button-number-2 {
+  display: none;
+}
