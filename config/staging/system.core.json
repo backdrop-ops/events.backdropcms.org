@@ -27,7 +27,7 @@
     "file_default_scheme": "public",
     "file_private_path": "",
     "file_public_path": "files",
-    "file_temporary_path": "/Applications/MAMP/tmp/php",
+    "file_temporary_path": "/tmp",
     "file_transliterate_lowercase": 1,
     "file_transliterate_uploads": 1,
     "file_transliterate_uploads_display_name": 0,
@@ -64,7 +64,7 @@
     "site_favicon_path": "core/misc/favicon.ico",
     "site_favicon_mimetype": "image/vnd.microsoft.icon",
     "site_frontpage": "home",
-    "site_name": "Backdrop Events",
+    "site_name": "Backdrop Event",
     "site_logo_theme": 0,
     "site_logo_path": "",
     "site_mail": "noreply@backdropcms.org",
@@ -79,9 +79,9 @@
     "user_mail_status_activated_notify": 1,
     "user_mail_status_blocked_notify": 0,
     "user_mail_status_canceled_notify": 0,
-    "user_register": "admin_only",
+    "user_register": "visitors",
     "user_signatures": 0,
-    "user_password_reject_weak": false,
+    "user_password_reject_weak": 0,
     "user_password_strength_threshold": 50,
     "user_password_reset_timeout": 86400,
     "user_pictures": 0,
@@ -106,5 +106,6 @@
         "height": ""
     },
     "site_logo_upload": "",
-    "site_favicon_upload": ""
+    "site_favicon_upload": "",
+    "path_pattern": "accounts/[user:name]"
 }

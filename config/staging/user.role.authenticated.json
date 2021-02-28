@@ -9,6 +9,9 @@
         "use text format filtered_html",
         "create session content",
         "create presentation content",
-        "edit own presentation content"
+        "edit own presentation content",
+        "create backdrop_live registration",
+        "create backdrop_live registration self",
+        "create backdrop_live registration other users"
     ]
 }

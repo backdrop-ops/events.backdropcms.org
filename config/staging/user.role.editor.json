@@ -40,6 +40,12 @@
         "create session content",
         "edit own session content",
         "edit any session content",
-        "edit any presentation content"
+        "edit any presentation content",
+        "view backdrop_live registration",
+        "create backdrop_live registration",
+        "update any backdrop_live registration",
+        "delete own backdrop_live registration",
+        "delete any backdrop_live registration",
+        "create backdrop_live registration self"
     ]
 }

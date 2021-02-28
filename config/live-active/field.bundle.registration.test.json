@@ -1,0 +1,66 @@
+{
+    "_config_name": "field.bundle.registration.test",
+    "bundle": "test",
+    "entity_type": "registration",
+    "view_modes": [],
+    "extra_fields": {
+        "form": {
+            "who_is_registering": {
+                "weight": "0"
+            },
+            "anon_mail": {
+                "weight": "0"
+            }
+        },
+        "display": {
+            "mail": {
+                "default": {
+                    "weight": "0",
+                    "visible": true
+                }
+            },
+            "host_entity_link": {
+                "default": {
+                    "weight": "0",
+                    "visible": true
+                }
+            },
+            "created": {
+                "default": {
+                    "weight": "0",
+                    "visible": true
+                }
+            },
+            "updated": {
+                "default": {
+                    "weight": "0",
+                    "visible": true
+                }
+            },
+            "spaces": {
+                "default": {
+                    "weight": "0",
+                    "visible": true
+                }
+            },
+            "author": {
+                "default": {
+                    "weight": "0",
+                    "visible": true
+                }
+            },
+            "user": {
+                "default": {
+                    "weight": "0",
+                    "visible": true
+                }
+            },
+            "state": {
+                "default": {
+                    "weight": "0",
+                    "visible": true
+                }
+            }
+        }
+    }
+}
