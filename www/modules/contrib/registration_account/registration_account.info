@@ -1,0 +1,9 @@
+name = Registration Account Creation
+description = Creates user accounts when people register anonymously.
+package = Registration
+backdrop = 1.x
+type = module
+configure = admin/structure/registration
+
+dependencies[] = registration
+
