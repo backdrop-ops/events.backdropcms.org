@@ -1,0 +1,26 @@
+{
+    "_config_name": "content_access.settings",
+    "content_access_article": [],
+    "content_access_page": [],
+    "gids": {
+        "anonymous": 111,
+        "authenticated": 222,
+        "administrator": 333
+    },
+    "content_access_event": {
+        "view_own": [
+            "authenticated",
+            "administrator"
+        ],
+        "view": [
+            "authenticated",
+            "administrator"
+        ]
+    },
+    "content_access_faq": [],
+    "content_access_post": [],
+    "content_access_presentation": [],
+    "content_access_session": [],
+    "content_access_test": [],
+    "content_access_info_block": []
+}

@@ -157,6 +157,13 @@
         "update any backdrop_live registration",
         "delete own backdrop_live registration",
         "delete any backdrop_live registration",
-        "create backdrop_live registration self"
+        "create backdrop_live registration self",
+        "grant content access",
+        "grant own content access",
+        "create info_block content",
+        "edit own info_block content",
+        "edit any info_block content",
+        "delete own info_block content",
+        "delete any info_block content"
     ]
 }

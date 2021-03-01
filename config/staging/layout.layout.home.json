@@ -8,7 +8,7 @@
     "module": "standard",
     "weight": 0,
     "storage": 2,
-    "layout_template": "boxton",
+    "layout_template": "moscone_flipped",
     "disabled": false,
     "settings": {
         "title": "Welcome to Backdrop",
@@ -23,7 +23,11 @@
             "094cbc03-d088-4b3c-8361-977733540ae8"
         ],
         "content": [
-            "8eb029d0-9fa8-4d84-ad29-41a96883a4ce"
+            "a1dc5b54-e6dd-48b3-9f01-1b2e39842e86"
+        ],
+        "sidebar": [
+            "f3fcbb3e-6314-4779-a000-fb25b8c1a574",
+            "065df763-0fcd-4da1-b004-4ad7a55ecc8c"
         ],
         "bottom": [],
         "footer": [
@@ -88,7 +92,7 @@
                 }
             }
         },
-        "8eb029d0-9fa8-4d84-ad29-41a96883a4ce": {
+        "a1dc5b54-e6dd-48b3-9f01-1b2e39842e86": {
             "plugin": "node:content",
             "data": {
                 "module": "node",
@@ -101,14 +105,14 @@
                     "contexts": [],
                     "admin_label": "",
                     "admin_description": "",
-                    "nid": 9,
+                    "nid": 12,
                     "links": false,
                     "leave_node_title": false,
                     "link_node_title": false,
                     "display_submitted": false,
                     "view_mode": "full"
                 },
-                "uuid": "8eb029d0-9fa8-4d84-ad29-41a96883a4ce",
+                "uuid": "a1dc5b54-e6dd-48b3-9f01-1b2e39842e86",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -117,6 +121,86 @@
                         }
                     }
                 }
+            }
+        },
+        "f3fcbb3e-6314-4779-a000-fb25b8c1a574": {
+            "plugin": "layout:custom_block",
+            "data": {
+                "module": "layout",
+                "delta": "custom_block",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "content": "<h3><a href=\"/user\">Login</a> or <a href=\"/user/register\">create an account</a> to Register</h3>\r\n",
+                    "format": "filtered_html",
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "f3fcbb3e-6314-4779-a000-fb25b8c1a574",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                },
+                "conditions": [
+                    {
+                        "plugin": "user_role",
+                        "data": {
+                            "settings": {
+                                "roles": [
+                                    "anonymous"
+                                ],
+                                "load_condition_nojs": "Load condition"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "065df763-0fcd-4da1-b004-4ad7a55ecc8c": {
+            "plugin": "layout:custom_block",
+            "data": {
+                "module": "layout",
+                "delta": "custom_block",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "content": "<p><a class=\"button\" href=\"/events/backdrop-live-march-2021\">Register for Backdrop LIVE</a></p>\r\n",
+                    "format": "filtered_html",
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "065df763-0fcd-4da1-b004-4ad7a55ecc8c",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                },
+                "conditions": [
+                    {
+                        "plugin": "user_role",
+                        "data": {
+                            "settings": {
+                                "roles": [
+                                    "authenticated"
+                                ],
+                                "load_condition_nojs": "Load condition"
+                            }
+                        }
+                    }
+                ]
             }
         },
         "e6c19646-ebce-4b7a-8701-1d162298394a": {
