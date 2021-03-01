@@ -1,5 +1,0 @@
-{
-    "_config_name": "antibot.settings",
-    "form_ids": "comment_node_*\r\nuser_login\r\nuser_login_block\r\nuser_pass\r\nuser_register_form\r\ncontact_site_form\r\nwebform_client_form*",
-    "show_form_ids": 0
-}
