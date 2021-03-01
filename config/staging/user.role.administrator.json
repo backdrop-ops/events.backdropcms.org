@@ -146,6 +146,24 @@
         "edit own presentation content",
         "edit any presentation content",
         "delete own presentation content",
-        "delete any presentation content"
+        "delete any presentation content",
+        "administer smtp module",
+        "administer backdrop_live registration",
+        "administer own backdrop_live registration",
+        "view backdrop_live registration",
+        "view own backdrop_live registration",
+        "create backdrop_live registration",
+        "update own backdrop_live registration",
+        "update any backdrop_live registration",
+        "delete own backdrop_live registration",
+        "delete any backdrop_live registration",
+        "create backdrop_live registration self",
+        "grant content access",
+        "grant own content access",
+        "create info_block content",
+        "edit own info_block content",
+        "edit any info_block content",
+        "delete own info_block content",
+        "delete any info_block content"
     ]
 }

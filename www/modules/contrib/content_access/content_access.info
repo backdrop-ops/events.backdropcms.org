@@ -1,0 +1,10 @@
+name = Content Access
+description = Provides flexible content access control.
+package = Access control
+backdrop = 1.x
+type = module
+
+; Added by Backdrop CMS packaging script on 2020-08-06
+project = content_access
+version = 1.x-1.2.0
+timestamp = 1596714959
