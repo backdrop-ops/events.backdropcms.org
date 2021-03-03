@@ -58,7 +58,7 @@
     "rss_description": "",
     "rss_limit": 10,
     "rss_viewmode": "fulltext",
-    "site_403": "",
+    "site_403": "node/13",
     "site_404": "",
     "site_favicon_theme": 0,
     "site_favicon_path": "core/misc/favicon.ico",

@@ -23,10 +23,10 @@
         ],
         "top": [],
         "content": [
-            "default"
+            "default",
+            "6341a709-6bb9-414e-b703-3ce725ceef76"
         ],
         "sidebar": [
-            "375cf521-1133-4b7f-9d24-36865a6b03f2",
             "2d8f235e-d360-46b2-8800-c09126de6fa3",
             "273c4846-8d3e-47a3-bc0b-1113d15b76f8"
         ],
@@ -154,25 +154,21 @@
                 }
             }
         },
-        "375cf521-1133-4b7f-9d24-36865a6b03f2": {
-            "plugin": "block:login_register_message",
+        "6341a709-6bb9-414e-b703-3ce725ceef76": {
+            "plugin": "user:login",
             "data": {
-                "module": "block",
-                "delta": "login_register_message",
+                "module": "user",
+                "delta": "login",
                 "settings": {
-                    "title_display": "default",
-                    "title": "",
+                    "title_display": "custom",
+                    "title": "Log In",
                     "style": "default",
-                    "block_settings": {
-                        "delta": "login_register_message",
-                        "description": "",
-                        "reusable": true
-                    },
+                    "block_settings": [],
                     "contexts": [],
                     "admin_label": "",
                     "admin_description": ""
                 },
-                "uuid": "375cf521-1133-4b7f-9d24-36865a6b03f2",
+                "uuid": "6341a709-6bb9-414e-b703-3ce725ceef76",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -189,6 +185,16 @@
                                 "roles": [
                                     "anonymous"
                                 ],
+                                "load_condition_nojs": "Load condition"
+                            }
+                        }
+                    },
+                    {
+                        "plugin": "path",
+                        "data": {
+                            "settings": {
+                                "visibility_setting": "1",
+                                "paths": "node/13",
                                 "load_condition_nojs": "Load condition"
                             }
                         }
@@ -224,17 +230,6 @@
                     }
                 },
                 "conditions": [
-                    {
-                        "plugin": "user_role",
-                        "data": {
-                            "settings": {
-                                "roles": [
-                                    "authenticated"
-                                ],
-                                "load_condition_nojs": "Load condition"
-                            }
-                        }
-                    },
                     {
                         "plugin": "path",
                         "data": {
