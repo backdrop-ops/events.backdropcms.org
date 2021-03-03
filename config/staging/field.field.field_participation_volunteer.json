@@ -1,0 +1,30 @@
+{
+    "_config_name": "field.field.field_participation_volunteer",
+    "field_name": "field_participation_volunteer",
+    "type": "list_text",
+    "translatable": false,
+    "module": "list",
+    "active": 1,
+    "locked": 0,
+    "cardinality": "-1",
+    "deleted": 0,
+    "entity_types": [],
+    "settings": {
+        "allowed_values": {
+            "Help with planning": "Help with planning",
+            "Facilitate a discussion": "Facilitate a discussion",
+            "Staff the \"help\" desk (answer questions about Backdrop LIVE)": "Staff the \"help\" desk during event (answer questions about Backdrop LIVE)",
+            "Marketing / Social Media": "Marketing / Social Media"
+        },
+        "allowed_values_function": "",
+        "field_permissions": {
+            "type": "0"
+        }
+    },
+    "storage": {
+        "type": "field_sql_storage",
+        "settings": [],
+        "module": "field_sql_storage",
+        "active": 1
+    }
+}

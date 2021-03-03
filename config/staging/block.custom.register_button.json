@@ -1,0 +1,12 @@
+{
+    "_config_name": "block.custom.register_button",
+    "delta": "register_button",
+    "info": "Register Button",
+    "title": "",
+    "description": "",
+    "body": {
+        "value": "<p class=\"text-align-center\"><a class=\"button\" href=\"/events/backdrop-live-march-2021\">Register for Backdrop LIVE</a></p>\r\n",
+        "format": "filtered_html"
+    },
+    "default_langcode": "und"
+}

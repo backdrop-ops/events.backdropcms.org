@@ -5,7 +5,7 @@
     "bundle": "backdrop_live",
     "label": "What would you like to present?",
     "widget": {
-        "weight": "8",
+        "weight": "7",
         "type": "text_textarea",
         "module": "text",
         "active": 1,
@@ -13,7 +13,7 @@
             "rows": "5"
         }
     },
-    "description": "",
+    "description": "We are encouraging prerecorded presentations that are paired with live discussions during Backdrop LIVE.",
     "required": 0,
     "deleted": 0,
     "default_value": null,
