@@ -75,7 +75,7 @@
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
-                    "content": "<p>An online global event for those who use Backdrop CMS, or want to learn more about it.</p>\r\n \r\n<a class=\"button\" href=\"\">Register Now</a>",
+                    "content": "<p>An online global event for those who use Backdrop CMS, or want to learn more about it.</p>\r\n \r\n<a class=\"button\" href=\"/events/backdrop-live-march-2021\">Register Now</a>",
                     "format": "full_html",
                     "image": null,
                     "image_path": null,
@@ -150,20 +150,7 @@
                             "classes": ""
                         }
                     }
-                },
-                "conditions": [
-                    {
-                        "plugin": "user_role",
-                        "data": {
-                            "settings": {
-                                "roles": [
-                                    "authenticated"
-                                ],
-                                "load_condition_nojs": "Load condition"
-                            }
-                        }
-                    }
-                ]
+                }
             }
         },
         "a759f617-538e-4ae8-bf1f-315ca577b5b2": {
