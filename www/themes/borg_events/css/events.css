@@ -21,6 +21,9 @@
   display: inline-block;
   padding-right: 15px;
 }
+#smart-button-container p {
+  margin: 0;
+}
 #priceLabelError {
   margin: 0;
 }
