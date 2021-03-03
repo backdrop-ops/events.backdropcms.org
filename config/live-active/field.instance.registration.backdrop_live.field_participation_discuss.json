@@ -5,7 +5,7 @@
     "bundle": "backdrop_live",
     "label": "What would you like to discuss?",
     "widget": {
-        "weight": "7",
+        "weight": "6",
         "type": "text_textarea",
         "module": "text",
         "active": 1,
@@ -13,7 +13,7 @@
             "rows": "5"
         }
     },
-    "description": "",
+    "description": "What topics could you like to discuss and are you willing to facilitate the discussion (optional)?",
     "required": 0,
     "deleted": 0,
     "default_value": null,

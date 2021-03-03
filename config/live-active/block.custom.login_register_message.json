@@ -1,0 +1,12 @@
+{
+    "_config_name": "block.custom.login_register_message",
+    "delta": "login_register_message",
+    "info": "Login / Register Message",
+    "title": "",
+    "description": "",
+    "body": {
+        "value": "<h3 class=\"text-align-center\"><strong>To register for Backdrop LIVE</strong></h3>\r\n\r\n<p class=\"text-align-center\">(or other Backdrop events)&nbsp;you must first&nbsp;<a href=\"/user\">Login</a> or <a href=\"/user/register\">create an account</a>.</p>\r\n",
+        "format": "filtered_html"
+    },
+    "default_langcode": "und"
+}

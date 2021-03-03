@@ -48,7 +48,12 @@
                 "multiple_registrations": 0,
                 "from_address": "noreply@backdropcms.org",
                 "confirmation": "Registration recieved.",
-                "confirmation_redirect": ""
+                "confirmation_redirect": "",
+                "accounts": {
+                    "account_creation": 1,
+                    "account_creation_fields": 0,
+                    "account_creation_role": "0"
+                }
             }
         },
         "hide_register_tab": 1,

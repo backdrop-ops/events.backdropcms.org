@@ -164,6 +164,10 @@
         "edit own info_block content",
         "edit any info_block content",
         "delete own info_block content",
-        "delete any info_block content"
+        "delete any info_block content",
+        "administer google analytics",
+        "opt-in or out of tracking",
+        "use PHP for tracking visibility",
+        "add JS snippets for google analytics"
     ]
 }

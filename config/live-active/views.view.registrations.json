@@ -1,0 +1,73 @@
+{
+    "_config_name": "views.view.registrations",
+    "name": "registrations",
+    "description": "",
+    "tag": "default",
+    "disabled": false,
+    "base_table": "registration",
+    "human_name": "Registrations",
+    "core": "1.18.1",
+    "display": {
+        "default": {
+            "display_title": "Master",
+            "display_plugin": "default",
+            "display_options": {
+                "query": {
+                    "type": "views_query",
+                    "options": []
+                },
+                "access": {
+                    "type": "none"
+                },
+                "cache": {
+                    "type": "none"
+                },
+                "exposed_form": {
+                    "type": "basic"
+                },
+                "pager": {
+                    "type": "some",
+                    "options": {
+                        "items_per_page": "10"
+                    }
+                },
+                "style_plugin": "list",
+                "row_plugin": "entity",
+                "fields": {
+                    "registration_id": {
+                        "table": "registration",
+                        "field": "registration_id",
+                        "id": "registration_id"
+                    }
+                },
+                "filters": [],
+                "sorts": [],
+                "title": "Registrations",
+                "style_options": {
+                    "row_class": "",
+                    "default_row_class": 1,
+                    "row_class_special": 1,
+                    "uses_fields": 0,
+                    "type": "ul",
+                    "wrapper_class": "item-list",
+                    "class": ""
+                },
+                "row_options": {
+                    "relationship": "none",
+                    "view_mode": "full"
+                }
+            }
+        },
+        "page": {
+            "display_title": "Page",
+            "display_plugin": "page",
+            "display_options": {
+                "query": {
+                    "type": "views_query",
+                    "options": []
+                },
+                "path": "registrations"
+            }
+        }
+    }
+}

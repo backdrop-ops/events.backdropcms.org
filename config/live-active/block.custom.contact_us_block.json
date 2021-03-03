@@ -1,0 +1,12 @@
+{
+    "_config_name": "block.custom.contact_us_block",
+    "delta": "contact_us_block",
+    "info": "Contact us block",
+    "title": "",
+    "description": "",
+    "body": {
+        "value": "<h3 class=\"text-align-center\">&nbsp;</h3>\r\n\r\n<h3 class=\"text-align-center\">Need Assistance?</h3>\r\n\r\n<p class=\"text-align-center\">Join our <a href=\"https://backdrop.zulipchat.com/\">Zulip chat room</a></p>\r\n",
+        "format": "filtered_html"
+    },
+    "default_langcode": "und"
+}

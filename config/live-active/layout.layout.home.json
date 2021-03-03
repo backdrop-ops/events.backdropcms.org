@@ -8,7 +8,7 @@
     "module": "standard",
     "weight": 0,
     "storage": 2,
-    "layout_template": "boxton",
+    "layout_template": "moscone_flipped",
     "disabled": false,
     "settings": {
         "title": "Welcome to Backdrop",
@@ -23,7 +23,12 @@
             "094cbc03-d088-4b3c-8361-977733540ae8"
         ],
         "content": [
-            "8eb029d0-9fa8-4d84-ad29-41a96883a4ce"
+            "f92a1e3d-39c4-44f9-ab10-16c9d5500a26"
+        ],
+        "sidebar": [
+            "b18c32e4-1e2c-40b4-8f00-c64630030649",
+            "a759f617-538e-4ae8-bf1f-315ca577b5b2",
+            "ef578328-75a4-4fb3-9400-d5c7bb238838"
         ],
         "bottom": [],
         "footer": [
@@ -66,7 +71,7 @@
                 "delta": "hero",
                 "settings": {
                     "title_display": "default",
-                    "title": "Backdrop LIVE - March 13th, 2021",
+                    "title": "Backdrop LIVE - March 12-13th, 2021",
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
@@ -88,27 +93,140 @@
                 }
             }
         },
-        "8eb029d0-9fa8-4d84-ad29-41a96883a4ce": {
+        "f92a1e3d-39c4-44f9-ab10-16c9d5500a26": {
             "plugin": "node:content",
             "data": {
                 "module": "node",
                 "delta": "content",
                 "settings": {
-                    "title_display": "default",
+                    "title_display": "none",
                     "title": "",
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
                     "admin_label": "",
                     "admin_description": "",
-                    "nid": 9,
+                    "nid": 11,
                     "links": false,
                     "leave_node_title": false,
                     "link_node_title": false,
                     "display_submitted": false,
                     "view_mode": "full"
                 },
-                "uuid": "8eb029d0-9fa8-4d84-ad29-41a96883a4ce",
+                "uuid": "f92a1e3d-39c4-44f9-ab10-16c9d5500a26",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "b18c32e4-1e2c-40b4-8f00-c64630030649": {
+            "plugin": "block:register_button",
+            "data": {
+                "module": "block",
+                "delta": "register_button",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "register_button",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "b18c32e4-1e2c-40b4-8f00-c64630030649",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                },
+                "conditions": [
+                    {
+                        "plugin": "user_role",
+                        "data": {
+                            "settings": {
+                                "roles": [
+                                    "authenticated"
+                                ],
+                                "load_condition_nojs": "Load condition"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "a759f617-538e-4ae8-bf1f-315ca577b5b2": {
+            "plugin": "block:login_register_message",
+            "data": {
+                "module": "block",
+                "delta": "login_register_message",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "login_register_message",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "a759f617-538e-4ae8-bf1f-315ca577b5b2",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                },
+                "conditions": [
+                    {
+                        "plugin": "user_role",
+                        "data": {
+                            "settings": {
+                                "roles": [
+                                    "anonymous"
+                                ],
+                                "load_condition_nojs": "Load condition"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        "ef578328-75a4-4fb3-9400-d5c7bb238838": {
+            "plugin": "block:contact_us_block",
+            "data": {
+                "module": "block",
+                "delta": "contact_us_block",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "contact_us_block",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "ef578328-75a4-4fb3-9400-d5c7bb238838",
                 "style": {
                     "plugin": "default",
                     "data": {
