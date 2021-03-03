@@ -34,8 +34,9 @@
       <p id="priceLabelError" style="visibility: hidden; color:red; text-align: center;">Please enter a price</p>
     <div class="paypal-form-item"><label for="description">A friendly message? </label><input type="text" name="descriptionInput" id="description" maxlength="127" value="" ></div>
       <p id="descriptionError" style="visibility: hidden; color:red; text-align: center;">Please enter a description</p>
-    <div id="invoiceidDiv" class="paypal-form-item" style="text-align: center; display: none;"><label for="invoiceid"> </label><input name="invoiceid" maxlength="127" type="text" id="invoiceid" value="" ></div>
+    <div id="invoiceidDiv" class="paypal-form-item" style="text-align: center; display: none;"><label for="invoiceid"> </label><input name="invoiceid" maxlength="127" type="text" id="invoiceid" value="" >
       <p id="invoiceidError" style="visibility: hidden; color:red; text-align: center;">Please enter an Invoice ID</p>
+    </div>
     <div style="text-align: center; margin-top: 0.625rem;" id="paypal-button-container"></div>
   </div>
   <script src="https://www.paypal.com/sdk/js?client-id=Ab71UeXLIoPW6-xSwLWShds4H9JzM-Cm-lDPQ2ERSbWw-PLCtqR3P_428LT9fWDS6rsx1n0K3nNSBdCH&currency=USD" data-sdk-integration-source="button-factory"></script>
