@@ -4,6 +4,10 @@
  * Contains styles for only the events subtheme.
  ******************************************************************************/
 
+a.button:hover {
+  text-decoration: none;
+}
+
 /*******************************************************************************
 ** Adjust footer menu location.
 *******************************************************************************/
@@ -31,15 +35,36 @@ body.front .block-hero p {
 /*******************************************************************************
 ** User login block
 *******************************************************************************/
+.user-login-block .form-item {
+  padding-right: 10%;
+}
 .user-login-block input[type=text],
 .user-login-block input[type=password] {
-  width: 90%;
+  width: 100%;
 }
 .user-login-block .password-toggle-wrapper {
   display: block;
 }
 .user-login-block .form-actions {
   text-align: left;
+  display: inline-block;
+}
+.user-login-block .item-list {
+  display: inline-block;
+}
+.user-login-block ul,
+.user-login-block li {
+  display: inline-block;
+  text-decoration: none;
+  margin: 0;
+  padding: 0;
+}
+.user-login-block li a {
+  display: inline-block;
+  padding: 15px 30px;
+}
+.user-login-block li a:hover {
+  text-decoration: underline;
 }
 
 /*******************************************************************************
