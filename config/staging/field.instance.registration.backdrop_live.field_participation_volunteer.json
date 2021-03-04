@@ -5,7 +5,7 @@
     "bundle": "backdrop_live",
     "label": "Volunteer",
     "widget": {
-        "weight": "4",
+        "weight": "8",
         "type": "options_buttons",
         "module": "options",
         "active": 1,

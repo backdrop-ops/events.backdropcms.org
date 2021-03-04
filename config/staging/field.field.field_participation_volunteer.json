@@ -11,10 +11,10 @@
     "entity_types": [],
     "settings": {
         "allowed_values": {
-            "Help with planning": "Help with planning",
+            "Help with planning": "I would like to help with planning",
             "Facilitate a discussion": "Facilitate a discussion",
-            "Staff the \"help\" desk (answer questions about Backdrop LIVE)": "Staff the \"help\" desk during event (answer questions about Backdrop LIVE)",
-            "Marketing / Social Media": "Marketing / Social Media"
+            "Staff the \"help\" desk (answer questions about Backdrop LIVE)": "I can be available to answer questions about Backdrop LIVE",
+            "Marketing / Social Media": "I can help with marketing and social media"
         },
         "allowed_values_function": "",
         "field_permissions": {
