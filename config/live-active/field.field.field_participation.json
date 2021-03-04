@@ -1,6 +1,6 @@
 {
-    "_config_name": "field.field.field_participation_volunteer",
-    "field_name": "field_participation_volunteer",
+    "_config_name": "field.field.field_participation",
+    "field_name": "field_participation",
     "type": "list_text",
     "translatable": false,
     "module": "list",
@@ -11,10 +11,9 @@
     "entity_types": [],
     "settings": {
         "allowed_values": {
-            "Help with planning": "I would like to help with planning",
-            "Facilitate a discussion": "Facilitate a discussion",
-            "Staff the \"help\" desk (answer questions about Backdrop LIVE)": "I can be available to answer questions about Backdrop LIVE",
-            "Marketing / Social Media": "I can help with marketing and social media"
+            "learn": "I would like to learn something specific at this event",
+            "discuss": "I would like to lead a discission at this event",
+            "present": "I would like to give a presentation at this event"
         },
         "allowed_values_function": "",
         "field_permissions": {

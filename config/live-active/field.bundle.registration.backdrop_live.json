@@ -6,7 +6,7 @@
     "extra_fields": {
         "form": {
             "who_is_registering": {
-                "weight": "2"
+                "weight": "3"
             },
             "anon_mail": {
                 "weight": "1"

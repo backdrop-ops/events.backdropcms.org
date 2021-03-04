@@ -1,17 +1,17 @@
 {
-    "_config_name": "field.instance.registration.backdrop_live.field_participation_volunteer",
-    "field_name": "field_participation_volunteer",
+    "_config_name": "field.instance.registration.backdrop_live.field_participation",
+    "field_name": "field_participation",
     "entity_type": "registration",
     "bundle": "backdrop_live",
-    "label": "Volunteer",
+    "label": "Participation",
     "widget": {
-        "weight": "8",
+        "weight": "4",
         "type": "options_buttons",
         "module": "options",
         "active": 1,
         "settings": []
     },
-    "description": "How would you like to help with Backdrop LIVE?",
+    "description": "",
     "required": 0,
     "deleted": 0,
     "default_value": null,
@@ -25,7 +25,7 @@
             "type": "list_default",
             "settings": [],
             "module": "list",
-            "weight": 7
+            "weight": 2
         }
     }
 }
