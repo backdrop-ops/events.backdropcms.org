@@ -1,0 +1,7 @@
+type = module
+name = Borg Events Alterations
+description = Adds alterations to borg events forms.
+backdrop = 1.x
+
+package = BORG
+

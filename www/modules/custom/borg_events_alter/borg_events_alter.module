@@ -1,0 +1,26 @@
+<?php
+/**
+ * @file
+ * ALterations for the events site.
+ */
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function borg_events_alter_form_registration_form_alter(&$form, &$form_state) {
+  $form['field_participation_learn']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_participation[und][learn]"]' => array('checked' => TRUE),
+    ),
+  );
+  $form['field_participation_discuss']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_participation[und][discuss]"]' => array('checked' => TRUE),
+    ),
+  );
+  $form['field_participation_present']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_participation[und][present]"]' => array('checked' => TRUE),
+    ),
+  );
+}
