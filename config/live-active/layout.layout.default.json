@@ -34,7 +34,6 @@
         "footer": [
             "cd4d033d-3f67-4191-8655-85ee758877c0",
             "3e68519b-7c2b-4293-9000-db975374fa6e",
-            "5d2988bf-b372-4459-ae48-727c4736be47",
             "0099e07e-04a3-4c04-b000-b3e95a570458"
         ],
         "title": []
@@ -318,31 +317,6 @@
                     "admin_description": ""
                 },
                 "uuid": "3e68519b-7c2b-4293-9000-db975374fa6e",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": "col-sm-6"
-                        }
-                    }
-                }
-            }
-        },
-        "5d2988bf-b372-4459-ae48-727c4736be47": {
-            "plugin": "block:newsletter",
-            "data": {
-                "module": "block",
-                "delta": "newsletter",
-                "settings": {
-                    "title_display": "default",
-                    "style": "default",
-                    "block_settings": [],
-                    "contexts": [],
-                    "admin_label": "Newsletter",
-                    "admin_description": "",
-                    "title": ""
-                },
-                "uuid": "5d2988bf-b372-4459-ae48-727c4736be47",
                 "style": {
                     "plugin": "default",
                     "data": {
