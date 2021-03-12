@@ -23,9 +23,9 @@
     },
     "display": {
         "default": {
-            "label": "inline",
+            "label": "hidden",
             "type": "reference_link",
-            "weight": "0",
+            "weight": "1",
             "settings": [],
             "module": "reference"
         }

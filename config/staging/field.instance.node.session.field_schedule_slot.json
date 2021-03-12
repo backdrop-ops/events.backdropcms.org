@@ -21,10 +21,12 @@
     },
     "display": {
         "default": {
-            "label": "inline",
-            "type": "taxonomy_term_reference_link",
-            "weight": "4",
-            "settings": [],
+            "label": "hidden",
+            "type": "taxonomy_term_reference_rendered",
+            "weight": "6",
+            "settings": {
+                "view_mode": "default"
+            },
             "module": "taxonomy"
         }
     }
