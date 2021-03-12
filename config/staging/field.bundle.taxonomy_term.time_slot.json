@@ -16,7 +16,7 @@
             "description": {
                 "default": {
                     "weight": "1",
-                    "visible": false
+                    "visible": true
                 }
             }
         }
