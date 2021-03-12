@@ -22,10 +22,9 @@
     "display": {
         "default": {
             "label": "hidden",
-            "type": "taxonomy_term_reference_link",
-            "settings": [],
-            "module": "taxonomy",
-            "weight": 3
+            "type": "hidden",
+            "weight": "2",
+            "settings": []
         }
     }
 }
