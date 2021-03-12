@@ -1,0 +1,10 @@
+type = module
+name = Taxonomy field formatter
+description = Provides formatter to view taxonomy as a rendered entity.
+backdrop = 1.x
+dependencies[] = taxonomy
+
+; Added by Backdrop CMS packaging script on 2017-11-03
+project = taxonomy_field_formatter
+version = 1.x-1.0.0
+timestamp = 1509728590
