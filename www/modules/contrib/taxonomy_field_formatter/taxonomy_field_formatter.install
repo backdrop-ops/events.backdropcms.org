@@ -1,0 +1,34 @@
+<?php
+/**
+ * Update existing fields to use 'default' view_mode instead of 'entity'.
+ */
+function taxonomy_field_formatter_update_1000() {
+  // Get all field instances.
+  $field_instances = field_info_instances();
+
+  // Loop through every field settings to find some with taxonomy_term_entity 
+  // formatter, to remove old 'entity' display mode.
+  foreach ($field_instances as $entity_type => $bundles) {
+    if (!empty($bundles)) {
+      foreach ($bundles as $bundle => $fields) {
+        if (!empty($fields)) {
+          foreach ($fields as $field_name => $field_instance) {
+            if (!empty($field_instance['display'])) {
+              foreach ($field_instance['display'] as $view_mode => $formatter) {
+                if (!empty($formatter['module']) && $formatter['module'] == 'taxonomy_field_formatter' && $formatter['type'] == 'taxonomy_term_entity') {
+                  if ($formatter['settings']['view_mode'] == 'entity') {
+
+                    $instance_info = field_info_instance($entity_type, $field_name, $bundle);
+                    $instance_info['display'][$view_mode]['settings']['view_mode'] = 'default';
+                    field_update_instance($instance_info);
+                  }
+                }
+              }              
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
