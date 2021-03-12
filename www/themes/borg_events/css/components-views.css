@@ -27,3 +27,7 @@
 .view-schedule .views-field-field-room {
   display: inline-block;
 }
+
+.view-schedule .group-head p {
+  font-size: 16px;
+}
