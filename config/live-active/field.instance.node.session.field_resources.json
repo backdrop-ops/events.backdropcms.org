@@ -42,7 +42,7 @@
         "default": {
             "label": "above",
             "type": "link_default",
-            "weight": "5",
+            "weight": "4",
             "settings": [],
             "module": "link"
         }
