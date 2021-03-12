@@ -12,6 +12,7 @@
         "edit own presentation content",
         "create backdrop_live registration",
         "create backdrop_live registration self",
-        "update own backdrop_live registration"
+        "update own backdrop_live registration",
+        "edit own session content"
     ]
 }

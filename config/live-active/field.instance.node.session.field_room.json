@@ -1,11 +1,11 @@
 {
-    "_config_name": "field.instance.node.session.field_presentations",
-    "field_name": "field_presentations",
+    "_config_name": "field.instance.node.session.field_room",
+    "field_name": "field_room",
     "entity_type": "node",
     "bundle": "session",
-    "label": "Presentations",
+    "label": "Room",
     "widget": {
-        "weight": "2",
+        "weight": "8",
         "type": "options_select",
         "module": "options",
         "active": 1,
@@ -17,24 +17,15 @@
     "default_value": null,
     "default_value_function": null,
     "settings": {
-        "status": 0,
-        "bundles": {
-            "presentation": "presentation",
-            "event": 0,
-            "faq": 0,
-            "page": 0,
-            "post": 0,
-            "session": 0
-        },
         "user_register_form": false
     },
     "display": {
         "default": {
             "label": "inline",
-            "type": "reference_link",
-            "weight": "1",
+            "type": "taxonomy_term_reference_link",
+            "weight": "5",
             "settings": [],
-            "module": "reference"
+            "module": "taxonomy"
         }
     }
 }

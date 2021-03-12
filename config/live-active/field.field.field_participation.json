@@ -11,9 +11,10 @@
     "entity_types": [],
     "settings": {
         "allowed_values": {
+            "discuss": "I would like to facilitate a discussion at this event",
+            "present": "I would like to prepare a presentation before the event",
             "learn": "I would like to learn something specific at this event",
-            "discuss": "I would like to lead a discission at this event",
-            "present": "I would like to give a presentation at this event"
+            "be": "I just want to be in the room where it happens"
         },
         "allowed_values_function": "",
         "field_permissions": {

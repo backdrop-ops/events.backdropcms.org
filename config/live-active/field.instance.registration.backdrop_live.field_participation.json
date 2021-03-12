@@ -11,7 +11,7 @@
         "active": 1,
         "settings": []
     },
-    "description": "",
+    "description": "What would you like to get out of this event?",
     "required": 0,
     "deleted": 0,
     "default_value": null,

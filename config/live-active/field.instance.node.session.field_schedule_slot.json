@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Time slot",
     "widget": {
-        "weight": "6",
+        "weight": "7",
         "type": "options_select",
         "module": "options",
         "active": 1,
@@ -21,11 +21,11 @@
     },
     "display": {
         "default": {
-            "label": "hidden",
+            "label": "inline",
             "type": "taxonomy_term_reference_link",
+            "weight": "4",
             "settings": [],
-            "module": "taxonomy",
-            "weight": 1
+            "module": "taxonomy"
         }
     }
 }
