@@ -8,18 +8,37 @@
 ** Schedule view
 *******************************************************************************/
 
-
-.view-schedule .view-grouping:nth-child(2n+1) {
-  background-color: #F4F2F0;
-}
-.view-schedule .view-grouping:nth-child(2n+1) .views-grid-box {
+.view-schedule .views-grid-box {
   background-color: #ffffff;
+}
+
+.view-schedule .group {
+  background-color: #F9F6F5;
+  border: 1px solid #cccccc;
+  padding: 10px;
+  margin: 10px 0;
+}
+.view-schedule .group-head h4 {
+  margin: 0 0 15px 0;
+}
+.view-schedule .group-head p {
+  font-size: 16px;
+}
+
+.view-schedule .view-grouping {
+  margin: 15px;
+}
+.view-schedule .view-grouping:nth-child(2n+1) {
+  background-color: #E8E6E5;
+}
+.view-schedule .view-grouping:nth-child(2n+1) .group {
+  background-color: #F4F2F0;
 }
 
 .view-schedule .view-grouping-header h3 {
   text-align: center;
   margin: 0;
-  padding: 15px;
+  padding: 15px 15px 0 15px;
 }
 .view-schedule .view-grouping-content {
   padding: 15px;
@@ -28,6 +47,5 @@
   display: inline-block;
 }
 
-.view-schedule .group-head p {
-  font-size: 16px;
-}
+
+
