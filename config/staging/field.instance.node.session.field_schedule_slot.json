@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Time slot",
     "widget": {
-        "weight": "7",
+        "weight": "9",
         "type": "options_select",
         "module": "options",
         "active": 1,
