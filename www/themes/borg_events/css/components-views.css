@@ -5,5 +5,19 @@
  ******************************************************************************/
 
 /*******************************************************************************
-** TBD View
+** Schedule view
 *******************************************************************************/
+
+
+.view-schedule .view-grouping:nth-child(2n+1) {
+  background-color: #F4F2F0;
+}
+.view-schedule .view-grouping-header {
+  text-align: center;
+}
+.view-schedule .view-grouping-content {
+  padding: 15px;
+}
+.view-schedule .views-field-field-room {
+  display: inline-block;
+}
