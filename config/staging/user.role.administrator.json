@@ -169,7 +169,9 @@
         "opt-in or out of tracking",
         "use PHP for tracking visibility",
         "add JS snippets for google analytics",
-        "create backdrop_live registration other users",
-        "create backdrop_live registration other anonymous"
+        "edit terms in rooms",
+        "delete terms in rooms",
+        "edit terms in time_blocks",
+        "delete terms in time_blocks"
     ]
 }

@@ -1,0 +1,9 @@
+{
+    "_config_name": "taxonomy.vocabulary.time_blocks",
+    "name": "Time blocks",
+    "machine_name": "time_blocks",
+    "description": "",
+    "hierarchy": "0",
+    "language": 0,
+    "weight": 0
+}

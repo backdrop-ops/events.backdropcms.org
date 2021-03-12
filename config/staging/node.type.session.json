@@ -29,7 +29,7 @@
         "revision_enabled": 0,
         "revision_default": 0,
         "node_preview": "1",
-        "node_submitted": 1,
+        "node_submitted": 0,
         "node_submitted_format": "[node:created:medium] by [node:author]",
         "node_user_picture": true,
         "hidden_path": 0,

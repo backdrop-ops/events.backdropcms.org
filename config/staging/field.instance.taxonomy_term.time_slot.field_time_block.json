@@ -1,11 +1,11 @@
 {
-    "_config_name": "field.instance.node.session.field_schedule_day",
-    "field_name": "field_schedule_day",
-    "entity_type": "node",
-    "bundle": "session",
-    "label": "Day",
+    "_config_name": "field.instance.taxonomy_term.time_slot.field_time_block",
+    "field_name": "field_time_block",
+    "entity_type": "taxonomy_term",
+    "bundle": "time_slot",
+    "label": "Time block",
     "widget": {
-        "weight": "5",
+        "weight": "1",
         "type": "options_select",
         "module": "options",
         "active": 1,
@@ -22,10 +22,10 @@
     "display": {
         "default": {
             "label": "hidden",
-            "type": "list_default",
-            "weight": "7",
+            "type": "taxonomy_term_reference_link",
             "settings": [],
-            "module": "list"
+            "module": "taxonomy",
+            "weight": 3
         }
     }
 }

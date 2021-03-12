@@ -34,10 +34,9 @@
     "display": {
         "default": {
             "label": "hidden",
-            "type": "reference_link",
-            "settings": [],
-            "module": "reference",
-            "weight": 4
+            "type": "hidden",
+            "weight": "9",
+            "settings": []
         }
     }
 }

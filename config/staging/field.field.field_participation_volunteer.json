@@ -12,9 +12,8 @@
     "settings": {
         "allowed_values": {
             "Help with planning": "I would like to help with planning",
-            "Facilitate a discussion": "Facilitate a discussion",
-            "Staff the \"help\" desk (answer questions about Backdrop LIVE)": "I can be available to answer questions about Backdrop LIVE",
-            "Marketing / Social Media": "I can help with marketing and social media"
+            "Marketing / Social Media": "I can help with marketing and social media",
+            "Staff the \"help\" desk (answer questions about Backdrop LIVE)": "I can be available to answer questions about Backdrop LIVE"
         },
         "allowed_values_function": "",
         "field_permissions": {

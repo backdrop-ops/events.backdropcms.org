@@ -6,17 +6,17 @@
     "extra_fields": {
         "form": {
             "name": {
-                "weight": "-5"
+                "weight": "0"
             },
             "description": {
-                "weight": "0"
+                "weight": "2"
             }
         },
         "display": {
             "description": {
                 "default": {
-                    "weight": "2",
-                    "visible": true
+                    "weight": "1",
+                    "visible": false
                 }
             }
         }

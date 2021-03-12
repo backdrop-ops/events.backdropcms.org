@@ -5,7 +5,7 @@
     "bundle": "time_slot",
     "label": "Day 1 time",
     "widget": {
-        "weight": "1",
+        "weight": "3",
         "type": "date_select",
         "module": "date",
         "active": 1,
@@ -33,7 +33,7 @@
     },
     "display": {
         "default": {
-            "label": "inline",
+            "label": "hidden",
             "type": "date_default",
             "weight": "0",
             "settings": {
