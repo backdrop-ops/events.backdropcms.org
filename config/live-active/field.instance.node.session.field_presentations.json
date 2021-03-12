@@ -32,7 +32,7 @@
         "default": {
             "label": "inline",
             "type": "reference_link",
-            "weight": "1",
+            "weight": "2",
             "settings": [],
             "module": "reference"
         }
