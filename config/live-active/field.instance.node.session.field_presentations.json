@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Presentations",
     "widget": {
-        "weight": "2",
+        "weight": "4",
         "type": "options_select",
         "module": "options",
         "active": 1,
