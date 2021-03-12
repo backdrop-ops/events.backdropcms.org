@@ -7,3 +7,15 @@
 /*******************************************************************************
 ** Node: Event - full view mode
 *******************************************************************************/
+
+
+.field-name-field-schedule-slot .taxonomy-term {
+  padding: 1px 15px;
+  background-color: #F4F2F0;
+}
+.field-name-field-schedule-slot .taxonomy-term .content {
+  padding: 0;
+}
+.field-name-field-schedule-slot .taxonomy-term p:last-child {
+  margin-bottom: 0;
+}
