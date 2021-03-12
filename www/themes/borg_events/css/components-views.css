@@ -12,8 +12,14 @@
 .view-schedule .view-grouping:nth-child(2n+1) {
   background-color: #F4F2F0;
 }
-.view-schedule .view-grouping-header {
+.view-schedule .view-grouping:nth-child(2n+1) .views-grid-box {
+  background-color: #ffffff;
+}
+
+.view-schedule .view-grouping-header h3 {
   text-align: center;
+  margin: 0;
+  padding: 15px;
 }
 .view-schedule .view-grouping-content {
   padding: 15px;
