@@ -26,7 +26,6 @@
             "f92a1e3d-39c4-44f9-ab10-16c9d5500a26"
         ],
         "sidebar": [
-            "b18c32e4-1e2c-40b4-8f00-c64630030649",
             "ef578328-75a4-4fb3-9400-d5c7bb238838"
         ],
         "bottom": [],
@@ -74,7 +73,7 @@
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
-                    "content": "<p>An online global event for those who use Backdrop CMS, or want to learn more about it.</p>\r\n \r\n<a class=\"button\" href=\"/events/backdrop-live-march-2021\">Register Now</a>",
+                    "content": "<p>An online global event for those who use Backdrop CMS, or want to learn more about it.</p>\r\n \r\n<a class=\"button\" href=\"/join-now\">How to connect</a>",
                     "format": "full_html",
                     "image": null,
                     "image_path": null,
@@ -113,35 +112,6 @@
                     "view_mode": "full"
                 },
                 "uuid": "f92a1e3d-39c4-44f9-ab10-16c9d5500a26",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
-            }
-        },
-        "b18c32e4-1e2c-40b4-8f00-c64630030649": {
-            "plugin": "block:register_button",
-            "data": {
-                "module": "block",
-                "delta": "register_button",
-                "settings": {
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": {
-                        "delta": "register_button",
-                        "description": "",
-                        "reusable": true
-                    },
-                    "contexts": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "b18c32e4-1e2c-40b4-8f00-c64630030649",
                 "style": {
                     "plugin": "default",
                     "data": {

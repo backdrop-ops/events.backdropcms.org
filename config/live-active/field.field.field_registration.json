@@ -1,0 +1,23 @@
+{
+    "_config_name": "field.field.field_registration",
+    "field_name": "field_registration",
+    "type": "registration",
+    "translatable": false,
+    "module": "registration",
+    "active": 1,
+    "locked": 0,
+    "cardinality": "1",
+    "deleted": 0,
+    "entity_types": [],
+    "settings": {
+        "field_permissions": {
+            "type": "0"
+        }
+    },
+    "storage": {
+        "type": "field_sql_storage",
+        "settings": [],
+        "module": "field_sql_storage",
+        "active": 1
+    }
+}
