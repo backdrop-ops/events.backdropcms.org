@@ -5,7 +5,7 @@
     "title": "",
     "description": "",
     "body": {
-        "value": "<h3>GLOBAL</h3>\r\n<p>Sessions scheduled for everyone, regardless of time zone.</p>\r\n\r\n<h3>INTERACTIVE</h3>\r\n<p>Inclusive topic discussions. Presentation videos available beforehand.</p>\r\n\r\n<h3>AFFORDABLE</h3>\r\n<p>Recommended $20 Donation. Any amount accepted.</p>\r\n\r\n<p><a class=\"button\" href=\"/events/backdrop-live-march-2021\">Register for Backdrop LIVE</a></p>\r\n",
+        "value": "<h3>GLOBAL</h3>\r\n<p>Sessions scheduled for everyone, regardless of time zone.</p>\r\n\r\n<h3>INTERACTIVE</h3>\r\n<p>Inclusive topic discussions. Presentation videos available beforehand.</p>\r\n\r\n<h3>AFFORDABLE</h3>\r\n<p>Recommended $20 Donation. Any amount accepted.</p>\r\n\r\n",
         "format": "full_html"
     },
     "default_langcode": "und"

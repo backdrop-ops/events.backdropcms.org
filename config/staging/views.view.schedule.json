@@ -447,6 +447,128 @@
                 },
                 "path": "schedule"
             }
+        },
+        "block_1": {
+            "display_title": "Block",
+            "display_plugin": "block",
+            "display_options": {
+                "query": {
+                    "type": "views_query",
+                    "options": []
+                },
+                "filters": {
+                    "status": {
+                        "value": 1,
+                        "table": "node",
+                        "field": "status",
+                        "id": "status",
+                        "expose": {
+                            "operator": false
+                        },
+                        "group": 1
+                    },
+                    "type": {
+                        "id": "type",
+                        "table": "node",
+                        "field": "type",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "operator": "in",
+                        "value": {
+                            "session": "session"
+                        },
+                        "group": "1",
+                        "exposed": false,
+                        "expose": {
+                            "operator_id": false,
+                            "label": "",
+                            "description": "",
+                            "use_operator": false,
+                            "operator": "",
+                            "identifier": "",
+                            "required": false,
+                            "remember": false,
+                            "multiple": false,
+                            "remember_roles": {
+                                "authenticated": "authenticated"
+                            },
+                            "reduce": false
+                        },
+                        "is_grouped": false,
+                        "group_info": {
+                            "label": "",
+                            "description": "",
+                            "identifier": "",
+                            "optional": true,
+                            "widget": "select",
+                            "multiple": false,
+                            "remember": 0,
+                            "default_group": "All",
+                            "default_group_multiple": [],
+                            "group_items": []
+                        }
+                    },
+                    "field_time_block_tid": {
+                        "id": "field_time_block_tid",
+                        "table": "field_data_field_time_block",
+                        "field": "field_time_block_tid",
+                        "relationship": "field_schedule_slot_tid",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "operator": "or",
+                        "value": {
+                            "44": "44"
+                        },
+                        "group": "1",
+                        "exposed": false,
+                        "expose": {
+                            "operator_id": false,
+                            "label": "",
+                            "description": "",
+                            "use_operator": false,
+                            "operator": "",
+                            "identifier": "",
+                            "required": false,
+                            "remember": false,
+                            "multiple": false,
+                            "remember_roles": {
+                                "authenticated": "authenticated"
+                            },
+                            "reduce": false
+                        },
+                        "is_grouped": false,
+                        "group_info": {
+                            "label": "",
+                            "description": "",
+                            "identifier": "",
+                            "optional": true,
+                            "widget": "select",
+                            "multiple": false,
+                            "remember": 0,
+                            "default_group": "All",
+                            "default_group_multiple": [],
+                            "group_items": []
+                        },
+                        "reduce_duplicates": 0,
+                        "type": "select",
+                        "limit": true,
+                        "vocabulary": "time_blocks",
+                        "hierarchy": 0,
+                        "error_message": true
+                    }
+                },
+                "defaults": {
+                    "filters": false,
+                    "filter_groups": false
+                },
+                "filter_groups": {
+                    "operator": "AND",
+                    "groups": {
+                        "1": "AND"
+                    }
+                }
+            }
         }
     }
 }

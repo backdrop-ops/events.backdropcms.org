@@ -1,8 +1,8 @@
 {
-    "_config_name": "field.instance.node.session.body",
+    "_config_name": "field.instance.node.test.body",
     "field_name": "body",
     "entity_type": "node",
-    "bundle": "session",
+    "bundle": "test",
     "label": "Body",
     "widget": {
         "type": "text_textarea_with_summary",
@@ -10,7 +10,7 @@
             "rows": 10,
             "summary_rows": 5
         },
-        "weight": "2",
+        "weight": "-4",
         "module": "text"
     },
     "settings": {
@@ -22,9 +22,9 @@
         "default": {
             "label": "hidden",
             "type": "text_default",
-            "weight": "2",
             "settings": [],
-            "module": "text"
+            "module": "text",
+            "weight": 0
         },
         "teaser": {
             "label": "hidden",

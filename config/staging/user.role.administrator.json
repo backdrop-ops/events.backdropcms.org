@@ -172,6 +172,11 @@
         "edit terms in rooms",
         "delete terms in rooms",
         "edit terms in time_blocks",
-        "delete terms in time_blocks"
+        "delete terms in time_blocks",
+        "create test content",
+        "edit own test content",
+        "edit any test content",
+        "delete own test content",
+        "delete any test content"
     ]
 }
