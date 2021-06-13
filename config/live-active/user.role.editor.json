@@ -46,6 +46,7 @@
         "update any backdrop_live registration",
         "delete own backdrop_live registration",
         "delete any backdrop_live registration",
-        "create backdrop_live registration self"
+        "create backdrop_live registration self",
+        "skip CAPTCHA"
     ]
 }

@@ -177,6 +177,8 @@
         "edit own test content",
         "edit any test content",
         "delete own test content",
-        "delete any test content"
+        "delete any test content",
+        "administer CAPTCHA settings",
+        "skip CAPTCHA"
     ]
 }
