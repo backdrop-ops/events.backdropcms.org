@@ -3,15 +3,15 @@
     "field_name": "field_presentations",
     "entity_type": "node",
     "bundle": "session",
-    "label": "Presentations",
+    "label": "Related Presentation",
     "widget": {
-        "weight": "4",
+        "weight": "3",
         "type": "options_select",
         "module": "options",
         "active": 1,
         "settings": []
     },
-    "description": "",
+    "description": "If this discussion is paired with a lecture or presentation, specify that here.",
     "required": 0,
     "deleted": 0,
     "default_value": null,
@@ -22,9 +22,12 @@
             "presentation": "presentation",
             "event": 0,
             "faq": 0,
+            "info_block": 0,
             "page": 0,
             "post": 0,
-            "session": 0
+            "session": 0,
+            "test": 0,
+            "webform": 0
         },
         "user_register_form": false
     },
