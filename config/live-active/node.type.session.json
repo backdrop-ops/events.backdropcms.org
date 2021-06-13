@@ -10,7 +10,7 @@
     "modified": true,
     "disabled": false,
     "has_title": true,
-    "title_label": "Title",
+    "title_label": "Topic",
     "settings": {
         "menu_default": 0,
         "menu_options": {

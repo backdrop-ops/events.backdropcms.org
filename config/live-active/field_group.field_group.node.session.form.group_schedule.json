@@ -11,7 +11,7 @@
         "field_schedule_slot"
     ],
     "parent_name": "",
-    "weight": "6",
+    "weight": "5",
     "label": "Schedule",
     "format_type": "fieldset",
     "format_settings": {
