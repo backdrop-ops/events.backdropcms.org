@@ -25,6 +25,19 @@
         "honeypot_form_faq_node_form": 0,
         "honeypot_form_page_node_form": 0,
         "honeypot_form_post_node_form": 0,
-        "honeypot_form_session_node_form": 0
+        "honeypot_form_session_node_form": 0,
+        "honeypot_form_info_block_node_form": 0,
+        "honeypot_form_presentation_node_form": 0,
+        "honeypot_form_test_node_form": 0,
+        "honeypot_form_webform_node_form": 0,
+        "honeypot_form_comment_node_event_form": 0,
+        "honeypot_form_comment_node_faq_form": 0,
+        "honeypot_form_comment_node_info_block_form": 0,
+        "honeypot_form_comment_node_page_form": 0,
+        "honeypot_form_comment_node_post_form": 0,
+        "honeypot_form_comment_node_presentation_form": 0,
+        "honeypot_form_comment_node_session_form": 0,
+        "honeypot_form_comment_node_test_form": 0,
+        "honeypot_form_comment_node_webform_form": 0
     }
 }

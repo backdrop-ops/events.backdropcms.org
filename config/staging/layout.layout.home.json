@@ -69,11 +69,11 @@
                 "delta": "hero",
                 "settings": {
                     "title_display": "default",
-                    "title": "Backdrop LIVE - March 12th & 13th 2021",
+                    "title": "Backdrop LIVE - July 9th & 10th 2021",
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
-                    "content": "<p>An online global event for those who use Backdrop CMS, or want to learn more about it.</p>\r\n \r\n<a class=\"button\" href=\"/join-now\">How to connect</a>",
+                    "content": "<p>An online global event for those who use Backdrop CMS, or want to learn more about it.</p>\r\n\r\n<p>Registration open soon!</p>",
                     "format": "full_html",
                     "image": null,
                     "image_path": null,
