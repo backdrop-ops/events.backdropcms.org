@@ -177,6 +177,13 @@
         "edit own test content",
         "edit any test content",
         "delete own test content",
-        "delete any test content"
+        "delete any test content",
+        "administer CAPTCHA settings",
+        "skip CAPTCHA",
+        "create field_event",
+        "edit own field_event",
+        "edit field_event",
+        "view own field_event",
+        "view field_event"
     ]
 }

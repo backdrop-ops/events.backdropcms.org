@@ -7,7 +7,7 @@
     "active": 1,
     "locked": 0,
     "cardinality": "1",
-    "deleted": 0,
+    "deleted": 1,
     "entity_types": [],
     "settings": {
         "field_permissions": {

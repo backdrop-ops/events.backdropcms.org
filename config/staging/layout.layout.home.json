@@ -35,6 +35,7 @@
         "title": []
     },
     "contexts": [],
+    "relationships": [],
     "content": {
         "d5fbf202-2b91-4512-8946-7032a4c2804b": {
             "plugin": "copy_blocks:region_copy",
@@ -73,7 +74,7 @@
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
-                    "content": "<p>An online global event for those who use Backdrop CMS, or want to learn more about it.</p>\r\n\r\n<p>Registration open soon!</p>",
+                    "content": "<p>An online global event for those who want to learn more about Backdrop CMS.</p>\r\n\r\n<p><a href=\"/node/35/register\" class=\"button\">Register Today</a></p>",
                     "format": "full_html",
                     "image": null,
                     "image_path": null,
