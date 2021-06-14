@@ -12,7 +12,7 @@
     "settings": {
         "entity_type": "node",
         "field_permissions": {
-            "type": "0"
+            "type": "2"
         }
     },
     "storage": {

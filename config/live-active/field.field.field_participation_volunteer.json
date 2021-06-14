@@ -11,9 +11,9 @@
     "entity_types": [],
     "settings": {
         "allowed_values": {
-            "Help with planning": "I would like to help with planning",
-            "Marketing / Social Media": "I can help with marketing and social media",
-            "Staff the \"help\" desk (answer questions about Backdrop LIVE)": "I can be available to answer questions about Backdrop LIVE"
+            "Help with planning": "I would like to help with planning before the event",
+            "Marketing / Social Media": "I can help with marketing and social media before or during the event",
+            "Staff the \"help\" desk (answer questions about Backdrop LIVE)": "I can help answer questions about Backdrop LIVE during the event"
         },
         "allowed_values_function": "",
         "field_permissions": {

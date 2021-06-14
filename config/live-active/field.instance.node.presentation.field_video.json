@@ -3,7 +3,7 @@
     "field_name": "field_video",
     "entity_type": "node",
     "bundle": "presentation",
-    "label": "Video",
+    "label": "YouTube Video",
     "widget": {
         "weight": "1",
         "type": "youtube",
