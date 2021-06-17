@@ -138,8 +138,21 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
           }
         }
 
-        $steps[4] = l($steps[4], 'node/add/session');
-        $steps[5] = l($steps[5], 'node/add/presentation');
+        // If logged in, but not allowed to create content, remove the link.
+        if (user_access('create session content')) {
+          $steps[4] = l($steps[4], 'node/add/session');
+        }
+        else {
+          unset($steps[4]);
+        }
+
+        // If logged in, but not allowed to create content, remove the link.
+        if (user_access('create presentation content')) {
+          $steps[5] = l($steps[5], 'node/add/presentation');
+        }
+        else {
+          unset($steps[5]);
+        }
       }
 
       $open = config_get('borg_events_custom.settings', 'event_open');
