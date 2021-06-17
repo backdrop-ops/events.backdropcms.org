@@ -1,0 +1,26 @@
+{
+    "_config_name": "field.bundle.user.user",
+    "bundle": "user",
+    "entity_type": "user",
+    "view_modes": [],
+    "extra_fields": {
+        "form": {
+            "contact": {
+                "weight": "5"
+            },
+            "googleanalytics": {
+                "weight": "4"
+            },
+            "account": {
+                "weight": "2"
+            },
+            "account_settings": {
+                "weight": "3"
+            },
+            "timezone": {
+                "weight": "6"
+            }
+        },
+        "display": []
+    }
+}

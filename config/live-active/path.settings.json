@@ -42,7 +42,7 @@
     "punctuation_greater_than": 0,
     "punctuation_slash": 0,
     "punctuation_back_slash": 0,
-    "node_pattern": "[node:content-type]/[node:title]",
+    "node_pattern": "",
     "taxonomy_term_pattern": "[term:vocabulary]/[term:name]",
     "user_pattern": "accounts/[user:name]",
     "node_page_pattern": "[node:title]",
@@ -50,5 +50,10 @@
     "node_event_pattern": "events/[node:title]",
     "node_faq_pattern": "faqs/[node:title]",
     "node_session_pattern": "sessions/[node:title]",
-    "node_presentation_pattern": "presentations/[node:title]"
+    "node_presentation_pattern": "presentations/[node:title]",
+    "node_webform_pattern": "[node:title]",
+    "taxonomy_term_rooms_pattern": "",
+    "taxonomy_term_tags_pattern": "",
+    "taxonomy_term_time_blocks_pattern": "",
+    "taxonomy_term_time_slot_pattern": ""
 }

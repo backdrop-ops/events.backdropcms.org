@@ -27,8 +27,9 @@
             "6341a709-6bb9-414e-b703-3ce725ceef76"
         ],
         "sidebar": [
-            "2d8f235e-d360-46b2-8800-c09126de6fa3",
-            "273c4846-8d3e-47a3-bc0b-1113d15b76f8"
+            "f891711d-bc3c-4e33-b500-b06fe9577832",
+            "273c4846-8d3e-47a3-bc0b-1113d15b76f8",
+            "2d8f235e-d360-46b2-8800-c09126de6fa3"
         ],
         "bottom": [],
         "footer": [
@@ -202,6 +203,60 @@
                 ]
             }
         },
+        "f891711d-bc3c-4e33-b500-b06fe9577832": {
+            "plugin": "borg_events_custom:steps",
+            "data": {
+                "module": "borg_events_custom",
+                "delta": "steps",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "f891711d-bc3c-4e33-b500-b06fe9577832",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "273c4846-8d3e-47a3-bc0b-1113d15b76f8": {
+            "plugin": "block:contact_us_block",
+            "data": {
+                "module": "block",
+                "delta": "contact_us_block",
+                "settings": {
+                    "title_display": "default",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "contact_us_block",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "Contact us block",
+                    "admin_description": "",
+                    "title": ""
+                },
+                "uuid": "273c4846-8d3e-47a3-bc0b-1113d15b76f8",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
         "2d8f235e-d360-46b2-8800-c09126de6fa3": {
             "plugin": "block:register_button",
             "data": {
@@ -241,35 +296,6 @@
                         }
                     }
                 ]
-            }
-        },
-        "273c4846-8d3e-47a3-bc0b-1113d15b76f8": {
-            "plugin": "block:contact_us_block",
-            "data": {
-                "module": "block",
-                "delta": "contact_us_block",
-                "settings": {
-                    "title_display": "default",
-                    "style": "default",
-                    "block_settings": {
-                        "delta": "contact_us_block",
-                        "description": "",
-                        "reusable": true
-                    },
-                    "contexts": [],
-                    "admin_label": "Contact us block",
-                    "admin_description": "",
-                    "title": ""
-                },
-                "uuid": "273c4846-8d3e-47a3-bc0b-1113d15b76f8",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
             }
         },
         "cd4d033d-3f67-4191-8655-85ee758877c0": {

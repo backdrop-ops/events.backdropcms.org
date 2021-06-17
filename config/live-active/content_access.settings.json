@@ -1,7 +1,3 @@
 {
-    "_config_name": "content_access.settings",
-    "gids": {
-        "anonymous": 1,
-        "authenticated": 2
-    }
+    "_config_name": "content_access.settings"
 }

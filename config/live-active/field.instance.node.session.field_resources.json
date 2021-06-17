@@ -3,9 +3,9 @@
     "field_name": "field_resources",
     "entity_type": "node",
     "bundle": "session",
-    "label": "Additional resources",
+    "label": "Additional resources if any",
     "widget": {
-        "weight": "4",
+        "weight": "2",
         "type": "link_field",
         "module": "link",
         "active": 0,

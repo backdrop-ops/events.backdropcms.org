@@ -3,7 +3,7 @@
     "field_name": "field_presentations",
     "entity_type": "node",
     "bundle": "session",
-    "label": "Related Presentation",
+    "label": "Related Presentation (optional)",
     "widget": {
         "weight": "3",
         "type": "options_select",
@@ -26,7 +26,6 @@
             "page": 0,
             "post": 0,
             "session": 0,
-            "test": 0,
             "webform": 0
         },
         "user_register_form": false

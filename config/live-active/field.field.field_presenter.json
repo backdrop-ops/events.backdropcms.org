@@ -1,0 +1,24 @@
+{
+    "_config_name": "field.field.field_presenter",
+    "field_name": "field_presenter",
+    "type": "reference",
+    "translatable": false,
+    "module": "reference",
+    "active": 1,
+    "locked": 0,
+    "cardinality": "-1",
+    "deleted": 0,
+    "entity_types": [],
+    "settings": {
+        "entity_type": "user",
+        "field_permissions": {
+            "type": "0"
+        }
+    },
+    "storage": {
+        "type": "field_sql_storage",
+        "settings": [],
+        "module": "field_sql_storage",
+        "active": 1
+    }
+}
