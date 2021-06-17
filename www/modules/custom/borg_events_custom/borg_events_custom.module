@@ -112,6 +112,7 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
 
       if (!$user->uid) {
         $steps[1] = l($steps[1], 'user/register');
+        $steps[1] .= ' or ' . l(t('Log in'), 'user/login');
       }
       else {
         // Add a checkmark to #1.
