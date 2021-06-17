@@ -5,6 +5,9 @@
     "weight": "0",
     "permissions": [
         "access content",
-        "use text format filtered_html"
+        "use text format filtered_html",
+        "create backdrop_live registration self",
+        "create backdrop_live registration",
+        "view own backdrop_live registration"
     ]
 }

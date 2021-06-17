@@ -13,6 +13,7 @@
         "create backdrop_live registration",
         "create backdrop_live registration self",
         "update own backdrop_live registration",
-        "edit own session content"
+        "edit own session content",
+        "view own backdrop_live registration"
     ]
 }
