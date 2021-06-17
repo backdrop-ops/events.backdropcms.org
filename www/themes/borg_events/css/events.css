@@ -24,11 +24,11 @@ a.button:hover {
 body.front .l-top h2 {
   margin-bottom: 0;
 }
-body.front .block-hero {
+body.front .l-top .block {
   width: 100%;
   text-align: center;
 }
-body.front .block-hero p {
+body.front .l-top .block p {
   font-size: 1.5rem;
 }
 
