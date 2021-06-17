@@ -28,8 +28,9 @@
             "b8270d5b-4972-4b46-8a00-e085aa006e15"
         ],
         "sidebar": [
+            "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74",
             "911cf395-6567-452e-a400-f89a9d2a584a",
-            "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74"
+            "0720f940-accb-4a17-b002-2f37e7a3f1f0"
         ],
         "bottom": [],
         "footer": [
@@ -231,6 +232,31 @@
                 ]
             }
         },
+        "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74": {
+            "plugin": "block:contact_us_block",
+            "data": {
+                "module": "block",
+                "delta": "contact_us_block",
+                "settings": {
+                    "title_display": "default",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "admin_label": "Contact us block",
+                    "admin_description": "",
+                    "title": ""
+                },
+                "uuid": "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
         "911cf395-6567-452e-a400-f89a9d2a584a": {
             "plugin": "block:register_button",
             "data": {
@@ -272,21 +298,21 @@
                 ]
             }
         },
-        "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74": {
-            "plugin": "block:contact_us_block",
+        "0720f940-accb-4a17-b002-2f37e7a3f1f0": {
+            "plugin": "borg_events_custom:steps",
             "data": {
-                "module": "block",
-                "delta": "contact_us_block",
+                "module": "borg_events_custom",
+                "delta": "steps",
                 "settings": {
                     "title_display": "default",
+                    "title": "",
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
-                    "admin_label": "Contact us block",
-                    "admin_description": "",
-                    "title": ""
+                    "admin_label": "",
+                    "admin_description": ""
                 },
-                "uuid": "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74",
+                "uuid": "0720f940-accb-4a17-b002-2f37e7a3f1f0",
                 "style": {
                     "plugin": "default",
                     "data": {

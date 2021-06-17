@@ -1,15 +1,16 @@
 {
-    "_config_name": "field.field.field_registration",
-    "field_name": "field_registration",
-    "type": "registration",
+    "_config_name": "field.field.field_presenter",
+    "field_name": "field_presenter",
+    "type": "reference",
     "translatable": false,
-    "module": "registration",
+    "module": "reference",
     "active": 1,
     "locked": 0,
-    "cardinality": "1",
-    "deleted": 1,
+    "cardinality": "-1",
+    "deleted": 0,
     "entity_types": [],
     "settings": {
+        "entity_type": "user",
         "field_permissions": {
             "type": "0"
         }

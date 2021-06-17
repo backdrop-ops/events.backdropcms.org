@@ -2,10 +2,10 @@
     "_config_name": "block.custom.contact_us_block",
     "delta": "contact_us_block",
     "info": "Contact us block",
-    "title": "",
+    "title": "Need Assistance?",
     "description": "",
     "body": {
-        "value": "<h3 class=\"text-align-center\">&nbsp;</h3>\r\n\r\n<h3>Need Assistance?</h3>\r\n\r\n<p>Join our Zulip chat room</p>\r\n\r\n<p><a href=\"https://backdrop.zulipchat.com/#narrow/stream/218635-Backdrop/topic/Backdrop.20Live\" class=\"button\">Live Chat</a></p>\r\n",
+        "value": "<p>Join our Zulip chat room</p>\r\n\r\n<p><a href=\"https://backdrop.zulipchat.com/#narrow/stream/218635-Backdrop/topic/Backdrop.20Live\" class=\"button\">Live Chat</a></p>\r\n",
         "format": "full_html"
     },
     "default_langcode": "und"
