@@ -7,7 +7,7 @@
 /**
  * Implements hook_block_info().
  */
-function borg_events_alter_block_info() {
+function borg_events_custom_block_info() {
   $blocks['live'] = array(
     'info' => t('Backdrop Live Promo Block'),
     'description' => t('A block about Backdrop live, with registration link.'),
@@ -18,7 +18,7 @@ function borg_events_alter_block_info() {
 /**
  * Implements hook_block_configure().
  */
-function borg_events_alter_block_configure($delta = '', $settings = array()) {
+function borg_events_custom_block_configure($delta = '', $settings = array()) {
   $form = array();
   if ($delta == 'live') {
     $settings += array(
@@ -56,7 +56,7 @@ function borg_events_alter_block_configure($delta = '', $settings = array()) {
 /**
  * Implements hook_block_configure().
  */
-function borg_events_alter_block_view($delta = '', $settings = array(), $contexts = array()) {
+function borg_events_custom_block_view($delta = '', $settings = array(), $contexts = array()) {
   // This example is adapted from node.module.
   $block = array();
 
@@ -105,7 +105,7 @@ function borg_events_alter_block_view($delta = '', $settings = array(), $context
 /**
  * Implements hook_form_FORM_ID_alter().
  */
-function borg_events_alter_form_registration_form_alter(&$form, &$form_state) {
+function borg_events_custom_form_registration_form_alter(&$form, &$form_state) {
   $form['field_participation_learn']['und'][0]['value']['#states'] = array(
     'visible' => array(
       ':input[name="field_participation[und][learn]"]' => array('checked' => TRUE),
