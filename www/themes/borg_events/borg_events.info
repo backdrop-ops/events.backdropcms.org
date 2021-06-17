@@ -9,6 +9,7 @@ base theme = borg
 ; Custom CSS for only this theme.
 
 stylesheets[screen][] = css/events.css
+stylesheets[screen][] = css/page-front.css
 
 ; These should be overridden in base themes:
 
