@@ -5,7 +5,7 @@
     "title": "Need Assistance?",
     "description": "",
     "body": {
-        "value": "<p>Join our Zulip chat room</p>\r\n\r\n<p><a href=\"https://backdrop.zulipchat.com/#narrow/stream/218635-Backdrop/topic/Backdrop.20Live\" class=\"button\">Live Chat</a></p>\r\n",
+        "value": "<p><a href=\"https://backdrop.zulipchat.com/#narrow/stream/218635-Backdrop/topic/Backdrop.20Live\" class=\"button\">Live Chat</a></p>\r\n\r\n<p>Hop in our Zulip chat room for assistance.</p>\r\n\r\n\r\n",
         "format": "full_html"
     },
     "default_langcode": "und"
