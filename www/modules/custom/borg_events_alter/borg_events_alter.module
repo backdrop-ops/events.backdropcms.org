@@ -5,6 +5,104 @@
  */
 
 /**
+ * Implements hook_block_info().
+ */
+function borg_events_alter_block_info() {
+  $blocks['live'] = array(
+    'info' => t('Backdrop Live Promo Block'),
+    'description' => t('A block about Backdrop live, with registration link.'),
+  );
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function borg_events_alter_block_configure($delta = '', $settings = array()) {
+  $form = array();
+  if ($delta == 'live') {
+    $settings += array(
+      'display_date' => 'July 9th & 10th 2021',
+      'text' => 'An online global event for those who use Backdrop CMS, or want to learn more about it.',
+      'registration' => TRUE,
+      'nid' => 35,
+    );
+    $form['display_date'] = array(
+      '#type' => 'textfield',
+      '#title' => t('The date as displayed in the block'),
+      '#default_value' => $settings['display_date'],
+    );
+    $form['text'] = array(
+      '#type' => 'textfield',
+      '#title' => t('The date as displayed in the block'),
+      '#default_value' => $settings['text'],
+      '#size' => 120,
+    );
+    $form['registration'] = array(
+      '#type' => 'radios',
+      '#title' => t('Is Registration open?'),
+      '#default_value' => $settings['registration'],
+      '#options' => array(FALSE => t('No'), TRUE => t('Yes')),
+    );
+    $form['nid'] = array(
+      '#type' => 'number',
+      '#title' => t('Event Node ID'),
+      '#default_value' => $settings['nid'],
+    );
+  }
+  return $form;
+}
+
+/**
+ * Implements hook_block_configure().
+ */
+function borg_events_alter_block_view($delta = '', $settings = array(), $contexts = array()) {
+  // This example is adapted from node.module.
+  $block = array();
+
+  switch ($delta) {
+    case 'live':
+      $title = t('Backdrop LIVE - :date', array(':date' => $settings['display_date']));
+
+      $text = check_plain($settings['text']);
+
+      $button_text = t('Register Now');
+      $registration_node = 'node/' . $settings['nid'];
+      $options = array('attributes' => array('class' => array('button')));
+
+      global $user;
+      if (!$user->uid) {
+        // Anonyous, link goes to account creation form with destination.
+        $query = array('destination' => $registration_node);
+        $options['query'] = $query;
+        $button = l($button_text, 'user/register', $options);
+      }
+      else {
+        $button = l($button_text, $registration_node, $options);
+      }
+
+      $markup = '<p>' . $text . '</p>';
+      $markup .= '<p>' . $button . '</p>';
+
+      $block['subject'] = $title;
+      $block['content'] = array(
+        '##type' => 'markup',
+        '#markup' => $markup,
+      );
+      break;
+
+    case 'steps': // @todo
+      $registration  = t('Step 1: Create an account.');
+      $registration .= t('Step 2: Register for the event.');
+      $registration .= t('Step 3: Suggest a discussion topic.');
+      $registration .= t('Step 4: Post a presentation or demonstration.');
+      break;
+  }
+
+  return $block;
+}
+
+/**
  * Implements hook_form_FORM_ID_alter().
  */
 function borg_events_alter_form_registration_form_alter(&$form, &$form_state) {
