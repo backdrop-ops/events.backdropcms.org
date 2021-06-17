@@ -251,7 +251,11 @@
                 "settings": {
                     "title_display": "default",
                     "style": "default",
-                    "block_settings": [],
+                    "block_settings": {
+                        "delta": "contact_us_block",
+                        "description": "",
+                        "reusable": true
+                    },
                     "contexts": [],
                     "admin_label": "Contact us block",
                     "admin_description": "",

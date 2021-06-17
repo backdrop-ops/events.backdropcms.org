@@ -184,6 +184,11 @@
         "edit own field_event",
         "edit field_event",
         "view own field_event",
-        "view field_event"
+        "view field_event",
+        "create webform content",
+        "edit own webform content",
+        "edit any webform content",
+        "delete own webform content",
+        "delete any webform content"
     ]
 }

@@ -74,7 +74,7 @@
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
-                    "content": "<p>An online global event for those who want to learn more about Backdrop CMS.</p>\r\n\r\n<p><a href=\"/node/35/register\" class=\"button\">Register Today</a></p>",
+                    "content": "<p>An online global event for those who want to learn more about Backdrop CMS.</p>\r\n\r\n<p><a href=\"/events/backdrop-live-july-2021\" class=\"button\">Register Today</a></p>",
                     "format": "full_html",
                     "image": null,
                     "image_path": null,

@@ -40,6 +40,7 @@
         "title": []
     },
     "contexts": [],
+    "relationships": [],
     "content": {
         "301fbad5-d73a-4ab8-b300-b14c5485a93c": {
             "plugin": "system:header",
