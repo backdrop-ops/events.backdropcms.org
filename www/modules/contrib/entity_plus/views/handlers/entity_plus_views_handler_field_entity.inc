@@ -42,7 +42,7 @@ class entity_plus_views_handler_field_entity extends views_handler_field {
    */
   public function init(&$view, &$options) {
     parent::init($view, $options);
-    $this->field_entity_type = entity_property_extract_innermost_type($this->definition['type']);
+    $this->field_entity_type = entity_plus_property_extract_innermost_type($this->definition['type']);
   }
 
   /**
@@ -188,7 +188,7 @@ class entity_plus_views_handler_field_entity extends views_handler_field {
     }
 
     if ($this->options['display'] === 'view') {
-      $entity_view = entity_view($type, array($entity), $this->options['view_mode']);
+      $entity_view = entity_plus_view($type, array($entity), $this->options['view_mode']);
       return render($entity_view);
     }
 
@@ -197,7 +197,7 @@ class entity_plus_views_handler_field_entity extends views_handler_field {
     }
     // Either $options[display] == 'id', or we have no label.
     if (empty($value)) {
-      $value = entity_id($type, $entity);
+      $value = entity_plus_id($type, $entity);
     }
     $value = $this->sanitize_value($value);
 
