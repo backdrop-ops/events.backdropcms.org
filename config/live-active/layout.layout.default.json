@@ -35,6 +35,7 @@
         "footer": [
             "cd4d033d-3f67-4191-8655-85ee758877c0",
             "3e68519b-7c2b-4293-9000-db975374fa6e",
+            "ecd28596-fba5-4a54-8218-240e41bd5b7d",
             "0099e07e-04a3-4c04-b000-b3e95a570458"
         ],
         "title": []
@@ -327,8 +328,8 @@
                 "module": "on_the_web",
                 "delta": "social_links",
                 "settings": {
-                    "title_display": "none",
-                    "title": "",
+                    "title_display": "custom",
+                    "title": "Stay Connected",
                     "style": "default",
                     "block_settings": {
                         "services": {
@@ -348,6 +349,35 @@
                     "admin_description": ""
                 },
                 "uuid": "3e68519b-7c2b-4293-9000-db975374fa6e",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": "col-sm-6"
+                        }
+                    }
+                }
+            }
+        },
+        "ecd28596-fba5-4a54-8218-240e41bd5b7d": {
+            "plugin": "block:newsletter",
+            "data": {
+                "module": "block",
+                "delta": "newsletter",
+                "settings": {
+                    "title_display": "default",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "newsletter",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "Newsletter",
+                    "admin_description": "",
+                    "title": ""
+                },
+                "uuid": "ecd28596-fba5-4a54-8218-240e41bd5b7d",
                 "style": {
                     "plugin": "default",
                     "data": {
