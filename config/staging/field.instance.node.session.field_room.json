@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Room",
     "widget": {
-        "weight": "10",
+        "weight": "15",
         "type": "options_select",
         "module": "options",
         "active": 1,
@@ -14,7 +14,11 @@
     "description": "",
     "required": 0,
     "deleted": 0,
-    "default_value": null,
+    "default_value": [
+        {
+            "tid": "38"
+        }
+    ],
     "default_value_function": null,
     "settings": {
         "user_register_form": false
