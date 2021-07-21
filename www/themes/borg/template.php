@@ -74,28 +74,6 @@ function borg_form_user_profile_form_alter(&$form, &$form_state) {
   $form['redirect']['#weight'] = 23;
 }
 
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function borg_form_user_register_form_alter(&$form, &$form_state) {
-  $form['login'] = array(
-    '#type' => 'help',
-    '#markup' => t('Already have an account?') . ' ' . l(t('Log in instead'), 'user/login') . '.',
-    '#weight' => -100,
-  );
-}
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function borg_form_user_login_alter(&$form, &$form_state) {
-  $form['login'] = array(
-    '#type' => 'help',
-    '#markup' => t('Don\'t have an account yet?') . ' ' . l(t('Create one now'), 'user/register') . '.',
-    '#weight' => -100,
-  );
-}
-
 
 /*******************************************************************************
  * Preprocess functions: prepare variables for templates.
@@ -429,6 +407,52 @@ function borg_preprocess_views_view_row_rss(&$variables) {
 }
 
 /**
+ * Prepares variables for views grid templates.
+ * @see views-view-grid.tpl.php
+ */
+function borg_preprocess_views_view_grid(&$variables) {
+  $view     = $variables['view'];
+  $cols     = $view->style_plugin->options['columns'];
+  $rows     = $variables['rows'];
+
+  // These views have the columns stay wider at smaller screensizes.
+  $sm_grid_views = array('todo');
+
+  if (in_array($view->name, $sm_grid_views)) {
+    $column_classes = array(
+      1 => 'col-sm-12',
+      2 => 'col-sm-6',
+      3 => 'col-sm-4',
+      4 => 'col-sm-3',
+      5 => 'col-sm-5ths',
+      6 => 'col-sm-2',
+    );
+  }
+  else {
+    $column_classes = array(
+      1 => 'col-md-12',
+      2 => 'col-md-6',
+      3 => 'col-md-4',
+      4 => 'col-md-3',
+      5 => 'col-md-5ths',
+      6 => 'col-md-2',
+    );
+  }
+
+  $col_class = $column_classes[$cols];
+
+  // Apply the radix classes
+  foreach ($rows as $row_number => $row) {
+    $variables['row_classes'][$row_number][] = 'row';
+    $variables['row_classes'][$row_number][] = 'row-fluid';
+    foreach ($rows[$row_number] as $column_number => $item) {
+      $variables['column_classes'][$row_number][$column_number][] = $col_class;
+    }
+  }
+  $variables['classes'][] = 'container-fluid';
+}
+
+/**
  * Prepares variables for book navigation templates.
  * @see book-navigation.tpl.php
  */
@@ -719,7 +743,7 @@ function borg_menu_tree__user_menu($variables) {
   $output .= '  </ul>';
 
   $output .= '  <a class="icon" title="Find us on GitHub" href="https://github.com/backdrop/backdrop"><i class="fa fa-github fa-2x" aria-hidden="true"></i></a>';
-  $output .= '  <a class="icon" title="Follow os on Twitter" href="https://twitter.com/backdropcms"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></a>';
+  $output .= '  <a class="icon" title="Follow us on Twitter" href="https://twitter.com/backdropcms"><i class="fa fa-twitter fa-2x" aria-hidden="true"></i></a>';
   $output .= '  <a class="icon" title="Subscribe to our Newsletter" href="https://backdropcms.org/newsletter"><i class="fa fa-envelope fa-2x" aria-hidden="true"></i></a>';
 
   $output .= '</nav>';
