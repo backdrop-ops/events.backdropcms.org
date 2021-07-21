@@ -10,7 +10,7 @@ description = Automated SimpleTest Case for content access module with ACL.
 group = Content Access
 file = content_access.test
 
-; Added by Backdrop CMS packaging script on 2020-08-06
+; Added by Backdrop CMS packaging script on 2021-04-07
 project = content_access
-version = 1.x-1.2.0
-timestamp = 1596714959
+version = 1.x-1.2.1
+timestamp = 1617803433

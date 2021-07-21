@@ -1,11 +1,14 @@
 name = Content Access Rules Integration
 description = Integrates Rules with Content Access. Allows to act on access events, conditions, and actions.
 package = Access control
+type = module
 backdrop = 1.x
+
 dependencies[] = content_access
 dependencies[] = rules
 
-; Added by Backdrop CMS packaging script on 2020-08-06
+
+; Added by Backdrop CMS packaging script on 2021-04-07
 project = content_access
-version = 1.x-1.2.0
-timestamp = 1596714959
+version = 1.x-1.2.1
+timestamp = 1617803433
