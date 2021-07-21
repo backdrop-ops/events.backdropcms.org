@@ -8,7 +8,8 @@
         "field_event",
         "field_room",
         "field_schedule_day",
-        "field_schedule_slot"
+        "field_schedule_slot",
+        "field_zoom"
     ],
     "parent_name": "",
     "weight": "5",
