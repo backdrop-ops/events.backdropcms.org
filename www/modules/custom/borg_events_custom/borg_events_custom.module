@@ -71,24 +71,27 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
       $title = t('Backdrop LIVE - :date', array(':date' => $settings['display_date']));
 
       $text = check_plain($settings['text']);
-
-      $button_text = t('Register Now');
-      $registration_node = 'node/' . $settings['nid'];
-      $options = array('attributes' => array('class' => array('button')));
-
-      global $user;
-      if (!$user->uid) {
-        // Anonyous, link goes to account creation form with destination.
-        $query = array('destination' => $registration_node);
-        $options['query'] = $query;
-        $button = l($button_text, 'user/register', $options);
-      }
-      else {
-        $button = l($button_text, $registration_node, $options);
-      }
-
       $markup = '<p>' . $text . '</p>';
-      $markup .= '<p>' . $button . '</p>';
+
+      // Only add a register now button when registration is open.
+      if ($settings['open']) {
+        $button_text = t('Register Now');
+        $registration_node = 'node/' . $settings['nid'];
+        $options = array('attributes' => array('class' => array('button')));
+
+        global $user;
+        if (!$user->uid) {
+          // Anonyous, link goes to account creation form with destination.
+          $query = array('destination' => $registration_node);
+          $options['query'] = $query;
+          $button = l($button_text, 'user/register', $options);
+        }
+        else {
+          $button = l($button_text, $registration_node, $options);
+        }
+
+        $markup .= '<p>' . $button . '</p>';
+      }
 
       $block['subject'] = $title;
       $block['content'] = array(
