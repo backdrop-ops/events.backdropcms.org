@@ -103,19 +103,39 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
     case 'steps':
 
       $steps = array();
-      $steps[1] = t('Create an account');
-      $steps[2] = t('Register for the event');
-      $steps[3] = l(t('Make a donation'), 'donate');
-      $steps[4] = t('Suggest a discussion topic');
-      $steps[5] = t('Post a video presentation now');
+      $steps[1] = array(
+        'text' => t('Create an account'),
+        'href' => 'user/register',
+      );
+      $steps[2] = array(
+        'text' => t('Register for the event'),
+        'href' => 'user/register',
+      );
+      $steps[3] = array(
+        'text' => t('Make a donation'),
+        'href' => 'donate',
+      );
+      $steps[4] = array(
+        'text' => t('Suggest a discussion topic'),
+        'href' => 'node/add/session',
+        'access' => 'create session content',
+        'noaccess_text' => t('Review past discussion topics'),
+        'noaccess_href' => 'discussions',
+      );
+      $steps[5] = array(
+        'text' => t('Post a video presentation now'),
+        'href' => 'node/add/presentation',
+        'access' => 'create presentation content',
+        'noaccess_text' => t('Watch past video presentations'),
+        'noaccess_href' => 'presentations',
+      );
 
       $checks = array();
 
       global $user;
-
       if (!$user->uid) {
-        $steps[1] = l($steps[1], 'user/register');
-        $steps[1] .= ' or ' . l(t('log in'), 'user/login');
+        $steps[1]['rendered'] = l($steps[1]['text'], $steps[1]['href']);
+        $steps[1]['rendered'] .= ' or ' . l(t('log in'), 'user/login');
       }
       else {
         // Add a checkmark to #1.
@@ -134,45 +154,52 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
               $checks[2] = TRUE;
             }
             else {
-              $steps[2] = l($steps[2], 'node/' . $event_nid);
+              $steps[2]['rendered'] = l($steps[2]['text'], 'node/' . $event_nid);
             }
-            //$registration = entity_load('registration', $registration_id);
-            // This won't work as it exclides the registration we pass in.
-            //$registered = registration_is_registered($registration, NULL, $user->uid);
           }
-        }
-
-        // If logged in, but not allowed to create content, remove the link.
-        if (user_access('create session content')) {
-          $steps[4] = l($steps[4], 'node/add/session');
-        }
-        else {
-          unset($steps[4]);
-        }
-
-        // If logged in, but not allowed to create content, remove the link.
-        if (user_access('create presentation content')) {
-          $steps[5] = l($steps[5], 'node/add/presentation');
-        }
-        else {
-          unset($steps[5]);
         }
       }
 
       $open = config_get('borg_events_custom.settings', 'event_open');
       if (!$open) {
-        $steps[2] = '<strike>' . $steps[2] . '.</strike> ' . t('Registration is now closed');
+        $steps[2]['rendered'] = '<strike>' . $steps[2]['text'] . '.</strike> ' . t('Registration is now closed');
       }
 
       // Format each link nicely.
+      $rendered_steps = array();
       foreach ($steps as $stepnum => $step) {
-        $steps[$stepnum] = t('Step ') . $stepnum . ': ' . $step . '.';
+
+        // If the step has been pre-rendered, use that.
+        if (isset($step['rendered'])) {
+          $step_link = $step['rendered'];
+        }
+        // Otherwise, render it now.
+        else {
+          // If no access, use a different link.
+          if (isset($step['access'])) {
+            if ($open && user_access($step['access'])) {
+              $step_link = l($step['text'], $step['href']);
+            }
+            else {
+              $step_link = l($step['noaccess_text'], $step['noaccess_href']);
+            }
+          }
+          // If no access requirements, check for href.
+          else {
+            $step_link = l($step['text'], $step['href']);
+          }
+        }
+
+        // Add the step and number.
+        $rendered_steps[$stepnum] = t('Step ') . $stepnum . ': ' . $step_link . '.';
+
+        // Add a check if the step has been completed.
         if (isset($checks[$stepnum])) {
-          $steps[$stepnum] .= ' ' . '<i class="fa fa-check"></i>';
+          $rendered_steps[$stepnum] .= ' ' . '<i class="fa fa-check"></i>';
         }
       }
 
-      $markup = theme('item_list', array('items' => $steps));
+      $markup = theme('item_list', array('items' => $rendered_steps));
 
       $block['subject'] = t('Next Steps');
       $block['content'] = array(
