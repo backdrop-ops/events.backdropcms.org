@@ -34,17 +34,9 @@
     "display": {
         "default": {
             "label": "hidden",
-            "type": "date_default",
-            "weight": "0",
-            "settings": {
-                "format_type": "medium",
-                "fromto": "both",
-                "multiple_number": "",
-                "multiple_from": "",
-                "multiple_to": "",
-                "show_remaining_days": 0
-            },
-            "module": "date"
+            "type": "hidden",
+            "weight": "1",
+            "settings": []
         }
     }
 }
