@@ -47,6 +47,10 @@
         "delete own backdrop_live registration",
         "delete any backdrop_live registration",
         "create backdrop_live registration self",
-        "skip CAPTCHA"
+        "skip CAPTCHA",
+        "create terms in rooms",
+        "create terms in tags",
+        "create terms in time_blocks",
+        "create terms in time_slot"
     ]
 }
