@@ -26,6 +26,7 @@
             "98e5e5cd-4d26-4d4e-8b06-6aabdd314c79"
         ],
         "sidebar": [
+            "a2b345f3-6c27-4c02-9e5d-9322ae664d6e",
             "d22dc5a9-81f5-42c3-b85d-93f630af21a5",
             "5b0d570a-e97d-4004-a246-706608492323",
             "ef578328-75a4-4fb3-9400-d5c7bb238838"
@@ -75,10 +76,10 @@
                     "title": "",
                     "style": "default",
                     "block_settings": {
-                        "display_date": "July 9th & 10th 2021",
+                        "display_date": "Oct 22nd & 23rd 2021",
                         "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
                         "open": "0",
-                        "nid": "35"
+                        "nid": "86"
                     },
                     "contexts": [],
                     "admin_label": "",
@@ -116,6 +117,36 @@
                     "view_mode": "full"
                 },
                 "uuid": "98e5e5cd-4d26-4d4e-8b06-6aabdd314c79",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "a2b345f3-6c27-4c02-9e5d-9322ae664d6e": {
+            "plugin": "borg_events_custom:live",
+            "data": {
+                "module": "borg_events_custom",
+                "delta": "live",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "display_date": "Oct 22nd & 23rd 2021",
+                        "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
+                        "open": "1",
+                        "nid": "86"
+                    },
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "a2b345f3-6c27-4c02-9e5d-9322ae664d6e",
                 "style": {
                     "plugin": "default",
                     "data": {
