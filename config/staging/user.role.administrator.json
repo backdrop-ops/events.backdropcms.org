@@ -187,6 +187,10 @@
         "edit own webform content",
         "edit any webform content",
         "delete own webform content",
-        "delete any webform content"
+        "delete any webform content",
+        "create terms in rooms",
+        "create terms in tags",
+        "create terms in time_blocks",
+        "create terms in time_slot"
     ]
 }
