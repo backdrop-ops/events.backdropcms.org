@@ -336,11 +336,55 @@
                         }
                     }
                 },
-                "title": "Event Archive"
+                "title": "Event Archive",
+                "arguments": {
+                    "nid": {
+                        "id": "nid",
+                        "table": "node",
+                        "field": "nid",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "default_action": "ignore",
+                        "exception": {
+                            "value": "all",
+                            "title_enable": 0,
+                            "title": "All"
+                        },
+                        "title_enable": 0,
+                        "title": "",
+                        "breadcrumb_enable": 0,
+                        "breadcrumb": "",
+                        "default_argument_type": "fixed",
+                        "default_argument_options": {
+                            "argument": ""
+                        },
+                        "default_argument_skip_url": 0,
+                        "summary_options": {
+                            "base_path": "",
+                            "count": "1",
+                            "items_per_page": "25",
+                            "override": 0
+                        },
+                        "summary": {
+                            "sort_order": "asc",
+                            "number_of_records": "0",
+                            "format": "default_summary"
+                        },
+                        "specify_validation": 0,
+                        "validate": {
+                            "type": "none",
+                            "fail": "not found"
+                        },
+                        "validate_options": [],
+                        "break_phrase": 0,
+                        "not": 0
+                    }
+                }
             }
         },
         "page": {
-            "display_title": "Page",
+            "display_title": "Event Archive",
             "display_plugin": "page",
             "display_options": {
                 "query": {
@@ -352,17 +396,19 @@
                     "title": {
                         "link_to_node": 0
                     }
-                }
+                },
+                "display_description": ""
             }
         },
         "block_1": {
-            "display_title": "Block",
+            "display_title": "Block Event Archive",
             "display_plugin": "block",
             "display_options": {
                 "query": {
                     "type": "views_query",
                     "options": []
-                }
+                },
+                "display_description": ""
             }
         }
     }

@@ -451,7 +451,7 @@
             }
         },
         "page": {
-            "display_title": "Page",
+            "display_title": "Discussion Archive",
             "display_plugin": "page",
             "display_options": {
                 "query": {
@@ -463,11 +463,12 @@
                     "title": {
                         "link_to_node": 0
                     }
-                }
+                },
+                "display_description": ""
             }
         },
         "page_1": {
-            "display_title": "Page",
+            "display_title": "Presentation Archive",
             "display_plugin": "page",
             "display_options": {
                 "query": {
@@ -545,7 +546,8 @@
                     "groups": {
                         "1": "AND"
                     }
-                }
+                },
+                "display_description": ""
             }
         }
     }
