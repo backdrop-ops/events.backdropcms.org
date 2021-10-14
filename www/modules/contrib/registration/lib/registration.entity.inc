@@ -25,6 +25,13 @@ class Registration extends Entity {
   /**
    * Specifies the default label, which is picked up by label() by default.
    */
+  public function access($op, $account = NULL) {
+    return registration_access($op, $this, $account);
+  }
+
+  /**
+   * Specifies the default label, which is picked up by label() by default.
+   */
   protected function defaultLabel() {
     $wrapper = entity_metadata_wrapper('registration', $this);
     $host = $wrapper->entity->value();

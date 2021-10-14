@@ -66,5 +66,9 @@ registration - add an email token for registrations
   https://github.com/backdrop-contrib/registration/issues/19
   https://github.com/backdrop-contrib/registration/pull/20.patch
 
+registration  - access fix
+  https://github.com/backdrop-contrib/registration/issues/25
+  https://github.com/backdrop-contrib/registration/pull/29.patch
+
 
 
