@@ -19,6 +19,8 @@
                 "access": {
                     "type": "role",
                     "role": {
+                        "anonymous": "anonymous",
+                        "authenticated": "authenticated",
                         "editor": "editor",
                         "administrator": "administrator"
                     }
@@ -100,7 +102,7 @@
                         "exclude": 0,
                         "alter": {
                             "alter_text": 0,
-                            "text": "",
+                            "text": "<br><br>[field_room]",
                             "make_link": 0,
                             "path": "",
                             "absolute": 0,
@@ -336,7 +338,7 @@
                         "group_type": "group",
                         "ui_name": "",
                         "label": "",
-                        "exclude": 0,
+                        "exclude": 1,
                         "alter": {
                             "alter_text": 0,
                             "text": "",
@@ -619,8 +621,8 @@
                         "field_time_block": "field_time_block",
                         "field_schedule_slot": "field_schedule_slot"
                     },
-                    "separator": "",
-                    "hide_empty": 0
+                    "separator": " | ",
+                    "hide_empty": 1
                 }
             }
         },

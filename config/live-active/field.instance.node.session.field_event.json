@@ -35,10 +35,11 @@
     },
     "display": {
         "default": {
-            "label": "hidden",
-            "type": "hidden",
-            "weight": "8",
-            "settings": []
+            "label": "inline",
+            "type": "reference_label",
+            "weight": "0",
+            "settings": [],
+            "module": "reference"
         }
     }
 }

@@ -6,6 +6,6 @@
     "permissions": [
         "access content",
         "use text format filtered_html",
-        "view own backdrop_live registration"
+        "access comments"
     ]
 }

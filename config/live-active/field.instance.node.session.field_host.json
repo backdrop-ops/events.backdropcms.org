@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Facilitator(s) if known",
     "widget": {
-        "weight": "4",
+        "weight": "5",
         "type": "reference_autocomplete",
         "module": "reference",
         "active": 0,
@@ -25,7 +25,7 @@
         "default": {
             "label": "above",
             "type": "reference_link",
-            "weight": "0",
+            "weight": "2",
             "settings": [],
             "module": "reference"
         }
