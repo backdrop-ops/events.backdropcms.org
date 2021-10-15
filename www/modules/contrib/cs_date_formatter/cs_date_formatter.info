@@ -1,0 +1,12 @@
+name = "Client Side Date Field Formatter"
+description = "Let the browser format date fields in to show it human readable and localized."
+tags[] = Dates
+tags[] = Content
+tags[] = Fields
+backdrop = 1.x
+type = module
+
+; Added by Backdrop CMS packaging script on 2021-10-14
+project = cs_date_formatter
+version = 1.x-1.0.1
+timestamp = 1634210794

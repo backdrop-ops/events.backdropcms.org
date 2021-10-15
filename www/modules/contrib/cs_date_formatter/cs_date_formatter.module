@@ -1,0 +1,312 @@
+<?php
+/**
+ * @file
+ * Client Side Date Formatter main code.
+ */
+
+/**
+ * Implements hook_field_formatter_info().
+ */
+function cs_date_formatter_field_formatter_info() {
+  $formats = array(
+    'cs_date_format' => array(
+      'label' => t('Client side formatted'),
+      'field types' => array(
+        // These ship with the Date module.
+        'date',
+        'datestamp',
+        'datetime',
+      ),
+      // @see https://reference.codeproject.com/Book/javascript/reference/global_objects/datetimeformat
+      'settings' => array(
+        'date_format' => 'simple',
+        'weekday' => 'hidden',
+        'year' => 'numeric',
+        'month' => 'short',
+        'day' => '2-digit',
+        'hour' => '2-digit',
+        'minute' => '2-digit',
+        'second' => 'hidden',
+        'timezonename' => 'short',
+      ),
+    ),
+  );
+  return $formats;
+}
+
+/**
+ * Implements hook_field_formatter_settings_form().
+ */
+function cs_date_formatter_field_formatter_settings_form($field, $instance, $view_mode, $form, &$form_state) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $element = array();
+
+  $element['date_format'] = array(
+    '#title' => t('Format'),
+    '#type' => 'radios',
+    '#default_value' => isset($settings['date_format']) ? $settings['date_format'] : 'simple',
+    '#options' => array(
+      'simple' => t('Simple'),
+      'extended' => t('Extended'),
+    ),
+  );
+
+  // Consider we're on a views admin form, which uses different attributes than
+  // the regular field UI admin form.
+  $args = arg();
+  if (isset($args[2]) && $args[2] == 'views') {
+    $name_attribute = 'options[settings][date_format]';
+  }
+  else {
+    $name_attribute = 'fields[' . $field['field_name'] . '][settings_edit_form][settings][date_format]';
+  }
+  $states = array(
+    'invisible' => array(
+      ':input[name="' . $name_attribute . '"]' => array('value' => 'simple'),
+    ),
+    'disabled' => array(
+      ':input[name="' . $name_attribute . '"]' => array('value' => 'simple'),
+    ),
+  );
+  $element_commons = array(
+    '#states' => $states,
+    '#wrapper_attributes' => array(
+      'class' => array('cs-date-formatter-row'),
+    ),
+  );
+
+  $options = array(
+    'hidden' => t('Hidden'),
+  );
+  $options_n2d = array(
+    'numeric' => t('Numeric'),
+    '2-digit' => t('Two digits'),
+  );
+  $options_nsl = array(
+    'narrow' => t('Narrow'),
+    'short' => t('Short'),
+    'long' => t('Long'),
+  );
+  $options_sl = array_slice($options_nsl, 1);
+  $options_num_types = array_merge($options, $options_n2d);
+
+  $element['weekday'] = array(
+    '#type' => 'select',
+    '#title' => t('Weekday display'),
+    '#options' => array_merge($options, $options_nsl),
+    '#default_value' => $settings['weekday'],
+  ) + $element_commons;
+  $element['year'] = array(
+    '#type' => 'select',
+    '#title' => t('Year display'),
+    '#options' => $options_num_types,
+    '#default_value' => $settings['year'],
+  ) + $element_commons;
+  $element['month'] = array(
+    '#type' => 'select',
+    '#title' => t('Month display'),
+    '#options' => array_merge($options, $options_n2d, $options_nsl),
+    '#default_value' => $settings['month'],
+  ) + $element_commons;
+  $element['day'] = array(
+    '#type' => 'select',
+    '#title' => t('Day display'),
+    '#options' => $options_num_types,
+    '#default_value' => $settings['day'],
+  ) + $element_commons;
+  $element['hour'] = array(
+    '#type' => 'select',
+    '#title' => t('Hour display'),
+    '#options' => $options_num_types,
+    '#default_value' => $settings['hour'],
+  ) + $element_commons;
+  $element['minute'] = array(
+    '#type' => 'select',
+    '#title' => t('Minute display'),
+    '#options' => $options_num_types,
+    '#default_value' => $settings['minute'],
+  ) + $element_commons;
+  $element['second'] = array(
+    '#type' => 'select',
+    '#title' => t('Seconds display'),
+    '#options' => $options_num_types,
+    '#default_value' => $settings['second'],
+  ) + $element_commons;
+  $element['timezonename'] = array(
+    '#type' => 'select',
+    '#title' => t('Timezone name display'),
+    '#options' => array_merge($options, $options_sl),
+    '#default_value' => $settings['timezonename'],
+  ) + $element_commons;
+
+  $element['#attached']['css'] = array(
+    backdrop_get_path('module', 'cs_date_formatter') . '/css/cs-date-formatter-admin.css',
+  );
+
+  return $element;
+}
+
+/**
+ * Implements hook_field_formatter_settings_summary().
+ */
+function cs_date_formatter_field_formatter_settings_summary($field, $instance, $view_mode) {
+  $display = $instance['display'][$view_mode];
+  $settings = $display['settings'];
+  $summary = '<p>' . t('Let the browser render the date (requires Javascript)') . '</p>';
+
+  if ($settings['date_format'] == 'extended') {
+    $list = array();
+    foreach ($settings as $key => $value) {
+      if ($value != 'hidden') {
+        $list[] = $key . ': ' . $value;
+      }
+    }
+    $summary .= theme('item_list', array('items' => $list));
+  }
+  else {
+    $summary .= theme('item_list', array('items' => array('date_format: simple')));
+  }
+  return $summary;
+}
+
+/**
+ * Implements hook_field_display_alter().
+ *
+ * Hand over the view_mode to cs_date_formatter_field_formatter_view().
+ */
+function cs_date_formatter_field_display_alter(&$display, $context) {
+  if ($display['type'] == 'cs_date_format') {
+    $display['view_mode'] = $context['view_mode'];
+  }
+}
+
+/**
+ * Implements hook_field_formatter_view().
+ */
+function cs_date_formatter_field_formatter_view($entity_type, $entity, $field, $instance, $langcode, $items, $display) {
+  $element = array();
+
+  if ($display['type'] == 'cs_date_format') {
+    $settings = $display['settings'];
+    $view_mode = '';
+    if (isset($display['view_mode'])) {
+      $view_mode = $display['view_mode'];
+    }
+    elseif (isset($display['views_view'])) {
+      $view_mode = $display['views_view']->name;
+    }
+    foreach ($items as $delta => $item) {
+      $element[$delta] = array(
+        '#theme' => 'cs_date_formatter_default',
+        '#element' => $item,
+        '#field' => $instance,
+        '#view_mode' => $view_mode,
+      );
+
+      // Attach our Javascript and settings.
+      $element[$delta]['#attached']['js'][] = array(
+        'data' => backdrop_get_path('module', 'cs_date_formatter') . '/js/cs-date-formatter.js',
+        'type' => 'file',
+      );
+      $js_settings = array();
+      if ($settings['date_format'] == 'extended') {
+        $js_settings['date_format'] = 'extended';
+        $js_settings['extended'] = array_filter($settings, function($value) {
+          return ($value != 'hidden' && $value != 'extended');
+        });
+        if (isset($js_settings['extended']['timezonename'])) {
+          // Switch to camel case.
+          $js_settings['extended']['timeZoneName'] = $js_settings['extended']['timezonename'];
+          unset($js_settings['extended']['timezonename']);
+        }
+      }
+      else {
+        $js_settings['date_format'] = 'simple';
+        $js_settings['extended'] = array();
+      }
+      $setting_name = $field['field_name'] . '-' . $view_mode;
+      $element[$delta]['#attached']['js'][] = array(
+        'data' => array(
+          'csDateFormatter' => array($setting_name => $js_settings),
+        ),
+        'type' => 'setting',
+      );
+    }
+  }
+
+  return $element;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function cs_date_formatter_theme($existing, $type, $theme, $path) {
+  return array(
+    'cs_date_formatter_default' => array(
+      'variables' => array(
+        'element' => NULL,
+        'field' => NULL,
+        'view_mode' => NULL,
+      ),
+    ),
+  );
+}
+
+/**
+ * Custom theme function.
+ */
+function theme_cs_date_formatter_default($variables) {
+  $values = _cs_date_formatter_get_timestamp($variables['element']);
+  $tags = array();
+
+  $setting_name = $variables['field']['field_name'];
+  if (!empty($variables['view_mode'])) {
+    $setting_name .= '-' . $variables['view_mode'];
+  }
+  foreach ($values as $key => $value) {
+    // Javascript will parse the date_string.
+    $date_string = format_date($value, 'html_datetime');
+    $attributes = array(
+      'datetime' => $date_string,
+      'class' => array('cs-date-format'),
+      'data-cs-setting-name' => $setting_name,
+    );
+    $tags[] = '<time ' . backdrop_attributes($attributes) . '>' . $date_string . '</time>';
+  }
+  $markup = implode(' - ', $tags);
+
+  return $markup;
+}
+
+/**
+ * Custom helper function to convert different date formats to timestamp.
+ *
+ * @param array $element
+ *   Associative array of date field values.
+ *
+ * @return array
+ *   Array with start and possibly end as timestamps.
+ */
+function _cs_date_formatter_get_timestamp($element) {
+  $values = array();
+  switch ($element['date_type']) {
+    case 'datestamp':
+      $values['start'] = $element['value'];
+      if (isset($element['value2'])) {
+        $values['end'] = $element['value2'];
+      }
+      break;
+
+    default:
+      $date = new BackdropDateTime($element['value'], $element['timezone_db']);
+      $values['start'] = $date->format('U');
+      if (isset($element['value2'])) {
+        $date_end = new BackdropDateTime($element['value2'], $element['timezone_db']);
+        $values['end'] = $date->format('U');
+      }
+      break;
+
+  }
+  return $values;
+}
