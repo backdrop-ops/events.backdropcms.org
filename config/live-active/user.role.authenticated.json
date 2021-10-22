@@ -18,6 +18,7 @@
         "access comments",
         "post comments",
         "skip comment approval",
-        "edit own comments"
+        "edit own comments",
+        "view own unpublished content"
     ]
 }

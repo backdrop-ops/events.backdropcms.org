@@ -40,6 +40,12 @@
             "weight": "0",
             "settings": [],
             "module": "reference"
+        },
+        "teaser": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "2",
+            "settings": []
         }
     }
 }

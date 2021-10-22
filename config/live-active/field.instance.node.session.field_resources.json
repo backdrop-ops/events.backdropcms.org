@@ -45,6 +45,12 @@
             "weight": "5",
             "settings": [],
             "module": "link"
+        },
+        "teaser": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "6",
+            "settings": []
         }
     }
 }

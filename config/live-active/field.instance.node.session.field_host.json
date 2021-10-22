@@ -25,9 +25,15 @@
         "default": {
             "label": "above",
             "type": "reference_link",
-            "weight": "2",
+            "weight": "7",
             "settings": [],
             "module": "reference"
+        },
+        "teaser": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "3",
+            "settings": []
         }
     }
 }

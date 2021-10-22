@@ -34,9 +34,15 @@
         "default": {
             "label": "inline",
             "type": "reference_link",
-            "weight": "3",
+            "weight": "4",
             "settings": [],
             "module": "reference"
+        },
+        "teaser": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "5",
+            "settings": []
         }
     }
 }

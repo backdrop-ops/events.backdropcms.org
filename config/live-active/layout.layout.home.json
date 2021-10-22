@@ -23,13 +23,15 @@
             "f624f034-77a8-4b23-9b00-c8631bab9ad3"
         ],
         "content": [
+            "c6489eb4-252f-4fb9-b908-8ed679810882",
             "98e5e5cd-4d26-4d4e-8b06-6aabdd314c79"
         ],
         "sidebar": [
             "a2b345f3-6c27-4c02-9e5d-9322ae664d6e",
             "d22dc5a9-81f5-42c3-b85d-93f630af21a5",
             "5b0d570a-e97d-4004-a246-706608492323",
-            "ef578328-75a4-4fb3-9400-d5c7bb238838"
+            "ef578328-75a4-4fb3-9400-d5c7bb238838",
+            "c66bd4d1-a06e-4c35-ad02-2ecbf02ef70c"
         ],
         "bottom": [],
         "footer": [
@@ -86,6 +88,42 @@
                     "admin_description": ""
                 },
                 "uuid": "f624f034-77a8-4b23-9b00-c8631bab9ad3",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "c6489eb4-252f-4fb9-b908-8ed679810882": {
+            "plugin": "views:schedule-block_1",
+            "data": {
+                "module": "views",
+                "delta": "schedule-block_1",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": true,
+                    "pager_id": "0",
+                    "items_per_page": "25",
+                    "offset": 0,
+                    "path": "schedule",
+                    "fields_override": null,
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "c6489eb4-252f-4fb9-b908-8ed679810882",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -242,6 +280,42 @@
                     "admin_description": ""
                 },
                 "uuid": "ef578328-75a4-4fb3-9400-d5c7bb238838",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "c66bd4d1-a06e-4c35-ad02-2ecbf02ef70c": {
+            "plugin": "views:comments_recent-block",
+            "data": {
+                "module": "views",
+                "delta": "comments_recent-block",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": true,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": 5,
+                    "offset": 0,
+                    "path": "comments/recent",
+                    "fields_override": null,
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "c66bd4d1-a06e-4c35-ad02-2ecbf02ef70c",
                 "style": {
                     "plugin": "default",
                     "data": {

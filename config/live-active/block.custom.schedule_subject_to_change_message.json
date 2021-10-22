@@ -1,11 +1,11 @@
 {
     "_config_name": "block.custom.schedule_subject_to_change_message",
     "delta": "schedule_subject_to_change_message",
-    "info": "Schedule Subject to Change Message",
+    "info": "Schedule Intro Message",
     "title": "",
     "description": "",
     "body": {
-        "value": "<p class=\"text-align-center\" style=\"font-size: 16px\"><em>Backdrop LIVE is based upon an unconference model.<br />\r\nAnyone can declare a topic up through the day of the event and the schedule is subject to change at any time. What would you like to talk about?</em> <br>\r\n<a href=\"/node/add/session\" class=\"button\">Suggest a discussion topic</a></p>\r\n",
+        "value": "<p style=\"font-size: 16px\"><em>Backdrop LIVE is based upon an unconference model.<br />\r\nAnyone can declare a topic up through the day of the event and the schedule is subject to change at any time. What would you like to talk about?</em> <br>\r\n<a href=\"/node/add/session\" class=\"button\">Suggest a discussion topic</a></p>\r\n",
         "format": "full_html"
     },
     "default_langcode": "und"

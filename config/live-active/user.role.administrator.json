@@ -191,6 +191,8 @@
         "create terms in rooms",
         "create terms in tags",
         "create terms in time_blocks",
-        "create terms in time_slot"
+        "create terms in time_slot",
+        "administer css injection",
+        "use text format raw_html_tokens"
     ]
 }

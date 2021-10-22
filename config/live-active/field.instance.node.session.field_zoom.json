@@ -35,7 +35,7 @@
             "target": "_blank",
             "rel": "nofollow",
             "configurable_class": 0,
-            "class": "",
+            "class": "button",
             "configurable_title": 0,
             "title": ""
         },
@@ -45,9 +45,17 @@
     "display": {
         "default": {
             "label": "hidden",
-            "type": "hidden",
-            "weight": "8",
-            "settings": []
+            "type": "link_default",
+            "weight": "2",
+            "settings": [],
+            "module": "link"
+        },
+        "teaser": {
+            "label": "hidden",
+            "type": "link_default",
+            "weight": "1",
+            "settings": [],
+            "module": "link"
         }
     }
 }

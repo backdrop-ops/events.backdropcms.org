@@ -23,7 +23,13 @@
         "default": {
             "label": "hidden",
             "type": "hidden",
-            "weight": "10",
+            "weight": "9",
+            "settings": []
+        },
+        "teaser": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "8",
             "settings": []
         }
     }
