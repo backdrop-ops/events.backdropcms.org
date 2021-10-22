@@ -468,8 +468,10 @@ function borg_preprocess_views_view_grid(&$variables) {
   foreach ($rows as $row_number => $row) {
     $variables['row_classes'][$row_number][] = 'row';
     $variables['row_classes'][$row_number][] = 'row-fluid';
-    foreach ($rows[$row_number] as $column_number => $item) {
-      $variables['column_classes'][$row_number][$column_number][] = $col_class;
+    if (is_array($rows[$row_number])) {
+      foreach ($rows[$row_number] as $column_number => $item) {
+        $variables['column_classes'][$row_number][$column_number][] = $col_class;
+      }
     }
   }
   $variables['classes'][] = 'container-fluid';
