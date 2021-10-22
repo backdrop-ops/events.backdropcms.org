@@ -371,6 +371,19 @@
                         "table": "node",
                         "field": "created",
                         "order": "DESC"
+                    },
+                    "field_schedule_slot_tid": {
+                        "id": "field_schedule_slot_tid",
+                        "table": "field_data_field_schedule_slot",
+                        "field": "field_schedule_slot_tid",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "order": "ASC",
+                        "exposed": false,
+                        "expose": {
+                            "label": ""
+                        }
                     }
                 },
                 "title": "Discussion Archive",
@@ -425,7 +438,13 @@
                     "hide_empty": 0
                 },
                 "style_options": {
-                    "grouping": [],
+                    "grouping": [
+                        {
+                            "field": "field_event",
+                            "rendered": 1,
+                            "rendered_strip": 0
+                        }
+                    ],
                     "row_class": "",
                     "default_row_class": 1,
                     "row_class_special": 1,

@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Collaborative Notes",
     "widget": {
-        "weight": "6",
+        "weight": "7",
         "type": "link_field",
         "module": "link",
         "active": 0,
@@ -42,9 +42,15 @@
         "default": {
             "label": "hidden",
             "type": "link_default",
-            "weight": "3",
+            "weight": "6",
             "settings": [],
             "module": "link"
+        },
+        "teaser": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "4",
+            "settings": []
         }
     }
 }

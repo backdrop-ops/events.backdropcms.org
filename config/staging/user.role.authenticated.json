@@ -14,6 +14,11 @@
         "create backdrop_live registration self",
         "update own backdrop_live registration",
         "edit own session content",
-        "view own backdrop_live registration"
+        "view own backdrop_live registration",
+        "access comments",
+        "post comments",
+        "skip comment approval",
+        "edit own comments",
+        "view own unpublished content"
     ]
 }

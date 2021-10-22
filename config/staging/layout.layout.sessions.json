@@ -23,6 +23,7 @@
         ],
         "top": [],
         "content": [
+            "6d31d412-8cba-4cfd-9000-c6228c48e2cf",
             "d5b876b2-7d56-4a7f-9862-986cdfbcc10c",
             "036d9634-9538-482f-be00-aaaa16a4a1af",
             "b8270d5b-4972-4b46-8a00-e085aa006e15"
@@ -30,7 +31,8 @@
         "sidebar": [
             "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74",
             "911cf395-6567-452e-a400-f89a9d2a584a",
-            "0720f940-accb-4a17-b002-2f37e7a3f1f0"
+            "0720f940-accb-4a17-b002-2f37e7a3f1f0",
+            "ff23916c-71b6-4e14-ae08-8de88725309e"
         ],
         "bottom": [],
         "footer": [
@@ -124,6 +126,35 @@
                     "contexts": []
                 },
                 "uuid": "e36c652c-53bd-417a-a500-a10382214dfa",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "6d31d412-8cba-4cfd-9000-c6228c48e2cf": {
+            "plugin": "block:schedule_subject_to_change_message",
+            "data": {
+                "module": "block",
+                "delta": "schedule_subject_to_change_message",
+                "settings": {
+                    "title_display": "default",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "schedule_subject_to_change_message",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "Schedule Subject to Change Message",
+                    "admin_description": "",
+                    "title": ""
+                },
+                "uuid": "6d31d412-8cba-4cfd-9000-c6228c48e2cf",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -295,6 +326,17 @@
                                 "load_condition_nojs": "Load condition"
                             }
                         }
+                    },
+                    {
+                        "plugin": "user_role",
+                        "data": {
+                            "settings": {
+                                "roles": [
+                                    "anonymous"
+                                ],
+                                "load_condition_nojs": "Load condition"
+                            }
+                        }
                     }
                 ]
             }
@@ -314,6 +356,42 @@
                     "admin_description": ""
                 },
                 "uuid": "0720f940-accb-4a17-b002-2f37e7a3f1f0",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "ff23916c-71b6-4e14-ae08-8de88725309e": {
+            "plugin": "views:comments_recent-block",
+            "data": {
+                "module": "views",
+                "delta": "comments_recent-block",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": true,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": 5,
+                    "offset": 0,
+                    "path": "comments/recent",
+                    "fields_override": null,
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "ff23916c-71b6-4e14-ae08-8de88725309e",
                 "style": {
                     "plugin": "default",
                     "data": {

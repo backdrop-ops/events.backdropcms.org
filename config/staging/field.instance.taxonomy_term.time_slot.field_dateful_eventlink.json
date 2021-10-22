@@ -1,11 +1,11 @@
 {
-    "_config_name": "field.instance.node.session.field_zoom",
-    "field_name": "field_zoom",
-    "entity_type": "node",
-    "bundle": "session",
-    "label": "Zoom Link",
+    "_config_name": "field.instance.taxonomy_term.time_slot.field_dateful_eventlink",
+    "field_name": "field_dateful_eventlink",
+    "entity_type": "taxonomy_term",
+    "bundle": "time_slot",
+    "label": "Dateful Eventlink",
     "widget": {
-        "weight": "11",
+        "weight": "4",
         "type": "link_field",
         "module": "link",
         "active": 0,
@@ -14,17 +14,13 @@
     "description": "",
     "required": 0,
     "deleted": 0,
-    "default_value": [
-        {
-            "url": "https://bit.ly/backdrop-meetings-new"
-        }
-    ],
+    "default_value": null,
     "default_value_function": null,
     "settings": {
         "validate_url": 1,
         "url": 0,
         "title": "value",
-        "title_value": "Join on Zoom",
+        "title_value": "Time in your zone",
         "title_label_use_field_label": 0,
         "title_maxlength": "128",
         "enable_tokens": 0,
@@ -32,10 +28,10 @@
             "url_cutoff": "80"
         },
         "attributes": {
-            "target": "_blank",
-            "rel": "nofollow",
+            "target": "default",
+            "rel": "",
             "configurable_class": 0,
-            "class": "button",
+            "class": "",
             "configurable_title": 0,
             "title": ""
         },
@@ -44,16 +40,9 @@
     },
     "display": {
         "default": {
-            "label": "hidden",
+            "label": "inline",
             "type": "link_default",
-            "weight": "2",
-            "settings": [],
-            "module": "link"
-        },
-        "teaser": {
-            "label": "hidden",
-            "type": "link_default",
-            "weight": "1",
+            "weight": "3",
             "settings": [],
             "module": "link"
         }

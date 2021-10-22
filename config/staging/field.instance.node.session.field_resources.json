@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Additional resources if any",
     "widget": {
-        "weight": "2",
+        "weight": "3",
         "type": "link_field",
         "module": "link",
         "active": 0,
@@ -42,9 +42,15 @@
         "default": {
             "label": "above",
             "type": "link_default",
-            "weight": "4",
+            "weight": "5",
             "settings": [],
             "module": "link"
+        },
+        "teaser": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "6",
+            "settings": []
         }
     }
 }

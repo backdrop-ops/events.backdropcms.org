@@ -1,23 +1,17 @@
 {
-    "_config_name": "field.field.field_schedule_day",
-    "field_name": "field_schedule_day",
-    "type": "list_text",
+    "_config_name": "field.field.field_dateful_eventlink",
+    "field_name": "field_dateful_eventlink",
+    "type": "link_field",
     "translatable": false,
-    "module": "list",
+    "module": "link",
     "active": 1,
     "locked": 0,
     "cardinality": "1",
     "deleted": 0,
     "entity_types": [],
     "settings": {
-        "allowed_values": {
-            "day1": "Friday",
-            "day2": "Saturday",
-            "day3": "Sunday"
-        },
-        "allowed_values_function": "",
         "field_permissions": {
-            "type": "1"
+            "type": "0"
         }
     },
     "storage": {

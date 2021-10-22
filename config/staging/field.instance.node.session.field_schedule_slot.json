@@ -22,12 +22,18 @@
     "display": {
         "default": {
             "label": "hidden",
-            "type": "taxonomy_term_reference_rendered",
-            "weight": "5",
+            "type": "taxonomy_term_entity",
+            "weight": "1",
             "settings": {
                 "view_mode": "default"
             },
-            "module": "taxonomy"
+            "module": "taxonomy_field_formatter"
+        },
+        "teaser": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "9",
+            "settings": []
         }
     }
 }

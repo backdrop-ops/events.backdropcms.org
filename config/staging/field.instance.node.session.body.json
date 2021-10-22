@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Description",
     "widget": {
-        "weight": "1",
+        "weight": "2",
         "type": "text_textarea_with_summary",
         "module": "text",
         "active": 1,
@@ -23,18 +23,18 @@
         "default": {
             "label": "hidden",
             "type": "text_default",
-            "weight": "2",
+            "weight": "3",
             "settings": [],
             "module": "text"
         },
         "teaser": {
             "label": "hidden",
             "type": "text_summary_or_trimmed",
+            "weight": "0",
             "settings": {
                 "trim_length": 600
             },
-            "module": "text",
-            "weight": 0
+            "module": "text"
         }
     },
     "description": "",
