@@ -76,7 +76,7 @@ description = Validate correct handling of URLs inserted via editor link dialog.
 group = Filter
 file = filter_dialog.test
 
-; Added by Backdrop CMS packaging script on 2021-10-10
+; Added by Backdrop CMS packaging script on 2021-12-03
 project = backdrop
-version = 1.20.1
-timestamp = 1633924670
+version = 1.20.3
+timestamp = 1638576231
