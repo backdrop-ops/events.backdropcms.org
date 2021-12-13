@@ -19,6 +19,10 @@
         "post comments",
         "skip comment approval",
         "edit own comments",
-        "view own unpublished content"
+        "view own unpublished content",
+        "view own upgrade_day registration",
+        "create upgrade_day registration",
+        "update own upgrade_day registration",
+        "create upgrade_day registration self"
     ]
 }

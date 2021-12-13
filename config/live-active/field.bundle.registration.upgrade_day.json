@@ -1,0 +1,66 @@
+{
+    "_config_name": "field.bundle.registration.upgrade_day",
+    "bundle": "upgrade_day",
+    "entity_type": "registration",
+    "view_modes": [],
+    "extra_fields": {
+        "form": {
+            "who_is_registering": {
+                "weight": "1"
+            },
+            "anon_mail": {
+                "weight": "2"
+            }
+        },
+        "display": {
+            "mail": {
+                "default": {
+                    "weight": "4",
+                    "visible": true
+                }
+            },
+            "host_entity_link": {
+                "default": {
+                    "weight": "3",
+                    "visible": true
+                }
+            },
+            "created": {
+                "default": {
+                    "weight": "2",
+                    "visible": true
+                }
+            },
+            "updated": {
+                "default": {
+                    "weight": "7",
+                    "visible": true
+                }
+            },
+            "spaces": {
+                "default": {
+                    "weight": "5",
+                    "visible": false
+                }
+            },
+            "author": {
+                "default": {
+                    "weight": "1",
+                    "visible": true
+                }
+            },
+            "user": {
+                "default": {
+                    "weight": "8",
+                    "visible": true
+                }
+            },
+            "state": {
+                "default": {
+                    "weight": "6",
+                    "visible": false
+                }
+            }
+        }
+    }
+}

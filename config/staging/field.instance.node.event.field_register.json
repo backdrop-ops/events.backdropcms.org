@@ -66,6 +66,12 @@
             "weight": "3",
             "settings": [],
             "module": "registration"
+        },
+        "front_page": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "2",
+            "settings": []
         }
     }
 }
