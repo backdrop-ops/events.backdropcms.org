@@ -66,9 +66,11 @@ registration - add an email token for registrations
   https://github.com/backdrop-contrib/registration/issues/19
   https://github.com/backdrop-contrib/registration/pull/20.patch
 
-registration  - access fix
+registration - access fix
   https://github.com/backdrop-contrib/registration/issues/25
   https://github.com/backdrop-contrib/registration/pull/29.patch
 
-
+registration - prevent PHP fatal
+  https://github.com/backdrop-contrib/registration/issues/35
+  https://github.com/backdrop-contrib/registration/pull/36.patch
 
