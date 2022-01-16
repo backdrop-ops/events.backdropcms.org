@@ -1,4 +1,10 @@
 {
     "_config_name": "entity.view_modes",
-    "view_modes": []
+    "view_modes": {
+        "node": {
+            "front_page": {
+                "label": "Front Page"
+            }
+        }
+    }
 }

@@ -35,6 +35,13 @@
                 "trim_length": 600
             },
             "module": "text"
+        },
+        "front_page": {
+            "label": "hidden",
+            "type": "text_default",
+            "weight": "1",
+            "settings": [],
+            "module": "text"
         }
     },
     "description": "",

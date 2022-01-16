@@ -1,11 +1,11 @@
 {
-    "_config_name": "field.instance.node.event.field_display_date",
-    "field_name": "field_display_date",
-    "entity_type": "node",
-    "bundle": "event",
-    "label": "Display Date",
+    "_config_name": "field.instance.registration.upgrade_day.field_full_name",
+    "field_name": "field_full_name",
+    "entity_type": "registration",
+    "bundle": "upgrade_day",
+    "label": "Full Name",
     "widget": {
-        "weight": "2",
+        "weight": "0",
         "type": "text_textfield",
         "module": "text",
         "active": 1,
@@ -24,20 +24,6 @@
     },
     "display": {
         "default": {
-            "label": "hidden",
-            "type": "text_default",
-            "weight": "0",
-            "settings": [],
-            "module": "text"
-        },
-        "teaser": {
-            "label": "hidden",
-            "type": "text_default",
-            "weight": "1",
-            "settings": [],
-            "module": "text"
-        },
-        "front_page": {
             "label": "hidden",
             "type": "text_default",
             "weight": "0",

@@ -193,6 +193,19 @@
         "create terms in time_blocks",
         "create terms in time_slot",
         "administer css injection",
-        "use text format raw_html_tokens"
+        "use text format raw_html_tokens",
+        "administer upgrade_day registration",
+        "administer own upgrade_day registration",
+        "view upgrade_day registration",
+        "view own upgrade_day registration",
+        "create upgrade_day registration",
+        "update own upgrade_day registration",
+        "update any upgrade_day registration",
+        "delete own upgrade_day registration",
+        "delete any upgrade_day registration",
+        "create upgrade_day registration self",
+        "create upgrade_day registration other users",
+        "create upgrade_day registration other anonymous",
+        "edit upgrade_day registration state"
     ]
 }

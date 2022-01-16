@@ -52,6 +52,8 @@
         "create terms in tags",
         "create terms in time_blocks",
         "create terms in time_slot",
-        "administer comments"
+        "administer comments",
+        "view upgrade_day registration",
+        "update any upgrade_day registration"
     ]
 }

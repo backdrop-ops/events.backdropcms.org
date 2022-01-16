@@ -2,7 +2,11 @@
     "_config_name": "field.bundle.node.event",
     "bundle": "event",
     "entity_type": "node",
-    "view_modes": [],
+    "view_modes": {
+        "front_page": {
+            "custom_settings": true
+        }
+    },
     "extra_fields": {
         "form": {
             "title": {

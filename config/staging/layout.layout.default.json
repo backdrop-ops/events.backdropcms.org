@@ -29,9 +29,7 @@
             "6341a709-6bb9-414e-b703-3ce725ceef76"
         ],
         "sidebar": [
-            "f891711d-bc3c-4e33-b500-b06fe9577832",
-            "273c4846-8d3e-47a3-bc0b-1113d15b76f8",
-            "2d8f235e-d360-46b2-8800-c09126de6fa3"
+            "273c4846-8d3e-47a3-bc0b-1113d15b76f8"
         ],
         "bottom": [],
         "footer": [
@@ -275,31 +273,6 @@
                 ]
             }
         },
-        "f891711d-bc3c-4e33-b500-b06fe9577832": {
-            "plugin": "borg_events_custom:steps",
-            "data": {
-                "module": "borg_events_custom",
-                "delta": "steps",
-                "settings": {
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": [],
-                    "contexts": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "f891711d-bc3c-4e33-b500-b06fe9577832",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
-            }
-        },
         "273c4846-8d3e-47a3-bc0b-1113d15b76f8": {
             "plugin": "block:contact_us_block",
             "data": {
@@ -327,47 +300,6 @@
                         }
                     }
                 }
-            }
-        },
-        "2d8f235e-d360-46b2-8800-c09126de6fa3": {
-            "plugin": "block:register_button",
-            "data": {
-                "module": "block",
-                "delta": "register_button",
-                "settings": {
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": {
-                        "delta": "register_button",
-                        "description": "",
-                        "reusable": true
-                    },
-                    "contexts": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "2d8f235e-d360-46b2-8800-c09126de6fa3",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                },
-                "conditions": [
-                    {
-                        "plugin": "path",
-                        "data": {
-                            "settings": {
-                                "visibility_setting": "0",
-                                "paths": "events/backdrop-live-march-2021",
-                                "load_condition_nojs": "Load condition"
-                            }
-                        }
-                    }
-                ]
             }
         },
         "cd4d033d-3f67-4191-8655-85ee758877c0": {

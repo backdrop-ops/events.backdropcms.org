@@ -27,25 +27,10 @@
                     "type": "basic"
                 },
                 "pager": {
-                    "type": "mini",
+                    "type": "some",
                     "options": {
-                        "items_per_page": "0",
-                        "offset": "0",
-                        "id": "0",
-                        "total_pages": "",
-                        "tags": {
-                            "previous": "‹ previous",
-                            "next": "next ›"
-                        },
-                        "expose": {
-                            "items_per_page": 0,
-                            "items_per_page_label": "Items per page",
-                            "items_per_page_options": "5, 10, 20, 40, 60",
-                            "items_per_page_options_all": 0,
-                            "items_per_page_options_all_label": "- All -",
-                            "offset": 0,
-                            "offset_label": "Offset"
-                        }
+                        "items_per_page": "100",
+                        "offset": "0"
                     }
                 },
                 "style_plugin": "grid",
@@ -831,7 +816,7 @@
                         "ui_name": "",
                         "operator": "or",
                         "value": {
-                            "41": "41"
+                            "45": "45"
                         },
                         "group": "1",
                         "exposed": false,
@@ -923,7 +908,9 @@
                     "style_plugin": false,
                     "style_options": false,
                     "row_plugin": false,
-                    "row_options": false
+                    "row_options": false,
+                    "pager": false,
+                    "pager_options": false
                 },
                 "filter_groups": {
                     "operator": "AND",
@@ -1259,7 +1246,14 @@
                     },
                     "separator": " | ",
                     "hide_empty": 1
-                }
+                },
+                "pager": {
+                    "type": "none",
+                    "options": {
+                        "offset": "0"
+                    }
+                },
+                "pager_options": null
             }
         },
         "page_1": {

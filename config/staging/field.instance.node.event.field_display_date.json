@@ -36,6 +36,13 @@
             "weight": "1",
             "settings": [],
             "module": "text"
+        },
+        "front_page": {
+            "label": "hidden",
+            "type": "text_default",
+            "weight": "0",
+            "settings": [],
+            "module": "text"
         }
     }
 }

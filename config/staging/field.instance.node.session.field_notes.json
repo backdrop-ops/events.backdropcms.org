@@ -40,7 +40,7 @@
     },
     "display": {
         "default": {
-            "label": "hidden",
+            "label": "above",
             "type": "link_default",
             "weight": "6",
             "settings": [],

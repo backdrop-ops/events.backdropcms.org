@@ -43,6 +43,12 @@
             "type": "hidden",
             "weight": "2",
             "settings": []
+        },
+        "front_page": {
+            "label": "hidden",
+            "type": "hidden",
+            "weight": "3",
+            "settings": []
         }
     }
 }
