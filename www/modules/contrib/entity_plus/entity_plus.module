@@ -97,11 +97,9 @@ function entity_plus_autoload_info() {
     'EntityPlusControllerRevisionableInterface' => 'includes/entity_plus.controller.inc',
     'EntityPlusController' => 'includes/entity_plus.controller.inc',
     'EntityPlusControllerExportable' => 'includes/entity_plus.controller.inc',
-    'EntityPlusControllerInterface' => 'includes/entity_plus.controller.inc',
-    'EntityPlusControllerInterface' => 'includes/entity_plus.controller.inc',
     'EntityPlusFieldHandlerHelper' => 'views/handlers/entity_plus_views_field_handler_helper.inc',
     'entity_plus_views_handler_area_entity' => 'views/handlers/entity_plus_views_handler_area_entity.inc',
-    'entity_plus_views_handler_field_boolean' => 'views/handlers/entity_plus_views_handler_field_boolian.inc',
+    'entity_plus_views_handler_field_boolean' => 'views/handlers/entity_plus_views_handler_field_boolean.inc',
     'entity_plus_views_handler_field_date' => 'views/handlers/entity_plus_views_handler_field_date.inc',
     'entity_plus_views_handler_field_duration' => 'views/handlers/entity_plus_views_handler_field_duration.inc',
     'entity_plus_views_handler_field_entity' => 'views/handlers/entity_plus_views_handler_field_entity.inc',
@@ -226,8 +224,8 @@ function entity_plus_type_supports($entity_plus_type, $op) {
   if ($op == 'revision delete') {
     return in_array('EntityPlusControllerInterface', class_implements($info['controller class']));
   }
-  if ($op == 'form') {
-    return (bool) entity_plus_ui_controller($entity_plus_type);
+  if ($op == 'form' && module_exists('entity_ui')) {
+    return (bool) entity_ui_controller($entity_plus_type);
   }
   if ($op != 'access') {
     return in_array('EntityPlusControllerInterface', class_implements($info['controller class']));
@@ -972,6 +970,11 @@ function entity_plus_theme() {
       'render element' => 'elements',
       'template' => 'entity_plus',
       'pattern' => $pattern,
+      'path' => backdrop_get_path('module', 'entity_plus') . '/theme',
+      'file' => 'entity_plus.theme.inc',
+    ),
+    'entity_plus_property' => array(
+      'render element' => 'elements',
       'path' => backdrop_get_path('module', 'entity_plus') . '/theme',
       'file' => 'entity_plus.theme.inc',
     ),
