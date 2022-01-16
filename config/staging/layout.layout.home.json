@@ -23,7 +23,7 @@
             "f624f034-77a8-4b23-9b00-c8631bab9ad3"
         ],
         "content": [
-            "bc88b7d0-e698-4121-9504-049c5264140d"
+            "a184939c-6417-445d-bd09-9cba0305b436"
         ],
         "sidebar": [
             "ef578328-75a4-4fb3-9400-d5c7bb238838",
@@ -71,13 +71,13 @@
                 "delta": "live",
                 "settings": {
                     "title_display": "custom",
-                    "title": "Upgrade your Drupal 7 Site to Backdrop",
+                    "title": "Backdrop LIVE ",
                     "style": "default",
                     "block_settings": {
-                        "display_date": "Nov 3, 2021",
-                        "text": "Helping Drupal 7 site owners start the upgrade process to Backdrop CMS",
+                        "display_date": "March 11-12, 2022",
+                        "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
                         "open": "1",
-                        "nid": "125"
+                        "nid": "124"
                     },
                     "contexts": [],
                     "admin_label": "",
@@ -94,25 +94,27 @@
                 }
             }
         },
-        "bc88b7d0-e698-4121-9504-049c5264140d": {
-            "plugin": "block:upgrade_day",
+        "a184939c-6417-445d-bd09-9cba0305b436": {
+            "plugin": "node:content",
             "data": {
-                "module": "block",
-                "delta": "upgrade_day",
+                "module": "node",
+                "delta": "content",
                 "settings": {
                     "title_display": "default",
+                    "title": "",
                     "style": "default",
-                    "block_settings": {
-                        "delta": "upgrade_day",
-                        "description": "Upgrade Day",
-                        "reusable": true
-                    },
+                    "block_settings": [],
                     "contexts": [],
-                    "admin_label": "upgrade day",
-                    "admin_description": "Upgrade Day",
-                    "title": ""
+                    "admin_label": "",
+                    "admin_description": "",
+                    "nid": 60,
+                    "links": false,
+                    "leave_node_title": false,
+                    "link_node_title": false,
+                    "display_submitted": false,
+                    "view_mode": "full"
                 },
-                "uuid": "bc88b7d0-e698-4121-9504-049c5264140d",
+                "uuid": "a184939c-6417-445d-bd09-9cba0305b436",
                 "style": {
                     "plugin": "default",
                     "data": {

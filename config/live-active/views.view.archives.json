@@ -477,7 +477,7 @@
                     "type": "views_query",
                     "options": []
                 },
-                "path": "archive/sessions",
+                "path": "archive/discussions",
                 "field": {
                     "title": {
                         "link_to_node": 0
