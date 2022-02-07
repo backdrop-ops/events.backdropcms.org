@@ -71,6 +71,7 @@ body.front .l-top {
   border-bottom: 2px solid transparent;
   border-top: .01px solid #E8E6E5;
   background: linear-gradient(to top right, #00FFA6, #45BEB1, #F317CD);
+  padding-bottom: 15px;
 }
 
 body.front .l-bottom {
