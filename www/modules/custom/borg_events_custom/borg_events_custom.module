@@ -5,6 +5,19 @@
  */
 
 /**
+ * Implements hook_config_info().
+ */
+function borg_events_custom_config_info() {
+  // If this configuration file points to one particular file, a "name" key
+  // will display that exact string for that file.
+  $prefixes['borg_events_custom.settings'] = array(
+    'label' => t('Borg Events Settings'),
+    'group' => t('Configuration'),
+  );
+  return $prefixes;
+}
+
+/**
  * Implements hook_block_info().
  */
 function borg_events_custom_block_info() {
@@ -143,20 +156,12 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
 
         // Get the event info.
         $event_nid = config_get('borg_events_custom.settings', 'event_nid');
-        if (is_numeric($event_nid)) {
-          $event_node = node_load($event_nid);
-          if (registration_register_page_access('node', $event_node)) {
-            $query = "SELECT registration_id FROM {registration} WHERE user_uid = :uid and entity_id = :nid";
-            $substitutions = array(':uid' => $user->uid, ':nid' => $event_nid);
-            $registration_id = db_query($query, $substitutions)->fetchField();
-            if ($registration_id) {
-              // Add a checkmark to #2.
-              $checks[2] = TRUE;
-            }
-            else {
-              $steps[2]['rendered'] = l($steps[2]['text'], 'node/' . $event_nid);
-            }
-          }
+        if (_borg_events_custom_user_is_registered($event_nid)) {
+          // Add a checkmark to #2.
+          $checks[2] = TRUE;
+        }
+        else {
+          $steps[2]['rendered'] = l($steps[2]['text'], 'node/' . $event_nid);
         }
       }
 
@@ -243,4 +248,32 @@ function borg_events_custom_form_registration_form_alter(&$form, &$form_state) {
       ':input[name="field_participation[und][present]"]' => array('checked' => TRUE),
     ),
   );
+}
+
+
+/**
+ * Helper function: determine if current user is registered.
+ *
+ * @param integer $event_nid
+ *   Node ID for the current event.
+ *
+ * @return boolean
+ *   TRUE if user is registered, FALSE if not.
+ */
+function _borg_events_custom_user_is_registered($event_nid = NULL) {
+  // Get the event info.
+  if (is_numeric($event_nid)) {
+    $event_node = node_load($event_nid);
+    if (registration_register_page_access('node', $event_node)) {
+      global $user;
+      $query = "SELECT registration_id FROM {registration} WHERE user_uid = :uid and entity_id = :nid";
+      $substitutions = array(':uid' => $user->uid, ':nid' => $event_nid);
+      $registration_id = db_query($query, $substitutions)->fetchField();
+      if ($registration_id) {
+        return TRUE;
+      }
+    }
+  }
+
+  return FALSE;
 }
