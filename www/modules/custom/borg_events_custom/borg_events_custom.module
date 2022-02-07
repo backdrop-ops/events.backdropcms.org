@@ -100,10 +100,16 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
           $button = l($button_text, 'user/register', $options);
         }
         else {
-          $button = l($button_text, $registration_node, $options);
+          // Get the event info.
+          $event_nid = config_get('borg_events_custom.settings', 'event_nid');
+          if (!_borg_events_custom_user_is_registered($event_nid)) {
+            $button = l($button_text, $registration_node, $options);
+          }
         }
 
-        $markup .= '<p>' . $button . '</p>';
+        if (isset($button)) {
+          $markup .= '<p>' . $button . '</p>';
+        }
       }
 
       $block['subject'] = $title;
