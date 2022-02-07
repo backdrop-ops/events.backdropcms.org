@@ -567,7 +567,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "86"
+                            "value": "124"
                         },
                         "group": "1",
                         "exposed": false,
@@ -732,6 +732,21 @@
                     },
                     "separator": " | ",
                     "hide_empty": 1
+                },
+                "empty": {
+                    "area": {
+                        "id": "area",
+                        "table": "views",
+                        "field": "area",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "",
+                        "empty": true,
+                        "content": "<p>There are no discussions yet, please <a href=\"/node/add/session\" class=\"button\">Suggest a discussion topic</a>. </p>\r\n",
+                        "format": "filtered_html",
+                        "tokenize": 0
+                    }
                 }
             }
         },
