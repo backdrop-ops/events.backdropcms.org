@@ -1,6 +1,6 @@
 {
-    "_config_name": "field.field.field_topic_tags",
-    "field_name": "field_topic_tags",
+    "_config_name": "field.field.field_topics",
+    "field_name": "field_topics",
     "type": "taxonomy_term_reference",
     "translatable": false,
     "module": "taxonomy",

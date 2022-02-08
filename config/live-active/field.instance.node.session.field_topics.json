@@ -1,9 +1,9 @@
 {
-    "_config_name": "field.instance.node.session.field_topic_tags",
-    "field_name": "field_topic_tags",
+    "_config_name": "field.instance.node.session.field_topics",
+    "field_name": "field_topics",
     "entity_type": "node",
     "bundle": "session",
-    "label": "Topic tags",
+    "label": "Topics",
     "widget": {
         "weight": "15",
         "type": "options_buttons",
@@ -21,7 +21,7 @@
     },
     "display": {
         "default": {
-            "label": "hidden",
+            "label": "above",
             "type": "taxonomy_term_reference_plain",
             "weight": "9",
             "settings": [],
