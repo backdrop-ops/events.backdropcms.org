@@ -4,6 +4,10 @@
  * Contains styles for only the events subtheme.
  ******************************************************************************/
 
+h2.block-title {
+  margin-bottom: .5em;
+}
+
 a.button:hover {
   text-decoration: none;
 }
