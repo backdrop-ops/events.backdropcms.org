@@ -743,7 +743,7 @@
                         "ui_name": "",
                         "label": "",
                         "empty": true,
-                        "content": "<p>There are no discussions yet, please <a href=\"/node/add/session\" class=\"button\">Suggest a discussion topic</a>. </p>\r\n",
+                        "content": "<p>We are in the process of reviewing proposed topics, schedule will be published by mid February.</p>\r\n",
                         "format": "filtered_html",
                         "tokenize": 0
                     }

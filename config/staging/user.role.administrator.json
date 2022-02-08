@@ -206,6 +206,12 @@
         "create upgrade_day registration self",
         "create upgrade_day registration other users",
         "create upgrade_day registration other anonymous",
-        "edit upgrade_day registration state"
+        "edit upgrade_day registration state",
+        "create terms in topic_tags",
+        "edit terms in topic_tags",
+        "delete terms in topic_tags",
+        "create terms in topics",
+        "edit terms in topics",
+        "delete terms in topics"
     ]
 }
