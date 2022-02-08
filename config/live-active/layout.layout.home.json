@@ -26,6 +26,7 @@
             "a184939c-6417-445d-bd09-9cba0305b436"
         ],
         "sidebar": [
+            "696d8c1e-d3da-463f-8e2d-45444fa0f84b",
             "ef578328-75a4-4fb3-9400-d5c7bb238838"
         ],
         "bottom": [],
@@ -114,6 +115,31 @@
                     "view_mode": "full"
                 },
                 "uuid": "a184939c-6417-445d-bd09-9cba0305b436",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "696d8c1e-d3da-463f-8e2d-45444fa0f84b": {
+            "plugin": "borg_events_custom:steps",
+            "data": {
+                "module": "borg_events_custom",
+                "delta": "steps",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "696d8c1e-d3da-463f-8e2d-45444fa0f84b",
                 "style": {
                     "plugin": "default",
                     "data": {
