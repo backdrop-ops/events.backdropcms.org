@@ -101,7 +101,7 @@ function flag_action_info_alter(&$actions) {
 }
 
 /**
- * Implements Drupal action. Flags a node.
+ * Implements Backdrop CMS action. Flags a node.
  *
  * Note the first parameter is "object" because it may be a comment or a node.
  */
@@ -127,7 +127,7 @@ function flag_node_action_submit($form, $form_state) {
 }
 
 /**
- * Implements Drupal action. Flags a comment.
+ * Implements Backdrop CMS action. Flags a comment.
  */
 function flag_comment_action(&$comment, $context = array()) {
   if ($flag = flag_get_flag($context['flag_action']['flag'])) {
@@ -151,7 +151,7 @@ function flag_comment_action_submit($form, $form_state) {
 }
 
 /**
- * Implements Drupal action. Flags a user.
+ * Implements Backdrop CMS action. Flags a user.
  */
 function flag_user_action(&$user, $context = array()) {
   if ($flag = flag_get_flag($context['flag_action']['flag'])) {

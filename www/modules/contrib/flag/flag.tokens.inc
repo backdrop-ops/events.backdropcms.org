@@ -170,7 +170,7 @@ function flag_tokens($type, $tokens, array $data = array(), array $options = arr
     }
   }
 
-  // We only provide tokens on entity types if we have token module's helper
+  // We only provide tokens on entity types if we have token's helper
   // methods available.
   if (isset($data[$type])) {
     $entity_type = _flag_token_entity_type($type);
@@ -207,12 +207,7 @@ function theme_flag_tokens_browser($variables) {
   $types = $variables['types'];
   $global_types = $variables['global_types'];
 
-  if (module_exists('token')) {
-    return theme('token_tree', array('token_types' => $types, 'global_types' => $global_types));
-  }
-  else {
-    return '<p><em>' . t("Note: You don't have the <a href='@token-url'>Token</a> module installed, so the list of available tokens isn't shown here. You don't have to install <a href='@token-url'>Token</a> to be able to use tokens, but if you have it installed, and enabled, you'll be able to enjoy an interactive tokens browser.", array('@token-url' => 'http://drupal.org/project/token')) . '</em></p>';
-  }
+  return theme('token_tree', array('token_types' => $types, 'global_types' => $global_types));
 }
 
 /*
@@ -235,7 +230,7 @@ function theme_flag_tokens_browser($variables) {
 function _flag_entity_token_type($entity_type) {
   $info = entity_get_info($entity_type);
 
-  // check if token module already provided this via hook_entity_info_alter()
+  // check if token already provided this via hook_entity_info_alter()
   if (isset($info['token type'])) {
     return $info['token type'];
   }
@@ -255,11 +250,13 @@ function _flag_entity_token_type($entity_type) {
  *   An entity type name.
  */
 function _flag_token_entity_type($token_type) {
-  if (module_exists('token')) {
-    return token_get_entity_mapping('token', $type);
+  // Only concerned about entities available to flag.
+  $entity_types = flag_fetch_definition();
+  foreach ($entity_types as $entity_type => $description) {
+    $info = entity_get_info($entity_type);
+    if (isset($info['token type']) && $info['token type'] == $token_type) {
+      return $entity_type;
+    }
   }
-  if ($token_type === 'term') {
-    return 'taxonomy_term';
-  }
-  return $token_type;
+  return FALSE;
 }

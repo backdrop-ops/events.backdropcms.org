@@ -68,28 +68,8 @@ function flag_actions_schema() {
 }
 
 /**
- * Add a "repeat_threshold" value to all existing Flag actions.
+ * Implements hook_update_last_removed().
  */
-function flag_actions_update_6200() {
-  // Add the new repeat_threshold column.
-  if (!db_field_exists('flag_actions', 'repeat_threshold')) {
-    $column = array(
-      'type' => 'int',
-      'size' => 'small',
-      'not null' => TRUE,
-      'default' => 0,
-      'disp-width' => '5',
-    );
-    db_add_field('flag_actions', 'repeat_threshold', $column);
-  }
-
-  // Update the normal threshold column to default to 0.
-  $column = array(
-    'type' => 'int',
-    'size' => 'small',
-    'not null' => TRUE,
-    'default' => 0,
-    'disp-width' => '5',
-  );
-  db_change_field('flag_actions', 'threshold', 'threshold', $column);
+function flag_actions_update_last_removed() {
+  return 6200;
 }

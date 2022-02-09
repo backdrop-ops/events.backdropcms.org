@@ -435,6 +435,8 @@ function flag_rules_action_fetch_entity_by_user($flag, $entity) {
   // For global flags the user parameter is ignored, so we add the
   // extra 'uid' condition when the flag is NOT global.
   if (!$flag->global) {
+    // Depends on Entity Plus which is fine so long as Rules depends on it too.
+    // @see entity_plus
     $user = entity_metadata_wrapper('user', $entity);
     $sid = $user->flag_sid->value();
     $query = $query->condition('uid', $user->uid->value());
