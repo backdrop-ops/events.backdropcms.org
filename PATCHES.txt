@@ -42,35 +42,3 @@ Reference - views integration
   https://github.com/backdrop-contrib/reference/pull/47.patch
 
 
-registration - set admin paths
-  https://github.com/backdrop-contrib/registration/issues/12
-  https://github.com/backdrop-contrib/registration/pull/13.patch
-
-registration - translated nodes
-  https://github.com/backdrop-contrib/registration/issues/8
-  https://github.com/backdrop-contrib/registration/pull/9.patch
-
-registration - email confirmation
-  https://github.com/backdrop-contrib/registration/issues/11
-  https://github.com/backdrop-contrib/registration/pull/14.patch
-
-registration - fix token replacements:
-  https://github.com/backdrop-contrib/registration/issues/15
-  https://github.com/backdrop-contrib/registration/pull/16.patch
-
-registration - use an example registration for the preview
-  https://github.com/backdrop-contrib/registration/issues/17
-  https://github.com/backdrop-contrib/registration/pull/18.patch
-
-registration - add an email token for registrations
-  https://github.com/backdrop-contrib/registration/issues/19
-  https://github.com/backdrop-contrib/registration/pull/20.patch
-
-registration - access fix
-  https://github.com/backdrop-contrib/registration/issues/25
-  https://github.com/backdrop-contrib/registration/pull/29.patch
-
-registration - prevent PHP fatal
-  https://github.com/backdrop-contrib/registration/issues/35
-  https://github.com/backdrop-contrib/registration/pull/36.patch
-
