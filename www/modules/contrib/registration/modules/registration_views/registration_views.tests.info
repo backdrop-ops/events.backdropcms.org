@@ -1,0 +1,5 @@
+
+; Added by Backdrop CMS packaging script on 2022-01-20
+project = registration
+version = 1.x-1.2.0
+timestamp = 1642704851

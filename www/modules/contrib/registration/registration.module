@@ -39,8 +39,8 @@ function registration_entity_info() {
     'registration' => array(
       'label' => t('Registration'),
       'plural label' => t('Registrations'),
-      'entity class' => 'Registration',
       'controller class' => 'EntityPlusController',
+      'entity class' => 'Registration',
       'metadata controller class' => 'RegistrationMetadataController',
       'base table' => 'registration',
       'fieldable' => TRUE,
@@ -63,6 +63,7 @@ function registration_entity_info() {
       'token type' => 'registration',
       'module' => 'registration',
       'label callback' => 'entity_class_label',
+      'entity cache' => module_exists('entitycache'),
     ),
     'registration_type' => array(
       'label' => t('Registration type'),
@@ -86,6 +87,7 @@ function registration_entity_info() {
         'file path' => backdrop_get_path('module', 'registration') . '/includes',
         'controller class' => 'RegistrationTypeUIController',
       ),
+      'entity cache' => module_exists('entitycache'),
     ),
     'registration_state' => array(
       'label' => t('Registration State'),
@@ -114,15 +116,9 @@ function registration_entity_info() {
       'module' => 'registration',
       'access callback' => 'registration_state_access',
       'exportable' => TRUE,
+      'entity cache' => module_exists('entitycache'),
     ),
   );
-
-  // If the cache table has been created, enable entity caching.
-  if (db_table_exists('cache_entity_registration')) {
-    $entity_info['registration']['entity cache'] = TRUE;
-    $entity_info['registration_type']['entity cache'] = TRUE;
-    $entity_info['registration_state']['entity cache'] = TRUE;
-  }
 
   return $entities;
 }
@@ -1252,7 +1248,6 @@ function registration_send_broadcast($entity_type, $entity_id, $subject, $messag
         $entity_type => $entity,
         'registration' => $registration,
       );
-
       $message = token_replace($message_template, $data, array('clear' => TRUE));
       $params['message'] = $message;
 
@@ -1439,7 +1434,7 @@ function registration_status($entity_type, $entity_id, $reset = FALSE, $spaces =
     // check close date range
     if (isset($close) && ($now >= $close)) {
       $status = FALSE;
-      $errors[] = t('Registration is closed.');
+      $errors[] = t('Registration close date has passed.');
     }
   }
   else {
@@ -1523,7 +1518,6 @@ function registration_token_info() {
     'description' => t('Tokens related to individual Registrations.'),
     'needs-data' => 'registration',
   );
-
   $registration['email'] = array(
     'name' => t('Registration Email'),
     'description' => t('The email address for the person registered.'),
@@ -1539,7 +1533,6 @@ function registration_token_info() {
     'type' => 'user',
   );
 
-
   return array(
     'types' => array('registration' => $type),
     'tokens' => array('registration' => $registration),
@@ -1550,10 +1543,7 @@ function registration_token_info() {
  * Implements hook_tokens().
  */
 function registration_tokens($type, $tokens, array $data = array(), array $options = array()) {
-  $replacements = array();
-
   if ($type == 'registration' && !empty($data['registration'])) {
-
     $registration = $data['registration'];
     $wrapper = entity_metadata_wrapper('registration', $data['registration']);
     $replacements = array();
@@ -1580,6 +1570,7 @@ function registration_tokens($type, $tokens, array $data = array(), array $optio
         $options
       );
     }
+
     if ($entity_tokens = token_find_with_prefix($tokens, 'user')) {
       $entity = $wrapper->user->value();
       $replacements += token_generate(
@@ -1589,9 +1580,9 @@ function registration_tokens($type, $tokens, array $data = array(), array $optio
         $options
       );
     }
-  }
 
-  return $replacements;
+    return $replacements;
+  }
 }
 
 /**
@@ -2062,7 +2053,7 @@ function registration_save(Registration $registration) {
  *
  * @return bool
  *
- * @see registration_entity_access()
+ * @see registration_entity_info()
  */
 function registration_access($op, Registration $registration = NULL, $account = NULL) {
   $account = isset($account) ? $account : $GLOBALS['user'];
