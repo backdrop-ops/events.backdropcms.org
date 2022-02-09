@@ -1,28 +1,7 @@
-# Entity based registration system for Drupal.
+Entity Registration
+===================
 
-## Configuration
-
-1. Download and enable the module.
-2. Create at least one registration bundle (or type) at
-   /admin/structure/registration/registration_types, much like you would a
-   content type.
-3. Add a registration field to any entity you want to enable registrations
-   for. Note the display options: default, link to the registration form,
-   and embedding the actual form.
-4. When you add or edit an entity, select the registration bundle you want to
-   use for.
-5. Registrations are now enabled for the entity and you can configure the
-   registration settings via a local task.
-
-## Settings
-
-1. Enable: Turn registrations on / off for a given node.
-2. Capacity: The maximum number of registrants for a given node. Leave at 0 for
-   no limit.
-3. Allow Multiple: If selected, users can register for more than one slot for
-   this event.
-4. Send a reminder. Checking this exposes reminder date and message template
-   fields.
+An entity-based registration system for Backdrop CMS.
 
 ## Usage / Features
 
@@ -67,10 +46,75 @@ how it works.
 That's it. Now, when a registration is added, users can complete one or more
 field collections for each registrant.
 
-## Roadmap
 
-1. Tighter integration with Field Collection for a more robust registration ->
-   registrant system. Namely, mapping the registration capacity to the number of
-   field collections per registration.
-3. Registration Feature that bundles everything you need in a tidy package to
-   start using registrations out of the box.
+Requirements
+------------
+
+This module requires that the following modules are also enabled:
+
+ * [Entity Plus](https://github.com/backdrop-contrib/entity_plus)
+
+Installation
+------------
+
+- Install this module using the official Backdrop CMS instructions at
+  https://backdropcms.org/guide/modules.
+
+- Visit the configuration page under Administration > Structure > Registration >
+  Types (/admin/structure/registration/registration_types) and create at least
+  one registration type, similar to how you might create a content type.
+
+- Add a registration field to an entity where you would like registration. For
+  example, adda Registration field to an event node type. (Note the display
+  options: default, link to registration form, and embeded registration form.)
+  - Select the registration bundle you created above.
+
+- Registrations are now enabled. Create or edit an entity.
+  - Use the "Manage Registrations" tab to see who's registered, and adjust the
+  registration settings on the "Settings" sub-tab.
+
+
+  ## Settings
+
+  1. Enable:
+     Turn registrations on / off for a given node.
+  2. Capacity:
+     The maximum number of registrants for an entity. Leave at 0 for no limit.
+  3. Allow Multiple:
+     If selected, users can register for more than one slot for this event.
+  4. Send a reminder.
+     Checking this exposes reminder date and message template fields.
+
+Documentation
+-------------
+
+Additional documentation is located in the Wiki:
+https://github.com/backdrop-contrib/registration/wiki/Documentation.
+
+Issues
+------
+
+Bugs and Feature requests should be reported in the Issue Queue:
+https://github.com/backdrop-contrib/registration/issues.
+
+Current Maintainers
+-------------------
+
+- [Joseph Flatt](https://github.com/hosef).
+- [Andy Shillingford](https://github.com/docwilmot).
+- Seeking additional maintainers.
+
+Credits
+-------
+
+- Ported to Backdrop CMS by [Joseph Flatt](https://github.com/hosef).
+- Improved for Backdrop CMS by [Andy Shillingford](https://github.com/docwilmot).
+- Originally written for Drupal by [Lev Tsypin](https://www.drupal.org/u/levelos).
+- Maintained for Drupal by [many generous contributors](https://www.drupal.org/node/1284480/committers)
+
+License
+-------
+
+This project is GPL v2 software.
+See the LICENSE.txt file in this directory for complete text.
+

@@ -187,7 +187,6 @@ function registration_form($form, &$form_state, Registration $registration) {
     $form['#submit'][] = 'registration_send_confirmation';
   }
 
-
   return $form;
 }
 
@@ -480,7 +479,7 @@ function registration_registrations_broadcast_form($form, &$form_state, $entity_
     '#type' => 'textarea',
     '#title' => t('Message'),
     '#description' => t(
-      'Enter the message you want to send to %name registrants. Tokens are supported if the module is enabled, E.g., [node:title].',
+      'Enter the message you want to send to %name registrants. Tokens are supported, E.g., [node:title].',
       array('%name' => entity_label($entity_type, $entity))
     ),
     '#required' => TRUE,
@@ -543,7 +542,6 @@ function registration_broadcast_preview($form, &$form_state) {
   if ($registration_id) {
     $registration = entity_load('registration', $registration_id);
   }
-
   $data = array(
     $entity_type => $entity,
     'registration' => $registration,
@@ -756,7 +754,10 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
   // Add token support:
   $form['reminder']['reminder_settings']['token_tree'] = array(
     '#theme' => 'token_tree_link',
-    '#token_types' => array($entity_type, 'registration'),
+    '#token_types' => array(
+      $entity_type,
+      'registration',
+    ),
     '#global_types' => FALSE,
   );
 
@@ -1024,7 +1025,6 @@ function registration_state_form($form, &$form_state, $registration_state, $op =
     '#default_value' => isset($registration_state->show_on_form) ? $registration_state->show_on_form : 0,
   );
 
-  $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save Registration state'),

@@ -151,14 +151,6 @@ function registration_views_views_data() {
 }
 
 /**
- * Implements hook_entity_info_alter().
- */
-function registration_views_entity_info_alter(&$entity_info) {
-  // Set our custom Views controller class.
-  $entity_info['registration']['views controller class'] = 'RegistrationViewsController';
-}
-
-/**
  * Implements hook_action_info().
  */
 function registration_views_action_info() {
