@@ -152,7 +152,7 @@ function _field_permissions_field_settings_form_alter(&$form, $form_state, $form
     ),
     // Custom styling for the permissions matrix on the field settings page.
     '#attached' => array(
-      'css' => array(backdrop_get_path('module', 'field_permissions') . '/field_permissions.admin.css'),
+      'css' => array(backdrop_get_path('module', 'field_permissions') . '/css/field_permissions.admin.css'),
     ),
   );
 
@@ -205,15 +205,15 @@ function field_permissions_permissions_matrix($field, $instance) {
   $status = array();
 
   // Retrieve all role names for use in the submit handler.
-  $role_names = user_roles(FALSE, NULL, TRUE);
+  $roles = user_roles(FALSE, NULL, TRUE);
   $form['role_names'] = array(
     '#type' => 'value',
-    '#value' => $role_names,
+    '#value' => $roles,
   );
 
   // Retrieve the permissions for each role, and the field permissions we will
   // be assigning here.
-  foreach ($role_names as $key => $robject) {
+  foreach ($roles as $key => $robject) {
     foreach ($robject->permissions as $perm) {
       $role_permissions[$key][$perm] = TRUE;
     }
@@ -230,7 +230,7 @@ function field_permissions_permissions_matrix($field, $instance) {
     $reset_permissions_defaults = TRUE;
   }
   elseif ($field['settings']['field_permissions']['type'] != FIELD_PERMISSIONS_CUSTOM) {
-    $all_assigned_permissions = call_user_func_array('array_merge_recursive', $role_permissions);
+    $all_assigned_permissions = call_user_func_array('array_merge_recursive', array_values($role_permissions));
     $assigned_field_permissions = array_intersect_key($all_assigned_permissions, $field_permissions);
     $reset_permissions_defaults = empty($assigned_field_permissions);
   }
@@ -252,8 +252,8 @@ function field_permissions_permissions_matrix($field, $instance) {
     // defaults, we do so by pre-checking the admin role's checkbox for this
     // permission.
     if ($reset_permissions_defaults) {
-      if (($admin_rid = config_get('system.core', 'user_admin_role')) && isset($role_names[$admin_rid])) {
-        $status[$admin_rid][] = $permission;
+      if (($admin_role = config_get('system.core', 'user_admin_role')) && isset($roles[$admin_role])) {
+        $status[$admin_role][] = $permission;
       }
       // For fields attached to users, we also pre-check the anonymous user's
       // checkbox for the permission to create the field, since that is the
@@ -266,30 +266,30 @@ function field_permissions_permissions_matrix($field, $instance) {
     // determine whether the permission is already assigned and check each
     // checkbox accordingly.
     else {
-      foreach ($role_names as $rid => $name) {
-        if (isset($role_permissions[$rid][$permission])) {
-          $status[$rid][] = $permission;
+      foreach ($roles as $role => $name) {
+        if (isset($role_permissions[$role][$permission])) {
+          $status[$role][] = $permission;
         }
       }
     }
   }
 
   // Build the checkboxes for each role.
-  foreach (user_roles() as $rid => $name) {
-    $form['checkboxes'][$rid] = array(
+  foreach (user_roles() as $role => $name) {
+    $form['checkboxes'][$role] = array(
       '#type' => 'checkboxes',
       '#options' => $options,
-      '#default_value' => isset($status[$rid]) ? $status[$rid] : array(),
-      '#attributes' => array('class' => array('rid-' . $rid)),
+      '#default_value' => isset($status[$role]) ? $status[$role] : array(),
+      '#attributes' => array('class' => array('role-' . $role)),
     );
-    $form['role_names'][$rid] = array('#markup' => check_plain($name), '#tree' => TRUE);
+    $form['role_names'][$role] = array('#markup' => check_plain($name), '#tree' => TRUE);
   }
 
   // Attach the default permissions page JavaScript.
   $form['#attached']['js'][] = backdrop_get_path('module', 'user') . '/js/user.permissions.js';
 
   // Attach our custom JavaScript for the permission matrix.
-  $form['#attached']['js'][] = backdrop_get_path('module', 'field_permissions') . '/field_permissions.admin.js';
+  $form['#attached']['js'][] = backdrop_get_path('module', 'field_permissions') . '/js/field_permissions.admin.js';
 
   return $form;
 }
@@ -312,8 +312,8 @@ function _field_permissions_field_settings_form_submit($form, &$form_state) {
   $new_field_permissions_type = $form_state['values']['field']['field_permissions']['type'];
   if ($new_field_permissions_type == FIELD_PERMISSIONS_CUSTOM && isset($form_state['values']['field_permissions']['permissions'])) {
     $field_permissions = $form_state['values']['field_permissions']['permissions'];
-    foreach ($field_permissions['role_names'] as $rid => $name) {
-      user_role_change_permissions($rid, $field_permissions['checkboxes'][$rid]);
+    foreach ($field_permissions['role_names'] as $role => $name) {
+      user_role_change_permissions($role, $field_permissions['checkboxes'][$role]);
     }
   }
   $field = field_info_field($form_state['values']['instance']['field_name']);
@@ -334,7 +334,7 @@ function _field_permissions_field_settings_form_submit($form, &$form_state) {
  * Menu callback; Field permissions overview.
  */
 function field_permissions_overview() {
-  backdrop_add_css(backdrop_get_path('module', 'field_permissions') .'/field_permissions.admin.css');
+  backdrop_add_css(backdrop_get_path('module', 'field_permissions') . '/css/field_permissions.admin.css');
 
   $headers = array(t('Field name'), t('Field type'), t('Entity type'), t('Used in'));
   foreach (field_permissions_list() as $permission_type => $permission_info) {
@@ -348,7 +348,10 @@ function field_permissions_overview() {
   $bundles = field_info_bundles();
 
   // Retrieve the permissions for each role.
-  $role_permissions = user_role_permissions(user_roles());
+  $role_permissions = array();
+  foreach (user_roles() as $role => $name) {
+    $role_permissions[$role] = array_flip(user_role_permissions(array($role)));
+  }
 
   // Based on field_ui_fields_list() in field_ui.admin.inc.
   $rows = array();
@@ -385,7 +388,7 @@ function field_permissions_overview() {
             // This is a field with custom permissions. Link the field to the
             // appropriate row of the permissions page, and theme it based on
             // whether all users have access.
-            $all_users_have_access = isset($role_permissions[BACKDROP_ANONYMOUS_ROLE][$permission]) && isset($role_permissions[BACKDROP_AUTHENTICATED_RID][$permission]);
+            $all_users_have_access = isset($role_permissions[BACKDROP_ANONYMOUS_ROLE][$permission]) && isset($role_permissions[BACKDROP_AUTHENTICATED_ROLE][$permission]);
             $status_class = $all_users_have_access ? 'field-permissions-status-on' : 'field-permissions-status-off';
             $title = $all_users_have_access ? t('All users have this permission') : t('Not all users have this permission');
             $data = l('', 'admin/people/permissions', array(

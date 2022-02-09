@@ -35,6 +35,7 @@ function flag_autoload_info() {
     'flag_comment'                               => 'includes/flag/flag_comment.inc',
 
     'FlaggingController'                         => 'includes/flag.entity.inc',
+    'FlagCookieStorage'                          => 'includes/flag.cookie_storage.inc',
     'FlagGlobalCookieStorage'                    => 'includes/flag.cookie_storage.inc',
     'FlagNonGlobalCookieStorage'                 => 'includes/flag.cookie_storage.inc',
     'FlagUpdate_2'                               => 'includes/flag.export.inc',
@@ -108,7 +109,7 @@ function flag_entity_info() {
  * @param $flagging_id
  *   The 'flagging_id' database serial column.
  * @param $reset
- *   Whether to reset the DrupalDefaultEntityController cache.
+ *   Whether to reset the DefaultEntityController cache.
  *
  * @return
  *   The entity object, or FALSE if it can't be found.
@@ -201,7 +202,7 @@ function flagging_save($flagging) {
 
 // @todo: When deleting a flag: Call field_attach_delete_bundle().
 
-// @tood: Discuss: Should flag deleting call flag_reset_flag()? No.
+// @todo: Discuss: Should flag deleting call flag_reset_flag()? No.
 
 // @todo: flag_reset_flag():
 // - it should delete the flaggings.
@@ -435,6 +436,8 @@ function _flag_menu_title($flag) {
 
 /**
  * Implements hook_help().
+ *
+ * @todo move to admin page or remove.
  */
 function flag_help($path, $arg) {
   switch ($path) {
@@ -830,7 +833,7 @@ function flag_field_attach_form($entity_type, $entity, &$form, &$form_state, $la
       '#description' => $flag->get_label('flag_long', $id),
       '#default_value' => $flag_status,
       '#return_value' => 1,
-      // Used by our drupalSetSummary() on vertical tabs.
+      // Used by our backdropSetSummary() on vertical tabs.
       '#attributes' => array('title' => $flag->get_title()),
     );
 
@@ -974,8 +977,6 @@ function flag_contextual_links_view_alter(&$element, $items) {
  * Implements hook_entity_view().
  *
  * Handles the 'show_in_links' and 'show_as_field' flag options.
- *
- * Note this is broken for taxonomy terms for version of Drupal core < 7.17.
  */
 function flag_entity_view($entity, $type, $view_mode, $langcode) {
   // Get all possible flags for this entity type.
@@ -2437,7 +2438,7 @@ function flag_set_sid($uid = NULL, $create = TRUE) {
   // Set the sid if none has been set yet. If the caller specified to create an
   // sid and we have an invalid one (-1), create it.
   if (!isset($sids[$uid]) || ($sids[$uid] == -1 && $create)) {
-    if (module_exists('session_api') && session_api_available() && $uid == 0) {
+    if (module_exists('session_api') && $uid == 0) {
       // This returns one of the following:
       // - -1. This indicates that no session exists and none was created.
       // - A positive integer with the Session ID when it does exist.
@@ -2476,7 +2477,7 @@ function flag_get_sid($uid = NULL, $create = FALSE) {
 }
 
 // ---------------------------------------------------------------------------
-// Drupal Core operations
+// Backdrop Core operations
 
 /**
  * Implements hook_node_operations().

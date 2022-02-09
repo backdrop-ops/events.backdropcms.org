@@ -684,7 +684,7 @@ class flag_flag {
    * @param $skip_permission_check
    *   Flag the item even if the $account user don't have permission to do so.
    * @param $flagging
-   *   (optional) This method works in tandem with Drupal's Field subsystem.
+   *   (optional) This method works in tandem with Backdrop's Field subsystem.
    *   Pass in a Flagging entity if you want operate on it as well. This may be
    *   used either of the following cases:
    *   - to save field data on a new Flagging entity at the same time as
@@ -694,7 +694,7 @@ class flag_flag {
    *   - to update field data an existing flagging. The $action parameter should
    *     be set to 'flag'. The Flagging entity will need to be loaded first with
    *     flagging_load().
-   *  As with Drupal core API functions for saving entities, no validation of
+   *  As with Backdrop core API functions for saving entities, no validation of
    *  Field API fields is performed here. It is the responsibility of the caller
    *  to take care of Field API validation, using either
    *  field_attach_form_validate() or field_attach_validate().

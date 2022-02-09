@@ -205,14 +205,10 @@ function flag_export_form($form, &$form_state, $flag = NULL) {
   if (isset($flags)) {
     $code = flag_export_flags($flags);
 
-    // Link to the Features page if module is present, otherwise link to the
-    // Drupal project page.
-    $features_link = module_exists('features') ? url('admin/build/features') : url('http://drupal.org/project/features');
-
     $form['export'] = array(
       '#type' => 'textarea',
       '#title' => t('Flag exports'),
-      '#description' => t('Use the exported code to later <a href="@import-flag">import</a> it. Exports can be included in modules using <a href="http://drupal.org/node/305086#default-flags">hook_flag_default_flags()</a> or using the <a href="@features-url">Features</a> module.', array('@import-flag' => url(FLAG_ADMIN_PATH . '/import'), '@features-url' => $features_link)),
+      '#description' => t('Use the exported code to later <a href="@import-flag">import</a> it. Exports can be included in modules using <a href="http://drupal.org/node/305086#default-flags">hook_flag_default_flags()</a>.', array('@import-flag' => url(FLAG_ADMIN_PATH . '/import'))),
       '#value' => $code,
       '#rows' => 15,
     );
@@ -258,8 +254,9 @@ function flag_update_export(&$flag) {
   }
 
   // Get all our update classes.
+  // @todo Fix. This approach was needed because of Drupal's autoloader:
   // This is not terribly graceful, but the alternative is declaring our classes
-  // explicitly, or registering them with the Drupal autoloader and then running
+  // explicitly, or registering them with the autoloader and then running
   // a database query, which seems a waste of space given we only ever need
   // these here.
   $classes = get_declared_classes();
@@ -297,7 +294,7 @@ function flag_update_export(&$flag) {
 /**
  * Flag update class for API 1 flags -> API 2.
  *
- * The class name after the prefix is immaterial, though we follow the Drupal
+ * The class name after the prefix is immaterial, though we follow the Backdrop
  * system update convention whereby the number here is what we update to.
  */
 class FlagUpdate_2 {

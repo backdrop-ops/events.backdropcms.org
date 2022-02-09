@@ -116,7 +116,7 @@ class FlagGlobalCookieStorage extends FlagCookieStorage {
 class FlagNonGlobalCookieStorage extends FlagCookieStorage {
 
   // The anonymous per-user flaggings are stored in a single cookie, so that
-  // all of them persist as long as the Drupal cookie lifetime.
+  // all of them persist as long as the Backdrop cookie lifetime.
 
   function __construct($flag) {
     parent::__construct($flag);

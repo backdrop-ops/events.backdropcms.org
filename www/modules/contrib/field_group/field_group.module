@@ -317,6 +317,13 @@ function field_group_field_group_formatter_info() {
         'instance_settings' => array('description' => '', 'classes' => '', 'required_fields' => 1, 'id' => ''),
         'default_formatter' => 'collapsible',
       ),
+      'details' => array(
+        'label' => t('Details'),
+        'description' => t('This fieldgroup renders the inner content in a Details element with the title as summary.'),
+        'format_types' => array('open', 'closed'),
+        'instance_settings' => array('description' => '', 'classes' => '', 'required_fields' => 1, 'id' => '', 'label_element' => 'span'),
+        'default_formatter' => 'closed',
+      ),
       'tabs' => array(
         'label' => t('Vertical tabs group'),
         'description' => t('This fieldgroup renders child groups in its own vertical tabs wrapper.'),
@@ -390,6 +397,13 @@ function field_group_field_group_formatter_info() {
         'format_types' => array('open', 'collapsible', 'collapsed'),
         'instance_settings' => array('description' => '', 'classes' => '', 'id' => ''),
         'default_formatter' => 'collapsible',
+      ),
+      'details' => array(
+        'label' => t('Details'),
+        'description' => t('This fieldgroup renders the inner content in a Details element with the title as summary.'),
+        'format_types' => array('open', 'closed'),
+        'instance_settings' => array('description' => '', 'classes' => '', 'required_fields' => 1, 'id' => ''),
+        'default_formatter' => 'closed',
       ),
       'tabs' => array(
         'label' => t('Vertical tabs group'),
@@ -574,6 +588,16 @@ function field_group_field_group_format_settings($group) {
     case 'fieldset':
       $form['label']['#description'] = t('Please enter a label for collapsible elements');
       break;
+    case 'details':
+      $form['label']['#description'] = t('Please enter a label for the summary');
+      $form['instance_settings']['label_element'] = array(
+        '#title' => t('Label element'),
+        '#type' => 'select',
+        '#options' => array('span' => t('Span'), 'strong' => t('Strong'),  'em' => t('Emphasis'), 'h2' => t('Header 2'), 'h3' => t('Header 3')),
+        '#default_value' => isset($group->format_settings['instance_settings']['label_element']) ? $group->format_settings['instance_settings']['label_element'] : $formatter['instance_settings']['label_element'],
+        '#weight' => 2,
+      );
+      break;
     case 'multipage-group':
       $form['instance_settings']['page_header'] = array(
         '#title' => t('Format page title'),
@@ -695,6 +719,30 @@ function field_group_pre_render_fieldset(&$element, $group, &$form) {
 
   if ($group->collapsible || $group->collapsed) {
     $element['#attached']['library'][] = array('system', 'backdrop.collapse');
+  }
+}
+
+/**
+ * Implements field_group_pre_render_<format-type>.
+ * Format type: Details.
+ *
+ * @param $element The field group form element.
+ * @param $group The Field group object prepared for pre_render.
+ * @param $form The root element or form.
+ */
+function field_group_pre_render_details(&$element, $group, &$form) {
+  $label_element = isset($group->format_settings['instance_settings']['label_element']) ? $group->format_settings['instance_settings']['label_element'] : 'span';
+  $element += array(
+    '#type' => 'details',
+    '#summary' => '<' . $label_element . '>' . check_plain(t($group->label)) . '</' . $label_element . '>',
+    '#attributes' => array('class' => explode(' ', $group->classes)),
+    '#details' => $group->description,
+  );
+  if (!empty($element['#id'])) {
+    $element['#attributes']['id'] = $element['#id'];
+  }
+  if (!$group->collapsed) {
+    $element['#attributes']['open'] = TRUE;
   }
 }
 

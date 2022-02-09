@@ -57,7 +57,7 @@ function flag_bookmark_enable() {
  * apply.
  */
 function _flag_bookmark_install_get_suggested_node_types() {
-  $preferred = array('article', 'story', 'forum', 'blog');
+  $preferred = array('post', 'story', 'page', 'blog');
   $existing = array_intersect($preferred, array_keys(node_type_get_types()));
   if (!$existing) {
     // As a last resort, take the first preference.

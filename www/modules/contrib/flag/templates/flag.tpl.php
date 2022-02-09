@@ -40,7 +40,7 @@
  * - $errors: An array of error messages.
  *
  * Template suggestions available, listed from the most specific template to
- * the least. Drupal will use the most specific template it finds:
+ * the least. Backdrop will use the most specific template it finds:
  * - flag--name.tpl.php
  * - flag--link-type.tpl.php
  *

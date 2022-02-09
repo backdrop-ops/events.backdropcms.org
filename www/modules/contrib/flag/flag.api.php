@@ -34,7 +34,7 @@ function hook_flag_type_info() {
   return array(
     'node' => array(
       'title' => t('Nodes'),
-      'description' => t("Nodes are a Drupal site's primary content."),
+      'description' => t("Nodes are a Backdrop CMS site's primary content."),
       'handler' => 'flag_node',
       'module' => 'node',
     ),

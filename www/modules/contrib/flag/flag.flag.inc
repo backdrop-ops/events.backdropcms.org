@@ -19,7 +19,7 @@ function flag_flag_type_info() {
   $definitions = array(
     'node' => array(
       'title' => t('Nodes'),
-      'description' => t("Nodes are a Drupal site's primary content."),
+      'description' => t("Nodes are a Backdrop CMS site's primary content."),
       'handler' => 'flag_node',
     ),
     'user' => array(
