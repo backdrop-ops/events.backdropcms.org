@@ -11,7 +11,7 @@
         "active": 1,
         "settings": []
     },
-    "description": "",
+    "description": "See <a href=\"https://events.backdropcms.org/session-schedule\">https://events.backdropcms.org/session-schedule</a> for your time zone.",
     "required": 0,
     "deleted": 0,
     "default_value": null,
