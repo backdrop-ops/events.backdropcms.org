@@ -5,7 +5,7 @@
     "title": "",
     "description": "",
     "body": {
-        "value": "<p style=\"font-size: 16px\"><em>Backdrop LIVE is based upon an unconference model. Anyone can declare a topic up through the day of the event and the schedule is subject to change at any time. What would you like to talk about?</em> <br>\r\n<a href=\"/node/add/session\" class=\"button\">Suggest a discussion topic</a></p>\r\n",
+        "value": "<p style=\"font-size: 16px\"><em>Backdrop LIVE is based upon an unconference model. Anyone can declare a topic up through the day of the event and the schedule is subject to change at any time. What would you like to talk about?</em> <br>\r\n <a class=\"button\" href=\"/node/add/session\">Suggest a topic</a> <a class=\"button\" href=\"/schedule\">View schedule for Backdrop Live 2022 (in progress)</a>  </p>\r\n</p>\r\n",
         "format": "full_html"
     },
     "default_langcode": "und"

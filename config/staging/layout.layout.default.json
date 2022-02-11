@@ -29,7 +29,7 @@
             "6341a709-6bb9-414e-b703-3ce725ceef76"
         ],
         "sidebar": [
-            "7e3ce608-dad9-46c8-8206-6b67085cc7b3",
+            "cf904e28-1aab-4328-9c5f-95c8204bad71",
             "273c4846-8d3e-47a3-bc0b-1113d15b76f8"
         ],
         "bottom": [],
@@ -275,21 +275,21 @@
                 ]
             }
         },
-        "7e3ce608-dad9-46c8-8206-6b67085cc7b3": {
+        "cf904e28-1aab-4328-9c5f-95c8204bad71": {
             "plugin": "borg_events_custom:steps",
             "data": {
                 "module": "borg_events_custom",
                 "delta": "steps",
                 "settings": {
-                    "title_display": "default",
-                    "title": "",
+                    "title_display": "custom",
+                    "title": "What to do",
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
                     "admin_label": "",
                     "admin_description": ""
                 },
-                "uuid": "7e3ce608-dad9-46c8-8206-6b67085cc7b3",
+                "uuid": "cf904e28-1aab-4328-9c5f-95c8204bad71",
                 "style": {
                     "plugin": "default",
                     "data": {

@@ -1,0 +1,12 @@
+{
+    "_config_name": "block.custom.things_to_do",
+    "delta": "things_to_do",
+    "info": "Things to do",
+    "title": "Things to do:",
+    "description": "Checklist of registration tasks.",
+    "body": {
+        "value": "<ul>\r\n\t<li><a href=\"https://events.backdropcms.org/user/register\">Create an account</a>.&nbsp;</li>\r\n\t<li><a href=\"https://events.backdropcms.org/events/backdrop-live-march-2022\">Register for the event</a>.</li>\r\n\t<li><a href=\"https://events.backdropcms.org/donate\">Make a donation</a>&nbsp;(optional).</li>\r\n\t<li><a href=\"https://events.backdropcms.org/node/add/session\">Suggest a discussion topic</a>.</li>\r\n\t<li><a href=\"https://events.backdropcms.org/node/add/presentation\">Post a video presentation now</a>.</li>\r\n</ul>\r\n",
+        "format": "filtered_html"
+    },
+    "default_langcode": "und"
+}
