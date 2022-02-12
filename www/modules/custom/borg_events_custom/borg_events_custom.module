@@ -142,14 +142,14 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
           $steps[2]['href'] = 'node/' . $event_nid;
         }
 
-        // Add a checkmark to #4.
+        // Add a checkmark to #5.
         if (_borg_events_has_subimtted($event_nid, 'session')) {
-          $steps[4]['checked'] = TRUE;
+          $steps[5]['checked'] = TRUE;
         }
 
-        // Add a checkmark to #5.
+        // Add a checkmark to #6.
         if (_borg_events_has_subimtted($event_nid, 'presentation')) {
-          $steps[5]['checked'] = TRUE;
+          $steps[6]['checked'] = TRUE;
         }
       }
 
@@ -163,12 +163,8 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
       foreach ($steps as $stepnum => $step) {
 
         // If the step has been pre-rendered, use that.
-        if (isset($step['rendered'])) {
-          $step_link = $step['rendered'];
-        }
-
-        // Otherwise, render it now.
-        else {
+        if (!isset($step['rendered'])) {
+          // Otherwise, render it now.
 
           // Check the access.
           if (isset($step['access']) && !user_access($step['access'])) {
@@ -186,39 +182,46 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
 
           // Check for href before creating link.
           if (isset($step['href'])) {
-            $step_link = l($step['text'], $step['href']);
+            $steps[$stepnum]['rendered'] = l($step['text'], $step['href']) . '.';
           }
           else {
-            $step_link = $step['text'];
+            $steps[$stepnum]['rendered'] = $step['text'] . '.';
           }
         }
 
-        // Add the step and number.
-        $rendered_steps[$stepnum] = t('Step ') . $stepnum . ': ' . $step_link . '.';
-
         // Add a check if the step has been completed.
-        if (isset($steps[$stepnum]['checked']) && $steps[$stepnum]['checked']) {
-          $rendered_steps[$stepnum] .= ' ' . '<i class="fa fa-check"></i>';
+        if (isset($step['checked']) && $step['checked']) {
+          $steps[$stepnum]['rendered'] .= ' ' . '<i class="fa fa-check"></i>';
         }
       }
 
       $register_steps = array(
-        1 => $rendered_steps[1],
-        2 => $rendered_steps[2],
-        3 => $rendered_steps[3],
+        1 => $steps[1],
+        2 => $steps[2],
+        3 => $steps[3],
       );
+      $register_steps_rendered = array();
+      foreach ($register_steps as $stepnum => $step) {
+        // Add the step and number.
+        $register_steps_rendered[$stepnum] = t('Step ') . $stepnum . ': ' . $step['rendered'];
+      }
 
       $next_steps = array(
-        4 => $rendered_steps[4],
-        5 => $rendered_steps[5],
+        4 => $steps[4],
+        5 => $steps[5],
+        6 => $steps[6],
       );
+      $next_steps_rendered = array();
+      foreach ($next_steps as $stepnum => $step) {
+        $next_steps_rendered[$stepnum] = $step['rendered'];
+      }
 
-      $register = theme('item_list', array('items' => $register_steps));
-      $next = theme('item_list', array('items' => $next_steps));
+      $register = theme('item_list', array('items' => $register_steps_rendered));
+      $next = theme('item_list', array('items' => $next_steps_rendered));
 
       $heading = '<h3>' . t('Next Steps') . '</h3>';
 
-      $block['subject'] = t('Next Steps');
+      $block['subject'] = t('Register now');
       $block['content'] = array(
         '##type' => 'markup',
         '#markup' => $register . $heading . $next,
@@ -351,6 +354,12 @@ function _borg_events_custom_block_get_steps() {
     'checked_unlinked' => TRUE, // @todo
   );
   $steps[4] = array(
+    'text' => t('View the schedule'),
+    'href' => 'schedule',
+    'require_open' => TRUE,
+    'checked_unlinked' => TRUE, // @todo
+  );
+  $steps[5] = array(
     'text' => t('Suggest discussion topics'),
     'href' => 'node/add/session',
     'access' => 'create session content',
@@ -358,8 +367,8 @@ function _borg_events_custom_block_get_steps() {
     'noaccess_href' => 'discussions',
     'checked_unlinked' => FALSE,
   );
-  $steps[5] = array(
-    'text' => t('Post a video presentation now'),
+  $steps[6] = array(
+    'text' => t('Post video presentations'),
     'href' => 'node/add/presentation',
     'access' => 'create presentation content',
     'noaccess_text' => t('Watch past video presentations'),
