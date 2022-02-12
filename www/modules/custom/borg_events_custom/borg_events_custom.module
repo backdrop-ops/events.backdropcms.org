@@ -121,35 +121,7 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
 
     case 'steps':
 
-      $steps = array();
-      $steps[1] = array(
-        'text' => t('Create an account'),
-        'href' => 'user/register',
-      );
-      $steps[2] = array(
-        'text' => t('Register for the event'),
-        'href' => 'user/register',
-      );
-      $steps[3] = array(
-        'text' => t('Make a donation'),
-        'href' => 'donate',
-      );
-      $steps[4] = array(
-        'text' => t('Suggest a discussion topic'),
-        'href' => 'node/add/session',
-        'access' => 'create session content',
-        'noaccess_text' => t('Review past discussion topics'),
-        'noaccess_href' => 'discussions',
-      );
-      $steps[5] = array(
-        'text' => t('Post a video presentation now'),
-        'href' => 'node/add/presentation',
-        'access' => 'create presentation content',
-        'noaccess_text' => t('Watch past video presentations'),
-        'noaccess_href' => 'presentations',
-      );
-
-      $checks = array();
+      $steps = _borg_events_custom_block_get_steps();
 
       global $user;
       if (!$user->uid) {
@@ -158,17 +130,19 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
       }
       else {
         // Add a checkmark to #1.
-        $checks[1] = TRUE;
+        $steps[1]['checked'] = TRUE;
 
         // Get the event info.
         $event_nid = config_get('borg_events_custom.settings', 'event_nid');
         if (_borg_events_custom_user_is_registered($event_nid)) {
           // Add a checkmark to #2.
-          $checks[2] = TRUE;
+          $steps[2]['checked'] = TRUE;
         }
         else {
           $steps[2]['rendered'] = l($steps[2]['text'], 'node/' . $event_nid);
         }
+
+        // Add a checkmark to #4.
       }
 
       $open = config_get('borg_events_custom.settings', 'event_open');
@@ -184,20 +158,30 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
         if (isset($step['rendered'])) {
           $step_link = $step['rendered'];
         }
+
         // Otherwise, render it now.
         else {
-          // If no access, use a different link.
-          if (isset($step['access'])) {
-            if ($open && user_access($step['access'])) {
-              $step_link = l($step['text'], $step['href']);
-            }
-            else {
-              $step_link = l($step['noaccess_text'], $step['noaccess_href']);
+
+          // Check the access.
+          if (isset($step['access']) && !user_access($step['access'])) {
+            // If no access, use a different link.
+            $step['text'] = $step['noaccess_text'];
+            $step['href'] = $step['noaccess_href'];
+          }
+
+          // Remove the link when item is checked.
+          if (isset($step['checked_unlinked']) && $step['checked_unlinked']) {
+            if (isset($step['checked']) && $step['checked']) {
+              unset($step['href']);
             }
           }
-          // If no access requirements, check for href.
-          else {
+
+          // Check for href before creating link.
+          if (isset($step['href'])) {
             $step_link = l($step['text'], $step['href']);
+          }
+          else {
+            $step_link = $step['text'];
           }
         }
 
@@ -205,7 +189,7 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
         $rendered_steps[$stepnum] = t('Step ') . $stepnum . ': ' . $step_link . '.';
 
         // Add a check if the step has been completed.
-        if (isset($checks[$stepnum])) {
+        if (isset($steps[$stepnum]['checked']) && $steps[$stepnum]['checked']) {
           $rendered_steps[$stepnum] .= ' ' . '<i class="fa fa-check"></i>';
         }
       }
@@ -282,4 +266,56 @@ function _borg_events_custom_user_is_registered($event_nid = NULL) {
   }
 
   return FALSE;
+}
+
+/**
+ * Helper function, gets list of steps for the block.
+ *
+ * @return array
+ *   Array of steps keyed by step number, with the following properties:
+ *   - text: Text for the step (required).
+ *   - href: Destination for the link.
+ *   - access: Access callback to generate the link.
+ *   - noaccess_text: Text to use if access is denied.
+ *   - noaccess_href: Destination for link if access is denied.
+ *   - rendered: The rendered output for the step.
+ *   - checked: Whether the step gets a checkmark or not.
+ *   - checked_unlinked: Whether the link should disappear with the checkmark.
+ */
+function _borg_events_custom_block_get_steps() {
+  $steps = array();
+
+  $steps[1] = array(
+    'text' => t('Create an account'),
+    'href' => 'user/register',
+    'checked_unlinked' => TRUE,
+  );
+  $steps[2] = array(
+    'text' => t('Register for the event'),
+    'href' => 'user/register',
+    'checked_unlinked' => TRUE,
+  );
+  $steps[3] = array(
+    'text' => t('Make a donation'),
+    'href' => 'donate',
+    'checked_unlinked' => TRUE, // @todo
+  );
+  $steps[4] = array(
+    'text' => t('Suggest a discussion topic'),
+    'href' => 'node/add/session',
+    'access' => 'create session content',
+    'noaccess_text' => t('Review past discussion topics'),
+    'noaccess_href' => 'discussions',
+    'checked_unlinked' => FALSE,
+  );
+  $steps[5] = array(
+    'text' => t('Post a video presentation now'),
+    'href' => 'node/add/presentation',
+    'access' => 'create presentation content',
+    'noaccess_text' => t('Watch past video presentations'),
+    'noaccess_href' => 'presentations',
+    'checked_unlinked' => FALSE,
+  );
+
+  return $steps;
 }
