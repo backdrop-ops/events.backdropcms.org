@@ -102,7 +102,7 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
         else {
           // Get the event info.
           $event_nid = config_get('borg_events_custom.settings', 'event_nid');
-          if (!_borg_events_custom_user_is_registered($event_nid)) {
+          if (!_borg_events_user_is_registered($event_nid)) {
             $button = l($button_text, $registration_node, $options);
           }
         }
@@ -134,15 +134,23 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
 
         // Get the event info.
         $event_nid = config_get('borg_events_custom.settings', 'event_nid');
-        if (_borg_events_custom_user_is_registered($event_nid)) {
+        if (_borg_events_user_is_registered($event_nid)) {
           // Add a checkmark to #2.
           $steps[2]['checked'] = TRUE;
         }
         else {
-          $steps[2]['rendered'] = l($steps[2]['text'], 'node/' . $event_nid);
+          $steps[2]['href'] = 'node/' . $event_nid;
         }
 
         // Add a checkmark to #4.
+        if (_borg_events_has_subimtted($event_nid, 'session')) {
+          $steps[4]['checked'] = TRUE;
+        }
+
+        // Add a checkmark to #5.
+        if (_borg_events_has_subimtted($event_nid, 'presentation')) {
+          $steps[5]['checked'] = TRUE;
+        }
       }
 
       $open = config_get('borg_events_custom.settings', 'event_open');
@@ -250,7 +258,7 @@ function borg_events_custom_form_registration_form_alter(&$form, &$form_state) {
  * @return boolean
  *   TRUE if user is registered, FALSE if not.
  */
-function _borg_events_custom_user_is_registered($event_nid = NULL) {
+function _borg_events_user_is_registered($event_nid = NULL) {
   // Get the event info.
   if (is_numeric($event_nid)) {
     $event_node = node_load($event_nid);
@@ -263,6 +271,32 @@ function _borg_events_custom_user_is_registered($event_nid = NULL) {
         return TRUE;
       }
     }
+  }
+
+  return FALSE;
+}
+
+function _borg_events_has_subimtted($event_nid, $type = 'session') {
+  global $user;
+
+  // SELECT nid FROM node n INNER JOIN field_data_field_event f on n.nid = f.entity_id WHERE f.field_event_target_id = 124 AND n.uid = 2 AND n.type = discussion LIMIT 1
+  $query = "SELECT nid FROM {node} n
+    INNER JOIN {field_data_field_event} f
+      ON n.nid = f.entity_id
+    WHERE f.field_event_target_id = :event
+      AND n.uid = :uid
+      AND n.type = :type
+      AND n.status = 1
+    LIMIT 1";
+  $substitutions = array(
+    ':event' => $event_nid,
+    ':uid' => $user->uid,
+    ':type' => $type,
+  );
+  $nid = db_query($query, $substitutions)->fetchField();
+  dpm($substitutions);
+  if ($nid) {
+    return TRUE;
   }
 
   return FALSE;
@@ -288,20 +322,23 @@ function _borg_events_custom_block_get_steps() {
   $steps[1] = array(
     'text' => t('Create an account'),
     'href' => 'user/register',
+    'require_open' => FALSE,
     'checked_unlinked' => TRUE,
   );
   $steps[2] = array(
     'text' => t('Register for the event'),
     'href' => 'user/register',
+    'require_open' => TRUE,
     'checked_unlinked' => TRUE,
   );
   $steps[3] = array(
     'text' => t('Make a donation'),
     'href' => 'donate',
+    'require_open' => TRUE,
     'checked_unlinked' => TRUE, // @todo
   );
   $steps[4] = array(
-    'text' => t('Suggest a discussion topic'),
+    'text' => t('Suggest discussion topics'),
     'href' => 'node/add/session',
     'access' => 'create session content',
     'noaccess_text' => t('Review past discussion topics'),
