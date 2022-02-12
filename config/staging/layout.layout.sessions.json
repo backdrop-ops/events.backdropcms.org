@@ -29,9 +29,9 @@
             "b8270d5b-4972-4b46-8a00-e085aa006e15"
         ],
         "sidebar": [
+            "674727a3-7885-459f-9a18-241cbe5d4556",
             "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74",
             "911cf395-6567-452e-a400-f89a9d2a584a",
-            "f61b866c-a95e-4086-b200-a1543b28fef6",
             "ff23916c-71b6-4e14-ae08-8de88725309e"
         ],
         "bottom": [],
@@ -265,6 +265,31 @@
                 ]
             }
         },
+        "674727a3-7885-459f-9a18-241cbe5d4556": {
+            "plugin": "borg_events_custom:steps",
+            "data": {
+                "module": "borg_events_custom",
+                "delta": "steps",
+                "settings": {
+                    "title_display": "custom",
+                    "title": "What to do?",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "674727a3-7885-459f-9a18-241cbe5d4556",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
         "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74": {
             "plugin": "block:contact_us_block",
             "data": {
@@ -341,35 +366,6 @@
                         }
                     }
                 ]
-            }
-        },
-        "f61b866c-a95e-4086-b200-a1543b28fef6": {
-            "plugin": "block:things_to_do",
-            "data": {
-                "module": "block",
-                "delta": "things_to_do",
-                "settings": {
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": {
-                        "delta": "things_to_do",
-                        "description": "Checklist of registration tasks.",
-                        "reusable": true
-                    },
-                    "contexts": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "f61b866c-a95e-4086-b200-a1543b28fef6",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
             }
         },
         "ff23916c-71b6-4e14-ae08-8de88725309e": {
