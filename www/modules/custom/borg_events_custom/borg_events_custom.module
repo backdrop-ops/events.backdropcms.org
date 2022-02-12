@@ -202,12 +202,26 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
         }
       }
 
-      $markup = theme('item_list', array('items' => $rendered_steps));
+      $register_steps = array(
+        1 => $rendered_steps[1],
+        2 => $rendered_steps[2],
+        3 => $rendered_steps[3],
+      );
+
+      $next_steps = array(
+        4 => $rendered_steps[4],
+        5 => $rendered_steps[5],
+      );
+
+      $register = theme('item_list', array('items' => $register_steps));
+      $next = theme('item_list', array('items' => $next_steps));
+
+      $heading = '<h3>' . t('Next Steps') . '</h3>';
 
       $block['subject'] = t('Next Steps');
       $block['content'] = array(
         '##type' => 'markup',
-        '#markup' => $markup,
+        '#markup' => $register . $heading . $next,
       );
       break;
   }
