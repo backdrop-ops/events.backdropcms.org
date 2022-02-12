@@ -8,10 +8,6 @@
  * need to be loaded all the time.
  ******************************************************************************/
 
-/* all headings should be light or normal weight */
-body.front .l-sidebar h2 {
-  font-weight: 300;
-}
 
 /* hide vertical tabs on home page */
 body.front .vertical-tabs {
