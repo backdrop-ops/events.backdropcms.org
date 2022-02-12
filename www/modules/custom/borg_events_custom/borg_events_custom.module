@@ -294,7 +294,6 @@ function _borg_events_has_subimtted($event_nid, $type = 'session') {
     ':type' => $type,
   );
   $nid = db_query($query, $substitutions)->fetchField();
-  dpm($substitutions);
   if ($nid) {
     return TRUE;
   }
