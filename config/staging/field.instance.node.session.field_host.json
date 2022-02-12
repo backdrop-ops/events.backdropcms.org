@@ -25,7 +25,7 @@
         "default": {
             "label": "above",
             "type": "reference_link",
-            "weight": "7",
+            "weight": "6",
             "settings": [],
             "module": "reference"
         },

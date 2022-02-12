@@ -24,7 +24,6 @@
         "top": [],
         "content": [
             "6d31d412-8cba-4cfd-9000-c6228c48e2cf",
-            "d5b876b2-7d56-4a7f-9862-986cdfbcc10c",
             "036d9634-9538-482f-be00-aaaa16a4a1af",
             "b8270d5b-4972-4b46-8a00-e085aa006e15"
         ],
@@ -155,34 +154,6 @@
                     "title": ""
                 },
                 "uuid": "6d31d412-8cba-4cfd-9000-c6228c48e2cf",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
-            }
-        },
-        "d5b876b2-7d56-4a7f-9862-986cdfbcc10c": {
-            "plugin": "system:page_components:title",
-            "data": {
-                "module": "system",
-                "delta": "page_components",
-                "settings": {
-                    "title_display": "none",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": [],
-                    "contexts": [],
-                    "title_tag": "h1",
-                    "title_classes": "page-title",
-                    "tab_type": "both",
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "d5b876b2-7d56-4a7f-9862-986cdfbcc10c",
                 "style": {
                     "plugin": "default",
                     "data": {

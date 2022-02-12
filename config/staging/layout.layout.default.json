@@ -24,7 +24,6 @@
         "top": [],
         "content": [
             "ae546727-1010-40f9-a53b-59bc05afd1b5",
-            "72b9e776-54a3-4564-ae0b-114c414bbe97",
             "default",
             "6341a709-6bb9-414e-b703-3ce725ceef76"
         ],
@@ -173,34 +172,6 @@
                         }
                     }
                 ]
-            }
-        },
-        "72b9e776-54a3-4564-ae0b-114c414bbe97": {
-            "plugin": "system:page_components:title",
-            "data": {
-                "module": "system",
-                "delta": "page_components",
-                "settings": {
-                    "title_display": "none",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": [],
-                    "contexts": [],
-                    "title_tag": "h1",
-                    "title_classes": "page-title",
-                    "tab_type": "both",
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "72b9e776-54a3-4564-ae0b-114c414bbe97",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
             }
         },
         "default": {

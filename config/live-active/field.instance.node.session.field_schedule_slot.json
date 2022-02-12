@@ -23,7 +23,7 @@
         "default": {
             "label": "hidden",
             "type": "taxonomy_term_entity",
-            "weight": "1",
+            "weight": "0",
             "settings": {
                 "view_mode": "default"
             },
