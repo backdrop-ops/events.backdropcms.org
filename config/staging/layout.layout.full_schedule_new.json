@@ -24,7 +24,6 @@
         "top": [],
         "content": [
             "ef1b1d28-1423-4ab3-9800-0ac77ed22999",
-            "b3a95ab0-9d4e-4550-bd15-214c8eb6f1d7",
             "ac680041-df6e-4221-8d2b-43a276472ffa"
         ],
         "bottom": [],
@@ -155,49 +154,6 @@
                         }
                     }
                 }
-            }
-        },
-        "b3a95ab0-9d4e-4550-bd15-214c8eb6f1d7": {
-            "plugin": "block:schedule_subject_to_change_message",
-            "data": {
-                "module": "block",
-                "delta": "schedule_subject_to_change_message",
-                "settings": {
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": {
-                        "delta": "schedule_subject_to_change_message",
-                        "description": "",
-                        "reusable": true
-                    },
-                    "contexts": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "b3a95ab0-9d4e-4550-bd15-214c8eb6f1d7",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                },
-                "conditions": [
-                    {
-                        "plugin": "user_role",
-                        "data": {
-                            "settings": {
-                                "negate": false,
-                                "roles": [
-                                    "authenticated"
-                                ],
-                                "load_condition_nojs": "Load condition"
-                            }
-                        }
-                    }
-                ]
             }
         },
         "ac680041-df6e-4221-8d2b-43a276472ffa": {

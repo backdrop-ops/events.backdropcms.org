@@ -242,7 +242,7 @@
                 "module": "borg_events_custom",
                 "delta": "steps",
                 "settings": {
-                    "title_display": "custom",
+                    "title_display": "default",
                     "title": "What to do?",
                     "style": "default",
                     "block_settings": [],
