@@ -37,7 +37,7 @@
         "default": {
             "label": "inline",
             "type": "reference_label",
-            "weight": "8",
+            "weight": "7",
             "settings": [],
             "module": "reference"
         },

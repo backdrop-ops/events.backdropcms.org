@@ -747,6 +747,21 @@
                         "format": "filtered_html",
                         "tokenize": 0
                     }
+                },
+                "header": {
+                    "area": {
+                        "id": "area",
+                        "table": "views",
+                        "field": "area",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "",
+                        "empty": 0,
+                        "content": "<p><em>Backdrop LIVE is based upon an unconference model. Anyone can declare a topic up through the day of the event and the schedule is subject to change at any time.</em> <br>\r\n</p>",
+                        "format": "full_html",
+                        "tokenize": 0
+                    }
                 }
             }
         },
