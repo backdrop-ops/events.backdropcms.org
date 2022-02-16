@@ -45,10 +45,9 @@
     "display": {
         "default": {
             "label": "hidden",
-            "type": "link_default",
-            "weight": "1",
-            "settings": [],
-            "module": "link"
+            "type": "hidden",
+            "weight": "8",
+            "settings": []
         },
         "teaser": {
             "label": "hidden",
