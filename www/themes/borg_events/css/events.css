@@ -8,6 +8,12 @@ h2.block-title {
   margin-bottom: .5em;
 }
 
+/* all headings should be light or normal weight */
+.l-sidebar h2.block-title,
+.l-sidebar h3 {
+  font-weight: 300;
+}
+
 a.button:hover {
   text-decoration: none;
 }
