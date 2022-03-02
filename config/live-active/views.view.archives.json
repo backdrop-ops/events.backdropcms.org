@@ -27,9 +27,9 @@
                     "type": "basic"
                 },
                 "pager": {
-                    "type": "some",
+                    "type": "none",
                     "options": {
-                        "items_per_page": "25"
+                        "offset": "0"
                     }
                 },
                 "style_plugin": "list",
