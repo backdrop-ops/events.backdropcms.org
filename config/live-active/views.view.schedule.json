@@ -704,7 +704,7 @@
                     "row_class": "",
                     "default_row_class": 1,
                     "row_class_special": 1,
-                    "columns": "2",
+                    "columns": "3",
                     "alignment": "horizontal",
                     "deprecated_table": 0,
                     "fill_single_line": 1,
