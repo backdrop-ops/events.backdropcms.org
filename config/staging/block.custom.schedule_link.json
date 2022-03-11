@@ -1,0 +1,12 @@
+{
+    "_config_name": "block.custom.schedule_link",
+    "delta": "schedule_link",
+    "info": "Schedule Link",
+    "title": "",
+    "description": "",
+    "body": {
+        "value": "<p><a class=\"button\" href=\"/schedule\">View Schedule</a></p>\r\n\r\n<p><a class=\"button\" href=\"https://bit.ly/backdrop-meetings-new\">Join on Zoom</a></p>\r\n\r\n \r\n",
+        "format": "filtered_html"
+    },
+    "default_langcode": "und"
+}

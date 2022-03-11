@@ -21,7 +21,7 @@
     "flickr_weight": "-3",
     "myspace_page": "",
     "myspace_weight": "0",
-    "linkedin_page": "https://www.linkedin.com/groups/6930143",
+    "linkedin_page": "https://www.linkedin.com/company/backdrop-cms/",
     "linkedin_weight": "-6",
     "itunes_page": "",
     "itunes_weight": "0",
@@ -37,5 +37,6 @@
     "github_weight": "-10",
     "lastfm_page": "",
     "lastfm_weight": "3",
-    "version": "4.7.0"
+    "version": "4.7.0",
+    "kit_hash": ""
 }

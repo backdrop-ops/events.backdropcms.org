@@ -23,10 +23,11 @@
             "f624f034-77a8-4b23-9b00-c8631bab9ad3"
         ],
         "content": [
-            "c690e4e3-c2d8-4203-9700-0fb3c4d90052",
+            "593e13a8-1307-4372-a539-5751570c8c95",
             "a184939c-6417-445d-bd09-9cba0305b436"
         ],
         "sidebar": [
+            "24a8d81b-bd7f-4ea4-9525-374a3cab9057",
             "3e2ba52b-1d50-4cda-8500-f36ed6142917",
             "ef578328-75a4-4fb3-9400-d5c7bb238838"
         ],
@@ -95,25 +96,32 @@
                 }
             }
         },
-        "c690e4e3-c2d8-4203-9700-0fb3c4d90052": {
-            "plugin": "block:schedule_subject_to_change_message",
+        "593e13a8-1307-4372-a539-5751570c8c95": {
+            "plugin": "views:schedule-block_1",
             "data": {
-                "module": "block",
-                "delta": "schedule_subject_to_change_message",
+                "module": "views",
+                "delta": "schedule-block_1",
                 "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": 10,
+                    "offset": 0,
+                    "path": "schedule-page",
+                    "fields_override": null,
                     "title_display": "default",
                     "title": "",
                     "style": "default",
-                    "block_settings": {
-                        "delta": "schedule_subject_to_change_message",
-                        "description": "",
-                        "reusable": true
-                    },
+                    "block_settings": [],
                     "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
                     "admin_label": "",
                     "admin_description": ""
                 },
-                "uuid": "c690e4e3-c2d8-4203-9700-0fb3c4d90052",
+                "uuid": "593e13a8-1307-4372-a539-5751570c8c95",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -121,21 +129,7 @@
                             "classes": ""
                         }
                     }
-                },
-                "conditions": [
-                    {
-                        "plugin": "user_role",
-                        "data": {
-                            "settings": {
-                                "negate": false,
-                                "roles": [
-                                    "authenticated"
-                                ],
-                                "load_condition_nojs": "Load condition"
-                            }
-                        }
-                    }
-                ]
+                }
             }
         },
         "a184939c-6417-445d-bd09-9cba0305b436": {
@@ -159,6 +153,35 @@
                     "view_mode": "full"
                 },
                 "uuid": "a184939c-6417-445d-bd09-9cba0305b436",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "24a8d81b-bd7f-4ea4-9525-374a3cab9057": {
+            "plugin": "block:schedule_link",
+            "data": {
+                "module": "block",
+                "delta": "schedule_link",
+                "settings": {
+                    "title_display": "none",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "schedule_link",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "24a8d81b-bd7f-4ea4-9525-374a3cab9057",
                 "style": {
                     "plugin": "default",
                     "data": {

@@ -23,6 +23,8 @@
         "view own upgrade_day registration",
         "create upgrade_day registration",
         "update own upgrade_day registration",
-        "create upgrade_day registration self"
+        "create upgrade_day registration self",
+        "flag interested",
+        "unflag interested"
     ]
 }

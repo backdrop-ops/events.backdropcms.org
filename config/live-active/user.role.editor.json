@@ -54,6 +54,8 @@
         "create terms in time_slot",
         "administer comments",
         "view upgrade_day registration",
-        "update any upgrade_day registration"
+        "update any upgrade_day registration",
+        "flag interested",
+        "unflag interested"
     ]
 }

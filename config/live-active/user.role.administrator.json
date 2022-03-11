@@ -212,6 +212,8 @@
         "delete terms in topic_tags",
         "create terms in topics",
         "edit terms in topics",
-        "delete terms in topics"
+        "delete terms in topics",
+        "flag interested",
+        "unflag interested"
     ]
 }

@@ -28,6 +28,7 @@
             "6341a709-6bb9-414e-b703-3ce725ceef76"
         ],
         "sidebar": [
+            "94762949-66cf-4040-8200-c0d28819c416",
             "cf904e28-1aab-4328-9c5f-95c8204bad71",
             "273c4846-8d3e-47a3-bc0b-1113d15b76f8"
         ],
@@ -244,6 +245,35 @@
                         }
                     }
                 ]
+            }
+        },
+        "94762949-66cf-4040-8200-c0d28819c416": {
+            "plugin": "block:schedule_link",
+            "data": {
+                "module": "block",
+                "delta": "schedule_link",
+                "settings": {
+                    "title_display": "none",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "schedule_link",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "94762949-66cf-4040-8200-c0d28819c416",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
             }
         },
         "cf904e28-1aab-4328-9c5f-95c8204bad71": {

@@ -704,7 +704,7 @@
                     "row_class": "",
                     "default_row_class": 1,
                     "row_class_special": 1,
-                    "columns": "2",
+                    "columns": "3",
                     "alignment": "horizontal",
                     "deprecated_table": 0,
                     "fill_single_line": 1,
@@ -846,7 +846,7 @@
                         "ui_name": "",
                         "operator": "or",
                         "value": {
-                            "45": "45"
+                            "41": "41"
                         },
                         "group": "1",
                         "exposed": false,
@@ -896,7 +896,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "86"
+                            "value": "124"
                         },
                         "group": "1",
                         "exposed": false,
@@ -1125,7 +1125,7 @@
                         "exclude": 1,
                         "alter": {
                             "alter_text": 1,
-                            "text": "<h4>[field_schedule_slot]</strong></h4>\r\n[description] ",
+                            "text": "[description] ",
                             "make_link": 0,
                             "path": "",
                             "absolute": 0,
@@ -1259,7 +1259,7 @@
                     "row_class": "",
                     "default_row_class": 1,
                     "row_class_special": 1,
-                    "columns": "2",
+                    "columns": "3",
                     "alignment": "horizontal",
                     "deprecated_table": 0,
                     "fill_single_line": 1,
@@ -1828,7 +1828,8 @@
                         "administrator": "administrator"
                     }
                 },
-                "access_options": null
+                "access_options": null,
+                "enabled": false
             }
         },
         "block_2": {
@@ -1839,7 +1840,45 @@
                     "type": "views_query",
                     "options": []
                 },
-                "display_description": ""
+                "display_description": "",
+                "relationships": {
+                    "field_schedule_slot_tid": {
+                        "id": "field_schedule_slot_tid",
+                        "table": "field_data_field_schedule_slot",
+                        "field": "field_schedule_slot_tid",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "slot",
+                        "required": 0
+                    },
+                    "flag_count_rel": {
+                        "id": "flag_count_rel",
+                        "table": "node",
+                        "field": "flag_count_rel",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "counter",
+                        "required": 0,
+                        "flag": "interested"
+                    },
+                    "flag_content_rel": {
+                        "id": "flag_content_rel",
+                        "table": "node",
+                        "field": "flag_content_rel",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "flag",
+                        "required": 0,
+                        "flag": "interested",
+                        "user_scope": "current"
+                    }
+                },
+                "defaults": {
+                    "relationships": false
+                }
             }
         }
     }

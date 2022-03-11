@@ -26,7 +26,8 @@
             "ea0e46f1-66fb-4b1a-b500-ce6fec83ce3f",
             "f987357e-d810-4f7a-8d00-af095e010935",
             "eea6011a-c3e8-4f93-8b06-6c7df88bae96",
-            "69a47ce7-8922-4426-a500-a8592c7c07df"
+            "69a47ce7-8922-4426-a500-a8592c7c07df",
+            "8734d4d8-383c-4223-8c0f-15d6510449e1"
         ],
         "sidebar": [
             "430c1671-aa7f-4b38-9c00-bcc7b0cc33c8",
@@ -261,6 +262,42 @@
                         }
                     }
                 ]
+            }
+        },
+        "8734d4d8-383c-4223-8c0f-15d6510449e1": {
+            "plugin": "views:my_flagged_topics-block",
+            "data": {
+                "module": "views",
+                "delta": "my_flagged_topics-block",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": 10,
+                    "offset": 0,
+                    "path": null,
+                    "fields_override": null,
+                    "title_display": "custom",
+                    "title": "Topics I'm Interested In",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "8734d4d8-383c-4223-8c0f-15d6510449e1",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
             }
         },
         "430c1671-aa7f-4b38-9c00-bcc7b0cc33c8": {

@@ -28,6 +28,7 @@
             "b8270d5b-4972-4b46-8a00-e085aa006e15"
         ],
         "sidebar": [
+            "7f5acdb4-8966-4dc2-9b00-fb56ad166892",
             "674727a3-7885-459f-9a18-241cbe5d4556",
             "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74",
             "911cf395-6567-452e-a400-f89a9d2a584a",
@@ -234,6 +235,35 @@
                         }
                     }
                 ]
+            }
+        },
+        "7f5acdb4-8966-4dc2-9b00-fb56ad166892": {
+            "plugin": "block:schedule_link",
+            "data": {
+                "module": "block",
+                "delta": "schedule_link",
+                "settings": {
+                    "title_display": "none",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "schedule_link",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "7f5acdb4-8966-4dc2-9b00-fb56ad166892",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
             }
         },
         "674727a3-7885-459f-9a18-241cbe5d4556": {
