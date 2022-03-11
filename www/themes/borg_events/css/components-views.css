@@ -27,7 +27,7 @@
 }
 
 .view-schedule .view-grouping {
-  margin: 15px;
+  margin: 15px 0;
 }
 .view-schedule .view-grouping:nth-child(2n+1) {
   background-color: #E8E6E5;
