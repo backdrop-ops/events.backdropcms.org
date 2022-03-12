@@ -5,7 +5,7 @@
     "title": "",
     "description": "",
     "body": {
-        "value": "<p><a class=\"button\" href=\"/schedule\">View Schedule</a></p>\r\n\r\n<p><a class=\"button\" href=\"https://bit.ly/backdrop-meetings-new\">Join on Zoom</a></p>\r\n\r\n \r\n",
+        "value": "<p><a class=\"button\" href=\"/schedule\">View Schedule</a></p>\r\n",
         "format": "filtered_html"
     },
     "default_langcode": "und"
