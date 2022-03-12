@@ -19,27 +19,14 @@
 <?php if (!empty($title)) : ?>
   <h3><?php print $title; ?></h3>
 <?php endif; ?>
-
-<?php if (empty($deprecated_table)) : ?>
 <div class="<?php print implode(' ', $classes); ?>"<?php print backdrop_attributes($attributes); ?>>
-  <?php foreach ($rows as $row_count => $row): ?>
-    <div <?php if (!empty($row_classes[$row_count])) { print 'class="' . implode(' ', $row_classes[$row_count]) . '"';  } ?>>
-      <?php print $row; ?>
+  <?php foreach ($rows as $row_number => $columns): ?>
+    <div <?php if (!empty($row_classes[$row_number])) { print 'class="' . implode(' ', $row_classes[$row_number]) .'"';  } ?>>
+      <?php foreach ($columns as $column_number => $item): ?>
+        <div <?php if ($column_classes[$row_number][$column_number]) { print 'class="col ' . implode(' ', $column_classes[$row_number][$column_number]) .'"';  } ?>>
+          <?php print $item; ?>
+        </div>
+      <?php endforeach; ?>
     </div>
   <?php endforeach; ?>
 </div>
-<?php endif; ?>
-
-<?php if (!empty($deprecated_table)) : ?>
-  <div class="<?php print implode(' ', $classes); ?>"<?php print backdrop_attributes($attributes); ?>>
-    <?php foreach ($rows as $row_number => $columns): ?>
-      <div <?php if (!empty($row_classes[$row_number])) { print 'class="' . implode(' ', $row_classes[$row_number]) .'"';  } ?>>
-        <?php foreach ($columns as $column_number => $item): ?>
-          <div <?php if ($column_classes[$row_number][$column_number]) { print 'class="col ' . implode(' ', $column_classes[$row_number][$column_number]) .'"';  } ?>>
-            <?php print $item; ?>
-          </div>
-        <?php endforeach; ?>
-      </div>
-    <?php endforeach; ?>
-  </div>
-<?php endif; ?>
