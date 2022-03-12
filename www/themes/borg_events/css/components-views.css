@@ -12,11 +12,8 @@
   background-color: #ffffff;
 }
 
-.view-schedule .group {
-  background-color: #F9F6F5;
-  border: 1px solid #cccccc;
-  padding: 10px;
-  margin: 10px 0;
+.view-schedule .group-head {
+  margin: 5px 0 15px 0;
 }
 .view-schedule .group-head h4 {
   margin: 0 0 15px 0;
@@ -28,12 +25,10 @@
 
 .view-schedule .view-grouping {
   margin: 15px 0;
+  padding: 10px;
 }
 .view-schedule .view-grouping:nth-child(2n+1) {
   background-color: #E8E6E5;
-}
-.view-schedule .view-grouping:nth-child(2n+1) .group {
-  background-color: #F4F2F0;
 }
 
 .view-schedule .view-grouping-header h3 {
@@ -43,10 +38,30 @@
 }
 .view-schedule .view-grouping-content {
   padding: 15px;
+  background-color: #F9F6F5;
+  border: 1px solid #cccccc;
+  padding: 10px;
+  margin: 10px 0;
 }
 .view-schedule .views-field-field-room {
   display: inline-block;
 }
+
+@media (max-width: 34em) { /* 544px @ 16px font size -- SM */
+  .view-schedule .views-view-grid-cols-3 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .view-schedule .views-view-grid-cols-3 .views-grid-box {
+    margin-bottom: 10px;
+  }
+}
+@media (min-width: 34em) { /* 544px @ 16px font size -- SM */
+  .view-schedule .view-grouping {
+    margin: 15px 0;
+  }
+}
+
+
 
 /*******************************************************************************
 ** Event Archives view
