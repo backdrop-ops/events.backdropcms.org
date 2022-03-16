@@ -63,7 +63,6 @@ body.front .l-header {
   box-shadow: none;
 }
 body.front .l-top {
-  color: #fff;
   border-bottom: 2px solid transparent;
   border-top: .01px solid #E8E6E5;
   background: linear-gradient(to top right, #00FFA6, #45BEB1, #F317CD);
