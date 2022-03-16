@@ -23,7 +23,6 @@
             "f624f034-77a8-4b23-9b00-c8631bab9ad3"
         ],
         "content": [
-            "593e13a8-1307-4372-a539-5751570c8c95",
             "a184939c-6417-445d-bd09-9cba0305b436"
         ],
         "sidebar": [
@@ -86,42 +85,6 @@
                     "admin_description": ""
                 },
                 "uuid": "f624f034-77a8-4b23-9b00-c8631bab9ad3",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
-            }
-        },
-        "593e13a8-1307-4372-a539-5751570c8c95": {
-            "plugin": "views:schedule-block_1",
-            "data": {
-                "module": "views",
-                "delta": "schedule-block_1",
-                "settings": {
-                    "link_to_view": 0,
-                    "more_link": false,
-                    "use_pager": false,
-                    "pager_id": 0,
-                    "items_per_page": 10,
-                    "offset": 0,
-                    "path": "schedule-page",
-                    "fields_override": null,
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": [],
-                    "contexts": [],
-                    "allowed": [],
-                    "path_override": false,
-                    "exposed": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "593e13a8-1307-4372-a539-5751570c8c95",
                 "style": {
                     "plugin": "default",
                     "data": {

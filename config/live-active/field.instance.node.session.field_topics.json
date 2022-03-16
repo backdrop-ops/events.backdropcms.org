@@ -21,8 +21,8 @@
     },
     "display": {
         "default": {
-            "label": "above",
-            "type": "taxonomy_term_reference_plain",
+            "label": "inline",
+            "type": "taxonomy_term_reference_link",
             "weight": "7",
             "settings": [],
             "module": "taxonomy"
