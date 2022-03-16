@@ -303,7 +303,7 @@ function borg_preprocess_node(&$variables){
       $footer_links['version']['data'] = backdrop_render($version);
 
       // Add the latest release date.
-      $date = format_date($release->node_created, 'short');
+      $date = format_date($release->node_project_release_supported_versions_created, 'short');
       $latest = array(
         '#type' => 'markup',
         '#markup' => '<span class="release-date">' . t('Released: <strong>@date</strong>', array('@date' => $date)) . '</span>',
@@ -434,47 +434,49 @@ function borg_preprocess_views_view_row_rss(&$variables) {
  * @see views-view-grid.tpl.php
  */
 function borg_preprocess_views_view_grid(&$variables) {
-  $view     = $variables['view'];
-  $cols     = $view->style_plugin->options['columns'];
-  $rows     = $variables['rows'];
+  $view = $variables['view'];
 
-  // These views have the columns stay wider at smaller screensizes.
-  $sm_grid_views = array('todo');
+  // Add bootstrap grid instead of legacy table.
+  if ($view->style_plugin->options['deprecated_table']) {
+    $cols     = $view->style_plugin->options['columns'];
+    $rows     = $variables['rows'];
 
-  if (in_array($view->name, $sm_grid_views)) {
-    $column_classes = array(
-      1 => 'col-sm-12',
-      2 => 'col-sm-6',
-      3 => 'col-sm-4',
-      4 => 'col-sm-3',
-      5 => 'col-sm-5ths',
-      6 => 'col-sm-2',
-    );
-  }
-  else {
-    $column_classes = array(
-      1 => 'col-md-12',
-      2 => 'col-md-6',
-      3 => 'col-md-4',
-      4 => 'col-md-3',
-      5 => 'col-md-5ths',
-      6 => 'col-md-2',
-    );
-  }
+    // These views have the columns stay wider at smaller screensizes.
+    $sm_grid_views = array(); // @todo
 
-  $col_class = $column_classes[$cols];
+    if (in_array($view->name, $sm_grid_views)) {
+      $column_classes = array(
+        1 => 'col-sm-12',
+        2 => 'col-sm-6',
+        3 => 'col-sm-4',
+        4 => 'col-sm-3',
+        5 => 'col-sm-5ths',
+        6 => 'col-sm-2',
+      );
+    }
+    else {
+      $column_classes = array(
+        1 => 'col-md-12',
+        2 => 'col-md-6',
+        3 => 'col-md-4',
+        4 => 'col-md-3',
+        5 => 'col-md-5ths',
+        6 => 'col-md-2',
+      );
+    }
 
-  // Apply the radix classes
-  foreach ($rows as $row_number => $row) {
-    $variables['row_classes'][$row_number][] = 'row';
-    $variables['row_classes'][$row_number][] = 'row-fluid';
-    if (is_array($rows[$row_number])) {
+    $col_class = $column_classes[$cols];
+
+    // Apply the radix classes
+    foreach ($rows as $row_number => $row) {
+      $variables['row_classes'][$row_number][] = 'row';
+      $variables['row_classes'][$row_number][] = 'row-fluid';
       foreach ($rows[$row_number] as $column_number => $item) {
         $variables['column_classes'][$row_number][$column_number][] = $col_class;
       }
     }
+    $variables['classes'][] = 'container-fluid';
   }
-  $variables['classes'][] = 'container-fluid';
 }
 
 /**
@@ -486,14 +488,14 @@ function borg_preprocess_book_navigation(&$variables) {
 
   if ($book_link['mlid']) {
     // Change the previous link.
-    if ($prev = borg_book_prev($book_link)) {
-      $prev_href = url($prev['href']);
-      backdrop_add_html_head_link(array('rel' => 'prev', 'href' => $prev_href));
-      $variables['prev_url'] = $prev_href;
-      $variables['prev_title'] = check_plain($prev['title']);
+    if ($previous = _borg_book_prev($book_link)) {
+      $previous_href = url($previous['href']);
+      backdrop_add_html_head_link(array('rel' => 'prev', 'href' => $previous_href));
+      $variables['prev_url'] = $previous_href;
+      $variables['prev_title'] = check_plain($previous['title']);
     }
     // Change the next link.
-    if ($next = borg_book_next($book_link)) {
+    if ($next = _borg_book_next($book_link)) {
       $next_href = url($next['href']);
       backdrop_add_html_head_link(array('rel' => 'next', 'href' => $next_href));
       $variables['next_url'] = $next_href;
@@ -522,13 +524,14 @@ function borg_preprocess_book_navigation(&$variables) {
  ******************************************************************************/
 
 /**
- * Overrides theme_book_prev().
+ * Replaces book_prev().
  */
-function borg_book_prev($book_link) {
+function _borg_book_prev($book_link) {
   // If the parent is zero, we are at the start of a book.
   if ($book_link['plid'] == 0) {
     return NULL;
   }
+
   $flat = book_get_flat_menu($book_link);
   // Remove child pages from next/prev links.
   foreach ($flat as $key => $item) {
@@ -537,20 +540,20 @@ function borg_book_prev($book_link) {
     }
   }
 
-  // Assigning the array to $flat resets the array pointer for use with each().
-  $curr = NULL;
-  do {
-    $prev = $curr;
-    list($key, $curr) = each($flat);
-  } while ($key && $key != $book_link['mlid']);
+  $current = NULL;
+  foreach ($flat as $key => $current) {
+    if ($key != $book_link['mlid']) {
+      $previous = $current;
+    }
+  }
 
-  return $prev;
+  return $previous;
 }
 
 /**
- * Overrides theme_book_next().
+ * Replaces book_next().
  */
-function borg_book_next($book_link) {
+function _borg_book_next($book_link) {
   $flat = book_get_flat_menu($book_link);
   // Remove child pages from next/prev links.
   foreach ($flat as $key => $item) {
@@ -559,14 +562,10 @@ function borg_book_next($book_link) {
     }
   }
 
-  // Assigning the array to $flat resets the array pointer for use with each().
-  do {
-    list($key, $curr) = each($flat);
-  }
-   while ($key && $key != $book_link['mlid']);
-
-  if ($key == $book_link['mlid']) {
-    return current($flat);
+  foreach ($flat as $key => $current) {
+    if ($key == $book_link['mlid']) {
+      return current($flat);
+    }
   }
 }
 
@@ -774,39 +773,6 @@ function borg_menu_tree__user_menu($variables) {
   $output .= '</nav>';
 
   return $output;
-}
-
-/**
- * Overrides theme_menu_link().
- */
-function borg_menu_link(array $variables) {
-  $element = $variables['element'];
-  $sub_menu = '';
-
-  if ($element['#below']) {
-    $sub_menu = backdrop_render($element['#below']);
-  }
-
-  $menu_name = isset($element['#original_link']['menu_name']) ? $element['#original_link']['menu_name'] : NULL;
-  if ($menu_name === 'main-menu' || $menu_name === 'menu-handbook') {
-    // If this is the handbook link and we're on a book page, set an active class.
-    if ($element['#href'] === 'node/1') {
-      $node = menu_get_object();
-      if (isset($node) && isset($node->type) && $node->type === 'book') {
-        $element['#attributes']['class'][] = 'active';
-      }
-    }
-  }
-
-  if ($menu_name === 'main-menu' && ($element['#href'] == 'https://forum.backdropcms.org' ||
-      $element['#href'] == 'https://api.backdropcms.org')) {
-    $title = check_plain($element['#title']);
-    $element['#title'] = $title . ' <i class="fa fa-external-link" aria-hidden="true"></i>';
-    $element['#localized_options']['html'] = TRUE;
-  }
-
-  $output = l($element['#title'], $element['#href'], $element['#localized_options']);
-  return '<li' . backdrop_attributes($element['#attributes']) . '>' . $output . $sub_menu . "</li>\n";
 }
 
 /**
