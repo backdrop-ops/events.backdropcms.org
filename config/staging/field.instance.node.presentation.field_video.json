@@ -23,6 +23,7 @@
         "default": {
             "label": "hidden",
             "type": "youtube_video",
+            "weight": "2",
             "settings": {
                 "youtube_size": "420x315",
                 "youtube_width": null,
@@ -34,8 +35,7 @@
                 "youtube_autohide": false,
                 "youtube_iv_load_policy": false
             },
-            "module": "youtube",
-            "weight": 2
+            "module": "youtube"
         }
     }
 }

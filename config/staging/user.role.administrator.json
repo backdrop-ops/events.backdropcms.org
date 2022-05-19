@@ -214,6 +214,9 @@
         "edit terms in topics",
         "delete terms in topics",
         "flag interested",
-        "unflag interested"
+        "unflag interested",
+        "create terms in audience",
+        "edit terms in audience",
+        "delete terms in audience"
     ]
 }
