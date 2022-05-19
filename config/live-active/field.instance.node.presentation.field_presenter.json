@@ -25,9 +25,9 @@
         "default": {
             "label": "hidden",
             "type": "reference_link",
+            "weight": "3",
             "settings": [],
-            "module": "reference",
-            "weight": 3
+            "module": "reference"
         }
     }
 }

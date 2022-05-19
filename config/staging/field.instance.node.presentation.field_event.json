@@ -37,9 +37,9 @@
         "default": {
             "label": "hidden",
             "type": "reference_link",
+            "weight": "1",
             "settings": [],
-            "module": "reference",
-            "weight": 1
+            "module": "reference"
         }
     }
 }

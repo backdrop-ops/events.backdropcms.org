@@ -3,7 +3,7 @@
     "name": "user_admin",
     "description": "Manage user accounts, roles, and permissions.",
     "module": "user",
-    "storage": 4,
+    "storage": 2,
     "tag": "default",
     "disabled": false,
     "base_table": "users",
@@ -701,6 +701,48 @@
                             "remember_roles": {
                                 "authenticated": "authenticated",
                                 "anonymous": 0,
+                                "administrator": 0
+                            }
+                        },
+                        "is_grouped": false,
+                        "group_info": {
+                            "label": "",
+                            "description": "",
+                            "identifier": "",
+                            "optional": true,
+                            "widget": "select",
+                            "multiple": false,
+                            "remember": 0,
+                            "default_group": "All",
+                            "default_group_multiple": [],
+                            "group_items": []
+                        }
+                    },
+                    "mail": {
+                        "id": "mail",
+                        "table": "users",
+                        "field": "mail",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "operator": "=",
+                        "value": "",
+                        "group": "1",
+                        "exposed": true,
+                        "expose": {
+                            "operator_id": "mail_op",
+                            "label": "E-mail",
+                            "description": "",
+                            "use_operator": 0,
+                            "operator": "mail_op",
+                            "identifier": "mail",
+                            "required": 0,
+                            "remember": 0,
+                            "multiple": false,
+                            "remember_roles": {
+                                "authenticated": "authenticated",
+                                "anonymous": 0,
+                                "editor": 0,
                                 "administrator": 0
                             }
                         },

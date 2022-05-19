@@ -27,6 +27,7 @@
             "a184939c-6417-445d-bd09-9cba0305b436"
         ],
         "sidebar": [
+            "f2266bae-aeb9-4be3-9d00-b7c2bf092656",
             "3e2ba52b-1d50-4cda-8500-f36ed6142917",
             "ef578328-75a4-4fb3-9400-d5c7bb238838"
         ],
@@ -143,6 +144,42 @@
                     "view_mode": "full"
                 },
                 "uuid": "a184939c-6417-445d-bd09-9cba0305b436",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "f2266bae-aeb9-4be3-9d00-b7c2bf092656": {
+            "plugin": "views:save_the_date-block",
+            "data": {
+                "module": "views",
+                "delta": "save_the_date-block",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": "5",
+                    "offset": 0,
+                    "path": null,
+                    "fields_override": null,
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "f2266bae-aeb9-4be3-9d00-b7c2bf092656",
                 "style": {
                     "plugin": "default",
                     "data": {

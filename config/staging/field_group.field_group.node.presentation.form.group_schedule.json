@@ -8,7 +8,7 @@
         "field_event"
     ],
     "parent_name": "",
-    "weight": "4",
+    "weight": "5",
     "label": "Schedule",
     "format_type": "fieldset",
     "format_settings": {
