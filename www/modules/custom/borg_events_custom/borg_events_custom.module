@@ -369,7 +369,7 @@ function _borg_events_custom_block_get_steps() {
     'href' => 'node/add/presentation',
     'access' => 'create presentation content',
     'noaccess_text' => t('Watch past video presentations'),
-    'noaccess_href' => 'presentations',
+    'noaccess_href' => 'archive/presentations',
     'checked_unlinked' => FALSE,
   );
 
