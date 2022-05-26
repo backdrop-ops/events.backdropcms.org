@@ -53,12 +53,13 @@
         "create terms in time_blocks",
         "create terms in time_slot",
         "administer comments",
-        "view upgrade_day registration",
-        "update any upgrade_day registration",
         "flag interested",
         "unflag interested",
         "create terms in audience",
         "edit terms in audience",
-        "delete terms in audience"
+        "delete terms in audience",
+        "administer comment settings",
+        "create terms in event_type",
+        "edit terms in event_type"
     ]
 }

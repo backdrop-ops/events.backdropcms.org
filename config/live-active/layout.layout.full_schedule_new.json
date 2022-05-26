@@ -41,6 +41,7 @@
         "9767d6fb-1f2b-4a65-9c00-c23864c13663": {
             "plugin": "system:header",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "header",
                 "settings": {
@@ -71,6 +72,7 @@
         "eb92bf69-7af3-419e-b600-b437998eb69e": {
             "plugin": "system:user-menu",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "user-menu",
                 "settings": {
@@ -104,6 +106,7 @@
         "066e5e14-0716-4764-a400-feb6c80a1d07": {
             "plugin": "system:main-menu",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "main-menu",
                 "settings": {
@@ -131,6 +134,7 @@
         "ef1b1d28-1423-4ab3-9800-0ac77ed22999": {
             "plugin": "system:page_components:title",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "page_components",
                 "settings": {
@@ -159,6 +163,7 @@
         "ac680041-df6e-4221-8d2b-43a276472ffa": {
             "plugin": "views:schedule-block_2",
             "data": {
+                "status": 1,
                 "module": "views",
                 "delta": "schedule-block_2",
                 "settings": {
@@ -170,8 +175,8 @@
                     "offset": 0,
                     "path": "schedule",
                     "fields_override": null,
-                    "title_display": "custom",
-                    "title": "Backdrop LIVE Schedule, March 2022",
+                    "title_display": "default",
+                    "title": "",
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
@@ -195,6 +200,7 @@
         "fd3c32de-d028-44db-9b00-fbb6001bde9d": {
             "plugin": "system:powered-by",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "powered-by",
                 "settings": {
@@ -218,6 +224,7 @@
         "1674b258-4f0e-4b71-ae05-053103b9b9be": {
             "plugin": "on_the_web:social_links",
             "data": {
+                "status": 1,
                 "module": "on_the_web",
                 "delta": "social_links",
                 "settings": {
@@ -255,6 +262,7 @@
         "a2d5297f-8863-4f8f-9707-7af894414899": {
             "plugin": "block:newsletter",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "newsletter",
                 "settings": {
@@ -284,6 +292,7 @@
         "557f8835-1c79-4f87-b724-3608b1758dbe": {
             "plugin": "menu:menu-footer-menu",
             "data": {
+                "status": 1,
                 "module": "menu",
                 "delta": "menu-footer-menu",
                 "settings": {

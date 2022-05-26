@@ -204,7 +204,6 @@
         "delete own upgrade_day registration",
         "delete any upgrade_day registration",
         "create upgrade_day registration self",
-        "create upgrade_day registration other users",
         "create upgrade_day registration other anonymous",
         "edit upgrade_day registration state",
         "create terms in topic_tags",
@@ -217,6 +216,12 @@
         "unflag interested",
         "create terms in audience",
         "edit terms in audience",
-        "delete terms in audience"
+        "delete terms in audience",
+        "administer comment settings",
+        "create terms in event_type",
+        "edit terms in event_type",
+        "delete terms in event_type",
+        "create backdrop_live registration other anonymous",
+        "edit backdrop_live registration state"
     ]
 }

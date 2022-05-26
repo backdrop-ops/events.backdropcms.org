@@ -49,11 +49,14 @@
     "node_post_pattern": "posts/[node:title]",
     "node_event_pattern": "events/[node:title]",
     "node_faq_pattern": "faqs/[node:title]",
-    "node_session_pattern": "sessions/[node:title]",
-    "node_presentation_pattern": "presentations/[node:title]",
+    "node_session_pattern": "archive/discussions/[node:title]",
+    "node_presentation_pattern": "archive/presentations/[node:title]",
     "node_webform_pattern": "[node:title]",
     "taxonomy_term_rooms_pattern": "",
     "taxonomy_term_tags_pattern": "",
     "taxonomy_term_time_blocks_pattern": "",
-    "taxonomy_term_time_slot_pattern": ""
+    "taxonomy_term_time_slot_pattern": "",
+    "taxonomy_term_audience_pattern": "",
+    "taxonomy_term_event_type_pattern": "",
+    "taxonomy_term_topics_pattern": ""
 }

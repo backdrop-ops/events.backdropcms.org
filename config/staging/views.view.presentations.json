@@ -173,6 +173,19 @@
                     }
                 },
                 "sorts": {
+                    "field_event_target_id": {
+                        "id": "field_event_target_id",
+                        "table": "field_data_field_event",
+                        "field": "field_event_target_id",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "order": "ASC",
+                        "exposed": false,
+                        "expose": {
+                            "label": ""
+                        }
+                    },
                     "created": {
                         "id": "created",
                         "table": "node",
@@ -206,7 +219,7 @@
                     "type": "views_query",
                     "options": []
                 },
-                "path": "presentations",
+                "path": "archive/presentations",
                 "field": {
                     "title": {
                         "link_to_node": 0

@@ -30,8 +30,9 @@
             "d63edc66-3a57-4c7f-8063-99a1897414c7"
         ],
         "sidebar": [
+            "8debe60c-d324-4069-a700-c5455158b8b8",
             "f077f9e2-d040-4c84-8b02-2d0891a098aa",
-            "674bf0b2-602a-4de3-a204-4be1431ac8e1"
+            "1edd1067-7853-4202-b200-d6c1828adb85"
         ],
         "bottom": [],
         "footer": [
@@ -48,6 +49,7 @@
         "738fdbfd-21d7-4e55-8800-d298d2c54388": {
             "plugin": "system:header",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "header",
                 "settings": {
@@ -78,6 +80,7 @@
         "66ec7cff-267f-473a-af00-c9c152937f38": {
             "plugin": "system:user-menu",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "user-menu",
                 "settings": {
@@ -111,6 +114,7 @@
         "7c3b80d3-0a91-4492-bc00-cbc578b82ede": {
             "plugin": "system:main-menu",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "main-menu",
                 "settings": {
@@ -138,6 +142,7 @@
         "08e0115a-4d6d-4e0d-aa03-3a2d44ad2da6": {
             "plugin": "borg_events_custom:live",
             "data": {
+                "status": 1,
                 "module": "borg_events_custom",
                 "delta": "live",
                 "settings": {
@@ -145,10 +150,10 @@
                     "title": "",
                     "style": "default",
                     "block_settings": {
-                        "display_date": "March 11-12, 2022",
+                        "display_date": "July 15-16, 2022",
                         "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
                         "open": "1",
-                        "nid": "124"
+                        "nid": "180"
                     },
                     "contexts": [],
                     "admin_label": "",
@@ -168,6 +173,7 @@
         "4466d69c-2b7b-4333-b655-85fba42c396f": {
             "plugin": "system:page_components:title",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "page_components",
                 "settings": {
@@ -196,6 +202,7 @@
         "8081a8a9-bea5-47da-9400-ab7584a645b9": {
             "plugin": "system:main",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "main",
                 "settings": {
@@ -219,6 +226,7 @@
         "d63edc66-3a57-4c7f-8063-99a1897414c7": {
             "plugin": "views:archives-block_1",
             "data": {
+                "status": 1,
                 "module": "views",
                 "delta": "archives-block_1",
                 "settings": {
@@ -252,9 +260,36 @@
                 }
             }
         },
+        "8debe60c-d324-4069-a700-c5455158b8b8": {
+            "plugin": "borg_events_custom:steps",
+            "data": {
+                "status": 1,
+                "module": "borg_events_custom",
+                "delta": "steps",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "8debe60c-d324-4069-a700-c5455158b8b8",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
         "f077f9e2-d040-4c84-8b02-2d0891a098aa": {
             "plugin": "block:contact_us_block",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "contact_us_block",
                 "settings": {
@@ -281,25 +316,33 @@
                 }
             }
         },
-        "674bf0b2-602a-4de3-a204-4be1431ac8e1": {
-            "plugin": "block:things_to_do",
+        "1edd1067-7853-4202-b200-d6c1828adb85": {
+            "plugin": "views:next_event-block_1",
             "data": {
-                "module": "block",
-                "delta": "things_to_do",
+                "status": 1,
+                "module": "views",
+                "delta": "next_event-block_1",
                 "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": "1",
+                    "offset": 0,
+                    "path": null,
+                    "fields_override": null,
                     "title_display": "default",
                     "title": "",
                     "style": "default",
-                    "block_settings": {
-                        "delta": "things_to_do",
-                        "description": "Checklist of registration tasks.",
-                        "reusable": true
-                    },
+                    "block_settings": [],
                     "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
                     "admin_label": "",
                     "admin_description": ""
                 },
-                "uuid": "674bf0b2-602a-4de3-a204-4be1431ac8e1",
+                "uuid": "1edd1067-7853-4202-b200-d6c1828adb85",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -313,6 +356,7 @@
         "cf9cf24e-ca5e-4fd3-8801-1b78b5b91489": {
             "plugin": "system:powered-by",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "powered-by",
                 "settings": {
@@ -336,6 +380,7 @@
         "1bc19aec-5a70-405d-9300-aa1bdd018380": {
             "plugin": "on_the_web:social_links",
             "data": {
+                "status": 1,
                 "module": "on_the_web",
                 "delta": "social_links",
                 "settings": {
@@ -373,6 +418,7 @@
         "df23b8eb-53ff-4547-a631-4930ff2307ab": {
             "plugin": "block:newsletter",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "newsletter",
                 "settings": {
@@ -402,6 +448,7 @@
         "2709bf60-75f9-48ac-8647-7158f66b2f99": {
             "plugin": "menu:menu-footer-menu",
             "data": {
+                "status": 1,
                 "module": "menu",
                 "delta": "menu-footer-menu",
                 "settings": {

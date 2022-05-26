@@ -5,7 +5,7 @@
     "bundle": "event",
     "label": "Register",
     "widget": {
-        "weight": "4",
+        "weight": "5",
         "type": "registration_select",
         "module": "registration",
         "active": 0,
@@ -63,7 +63,7 @@
         "default": {
             "label": "hidden",
             "type": "registration_form",
-            "weight": "3",
+            "weight": "2",
             "settings": [],
             "module": "registration"
         },
