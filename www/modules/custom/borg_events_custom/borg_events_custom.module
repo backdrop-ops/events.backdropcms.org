@@ -361,7 +361,7 @@ function _borg_events_custom_block_get_steps() {
     'href' => 'node/add/session',
     'access' => 'create session content',
     'noaccess_text' => t('Review past discussion topics'),
-    'noaccess_href' => 'discussions',
+    'noaccess_href' => 'archive/discussions',
     'checked_unlinked' => FALSE,
   );
   $steps[6] = array(
