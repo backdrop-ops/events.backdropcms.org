@@ -5,7 +5,7 @@
     "bundle": "event",
     "label": "Date",
     "widget": {
-        "weight": "1",
+        "weight": "2",
         "type": "date_select",
         "module": "date",
         "active": 1,
@@ -35,7 +35,7 @@
         "default": {
             "label": "hidden",
             "type": "hidden",
-            "weight": "2",
+            "weight": "4",
             "settings": []
         },
         "teaser": {

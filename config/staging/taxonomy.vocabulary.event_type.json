@@ -1,0 +1,9 @@
+{
+    "_config_name": "taxonomy.vocabulary.event_type",
+    "name": "Event Type",
+    "machine_name": "event_type",
+    "description": "",
+    "hierarchy": "0",
+    "language": 0,
+    "weight": 0
+}

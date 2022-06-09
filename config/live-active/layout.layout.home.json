@@ -23,12 +23,12 @@
             "f624f034-77a8-4b23-9b00-c8631bab9ad3"
         ],
         "content": [
-            "b8248a06-61a6-4930-8907-7f8798a11773",
+            "8b8f39f3-acaa-451a-b909-9ca9bff3242f",
             "a184939c-6417-445d-bd09-9cba0305b436"
         ],
         "sidebar": [
-            "f2266bae-aeb9-4be3-9d00-b7c2bf092656",
             "3e2ba52b-1d50-4cda-8500-f36ed6142917",
+            "cfa18cb5-ae2a-430c-8600-a270ec97829a",
             "ef578328-75a4-4fb3-9400-d5c7bb238838"
         ],
         "bottom": [],
@@ -43,6 +43,7 @@
         "d5fbf202-2b91-4512-8946-7032a4c2804b": {
             "plugin": "copy_blocks:region_copy",
             "data": {
+                "status": 1,
                 "module": "copy_blocks",
                 "delta": "region_copy",
                 "settings": {
@@ -69,6 +70,7 @@
         "f624f034-77a8-4b23-9b00-c8631bab9ad3": {
             "plugin": "borg_events_custom:live",
             "data": {
+                "status": 1,
                 "module": "borg_events_custom",
                 "delta": "live",
                 "settings": {
@@ -78,8 +80,8 @@
                     "block_settings": {
                         "display_date": "March 11-12, 2022",
                         "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
-                        "open": "0",
-                        "nid": "124"
+                        "open": "1",
+                        "nid": "180"
                     },
                     "contexts": [],
                     "admin_label": "",
@@ -96,23 +98,33 @@
                 }
             }
         },
-        "b8248a06-61a6-4930-8907-7f8798a11773": {
-            "plugin": "layout:custom_block",
+        "8b8f39f3-acaa-451a-b909-9ca9bff3242f": {
+            "plugin": "views:next_event-block",
             "data": {
-                "module": "layout",
-                "delta": "custom_block",
+                "status": 1,
+                "module": "views",
+                "delta": "next_event-block",
                 "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": "1",
+                    "offset": 0,
+                    "path": null,
+                    "fields_override": null,
                     "title_display": "default",
                     "title": "",
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
-                    "content": "<p>Our 5th Backdrop LIVE event WAS &lt;strong&gt; [utz-datetime:2022-03-11 8:00 PsT|F j]–[utz-datetime:2022-03-12 17:00 PST|F j, Y]&lt;/strong&gt;.</p>\r\n\r\n<p>We are in the process of updating the site and preparing to announce the dates for Backdrop LIVE 6.</p>\r\n",
-                    "format": "raw_html_tokens",
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
                     "admin_label": "",
                     "admin_description": ""
                 },
-                "uuid": "b8248a06-61a6-4930-8907-7f8798a11773",
+                "uuid": "8b8f39f3-acaa-451a-b909-9ca9bff3242f",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -126,6 +138,7 @@
         "a184939c-6417-445d-bd09-9cba0305b436": {
             "plugin": "node:content",
             "data": {
+                "status": 1,
                 "module": "node",
                 "delta": "content",
                 "settings": {
@@ -154,45 +167,10 @@
                 }
             }
         },
-        "f2266bae-aeb9-4be3-9d00-b7c2bf092656": {
-            "plugin": "views:save_the_date-block",
-            "data": {
-                "module": "views",
-                "delta": "save_the_date-block",
-                "settings": {
-                    "link_to_view": 0,
-                    "more_link": false,
-                    "use_pager": false,
-                    "pager_id": 0,
-                    "items_per_page": "5",
-                    "offset": 0,
-                    "path": null,
-                    "fields_override": null,
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": [],
-                    "contexts": [],
-                    "allowed": [],
-                    "path_override": false,
-                    "exposed": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "f2266bae-aeb9-4be3-9d00-b7c2bf092656",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
-            }
-        },
         "3e2ba52b-1d50-4cda-8500-f36ed6142917": {
             "plugin": "borg_events_custom:steps",
             "data": {
+                "status": 1,
                 "module": "borg_events_custom",
                 "delta": "steps",
                 "settings": {
@@ -215,9 +193,47 @@
                 }
             }
         },
+        "cfa18cb5-ae2a-430c-8600-a270ec97829a": {
+            "plugin": "views:next_event-block_1",
+            "data": {
+                "status": 1,
+                "module": "views",
+                "delta": "next_event-block_1",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": "1",
+                    "offset": 0,
+                    "path": null,
+                    "fields_override": null,
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "cfa18cb5-ae2a-430c-8600-a270ec97829a",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
         "ef578328-75a4-4fb3-9400-d5c7bb238838": {
             "plugin": "block:contact_us_block",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "contact_us_block",
                 "settings": {
@@ -247,6 +263,7 @@
         "e6c19646-ebce-4b7a-8701-1d162298394a": {
             "plugin": "copy_blocks:region_copy",
             "data": {
+                "status": 1,
                 "module": "copy_blocks",
                 "delta": "region_copy",
                 "settings": {
