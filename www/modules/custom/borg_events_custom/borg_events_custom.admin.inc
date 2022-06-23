@@ -99,7 +99,7 @@ function _borg_events_update_time_slots(&$form, &$form_state) {
       $new_day = $day + 1;
       $new_date_ymd = str_replace($day, $bew_nay, $new_date_ymd);
     }
-    elseif ($hour_count <= 40) {
+    elseif ($hour_count <= 40) {  
       $new_date_ymd = $start_date + 1;
     }
     elseif ($hour_count <= 40) {
