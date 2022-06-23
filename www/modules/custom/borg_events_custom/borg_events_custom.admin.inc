@@ -37,20 +37,28 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
 
   $next_event_info = _borg_events_get_event_info($defaults['event_nid'], $time);
   $new_first_date = $next_event_info['start_date_ymd'];
+  $next_event_edit = l(t('edit event'), 'node/' . $defaults['event_nid'] . '/edit');
   $form['time_slot_dates']['event_next_start_date'] = array(
     '#type' => 'textfield',
     '#title' => t('Next event start date'),
     '#default_value' => $new_first_date,
-    '#description' => t('This date is pulled from the event: :title', array(':title' => $next_event_info['title'])),
+    '#description' => t('This date is pulled from the event: :title (!edit)', array(
+      ':title' => $next_event_info['title'],
+      '!edit' => $next_event_edit,
+    )),
     '#disabled' => TRUE,
     '#size' => 20,
   );
 
+  $term_example_edit = l(t('edit time slot'), 'taxonomy/term/' . $term_example->tid . '/edit');
   $form['time_slot_dates']['event_next_start_time'] = array(
     '#type' => 'textfield',
     '#title' => t('Next event start time'),
     '#default_value' => $time,
-    '#description' => t('This time is pulled from the time slot: :title', array(':title' => check_plain($term_example->name))),
+    '#description' => t('This time is pulled from the time slot: :title (!edit)', array(
+      ':title' => check_plain($term_example->name),
+      '!edit' => $term_example_edit,
+    )),
     '#disabled' => TRUE,
     '#size' => 20,
   );
