@@ -5,6 +5,40 @@
  */
 
 /**
+ * Implements hook_menu().
+ */
+function borg_events_custom_menu() {
+  // Make "Foo settings" appear on the admin Config page
+  $items['admin/config/event'] = array(
+    'title' => 'Backdrop Event settings',
+    'type' => MENU_NORMAL_ITEM,
+    'page callback' => 'backdrop_get_form',
+    'page arguments' => array('borg_events_custom_settings_form'),
+    'access arguments' => array('administer_borg_events'),
+    'file' => 'borg_events_custom.admin.inc',
+  );
+  return $items;
+}
+
+/**
+ * Implements hook_permission().
+ */
+function borg_events_custom_permission() {
+  return array(
+    'administer_borg_events' => array(
+      'title' => t('Administer Borg events'),
+      'description' => t('Set active event and registration open/closed status.'),
+    ),
+    /*
+    'configure my module' => array(
+      'title' => t('Configure my module'),
+      'description' => t('Configure settings for my module.'),
+    ),
+    */
+  );
+}
+
+/**
  * Implements hook_config_info().
  */
 function borg_events_custom_config_info() {
@@ -41,8 +75,8 @@ function borg_events_custom_block_configure($delta = '', $settings = array()) {
     $settings += array(
       'display_date' => 'July 9th & 10th 2021',
       'text' => 'An online global event for those who use Backdrop CMS, or want to learn more about it.',
-      'open' => TRUE,
-      'nid' => 35,
+      'event_open' => TRUE,
+      'event_nid' => 35,
     );
     $form['display_date'] = array(
       '#type' => 'textfield',
@@ -55,21 +89,39 @@ function borg_events_custom_block_configure($delta = '', $settings = array()) {
       '#default_value' => $settings['text'],
       '#size' => 120,
     );
-    $form['open'] = array(
-      '#type' => 'radios',
-      '#title' => t('Is Registration open?'),
-      '#default_value' => $settings['open'],
-      '#options' => array(FALSE => t('No'), TRUE => t('Yes')),
-      '#description' => t('WARNING: this setting will also change the event status for all related blocks.'),
-    );
-    $form['nid'] = array(
-      '#type' => 'number',
-      '#title' => t('Event Node ID'),
-      '#default_value' => $settings['nid'],
-      '#description' => t('WARNING: this setting will also change the event nid for all related blocks.'),
-    );
+
+    _borg_events_add_event_settings($form, $settings, TRUE);
+
   }
   return $form;
+}
+
+/**
+ * Helper function: add site-wide settings options for form.
+ */
+function _borg_events_add_event_settings(&$form, $defaults = array(), $warning = TRUE) {
+  $warning_text = 'This setting will change the event status for all related blocks.';
+  if ($warning) {
+    $warning_text = str_replace('This', 'WARNING: this', $warning_text);
+    $warning_text = str_replace('will change', 'will also change', $warning_text);
+  }
+
+  $form['event_nid'] = array(
+    '#type' => 'number',
+    '#title' => t('Event Node ID'),
+    '#description' => t($warning_text),
+    '#default_value' => $defaults['event_nid'],
+  );
+  $form['event_open'] = array(
+    '#type' => 'radios',
+    '#title' => t('Is Registration open?'),
+    '#description' => t($warning_text),
+    '#options' => array(
+      '0' => t('No'), 
+      '1' => t('Yes'),
+    ),
+    '#default_value' => $defaults['event_open'],
+  );
 }
 
 /**
@@ -236,10 +288,26 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
  */
 function borg_events_custom_block_save($delta, &$edit = array()) {
   if ($delta == 'live') {
+    // Save the old NID for the time slot update.
+    _borg_events_save_old_event($edit['nid']);
+
     // Using this block to set global values used by related blocks.
     config_set('borg_events_custom.settings', 'event_nid', $edit['nid']);
     config_set('borg_events_custom.settings', 'event_open', $edit['open']);
     // Not removeing the values so they will also be saved by Layout module.
+  }
+}
+
+/**
+ * Helper fuction, saves the previous node event ID.
+ * 
+ * @param $new_nid
+ *   Node ID of the new event being set.
+ */
+function _borg_events_save_old_event($new_nid) {
+  $old_nid = config_get('borg_events_custom.settings', 'event_nid');
+  if ($new_nid != $old_nid) {
+    config_set('borg_events_custom.settings', 'event_old_nid', $old_nid);
   }
 }
 
