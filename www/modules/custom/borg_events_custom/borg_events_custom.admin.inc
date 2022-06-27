@@ -92,41 +92,38 @@ function _borg_events_update_time_slots(&$form, &$form_state) {
   // Get the starting date and time.
   $nid = $form_state['values']['event_nid'];
   $start_date = $form_state['values']['event_next_start_date'];
-  $new_date_ymd = $start_date;
+  $start_date_ymd = $start_date;
+  $start_date_ymd_array = explode('-', $start_date_ymd);
+  $start_date_day = array_pop($start_date_ymd_array);
+
+  // @todo
   //$start_time = $form_state['values']['event_next_start_time'];
 
 
   // Get all term ids for the vocab.
-  $tids = db_query("SELECT tid FROM {taxonomy_term_data} WHERE vocabulary = 'time_slot' ORDER BY weight LIMIT 3")->fetchCol();
+  $tids = db_query("SELECT tid FROM {taxonomy_term_data} WHERE vocabulary = 'time_slot' ORDER BY weight")->fetchCol();
   foreach ($tids as $tid) {
     $term = taxonomy_term_load($tid);
 
     if ($tid == 21) {
-      $new_date_ymd_array = explode('-', $new_date_ymd);
-      $day = array_pop($new_date_ymd_arra);
-      $new_day = $day + 1;
-      $new_date_ymd = str_replace($day, $bew_nay, $new_date_ymd);
-    }
-    elseif ($hour_count <= 40) {  
-      $new_date_ymd = $start_date + 1;
-    }
-    elseif ($hour_count <= 40) {
-      $new_date_ymd = $start_date + 2;
+      $new_day = $start_date_day + 1;
+      $start_date_ymd = str_replace($start_date_day, $new_day, $start_date_ymd);
     }
   
     $old_date = $term->field_schedule_date1[LANGUAGE_NONE][0]['value'];
-    $new_date = _borg_event_update_term_date($new_date_ymd, $old_date);
+    $new_date = _borg_event_update_term_date($start_date_ymd, $old_date);
     $term->field_schedule_date1[LANGUAGE_NONE][0]['value'] = $new_date;
 
     //dpm($term->description);
     $old_description = $term->description;
-    $new_description = _borg_event_update_term_description($new_date_ymd, $old_description);
+    $new_description = _borg_event_update_term_description($start_date_ymd, $old_description);
     $term->description = $new_description;
 
     $term->save();
 
     $hour_count++;
   }
+  backdrop_set_message(t(':count time slots have been updated.', array(':count' => $hour_count)));
 }
 
 function _borg_event_update_term_date($new_date_ymd, $old_date) {
