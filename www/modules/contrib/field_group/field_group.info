@@ -4,10 +4,8 @@ package = Fields
 backdrop = 1.x
 type = module
 dependencies[] = field
-files[] = tests/field_group.ui.test
-files[] = tests/field_group.display.test
 
-; Added by Backdrop CMS packaging script on 2021-11-30
+; Added by Backdrop CMS packaging script on 2022-02-12
 project = field_group
-version = 1.x-1.1.0
-timestamp = 1638295275
+version = 1.x-1.1.1
+timestamp = 1644698583
