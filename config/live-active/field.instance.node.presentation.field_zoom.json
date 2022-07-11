@@ -1,11 +1,11 @@
 {
-    "_config_name": "field.instance.node.session.field_zoom",
+    "_config_name": "field.instance.node.presentation.field_zoom",
     "field_name": "field_zoom",
     "entity_type": "node",
-    "bundle": "session",
+    "bundle": "presentation",
     "label": "Zoom Link",
     "widget": {
-        "weight": "11",
+        "weight": "6",
         "type": "link_field",
         "module": "link",
         "active": 0,
@@ -16,6 +16,7 @@
     "deleted": 0,
     "default_value": [
         {
+            "title": "",
             "url": "https://tinyurl.com/backdrop-live"
         }
     ],
@@ -32,10 +33,10 @@
             "url_cutoff": "80"
         },
         "attributes": {
-            "target": "_blank",
-            "rel": "nofollow",
+            "target": "default",
+            "rel": "",
             "configurable_class": 0,
-            "class": "button",
+            "class": "",
             "configurable_title": 0,
             "title": ""
         },
@@ -45,16 +46,10 @@
     "display": {
         "default": {
             "label": "hidden",
-            "type": "hidden",
-            "weight": "8",
-            "settings": []
-        },
-        "teaser": {
-            "label": "hidden",
             "type": "link_default",
-            "weight": "1",
             "settings": [],
-            "module": "link"
+            "module": "link",
+            "weight": 5
         }
     }
 }

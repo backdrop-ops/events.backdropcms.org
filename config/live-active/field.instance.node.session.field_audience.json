@@ -23,7 +23,7 @@
         "default": {
             "label": "hidden",
             "type": "taxonomy_term_reference_plain",
-            "weight": "10",
+            "weight": "7",
             "settings": [],
             "module": "taxonomy"
         }

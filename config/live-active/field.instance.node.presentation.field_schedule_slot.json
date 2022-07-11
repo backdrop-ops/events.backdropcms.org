@@ -1,0 +1,31 @@
+{
+    "_config_name": "field.instance.node.presentation.field_schedule_slot",
+    "field_name": "field_schedule_slot",
+    "entity_type": "node",
+    "bundle": "presentation",
+    "label": "Time slot",
+    "widget": {
+        "weight": "7",
+        "type": "options_select",
+        "module": "options",
+        "active": 1,
+        "settings": []
+    },
+    "description": "See <a href=\"https://events.backdropcms.org/session-schedule\">https://events.backdropcms.org/session-schedule</a> for your time zone.",
+    "required": 0,
+    "deleted": 0,
+    "default_value": null,
+    "default_value_function": null,
+    "settings": {
+        "user_register_form": false
+    },
+    "display": {
+        "default": {
+            "label": "hidden",
+            "type": "taxonomy_term_reference_link",
+            "settings": [],
+            "module": "taxonomy",
+            "weight": 6
+        }
+    }
+}

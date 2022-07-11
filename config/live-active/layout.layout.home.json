@@ -78,10 +78,10 @@
                     "title": "Backdrop LIVE ",
                     "style": "default",
                     "block_settings": {
-                        "display_date": "March 11-12, 2022",
+                        "display_date": "July 15 & 16th 2022",
                         "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
-                        "open": "1",
-                        "nid": "180"
+                        "event_nid": "180",
+                        "event_open": "1"
                     },
                     "contexts": [],
                     "admin_label": "",

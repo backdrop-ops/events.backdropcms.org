@@ -223,7 +223,7 @@
                         "exclude": 0,
                         "alter": {
                             "alter_text": true,
-                            "text": "Our next <strong>[field_event_type]</strong> event will be [field_display_date].",
+                            "text": "Our next <strong>[field_event_type]</strong> event will be [field_display_date].<br>\r\n\r\nCheckout the <a href=\"schedule\">schedule of discussion topics</a><em></em>.",
                             "make_link": 0,
                             "path": "",
                             "absolute": 0,
