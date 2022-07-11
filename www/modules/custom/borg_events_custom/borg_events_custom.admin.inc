@@ -136,10 +136,12 @@ function _borg_event_update_term_date($new_date_ymd, $old_date) {
 
 function _borg_event_update_term_description($new_date_ymd, $old_description) {
   // <strong>Slot 1</strong>: [utz-datetime:2022-03-11 8:00 PST|g:i a e - F j, Y]
-  $old_description_array = explode('utz-datetime', $old_description);
+  $old_description_array = explode('utz-datetime:', $old_description);
   $old_desc_date = array_pop($old_description_array);
   $old_desc_date_ymd = substr($old_desc_date, 0, 10);
   $new_description = str_replace($old_desc_date_ymd, $new_date_ymd, $old_description);
+
+  // @todo update time.
 
   return $new_description;
 }

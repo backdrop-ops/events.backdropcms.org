@@ -341,8 +341,7 @@ function entity_plus_metadata_taxonomy_term_get_raw_properties($term, array $opt
 function entity_plus_metadata_taxonomy_term_setter($term, $name, $value) {
   switch ($name) {
     case 'vocabulary':
-      $term->vocabulary = $value->machine_name;
-      return $term->vocabulary;
+      return $term->vocabulary = $value;
 
     case 'parent':
       return $term->parent = $value;
@@ -402,7 +401,7 @@ function entity_plus_metadata_user_get_properties($account, array $options, $nam
 function entity_plus_metadata_user_set_properties($account, $name, $value) {
   switch ($name) {
     case 'roles':
-      $account->roles = array_intersect_key(user_roles(), array_flip($value));
+      $account->roles = array_intersect(array_keys(user_roles()), $value);
       break;
   }
 }
@@ -921,16 +920,6 @@ function entity_plus_metadata_create_node($values = array()) {
     $node->$key = $value;
   }
   return $node;
-}
-
-/**
- * Callback to save a user account.
- */
-function entity_plus_metadata_user_save($account) {
-  $edit = (array) $account;
-  // Don't save the hashed password as password.
-  unset($edit['pass']);
-  user_save($account, $edit);
 }
 
 /**
