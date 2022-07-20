@@ -1,11 +1,11 @@
 {
-    "_config_name": "field.instance.node.session.field_schedule_slot",
+    "_config_name": "field.instance.node.presentation.field_schedule_slot",
     "field_name": "field_schedule_slot",
     "entity_type": "node",
-    "bundle": "session",
+    "bundle": "presentation",
     "label": "Time slot",
     "widget": {
-        "weight": "12",
+        "weight": "7",
         "type": "options_select",
         "module": "options",
         "active": 1,
@@ -22,18 +22,10 @@
     "display": {
         "default": {
             "label": "hidden",
-            "type": "taxonomy_term_entity",
-            "weight": "1",
-            "settings": {
-                "view_mode": "default"
-            },
-            "module": "taxonomy_field_formatter"
-        },
-        "teaser": {
-            "label": "hidden",
-            "type": "hidden",
-            "weight": "9",
-            "settings": []
+            "type": "taxonomy_term_reference_link",
+            "settings": [],
+            "module": "taxonomy",
+            "weight": 6
         }
     }
 }

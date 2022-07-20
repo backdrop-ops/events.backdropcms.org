@@ -1,12 +1,12 @@
 {
-    "_config_name": "field.instance.node.session.field_audience",
-    "field_name": "field_audience",
+    "_config_name": "field.instance.node.presentation.field_room",
+    "field_name": "field_room",
     "entity_type": "node",
-    "bundle": "session",
-    "label": "Audience",
+    "bundle": "presentation",
+    "label": "Room",
     "widget": {
-        "weight": "6",
-        "type": "options_buttons",
+        "weight": "8",
+        "type": "options_select",
         "module": "options",
         "active": 1,
         "settings": []
@@ -14,7 +14,11 @@
     "description": "",
     "required": 0,
     "deleted": 0,
-    "default_value": null,
+    "default_value": [
+        {
+            "tid": "38"
+        }
+    ],
     "default_value_function": null,
     "settings": {
         "user_register_form": false
@@ -22,10 +26,10 @@
     "display": {
         "default": {
             "label": "hidden",
-            "type": "taxonomy_term_reference_plain",
-            "weight": "8",
+            "type": "taxonomy_term_reference_link",
             "settings": [],
-            "module": "taxonomy"
+            "module": "taxonomy",
+            "weight": 7
         }
     }
 }

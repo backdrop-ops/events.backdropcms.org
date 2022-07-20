@@ -200,19 +200,19 @@
                         "separator": ", ",
                         "field_api_classes": 0
                     },
-                    "nothing_1": {
-                        "id": "nothing_1",
+                    "nothing": {
+                        "id": "nothing",
                         "table": "views",
                         "field": "nothing",
                         "relationship": "none",
                         "group_type": "group",
                         "ui_name": "",
                         "label": "",
-                        "exclude": 1,
+                        "exclude": 0,
                         "alter": {
                             "alter_text": true,
-                            "text": "<a aria-label=\"View presentations from [title]\" href=\"/archive/presentations/[nid]\">View presentations</a><br>",
-                            "make_link": 0,
+                            "text": "<a aria-label=\"View sessions from [title]\" href=\"/archive/discussions/[nid]\">View discussions</a><br>\r\n",
+                            "make_link": 1,
                             "path": "",
                             "absolute": 0,
                             "external": 0,
@@ -250,8 +250,8 @@
                         "empty_zero": 0,
                         "hide_alter_empty": 0
                     },
-                    "nothing": {
-                        "id": "nothing",
+                    "nothing_1": {
+                        "id": "nothing_1",
                         "table": "views",
                         "field": "nothing",
                         "relationship": "none",
@@ -261,8 +261,8 @@
                         "exclude": 0,
                         "alter": {
                             "alter_text": true,
-                            "text": "<a aria-label=\"View sessions from [title]\" href=\"/archive/discussions/[nid]\">View discussions</a><br>\r\n",
-                            "make_link": 1,
+                            "text": "<a aria-label=\"View presentations from [title]\" href=\"/archive/presentations/[nid]\">View presentations</a><br>",
+                            "make_link": 0,
                             "path": "",
                             "absolute": 0,
                             "external": 0,

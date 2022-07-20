@@ -16,7 +16,7 @@
     "deleted": 0,
     "default_value": [
         {
-            "url": "https://bit.ly/backdrop-meetings-new"
+            "url": "https://tinyurl.com/backdrop-live"
         }
     ],
     "default_value_function": null,
@@ -46,7 +46,7 @@
         "default": {
             "label": "hidden",
             "type": "link_default",
-            "weight": "5",
+            "weight": "0",
             "settings": [],
             "module": "link"
         },

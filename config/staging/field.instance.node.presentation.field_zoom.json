@@ -1,11 +1,11 @@
 {
-    "_config_name": "field.instance.node.session.field_notes",
-    "field_name": "field_notes",
+    "_config_name": "field.instance.node.presentation.field_zoom",
+    "field_name": "field_zoom",
     "entity_type": "node",
-    "bundle": "session",
-    "label": "Collaborative Notes",
+    "bundle": "presentation",
+    "label": "Zoom Link",
     "widget": {
-        "weight": "1",
+        "weight": "6",
         "type": "link_field",
         "module": "link",
         "active": 0,
@@ -14,13 +14,18 @@
     "description": "",
     "required": 0,
     "deleted": 0,
-    "default_value": null,
+    "default_value": [
+        {
+            "title": "",
+            "url": "https://tinyurl.com/backdrop-live"
+        }
+    ],
     "default_value_function": null,
     "settings": {
         "validate_url": 1,
         "url": 0,
         "title": "value",
-        "title_value": "Please add notes here",
+        "title_value": "Join on Zoom",
         "title_label_use_field_label": 0,
         "title_maxlength": "128",
         "enable_tokens": 0,
@@ -40,17 +45,11 @@
     },
     "display": {
         "default": {
-            "label": "above",
-            "type": "link_default",
-            "weight": "9",
-            "settings": [],
-            "module": "link"
-        },
-        "teaser": {
             "label": "hidden",
-            "type": "hidden",
-            "weight": "4",
-            "settings": []
+            "type": "link_default",
+            "settings": [],
+            "module": "link",
+            "weight": 5
         }
     }
 }

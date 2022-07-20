@@ -410,7 +410,7 @@
                         "ui_name": "",
                         "label": "",
                         "empty": true,
-                        "content": "<p>No discussions for this event have been approved yet.</p>\r\n",
+                        "content": "<p>No discussions for this event.</p>\r\n",
                         "format": "filtered_html",
                         "tokenize": 0
                     }
@@ -431,7 +431,189 @@
                         "link_to_node": 0
                     }
                 },
-                "display_description": ""
+                "display_description": "",
+                "fields": {
+                    "field_event": {
+                        "id": "field_event",
+                        "table": "field_data_field_event",
+                        "field": "field_event",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "",
+                        "exclude": 1,
+                        "alter": {
+                            "alter_text": 1,
+                            "text": "Discussions from [field_event]",
+                            "make_link": 0,
+                            "path": "",
+                            "absolute": 0,
+                            "external": 0,
+                            "replace_spaces": 0,
+                            "path_case": "none",
+                            "trim_whitespace": 0,
+                            "alt": "",
+                            "rel": "",
+                            "link_class": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "target": "",
+                            "nl2br": 0,
+                            "max_length": "",
+                            "word_boundary": 1,
+                            "ellipsis": 1,
+                            "more_link": 0,
+                            "more_link_text": "",
+                            "more_link_path": "",
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "preserve_tags": "",
+                            "html": 0
+                        },
+                        "element_type": "",
+                        "element_class": "",
+                        "element_label_type": "",
+                        "element_label_class": "",
+                        "element_label_colon": false,
+                        "element_wrapper_type": "",
+                        "element_wrapper_class": "",
+                        "element_default_classes": 1,
+                        "empty": "",
+                        "hide_empty": 0,
+                        "empty_zero": 0,
+                        "hide_alter_empty": 1,
+                        "click_sort_column": "target_id",
+                        "type": "reference_label",
+                        "settings": [],
+                        "group_column": "target_id",
+                        "group_columns": [],
+                        "group_rows": true,
+                        "delta_limit": "all",
+                        "delta_offset": 0,
+                        "delta_reversed": false,
+                        "delta_first_last": false,
+                        "multi_type": "separator",
+                        "separator": ", ",
+                        "field_api_classes": 0
+                    },
+                    "title": {
+                        "id": "title",
+                        "table": "node",
+                        "field": "title",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "",
+                        "exclude": 0,
+                        "alter": {
+                            "alter_text": 0,
+                            "text": "",
+                            "make_link": 0,
+                            "path": "",
+                            "absolute": 0,
+                            "external": 0,
+                            "replace_spaces": 0,
+                            "path_case": "none",
+                            "trim_whitespace": 0,
+                            "alt": "",
+                            "rel": "",
+                            "link_class": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "target": "",
+                            "nl2br": 0,
+                            "max_length": "",
+                            "word_boundary": 0,
+                            "ellipsis": 0,
+                            "more_link": 0,
+                            "more_link_text": "",
+                            "more_link_path": "",
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "preserve_tags": "",
+                            "html": 0
+                        },
+                        "element_type": "",
+                        "element_class": "",
+                        "element_label_type": "",
+                        "element_label_class": "",
+                        "element_label_colon": false,
+                        "element_wrapper_type": "",
+                        "element_wrapper_class": "",
+                        "element_default_classes": 1,
+                        "empty": "",
+                        "hide_empty": 0,
+                        "empty_zero": 0,
+                        "hide_alter_empty": 1,
+                        "link_to_node": 1
+                    },
+                    "field_host": {
+                        "id": "field_host",
+                        "table": "field_data_field_host",
+                        "field": "field_host",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "Facilitator(s)",
+                        "exclude": 1,
+                        "alter": {
+                            "alter_text": 0,
+                            "text": "",
+                            "make_link": 0,
+                            "path": "",
+                            "absolute": 0,
+                            "external": 0,
+                            "replace_spaces": 0,
+                            "path_case": "none",
+                            "trim_whitespace": 0,
+                            "alt": "",
+                            "rel": "",
+                            "link_class": "",
+                            "prefix": "",
+                            "suffix": "",
+                            "target": "",
+                            "nl2br": 0,
+                            "max_length": "",
+                            "word_boundary": 1,
+                            "ellipsis": 1,
+                            "more_link": 0,
+                            "more_link_text": "",
+                            "more_link_path": "",
+                            "strip_tags": 0,
+                            "trim": 0,
+                            "preserve_tags": "",
+                            "html": 0
+                        },
+                        "element_type": "span",
+                        "element_class": "",
+                        "element_label_type": "span",
+                        "element_label_class": "",
+                        "element_label_colon": 1,
+                        "element_wrapper_type": "",
+                        "element_wrapper_class": "",
+                        "element_default_classes": 1,
+                        "empty": "",
+                        "hide_empty": 0,
+                        "empty_zero": 0,
+                        "hide_alter_empty": 1,
+                        "click_sort_column": "target_id",
+                        "type": "reference_link",
+                        "settings": [],
+                        "group_column": "target_id",
+                        "group_columns": [],
+                        "group_rows": 1,
+                        "delta_limit": "all",
+                        "delta_offset": "0",
+                        "delta_reversed": 0,
+                        "delta_first_last": 0,
+                        "multi_type": "separator",
+                        "separator": ", ",
+                        "field_api_classes": 0
+                    }
+                },
+                "defaults": {
+                    "fields": false
+                }
             }
         },
         "page_1": {
@@ -452,7 +634,8 @@
                 "defaults": {
                     "title": false,
                     "filters": false,
-                    "filter_groups": false
+                    "filter_groups": false,
+                    "empty": false
                 },
                 "filters": {
                     "status": {
@@ -514,7 +697,22 @@
                         "1": "AND"
                     }
                 },
-                "display_description": ""
+                "display_description": "",
+                "empty": {
+                    "area": {
+                        "id": "area",
+                        "table": "views",
+                        "field": "area",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "",
+                        "empty": true,
+                        "content": "<p>No presentations for this event.</p>\r\n",
+                        "format": "filtered_html",
+                        "tokenize": 0
+                    }
+                }
             }
         },
         "block_1": {
@@ -579,7 +777,8 @@
                     "arguments": false,
                     "filters": false,
                     "filter_groups": false,
-                    "title": false
+                    "title": false,
+                    "empty": false
                 },
                 "filters": {
                     "status": {
@@ -641,7 +840,22 @@
                         "1": "AND"
                     }
                 },
-                "title": "Discussions "
+                "title": "Discussions ",
+                "empty": {
+                    "area": {
+                        "id": "area",
+                        "table": "views",
+                        "field": "area",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "",
+                        "empty": true,
+                        "content": "<p>No items for this event.</p>\r\n",
+                        "format": "filtered_html",
+                        "tokenize": 0
+                    }
+                }
             }
         }
     }

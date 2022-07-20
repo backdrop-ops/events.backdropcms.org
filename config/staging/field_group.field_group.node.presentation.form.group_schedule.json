@@ -5,7 +5,10 @@
     "bundle": "presentation",
     "mode": "form",
     "children": [
-        "field_event"
+        "field_event",
+        "field_schedule_slot",
+        "field_zoom",
+        "field_room"
     ],
     "parent_name": "",
     "weight": "5",

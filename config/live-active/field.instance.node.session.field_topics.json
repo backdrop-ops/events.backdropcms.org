@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Topics",
     "widget": {
-        "weight": "6",
+        "weight": "7",
         "type": "options_buttons",
         "module": "options",
         "active": 1,
@@ -23,7 +23,7 @@
         "default": {
             "label": "inline",
             "type": "taxonomy_term_reference_link",
-            "weight": "5",
+            "weight": "6",
             "settings": [],
             "module": "taxonomy"
         }

@@ -30,6 +30,7 @@
         "sidebar": [
             "7f5acdb4-8966-4dc2-9b00-fb56ad166892",
             "674727a3-7885-459f-9a18-241cbe5d4556",
+            "865a4c47-8ebb-4ceb-9805-5c10c0f614cb",
             "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74",
             "911cf395-6567-452e-a400-f89a9d2a584a",
             "ff23916c-71b6-4e14-ae08-8de88725309e"
@@ -49,6 +50,7 @@
         "301fbad5-d73a-4ab8-b300-b14c5485a93c": {
             "plugin": "system:header",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "header",
                 "settings": {
@@ -79,6 +81,7 @@
         "a63bd29a-0b0d-467b-8e06-6f66fb761566": {
             "plugin": "system:user-menu",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "user-menu",
                 "settings": {
@@ -112,6 +115,7 @@
         "e36c652c-53bd-417a-a500-a10382214dfa": {
             "plugin": "system:main-menu",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "main-menu",
                 "settings": {
@@ -139,6 +143,7 @@
         "6d31d412-8cba-4cfd-9000-c6228c48e2cf": {
             "plugin": "block:schedule_subject_to_change_message",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "schedule_subject_to_change_message",
                 "settings": {
@@ -168,6 +173,7 @@
         "036d9634-9538-482f-be00-aaaa16a4a1af": {
             "plugin": "system:main",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "main",
                 "settings": {
@@ -191,6 +197,7 @@
         "b8270d5b-4972-4b46-8a00-e085aa006e15": {
             "plugin": "user:login",
             "data": {
+                "status": 1,
                 "module": "user",
                 "delta": "login",
                 "settings": {
@@ -240,6 +247,7 @@
         "7f5acdb4-8966-4dc2-9b00-fb56ad166892": {
             "plugin": "block:schedule_link",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "schedule_link",
                 "settings": {
@@ -269,6 +277,7 @@
         "674727a3-7885-459f-9a18-241cbe5d4556": {
             "plugin": "borg_events_custom:steps",
             "data": {
+                "status": 1,
                 "module": "borg_events_custom",
                 "delta": "steps",
                 "settings": {
@@ -291,9 +300,47 @@
                 }
             }
         },
+        "865a4c47-8ebb-4ceb-9805-5c10c0f614cb": {
+            "plugin": "views:users_interested_in_topic-block",
+            "data": {
+                "status": 1,
+                "module": "views",
+                "delta": "users_interested_in_topic-block",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": 10,
+                    "offset": 0,
+                    "path": null,
+                    "fields_override": null,
+                    "title_display": "custom",
+                    "title": "Users Interested in this Discussion",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "865a4c47-8ebb-4ceb-9805-5c10c0f614cb",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
         "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74": {
             "plugin": "block:contact_us_block",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "contact_us_block",
                 "settings": {
@@ -319,6 +366,7 @@
         "911cf395-6567-452e-a400-f89a9d2a584a": {
             "plugin": "block:register_button",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "register_button",
                 "settings": {
@@ -372,6 +420,7 @@
         "ff23916c-71b6-4e14-ae08-8de88725309e": {
             "plugin": "views:comments_recent-block",
             "data": {
+                "status": 1,
                 "module": "views",
                 "delta": "comments_recent-block",
                 "settings": {
@@ -408,6 +457,7 @@
         "ea574888-7041-44d9-be00-ce0e8c407291": {
             "plugin": "system:powered-by",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "powered-by",
                 "settings": {
@@ -431,6 +481,7 @@
         "2cdc8c4f-f0b0-4aee-8d00-e7bfd7860bd4": {
             "plugin": "on_the_web:social_links",
             "data": {
+                "status": 1,
                 "module": "on_the_web",
                 "delta": "social_links",
                 "settings": {
@@ -468,6 +519,7 @@
         "0df975b1-a3a5-4f1c-8600-bee05fe4a795": {
             "plugin": "block:newsletter",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "newsletter",
                 "settings": {
@@ -497,6 +549,7 @@
         "e965bd59-68b3-4ae7-b604-4f0f965d9457": {
             "plugin": "menu:menu-footer-menu",
             "data": {
+                "status": 1,
                 "module": "menu",
                 "delta": "menu-footer-menu",
                 "settings": {

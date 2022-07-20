@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Collaborative Notes",
     "widget": {
-        "weight": "8",
+        "weight": "1",
         "type": "link_field",
         "module": "link",
         "active": 0,
@@ -19,8 +19,8 @@
     "settings": {
         "validate_url": 1,
         "url": 0,
-        "title": "optional",
-        "title_value": "",
+        "title": "value",
+        "title_value": "Please add notes here",
         "title_label_use_field_label": 0,
         "title_maxlength": "128",
         "enable_tokens": 0,
@@ -42,7 +42,7 @@
         "default": {
             "label": "above",
             "type": "link_default",
-            "weight": "4",
+            "weight": "9",
             "settings": [],
             "module": "link"
         },
