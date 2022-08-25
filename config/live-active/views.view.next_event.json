@@ -223,7 +223,7 @@
                         "exclude": 0,
                         "alter": {
                             "alter_text": true,
-                            "text": "Our next <strong>[field_event_type]</strong> event will be [field_display_date].<br>\r\n\r\nCheckout the <a href=\"schedule\">schedule of discussion topics</a><em></em>.",
+                            "text": "Our next <strong>[field_event_type]</strong> event will be [field_display_date].<br>",
                             "make_link": 0,
                             "path": "",
                             "absolute": 0,
@@ -331,53 +331,21 @@
                         "default_to_date": "",
                         "year_range": "-3:+3",
                         "add_delta": ""
-                    },
-                    "field_register_registration_type": {
-                        "id": "field_register_registration_type",
-                        "table": "field_data_field_register",
-                        "field": "field_register_registration_type",
-                        "relationship": "none",
-                        "group_type": "group",
-                        "ui_name": "",
-                        "operator": "empty",
-                        "value": "backdrop_live",
-                        "group": "1",
-                        "exposed": false,
-                        "expose": {
-                            "operator_id": false,
-                            "label": "",
-                            "description": "",
-                            "use_operator": false,
-                            "operator": "",
-                            "identifier": "",
-                            "required": false,
-                            "remember": false,
-                            "multiple": false,
-                            "remember_roles": {
-                                "authenticated": "authenticated"
-                            }
-                        },
-                        "is_grouped": false,
-                        "group_info": {
-                            "label": "",
-                            "description": "",
-                            "identifier": "",
-                            "optional": true,
-                            "widget": "select",
-                            "multiple": false,
-                            "remember": 0,
-                            "default_group": "All",
-                            "default_group_multiple": [],
-                            "group_items": []
-                        }
                     }
                 },
                 "sorts": {
-                    "created": {
-                        "id": "created",
-                        "table": "node",
-                        "field": "created",
-                        "order": "DESC"
+                    "field_event_date_value": {
+                        "id": "field_event_date_value",
+                        "table": "field_data_field_event_date",
+                        "field": "field_event_date_value",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "order": "ASC",
+                        "exposed": false,
+                        "expose": {
+                            "label": ""
+                        }
                     }
                 },
                 "title": ""
