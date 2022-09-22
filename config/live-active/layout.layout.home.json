@@ -20,7 +20,8 @@
             "d5fbf202-2b91-4512-8946-7032a4c2804b"
         ],
         "top": [
-            "f624f034-77a8-4b23-9b00-c8631bab9ad3"
+            "f624f034-77a8-4b23-9b00-c8631bab9ad3",
+            "4896c812-5352-41dd-b800-bf0b5f63daee"
         ],
         "content": [
             "4041d660-481e-4608-a40b-11a4749caf06",
@@ -30,7 +31,8 @@
         "sidebar": [
             "3e2ba52b-1d50-4cda-8500-f36ed6142917",
             "cfa18cb5-ae2a-430c-8600-a270ec97829a",
-            "ef578328-75a4-4fb3-9400-d5c7bb238838"
+            "ef578328-75a4-4fb3-9400-d5c7bb238838",
+            "495fc21c-26ad-4692-8000-b5a9e9117a6d"
         ],
         "bottom": [],
         "footer": [
@@ -89,6 +91,32 @@
                     "admin_description": ""
                 },
                 "uuid": "f624f034-77a8-4b23-9b00-c8631bab9ad3",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "4896c812-5352-41dd-b800-bf0b5f63daee": {
+            "plugin": "block:office_hours",
+            "data": {
+                "status": 0,
+                "module": "block",
+                "delta": "office_hours",
+                "settings": {
+                    "title_display": "default",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "admin_label": "Office Hours",
+                    "admin_description": "",
+                    "title": ""
+                },
+                "uuid": "4896c812-5352-41dd-b800-bf0b5f63daee",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -288,6 +316,36 @@
                     "admin_description": ""
                 },
                 "uuid": "ef578328-75a4-4fb3-9400-d5c7bb238838",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "495fc21c-26ad-4692-8000-b5a9e9117a6d": {
+            "plugin": "block:office_hours",
+            "data": {
+                "status": 1,
+                "module": "block",
+                "delta": "office_hours",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "office_hours",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "495fc21c-26ad-4692-8000-b5a9e9117a6d",
                 "style": {
                     "plugin": "default",
                     "data": {
