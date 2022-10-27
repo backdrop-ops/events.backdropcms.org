@@ -236,7 +236,7 @@
         "3e2ba52b-1d50-4cda-8500-f36ed6142917": {
             "plugin": "borg_events_custom:steps",
             "data": {
-                "status": 1,
+                "status": 0,
                 "module": "borg_events_custom",
                 "delta": "steps",
                 "settings": {

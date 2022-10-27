@@ -1061,7 +1061,7 @@
                         "ui_name": "",
                         "operator": "or",
                         "value": {
-                            "40": "40"
+                            "45": "45"
                         },
                         "group": "1",
                         "exposed": false,
@@ -1111,7 +1111,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "180"
+                            "value": "181"
                         },
                         "group": "1",
                         "exposed": false,
