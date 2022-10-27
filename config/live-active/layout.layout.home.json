@@ -26,7 +26,8 @@
         "content": [
             "4041d660-481e-4608-a40b-11a4749caf06",
             "8b8f39f3-acaa-451a-b909-9ca9bff3242f",
-            "a184939c-6417-445d-bd09-9cba0305b436"
+            "a184939c-6417-445d-bd09-9cba0305b436",
+            "41592594-43c8-49b7-9a15-2151ba5b885f"
         ],
         "sidebar": [
             "3e2ba52b-1d50-4cda-8500-f36ed6142917",
@@ -223,6 +224,36 @@
                     "view_mode": "full"
                 },
                 "uuid": "a184939c-6417-445d-bd09-9cba0305b436",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "41592594-43c8-49b7-9a15-2151ba5b885f": {
+            "plugin": "block:code_of_conduct",
+            "data": {
+                "status": 1,
+                "module": "block",
+                "delta": "code_of_conduct",
+                "settings": {
+                    "title_display": "default",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "code_of_conduct",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "code of conduct",
+                    "admin_description": "",
+                    "title": ""
+                },
+                "uuid": "41592594-43c8-49b7-9a15-2151ba5b885f",
                 "style": {
                     "plugin": "default",
                     "data": {
