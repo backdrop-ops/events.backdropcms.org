@@ -782,7 +782,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "180"
+                            "value": "181"
                         },
                         "group": "1",
                         "exposed": false,
@@ -902,7 +902,7 @@
                         }
                     }
                 },
-                "title": "Backdrop LIVE Schedule, July 2022",
+                "title": "Backdrop LIVE Schedule, Oct 2022",
                 "style_options": {
                     "grouping": [
                         {
@@ -958,12 +958,26 @@
                         "ui_name": "",
                         "label": "",
                         "empty": true,
-                        "content": "<p>We are in the process of reviewing proposed topics, schedule will be published by mid February.</p>\r\n",
+                        "content": "<p>We do not have any topics schedule yet. Please, come back soon.</p>\r\n",
                         "format": "filtered_html",
                         "tokenize": 0
                     }
                 },
-                "header": []
+                "header": {
+                    "area": {
+                        "id": "area",
+                        "table": "views",
+                        "field": "area",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "",
+                        "empty": 0,
+                        "content": "<p>The schedule for this event will be built by participants from now through the day of the event. Topics will be added to the schedule based upon requests that we receive during registration. Keep coming back to this page to watch the schedule grow.</p>\r\n",
+                        "format": "filtered_html",
+                        "tokenize": 0
+                    }
+                }
             }
         },
         "page": {
@@ -1097,7 +1111,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "180"
+                            "value": "181"
                         },
                         "group": "1",
                         "exposed": false,

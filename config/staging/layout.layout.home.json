@@ -20,17 +20,19 @@
             "d5fbf202-2b91-4512-8946-7032a4c2804b"
         ],
         "top": [
-            "f624f034-77a8-4b23-9b00-c8631bab9ad3"
+            "f624f034-77a8-4b23-9b00-c8631bab9ad3",
+            "4896c812-5352-41dd-b800-bf0b5f63daee"
         ],
         "content": [
             "4041d660-481e-4608-a40b-11a4749caf06",
-            "a184939c-6417-445d-bd09-9cba0305b436",
-            "8b8f39f3-acaa-451a-b909-9ca9bff3242f"
+            "8b8f39f3-acaa-451a-b909-9ca9bff3242f",
+            "a184939c-6417-445d-bd09-9cba0305b436"
         ],
         "sidebar": [
             "3e2ba52b-1d50-4cda-8500-f36ed6142917",
             "cfa18cb5-ae2a-430c-8600-a270ec97829a",
-            "ef578328-75a4-4fb3-9400-d5c7bb238838"
+            "ef578328-75a4-4fb3-9400-d5c7bb238838",
+            "495fc21c-26ad-4692-8000-b5a9e9117a6d"
         ],
         "bottom": [],
         "footer": [
@@ -79,9 +81,9 @@
                     "title": "Backdrop LIVE ",
                     "style": "default",
                     "block_settings": {
-                        "display_date": "July 15 & 16th 2022",
+                        "display_date": "Oct 21st & 22nd, 2022",
                         "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
-                        "event_nid": "180",
+                        "event_nid": "181",
                         "event_open": "1"
                     },
                     "contexts": [],
@@ -99,10 +101,36 @@
                 }
             }
         },
+        "4896c812-5352-41dd-b800-bf0b5f63daee": {
+            "plugin": "block:office_hours",
+            "data": {
+                "status": 0,
+                "module": "block",
+                "delta": "office_hours",
+                "settings": {
+                    "title_display": "default",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "admin_label": "Office Hours",
+                    "admin_description": "",
+                    "title": ""
+                },
+                "uuid": "4896c812-5352-41dd-b800-bf0b5f63daee",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
         "4041d660-481e-4608-a40b-11a4749caf06": {
             "plugin": "views:schedule-block_1",
             "data": {
-                "status": 1,
+                "status": 0,
                 "module": "views",
                 "delta": "schedule-block_1",
                 "settings": {
@@ -126,38 +154,6 @@
                     "admin_description": ""
                 },
                 "uuid": "4041d660-481e-4608-a40b-11a4749caf06",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
-            }
-        },
-        "a184939c-6417-445d-bd09-9cba0305b436": {
-            "plugin": "node:content",
-            "data": {
-                "status": 1,
-                "module": "node",
-                "delta": "content",
-                "settings": {
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": [],
-                    "contexts": [],
-                    "admin_label": "",
-                    "admin_description": "",
-                    "nid": 60,
-                    "links": false,
-                    "leave_node_title": false,
-                    "link_node_title": false,
-                    "display_submitted": false,
-                    "view_mode": "full"
-                },
-                "uuid": "a184939c-6417-445d-bd09-9cba0305b436",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -205,10 +201,42 @@
                 }
             }
         },
+        "a184939c-6417-445d-bd09-9cba0305b436": {
+            "plugin": "node:content",
+            "data": {
+                "status": 1,
+                "module": "node",
+                "delta": "content",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": "",
+                    "nid": 60,
+                    "links": false,
+                    "leave_node_title": false,
+                    "link_node_title": false,
+                    "display_submitted": false,
+                    "view_mode": "full"
+                },
+                "uuid": "a184939c-6417-445d-bd09-9cba0305b436",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
         "3e2ba52b-1d50-4cda-8500-f36ed6142917": {
             "plugin": "borg_events_custom:steps",
             "data": {
-                "status": 1,
+                "status": 0,
                 "module": "borg_events_custom",
                 "delta": "steps",
                 "settings": {
@@ -288,6 +316,36 @@
                     "admin_description": ""
                 },
                 "uuid": "ef578328-75a4-4fb3-9400-d5c7bb238838",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "495fc21c-26ad-4692-8000-b5a9e9117a6d": {
+            "plugin": "block:office_hours",
+            "data": {
+                "status": 1,
+                "module": "block",
+                "delta": "office_hours",
+                "settings": {
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": {
+                        "delta": "office_hours",
+                        "description": "",
+                        "reusable": true
+                    },
+                    "contexts": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "495fc21c-26ad-4692-8000-b5a9e9117a6d",
                 "style": {
                     "plugin": "default",
                     "data": {

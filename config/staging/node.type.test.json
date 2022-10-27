@@ -1,11 +1,11 @@
 {
-    "_config_name": "node.type.presentation",
-    "type": "presentation",
-    "name": "Presentation",
+    "_config_name": "node.type.test",
+    "type": "test",
+    "name": "test",
     "base": "node_content",
     "module": "node",
     "node_preview": "1",
-    "description": "Presentations are pre-recorded talks or demonstrations, and can be discussed at events by creating and scheduling Discussions.",
+    "description": "",
     "help": "",
     "modified": true,
     "disabled": false,
@@ -13,10 +13,11 @@
     "title_label": "Title",
     "settings": {
         "comment_enabled": false,
-        "comment_default": "2",
+        "comment_default": "1",
         "comment_per_page": "50",
         "comment_mode": 1,
         "comment_anonymous": 0,
+        "comment_title_options": "auto",
         "comment_user_picture": true,
         "comment_form_location": 1,
         "comment_preview": "1",
@@ -30,13 +31,13 @@
             "main-menu": 0
         },
         "menu_parent": "main-menu:0",
-        "status_default": 0,
-        "scheduling_enabled": 0,
-        "promote_enabled": 0,
+        "status_default": 1,
+        "scheduling_enabled": 1,
+        "promote_enabled": 1,
         "promote_default": 0,
-        "sticky_enabled": 0,
+        "sticky_enabled": 1,
         "sticky_default": 0,
-        "revision_enabled": 0,
+        "revision_enabled": 1,
         "revision_default": 0,
         "node_preview": "1",
         "node_submitted": 1,
@@ -44,8 +45,7 @@
         "node_user_picture": true,
         "hidden_path": 0,
         "language": 0,
-        "node_permissions": true,
-        "comment_title_options": "auto"
+        "node_permissions": true
     },
-    "orig_type": "presentation"
+    "orig_type": "test"
 }

@@ -21,9 +21,7 @@
             "66ec7cff-267f-473a-af00-c9c152937f38",
             "7c3b80d3-0a91-4492-bc00-cbc578b82ede"
         ],
-        "top": [
-            "08e0115a-4d6d-4e0d-aa03-3a2d44ad2da6"
-        ],
+        "top": [],
         "content": [
             "4466d69c-2b7b-4333-b655-85fba42c396f",
             "8081a8a9-bea5-47da-9400-ab7584a645b9",
@@ -129,37 +127,6 @@
                     "contexts": []
                 },
                 "uuid": "7c3b80d3-0a91-4492-bc00-cbc578b82ede",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
-            }
-        },
-        "08e0115a-4d6d-4e0d-aa03-3a2d44ad2da6": {
-            "plugin": "borg_events_custom:live",
-            "data": {
-                "status": 1,
-                "module": "borg_events_custom",
-                "delta": "live",
-                "settings": {
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": {
-                        "display_date": "July 15-16, 2022",
-                        "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
-                        "open": "1",
-                        "nid": "180"
-                    },
-                    "contexts": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "08e0115a-4d6d-4e0d-aa03-3a2d44ad2da6",
                 "style": {
                     "plugin": "default",
                     "data": {
