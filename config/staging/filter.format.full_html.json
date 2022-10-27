@@ -24,7 +24,7 @@
             "settings": []
         },
         "filter_htmlcorrector": {
-            "status": 0,
+            "status": 1,
             "weight": 10,
             "module": "filter",
             "settings": []
@@ -50,7 +50,7 @@
             "module": "filter"
         },
         "filter_tokens": {
-            "status": 0,
+            "status": 1,
             "weight": 0,
             "module": "token_filter",
             "settings": []

@@ -5,55 +5,136 @@
     "weight": 0,
     "editor": "ckeditor",
     "editor_settings": {
+        "toolbar": [
+            [
+                {
+                    "name": "Formatting",
+                    "items": [
+                        "Bold",
+                        "Italic",
+                        "Blockquote",
+                        "Format"
+                    ]
+                },
+                {
+                    "name": "Lists",
+                    "items": [
+                        "BulletedList",
+                        "NumberedList"
+                    ]
+                },
+                {
+                    "name": "Alignment",
+                    "items": [
+                        "JustifyLeft",
+                        "JustifyCenter",
+                        "JustifyRight"
+                    ]
+                },
+                {
+                    "name": "Linking",
+                    "items": [
+                        "BackdropLink",
+                        "BackdropUnlink"
+                    ]
+                },
+                {
+                    "name": "Media",
+                    "items": [
+                        "BackdropImage"
+                    ]
+                },
+                {
+                    "name": "Tools",
+                    "items": [
+                        "Source",
+                        "Maximize"
+                    ]
+                }
+            ]
+        ],
         "image_upload": {
             "status": 1,
-            "dimensions": {
-                "max_width": "",
-                "max_height": ""
-            },
-            "max_size": null,
+            "orientate": 0,
             "scheme": "public",
-            "directory": "inline-images"
+            "directory": "inline-images",
+            "max_size": "",
+            "max_dimensions": {
+                "width": "",
+                "height": ""
+            }
+        },
+        "file_upload": {
+            "status": 0,
+            "scheme": "public",
+            "directory": "inline-files",
+            "max_size": "",
+            "file_extensions": "txt pdf"
+        },
+        "plugins": {
+            "style": {
+                "style_list": []
+            }
         }
     },
     "filters": {
-        "filter_url": {
-            "weight": 0,
+        "filter_image_caption": {
             "status": 1,
-            "module": "filter",
-            "settings": []
-        },
-        "filter_html": {
-            "weight": 1,
-            "status": 1,
+            "weight": 4,
             "module": "filter",
             "settings": []
         },
         "filter_autop": {
+            "status": 1,
             "weight": 2,
-            "status": 1,
             "module": "filter",
             "settings": []
         },
-        "filter_image_caption": {
-            "weight": 4,
+        "filter_url": {
             "status": 1,
-            "module": "filter",
-            "settings": []
-        },
-        "filter_image_align": {
-            "weight": 4,
-            "status": 1,
+            "weight": 0,
             "module": "filter",
             "settings": []
         },
         "filter_htmlcorrector": {
-            "weight": 10,
             "status": 1,
+            "weight": 10,
             "module": "filter",
+            "settings": []
+        },
+        "filter_html_escape": {
+            "status": 0,
+            "weight": -10,
+            "module": "filter",
+            "settings": []
+        },
+        "filter_image_align": {
+            "status": 1,
+            "weight": 4,
+            "module": "filter",
+            "settings": []
+        },
+        "filter_html": {
+            "status": 1,
+            "weight": 1,
+            "settings": {
+                "allowed_html": "<a> <em> <strong> <cite> <blockquote> <code> <ul> <ol> <li> <dl> <dt> <dd> <h3> <h4> <h5> <p> <img> <figure> <figcaption>"
+            },
+            "module": "filter"
+        },
+        "filter_tokens": {
+            "status": 1,
+            "weight": 0,
+            "module": "token_filter",
             "settings": []
         }
     },
     "cache": true,
-    "status": 1
+    "status": 1,
+    "roles": {
+        "anonymous": "anonymous",
+        "authenticated": "authenticated",
+        "editor": "editor",
+        "administrator": "administrator"
+    }
 }
