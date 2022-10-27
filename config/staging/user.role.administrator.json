@@ -192,7 +192,6 @@
         "create terms in tags",
         "create terms in time_blocks",
         "create terms in time_slot",
-        "use text format raw_html_tokens",
         "administer upgrade_day registration",
         "administer own upgrade_day registration",
         "view upgrade_day registration",
