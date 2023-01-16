@@ -1,0 +1,12 @@
+{
+    "_config_name": "block.custom.code_of_conduct",
+    "delta": "code_of_conduct",
+    "info": "code of conduct",
+    "title": "",
+    "description": "",
+    "body": {
+        "value": "<p>Participants of Backdrop events will be expected to adhere to the <a href=\"https://github.com/backdrop-ops/conduct/blob/master/code_of_conduct.md\">Backdrop CMS Code of Conduct</a>.</p>\r\n",
+        "format": "filtered_html"
+    },
+    "default_langcode": "und"
+}
