@@ -110,5 +110,6 @@
     "path_pattern": "accounts/[user:name]",
     "block_interest_cohort": 1,
     "messages_dismissible": 1,
-    "file_additional_public_schemes": []
+    "file_additional_public_schemes": [],
+    "log_max_length": 56
 }
