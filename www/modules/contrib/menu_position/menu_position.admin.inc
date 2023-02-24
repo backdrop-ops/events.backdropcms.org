@@ -15,7 +15,9 @@ function menu_position_router() {
  * Form definition: global settings for Menu position rules.
  */
 function menu_position_settings_form($form, &$form_state) {
+  $config = config('menu_position.settings');
   $form = array();
+
   $form['menu_position_active_link_display'] = array(
     '#type' => 'radios',
     '#title' => t('When a menu position rule matches:'),
@@ -24,10 +26,22 @@ function menu_position_settings_form($form, &$form_state) {
       'parent' => t('Mark the rule\'s parent menu item as being "active".'),
       'none' => t('Don\'t mark any menu item as being "active".'),
     ),
-    '#default_value' => config_get('menu_position.settings', 'active_link_display'),
+    '#default_value' => $config->get('active_link_display'),
     '#description' => t("By default, a matching menu position rule will insert the current page's title into the menu tree just below the rule's parent menu item."),
   );
-  $form['actions']['#type'] = 'actions';
+
+  $form['menu_position_rules_cache_enabled'] = array(
+    '#title' => t('Use persistent cache for activated rules.'),
+    '#description' => t("<strong>Experimental!</strong> Used to speed-up the rules evaluation process. Disabled by default."),
+    '#type' => 'radios',
+    '#default_value' => $config->get('rules_cache_enabled'),
+    '#options' => array(
+      t('Disabled'),
+      t('Enabled'),
+    ),
+  );
+
+  $form['actions'] = array('#type' => 'actions');
   $form['actions']['submit'] = array(
     '#type'   => 'submit',
     '#value'  => t('Save configuration'),
@@ -40,8 +54,11 @@ function menu_position_settings_form($form, &$form_state) {
  * Submit handler for the settings form.
  */
 function menu_position_settings_form_submit($form, &$form_state) {
+  $config = config('menu_position.settings');
   $values = $form_state['values'];
-  config_set('menu_position.settings', 'active_link_display', $values['menu_position_active_link_display']);
+  $config->set('active_link_display', $values['menu_position_active_link_display']);
+  $config->set('rules_cache_enabled', $values['menu_position_rules_cache_enabled']);
+  $config->save();
 }
 
 /**
@@ -85,7 +102,15 @@ function _menu_position_form_menu_edit_item_alter(&$form, &$form_state) {
       backdrop_set_message(t('This menu item cannot be edited.'), 'warning');
     }
     // Disable all the normal form elements.
-    foreach (array('link_title', 'description', 'enabled', 'expanded', 'parent', 'weight') as $key) {
+    $keys = array(
+      'link_title',
+      'description',
+      'enabled',
+      'expanded',
+      'parent',
+      'weight',
+    );
+    foreach ($keys as $key) {
       $form[$key]['#disabled'] = TRUE;
     }
     // Remove the validator.
@@ -120,7 +145,7 @@ function _menu_position_menu_link_update($link) {
         ->fields(array(
           'menu_name' => $link['menu_name'],
           'plid' => $link['plid'],
-          ))
+        ))
         ->condition('rid', $rule->rid)
         ->execute();
     }
@@ -132,7 +157,7 @@ function _menu_position_menu_link_update($link) {
  */
 function menu_position_edit_item_submit($form, &$form_state) {
   // Redirect to the menu edit form and display a message.
-  list($menu_name, ) = explode(':', $form['parent']['#default_value']);
+  list($menu_name,) = explode(':', $form['parent']['#default_value']);
   $form_state['redirect'] = 'admin/structure/menu/manage/' . $menu_name;
   backdrop_set_message(t('Your configuration was not saved.'), 'error');
 }
@@ -198,10 +223,9 @@ function menu_position_rules_form($form, &$form_state) {
       if ($menu_link === FALSE) {
         $menu_link = array('title' => '[' . t('deleted menu item') . ']');
       }
-      $form['rules'][$rule->rid] = array(
-        'title' => array(
-          '#markup' => '<strong>' . check_plain($rule->admin_title) . '</strong> (' . t('Positioned under: %title', array('%title' => check_plain($menu_link['title']))) . ')',
-        ),
+      $form['rules'][$rule->rid] = array('title' => array(
+        '#markup' => '<strong>' . check_plain($rule->admin_title) . '</strong> (' . t('Positioned under: %title', array('%title' => check_plain($menu_link['title']))) . ')',
+      ),
         'menu_name' => array(
           '#markup' => check_plain($menus[$rule->menu_name]),
         ),
@@ -216,20 +240,24 @@ function menu_position_rules_form($form, &$form_state) {
           '#id' => 'edit-rule-' . $rule->rid,
         ),
         'operations' => array(
-          'edit-link' => array(
-            '#type' => 'link',
-            '#title' => t('edit'),
-            '#href' => 'admin/structure/menu-position/edit/' . $rule->rid,
-          ),
-          'delete-link' => array(
-            '#type' => 'link',
-            '#title' => t('delete'),
-            '#href' => 'admin/structure/menu-position/delete/' . $rule->rid,
+          'data' => array(
+            '#type' => 'dropbutton',
+            '#links' => array(
+              'edit-link' => array(
+                'title' => t('Edit'),
+                'href' => 'admin/structure/menu-position/edit/' . $rule->rid,
+              ),
+              'delete-link' => array(
+                'title' => t('Delete'),
+                'href' => 'admin/structure/menu-position/delete/' . $rule->rid,
+              ),
+            ),
           ),
         ),
       );
     }
-    $form['submit'] = array(
+    $form['actions'] = array('#type' => 'actions');
+    $form['actions']['submit'] = array(
       '#type' => 'submit',
       '#value' => t('Save'),
     );
@@ -261,6 +289,7 @@ function menu_position_rules_form_submit($form, &$form_state) {
       ->condition('rid', $rid)
       ->execute();
   }
+  cache_clear_all('menu_position:rules:', 'cache', TRUE);
   backdrop_set_message(t('The new rules ordering has been applied.'));
 }
 
@@ -282,7 +311,6 @@ function theme_menu_position_rules_order($variables) {
       t('Weight'),
       array(
         'data' => t('Operations'),
-        'colspan' => '2',
       ),
     ),
     'rows' => array(),
@@ -293,23 +321,16 @@ function theme_menu_position_rules_order($variables) {
   foreach (element_children($element) as $rule) {
     // Add special classes to be used for tabledrag.js.
     $element[$rule]['weight']['#attributes']['class'] = array('rule-weight');
-    // Render the title, enabled, and weight columns.
-    $data = array(
-      backdrop_render($element[$rule]['title']),
+    // Render the title, enabled, weight, and operations columns.
+    $data = array(backdrop_render($element[$rule]['title']),
       backdrop_render($element[$rule]['menu_name']),
       array(
         'data' => backdrop_render($element[$rule]['enabled']),
         'class' => array('checkbox', 'menu-enabled'),
       ),
       backdrop_render($element[$rule]['weight']),
+      backdrop_render($element[$rule]['operations']),
     );
-    // Render the operations links.
-    foreach (element_children($element[$rule]['operations']) as $op) {
-      $data[] = array(
-        'data' => backdrop_render($element[$rule]['operations'][$op]),
-        'class' => array('menu-operations'),
-      );
-    }
     $variables['rows'][] = array(
       'data' => $data,
       'class' => array('draggable'),
@@ -345,11 +366,12 @@ function menu_position_edit_rule_form($form, &$form_state, $rid = 0) {
  */
 function menu_position_rule_form($form, &$form_state) {
   // Set the default values.
-  $rid          = !empty($form_state['#menu-position-rule']['rid'])         ? $form_state['#menu-position-rule']['rid'] : '';
+  $rid          = !empty($form_state['#menu-position-rule']['rid']) ? $form_state['#menu-position-rule']['rid'] : '';
   $admin_title  = !empty($form_state['#menu-position-rule']['admin_title']) ? $form_state['#menu-position-rule']['admin_title'] : '';
-  $menu_name    = !empty($form_state['#menu-position-rule']['menu_name'])   ? $form_state['#menu-position-rule']['menu_name'] : '';
-  $plid         = !empty($form_state['#menu-position-rule']['plid'])        ? $form_state['#menu-position-rule']['plid'] : NULL;
-  $mlid         = !empty($form_state['#menu-position-rule']['mlid'])        ? $form_state['#menu-position-rule']['mlid'] : NULL;
+  $machine_name = !empty($form_state['#menu-position-rule']['machine_name']) ? $form_state['#menu-position-rule']['machine_name'] : '';
+  $menu_name    = !empty($form_state['#menu-position-rule']['menu_name']) ? $form_state['#menu-position-rule']['menu_name'] : '';
+  $plid         = !empty($form_state['#menu-position-rule']['plid']) ? $form_state['#menu-position-rule']['plid'] : NULL;
+  $mlid         = !empty($form_state['#menu-position-rule']['mlid']) ? $form_state['#menu-position-rule']['mlid'] : NULL;
 
   $form['rid'] = array(
     '#type' => 'hidden',
@@ -361,6 +383,18 @@ function menu_position_rule_form($form, &$form_state) {
     '#title' => t('Administrative title'),
     '#description' => t('This title will be used administratively to identify this rule.'),
     '#required' => TRUE,
+  );
+  $form['machine_name'] = array(
+    '#type' => 'machine_name',
+    '#default_value' => $machine_name,
+    '#title' => t('Machine name'),
+    '#required' => TRUE,
+    '#size' => 15,
+    '#maxlength' => 255,
+    '#machine_name' => array(
+      'exists' => 'menu_position_machine_name_exists',
+      'source' => array('admin_title'),
+    ),
   );
   // Parent menu item.
   if ($mlid) {
@@ -391,14 +425,16 @@ function menu_position_rule_form($form, &$form_state) {
     '#type' => 'vertical_tabs',
   );
 
-  $form['submit'] = array(
+  $form['actions'] = array('#type' => 'actions');
+  $form['actions']['submit'] = array(
     '#type' => 'submit',
     '#value' => t('Save'),
   );
   if ($rid) {
-    $form['delete'] = array(
+    $form['actions']['delete'] = array(
       '#type' => 'submit',
       '#value' => t('Delete'),
+      '#attributes' => array('class' => array('button-danger')),
     );
   }
 
@@ -428,6 +464,18 @@ function menu_position_rule_form($form, &$form_state) {
 }
 
 /**
+ * Helper function to check if a given machine name already exists.
+ */
+function menu_position_machine_name_exists($machine_name) {
+  $result = db_select('menu_position_rules', 'menu_position_rules')
+    ->fields('menu_position_rules')
+    ->condition('machine_name', $machine_name)
+    ->execute();
+  $num_of_results = $result->rowCount();
+  return ($num_of_results == 1) ? TRUE : FALSE;
+}
+
+/**
  * Validates the form for menu_position_rule_form().
  */
 function menu_position_rule_form_validate($form, &$form_state) {
@@ -453,6 +501,7 @@ function menu_position_rule_form_submit($form, &$form_state) {
     'conditions'  => isset($form_state['values']['conditions']) ? $form_state['values']['conditions'] : array(),
     'menu_name'   => $menu_name,
     'plid'        => $plid,
+    'machine_name' => $form_state['values']['machine_name'],
   );
   // Add the rule to the database.
   if ($form_state['values']['rid'] == '') {
@@ -472,7 +521,7 @@ function menu_position_rule_form_submit($form, &$form_state) {
 /**
  * Adds a menu position rule.
  *
- * @param $rule
+ * @param array $rule
  *   An associate array defining the new rule to be created. Must contain the
  *   following keys:
  *   - admin_title: The administrative title of the rule.
@@ -481,13 +530,17 @@ function menu_position_rule_form_submit($form, &$form_state) {
  *     is array containing the necessary variables for that plugin.
  *   - menu_name: The machine name of the menu where this rule is positioned.
  *   - plid: The mlid of the parent menu link specified in the rule.
+ *
+ * @return $rid
+ *   ID of newly created rule.
  */
-function menu_position_add_rule($rule) {
+function menu_position_add_rule(array $rule) {
   $fields = array(
     'admin_title' => $rule['admin_title'],
     'conditions'  => serialize($rule['conditions']),
     'menu_name'   => $rule['menu_name'],
     'plid'        => $rule['plid'],
+    'machine_name' => $rule['machine_name'],
   );
   $rid = db_insert('menu_position_rules')
     ->fields($fields)
@@ -500,18 +553,23 @@ function menu_position_add_rule($rule) {
     ->fields(array('mlid' => $mlid))
     ->condition('rid', $rid)
     ->execute();
+
+  cache_clear_all('menu_position:rules:', 'cache', TRUE);
+
+  return $rid;
 }
 
 /**
  * Adds a menu position rule.
  *
- * @param $rid
+ * @param int $rid
  *   ID of the rule needing a menu link.
- * @param $plid
+ * @param int $plid
  *   The mlid of the parent menu link specified in the rule.
- * @param $admin_title
+ * @param string $admin_title
  *   The administrative title of the rule.
- * @return
+ *
+ * @return int
  *   The mlid of the rule's new menu link.
  */
 function menu_position_add_menu_link($rid, $plid, $admin_title) {
@@ -523,9 +581,10 @@ function menu_position_add_menu_link($rid, $plid, $admin_title) {
 /**
  * Retrieves a menu position rule from the database.
  *
- * @param $rid
+ * @param int $rid
  *   The ID of the requested rule.
- * @return
+ *
+ * @return array
  *   An associative array for the requested rule.
  */
 function menu_position_read_rule($rid) {
@@ -537,15 +596,20 @@ function menu_position_read_rule($rid) {
 /**
  * Retrieves a menu position rule from the database.
  *
- * @return
+ * @return array
  *   An associative array for all rules with keys equal to the rid of each rule.
  */
 function menu_position_read_rules() {
   $query = db_query('SELECT * FROM {menu_position_rules} ORDER BY weight, rid');
   $rules = array();
   foreach ($query as $rule) {
+    $rule->conditions = unserialize($rule->conditions);
+    $rules[$rule->rid] = $rule;
+    /*
+    @todo remove if functional as above.
     $rule['conditions'] = unserialize($rule['conditions']);
     $rules[$rule['rid']] = $rule;
+    */
   }
   return $rules;
 }
@@ -553,7 +617,7 @@ function menu_position_read_rules() {
 /**
  * Edits a menu position rule.
  *
- * @param $rule
+ * @param array $rule
  *   An associate array defining the rule to be edited. Must contain the
  *   following keys:
  *   - rid: The rule ID.
@@ -564,12 +628,13 @@ function menu_position_read_rules() {
  *   - menu_name: The machine name of the menu where this rule is positioned.
  *   - plid: The mlid of the parent menu link specified in the rule.
  */
-function menu_position_edit_rule($rule) {
+function menu_position_edit_rule(array $rule) {
   $fields = array(
     'admin_title' => $rule['admin_title'],
     'conditions'  => serialize($rule['conditions']),
     'menu_name'   => $rule['menu_name'],
     'plid'        => $rule['plid'],
+    'machine_name' => $rule['machine_name'],
   );
   // Update the rule.
   db_update('menu_position_rules')
@@ -579,20 +644,22 @@ function menu_position_edit_rule($rule) {
   // Update the link.
   $mlid = db_query('SELECT mlid FROM {menu_position_rules} WHERE rid = :rid', array(':rid' => $rule['rid']))->fetchField();
   menu_position_edit_menu_link($rule['rid'], $mlid, $rule['plid'], $rule['admin_title']);
+  cache_clear_all('menu_position:rules:', 'cache', TRUE);
 }
 
 /**
  * Adds a menu position rule.
  *
- * @param $rid
+ * @param int $rid
  *   ID of the rule needing a menu link.
- * @param $mlid
+ * @param int $mlid
  *   The mlid of the menu link used in the rule.
- * @param $plid
+ * @param int $plid
  *   The mlid of the parent menu link specified in the rule.
- * @param $admin_title
+ * @param string $admin_title
  *   The administrative title of the rule.
- * @return
+ *
+ * @return int
  *   The mlid of the rule's new menu link.
  */
 function menu_position_edit_menu_link($rid, $mlid, $plid, $admin_title) {
@@ -665,4 +732,5 @@ function menu_position_delete_rule($rid) {
     ->condition('rid', $rid)
     ->execute();
   menu_link_delete(NULL, 'menu-position/' . $rid);
+  cache_clear_all('menu_position:rules:', 'cache', TRUE);
 }

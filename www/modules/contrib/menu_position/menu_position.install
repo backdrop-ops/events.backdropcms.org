@@ -59,12 +59,21 @@ function menu_position_schema() {
         'not null' => FALSE,
         'default' => 0,
       ),
+      'machine_name' => array(
+        'description' => 'The machine name.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => NULL,
+      ),
     ),
     'indexes' => array(
       'rule_enabled' => array('enabled', 'weight', 'rid'),
       'rule_weight'  => array('weight', 'rid'),
     ),
     'primary key' => array('rid'),
+    'unique keys' => array(
+      'machine_name' => array('machine_name'),
+    ),
   );
 
   return $schema;
@@ -109,4 +118,42 @@ function menu_position_update_1000() {
  */
 function menu_position_update_last_removed() {
   return 7102;
+}
+
+/**
+ * Adding the machine_name field if needed.
+ */
+function menu_position_update_1100() {
+  // Add the 'machine_name' column if needed.
+  // See update 7103 in Drupal 7.
+  if (!db_field_exists('menu_position_rules', 'machine_name')) {
+    db_add_field(
+      'menu_position_rules',
+      'machine_name',
+      array(
+        'description' => 'The machine name.',
+        'type' => 'varchar',
+        'length' => 255,
+        'default' => NULL,
+      )
+    );
+    db_add_unique_key(
+      'menu_position_rules',
+      'machine_name',
+      array('machine_name')
+    );
+  }
+  $result = db_query('SELECT admin_title, rid FROM {menu_position_rules}')->fetchAll();
+
+  // Fill in a machine name if needed.
+  foreach ($result as $rule) {
+    if (empty($rule->machine_name)) {
+      $rule->machine_name = substr(preg_replace('/[^a-z0-9_]+/', '_', backdrop_strtolower($rule->admin_title)), 0, 255);
+      $rule->machine_name .= $rule->rid;
+      db_update('menu_position_rules')
+        ->fields(array('machine_name' => $rule->machine_name))
+        ->condition('rid', $rule->rid)
+        ->execute();
+    }
+  }
 }

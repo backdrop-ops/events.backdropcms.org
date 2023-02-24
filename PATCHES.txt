@@ -7,16 +7,6 @@ none
 CONTRIB:
 ---------
 
-borg - decrease header icon font size
-  https://github.com/backdrop-contrib/borg/issues/22
-  https://github.com/backdrop-contrib/borg/pull/23.patch
-
-borg - help text on login / register.
-  https://github.com/backdrop-contrib/borg/issues/24
-  https://github.com/backdrop-contrib/borg/pull/25.patch
-
----
-
 Reference - alterable link structure
   https://github.com/backdrop-contrib/reference/issues/34
   https://github.com/backdrop-contrib/reference/pull/35.patch

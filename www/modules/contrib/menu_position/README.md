@@ -15,7 +15,6 @@ This includes affecting:
 * Menu blocks provided by core's Menu module
 * Menu blocks provided by the Menu Block module
 
-
 ## Rule checking
 
 Rules can be added, modified, re-ordered, disabled and deleted from the admin
@@ -47,7 +46,6 @@ Once a rule is "matched", the following things happen:
   menu already contained a menu item for the current page, the theme's
   breadcrumbs will be affected by the active trail specified in the rule.
 
-
 ## Plug-ins
 
 Currently, the Menu position module only provides "content type" and "pages"
@@ -61,7 +59,6 @@ See the following files for more information:
 - menu_position.example_plugin.inc
 - menu_position.node_type.inc
 
-
 ## License
 
 This project is GPL v2 software. See the LICENSE.txt file in this directory for
@@ -69,9 +66,10 @@ complete text.
 
 ## Current Maintainers
 
--   Jerome Danthinne (https://github.com/jdanthinne/)
+- [Laryn Kragt Bakker](https://github.com/laryn/)
 
 ## Credits
 
-This module was originally written for Drupal by John Albin
-(https://www.drupal.org/u/johnalbin).
+- Recent development has been sponsored by [Aten Design Group](https://atendesigngroup.com/).
+- Ported to Backdrop by [Jerome Danthinne](https://github.com/jdanthinne/).
+- Originally written for Drupal by [John Albin](https://www.drupal.org/u/johnalbin).
