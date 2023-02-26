@@ -35,9 +35,24 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
   $ymd = substr($date_example, 0, 10);
   $time = substr($date_example, 11);
 
+  $form['time_slot_dates']['event_next_start_date'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Next event start date'),
+    '#disabled' => TRUE,
+    '#size' => 20,
+  );
+
   $next_event_info = _borg_events_get_event_info($defaults['event_nid'], $time);
-  $new_first_date = $next_event_info['start_date_ymd'];
-  $next_event_edit = l(t('edit event'), 'node/' . $defaults['event_nid'] . '/edit');
+  if ($next_event_info) {
+    $new_first_date = $next_event_info['start_date_ymd'];
+    $next_event_edit = l(t('edit event'), 'node/' . $defaults['event_nid'] . '/edit');
+    $form['time_slot_dates']['event_next_start_date']['#default_value'] = $new_first_date;
+    $form['time_slot_dates']['event_next_start_date']['#description'] = t('This date is pulled from the event: :title (!edit)', array(
+      ':title' => $next_event_info['title'],
+      '!edit' => $next_event_edit,
+    ));
+  }
+
   $form['time_slot_dates']['event_next_start_date'] = array(
     '#type' => 'textfield',
     '#title' => t('Next event start date'),
@@ -146,18 +161,23 @@ function _borg_event_update_term_description($new_date_ymd, $old_description) {
   return $new_description;
 }
 
+/**
+ * Helper function: Load current event.
+ */
 function _borg_events_get_event_info($nid, $start_time) {
   $event_node = node_load($nid);
-  $event_title = check_plain($event_node->title);
-  $start_date = $event_node->field_event_date[LANGUAGE_NONE][0]['value'];
-  $start_date_ymd = str_replace(' 00:00:00', '', $start_date);
+  if ($event_node) {
+    $event_title = check_plain($event_node->title);
+    $start_date = $event_node->field_event_date[LANGUAGE_NONE][0]['value'];
+    $start_date_ymd = str_replace(' 00:00:00', '', $start_date);
 
-  return array(
-    'nid' => $nid,
-    'title' => $event_title,
-    'start_date' => $start_date,
-    'start_date_ymd' => $start_date_ymd,
-  );
+    return array(
+      'nid' => $nid,
+      'title' => $event_title,
+      'start_date' => $start_date,
+      'start_date_ymd' => $start_date_ymd,
+    );
+  }
 }
 
 /**
