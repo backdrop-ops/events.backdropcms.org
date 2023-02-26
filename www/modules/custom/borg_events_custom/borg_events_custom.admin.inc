@@ -23,6 +23,7 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     '#title' => $heading,
     '#description' => $help,
     '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
   );
 
   $term_example = taxonomy_term_load(4);
