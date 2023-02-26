@@ -4,6 +4,7 @@
  * Admin functions for borg events modile.
  */
 function borg_events_custom_settings_form($form = array(), &$form_settings = array()) {
+  $config = config('borg_events_custom.settings');
   $form['#config'] = 'borg_events_custom.settings';
 
   $form['event_settings'] = array(
@@ -38,7 +39,6 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     '#size' => 20,
   );
 
-  $config = config('borg_events_custom.settings');
   $current_event = (int) $config->get('event_nid');
   $next_event_info = _borg_events_get_event_info($current_event);
   if ($next_event_info) {
@@ -89,7 +89,18 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     '#markup' => '<p>' .  $example . '</p>',
   );
 
+  // @todo - why is this necessary?
+  $form['#submit'][] = 'borg_events_custom_settings_form_submit';
+
   return system_settings_form($form);
+}
+
+/**
+ * Submit handler for Event Settings form.
+ */
+function borg_events_custom_settings_form_submit(&$form, &$form_state) {
+  // Change the current event.
+  _borg_events_change_current_event($form_state['values']['event_nid']);
 }
 
 /**
@@ -123,7 +134,6 @@ function _borg_events_update_time_slots(&$form, &$form_state) {
     $new_date = _borg_event_update_term_date($start_date_ymd, $old_date);
     $term->field_schedule_date1[LANGUAGE_NONE][0]['value'] = $new_date;
 
-    //dpm($term->description);
     $old_description = $term->description;
     $new_description = _borg_event_update_term_description($start_date_ymd, $old_description);
     $term->description = $new_description;
@@ -153,12 +163,4 @@ function _borg_event_update_term_description($new_date_ymd, $old_description) {
   // @todo update time.
 
   return $new_description;
-}
-
-/**
- * Submit handler for Event Settings form. 
- */
-function borg_events_custom_settings_form_submit(&$form, &$form_state) {
-  // Save old event_nid when changed.
-  _borg_events_save_old_event($form_state['values']['event_nid']);
 }

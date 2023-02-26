@@ -87,7 +87,6 @@ function borg_events_custom_block_configure($delta = '', $settings = array()) {
     $config = config('borg_events_custom.settings');
     $current_event = (int) $config->get('event_nid');
     $next_event_info = _borg_events_get_event_info($current_event);
-    dpm($next_event_info);
     if ($next_event_info) {
       $form['display_date']['#default_value'] = $next_event_info['display_date'];
       _borg_events_add_event_source_description($form['display_date'], $next_event_info);
@@ -345,26 +344,41 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
 function borg_events_custom_block_save($delta, &$edit = array()) {
   if ($delta == 'live') {
     // Save the old NID for the time slot update.
-    _borg_events_save_old_event($edit['event_nid']);
+    _borg_events_change_current_event($edit['event_nid']);
 
     // Using this block to set global values used by related blocks.
     config_set('borg_events_custom.settings', 'event_nid', $edit['event_nid']);
     config_set('borg_events_custom.settings', 'event_open', $edit['event_open']);
-    // Not removeing the values so they will also be saved by Layout module.
+    // Not removeing these values so they will also be saved by Layout module.
   }
 }
 
 /**
- * Helper fuction, saves the previous node event ID.
+ * Helper fuction,
  * 
  * @param $new_nid
  *   Node ID of the new event being set.
  */
-function _borg_events_save_old_event($new_nid) {
-  $old_nid = config_get('borg_events_custom.settings', 'event_nid');
-  if ($new_nid != $old_nid) {
-    config_set('borg_events_custom.settings', 'event_old_nid', $old_nid);
+function _borg_events_change_current_event($event_nid) {
+  // Enable schedule view.
+  $schedule_view_config = config('views.view.schedule');
+  $schedule_view_config->set('disabled', FALSE);
+
+  // Update the view to use this year's event.
+  if (isset($event_nid)) {
+    $schedule_view_config->set('display.default.display_options.filters.field_event_target_id.value.value', $event_nid);
+    $schedule_view_config->set('display.page.display_options.filters.field_event_target_id.value.value', $event_nid);
+    $schedule_view_config->set('display.block_1.display_options.filters.field_event_target_id.value.value', $event_nid);
+    $schedule_view_config->set('display.block_2.display_options.filters.field_event_target_id.value.value', $event_nid);
+
+    // Update the title of the default display.
+    $next_event_info = _borg_events_get_event_info($event_nid);
+    $schedule_title = str_replace('Backdrop Live', 'Backdrop LIVE Schedule', $next_event_info['title']);
+    $schedule_view_config->set('display.default.display_options.title', $schedule_title);
   }
+
+  // Save changes to the view.
+  $schedule_view_config->save();
 }
 
 /**
