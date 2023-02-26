@@ -4,7 +4,6 @@
  * Admin functions for borg events modile.
  */
 function borg_events_custom_settings_form($form = array(), &$form_settings = array()) {
-  $config = config('borg_events_custom.settings');
   $form['#config'] = 'borg_events_custom.settings';
 
   $form['event_settings'] = array(
@@ -14,10 +13,7 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     '#collapsible' => FALSE,
   );
 
-  $defaults = $config->get();
-  $defaults['event_nid'] = (int) $defaults['event_nid'];
-
-  _borg_events_add_event_settings($form['event_settings'], $defaults, FALSE);
+  _borg_events_add_event_settings($form['event_settings'], FALSE);
 
   $heading = t('Update time slot dates');
   $help  = '<p>' . t('All <em>Time Slot</em> taxonomy terms will need to be updated with the correct date before each event. The button below can be used to update all terms at once.') . '</p>';
@@ -42,28 +38,26 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     '#size' => 20,
   );
 
-  $next_event_info = _borg_events_get_event_info($defaults['event_nid'], $time);
+  $config = config('borg_events_custom.settings');
+  $current_event = (int) $config->get('event_nid');
+  $next_event_info = _borg_events_get_event_info($current_event);
   if ($next_event_info) {
-    $new_first_date = $next_event_info['start_date_ymd'];
-    $next_event_edit = l(t('edit event'), 'node/' . $defaults['event_nid'] . '/edit');
-    $form['time_slot_dates']['event_next_start_date']['#default_value'] = $new_first_date;
+    $form['time_slot_dates']['event_next_start_date']['#default_value'] = $next_event_info['start_date_ymd'];
     $form['time_slot_dates']['event_next_start_date']['#description'] = t('This date is pulled from the event: :title (!edit)', array(
       ':title' => $next_event_info['title'],
-      '!edit' => $next_event_edit,
+      '!edit' => $next_event_info['edit'],
     ));
   }
 
   $form['time_slot_dates']['event_next_start_date'] = array(
     '#type' => 'textfield',
     '#title' => t('Next event start date'),
-    '#default_value' => $new_first_date,
-    '#description' => t('This date is pulled from the event: :title (!edit)', array(
-      ':title' => $next_event_info['title'],
-      '!edit' => $next_event_edit,
-    )),
+    '#default_value' => $next_event_info['start_date_ymd'],
     '#disabled' => TRUE,
     '#size' => 20,
   );
+
+  _borg_events_add_event_source_description($form['time_slot_dates']['event_next_start_date'],$next_event_info);
 
   $term_example_edit = l(t('edit time slot'), 'taxonomy/term/' . $term_example->tid . '/edit');
   $form['time_slot_dates']['event_next_start_time'] = array(
@@ -84,8 +78,8 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     '#submit' => array('_borg_events_update_time_slots'),
   );
 
-  $new_date = str_replace($ymd, $new_first_date, $date_example);
-  $new_description = str_replace('2022-03-11', $new_first_date, $desc_example);
+  $new_date = str_replace($ymd, $next_event_info['start_date_ymd'], $date_example);
+  $new_description = str_replace('2022-03-11', $next_event_info['start_date_ymd'], $desc_example);
 
   $example  = t('<strong>Slot 1 example:</strong><br>');
   $example .= t('<strong>Date:</strong> <code>:example</code><br>', array(':example' => $new_date ));
@@ -159,25 +153,6 @@ function _borg_event_update_term_description($new_date_ymd, $old_description) {
   // @todo update time.
 
   return $new_description;
-}
-
-/**
- * Helper function: Load current event.
- */
-function _borg_events_get_event_info($nid, $start_time) {
-  $event_node = node_load($nid);
-  if ($event_node) {
-    $event_title = check_plain($event_node->title);
-    $start_date = $event_node->field_event_date[LANGUAGE_NONE][0]['value'];
-    $start_date_ymd = str_replace(' 00:00:00', '', $start_date);
-
-    return array(
-      'nid' => $nid,
-      'title' => $event_title,
-      'start_date' => $start_date,
-      'start_date_ymd' => $start_date_ymd,
-    );
-  }
 }
 
 /**

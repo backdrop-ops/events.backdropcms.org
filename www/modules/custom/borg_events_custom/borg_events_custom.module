@@ -78,28 +78,84 @@ function borg_events_custom_block_configure($delta = '', $settings = array()) {
       'event_open' => TRUE,
       'event_nid' => 35,
     );
+
     $form['display_date'] = array(
       '#type' => 'textfield',
-      '#title' => t('The date as displayed in the block'),
-      '#default_value' => $settings['display_date'],
+      '#title' => t('Event date'),
+      '#disabled' => TRUE,
     );
+    $config = config('borg_events_custom.settings');
+    $current_event = (int) $config->get('event_nid');
+    $next_event_info = _borg_events_get_event_info($current_event);
+    dpm($next_event_info);
+    if ($next_event_info) {
+      $form['display_date']['#default_value'] = $next_event_info['display_date'];
+      _borg_events_add_event_source_description($form['display_date'], $next_event_info);
+    }
+    else {
+      $form['display_date']['#description'] = t('No current event.');
+    }
+
     $form['text'] = array(
       '#type' => 'textfield',
-      '#title' => t('The date as displayed in the block'),
+      '#title' => t('Event text'),
       '#default_value' => $settings['text'],
       '#size' => 120,
     );
 
-    _borg_events_add_event_settings($form, $settings, TRUE);
+    _borg_events_add_event_settings($form, TRUE);
 
   }
   return $form;
 }
 
 /**
+ * Helper function: Load current event.
+ */
+function _borg_events_get_event_info($nid) {
+  $event_node = node_load($nid);
+  if ($event_node) {
+    $event_title = check_plain($event_node->title);
+    $start_date = $event_node->field_event_date[LANGUAGE_NONE][0]['value'];
+    $start_date_ymd = str_replace(' 00:00:00', '', $start_date);
+    $display_date = check_plain($event_node->field_display_date[LANGUAGE_NONE][0]['value']);
+
+    return array(
+      'nid' => $nid,
+      'title' => $event_title,
+      'start_date' => $start_date,
+      'start_date_ymd' => $start_date_ymd,
+      'display_date' => $display_date,
+      'edit' => l(t('edit event'), 'node/' . $nid . '/edit'),
+    );
+  }
+}
+
+/**
+ * Helper function: add description referencing source of data.
+ *
+ * @param array $element
+ *   Form API element to add the description.
+ *
+ * @param array $next_event_info
+ *   Array of information about the next event from _borg_events_get_event_info().
+ */
+function _borg_events_add_event_source_description(&$element, $next_event_info) {
+  $element['#description'] = t('This date is pulled from the event: :title (!edit)', array(
+    ':title' => $next_event_info['title'],
+    '!edit' => $next_event_info['edit'],
+  ));
+}
+
+/**
  * Helper function: add site-wide settings options for form.
  */
-function _borg_events_add_event_settings(&$form, $defaults = array(), $warning = TRUE) {
+function _borg_events_add_event_settings(&$form, $warning = TRUE) {
+  $config = config('borg_events_custom.settings');
+  $defaults = $config->get();
+  $defaults['event_nid'] = (int) $defaults['event_nid'];
+
+
   $warning_text = 'This setting will change the event status for all related blocks.';
   if ($warning) {
     $warning_text = str_replace('This', 'WARNING: this', $warning_text);
@@ -125,7 +181,7 @@ function _borg_events_add_event_settings(&$form, $defaults = array(), $warning =
 }
 
 /**
- * Implements hook_block_configure().
+ * Implements hook_block_view().
  */
 function borg_events_custom_block_view($delta = '', $settings = array(), $contexts = array()) {
   // This example is adapted from node.module.
@@ -289,11 +345,11 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
 function borg_events_custom_block_save($delta, &$edit = array()) {
   if ($delta == 'live') {
     // Save the old NID for the time slot update.
-    _borg_events_save_old_event($edit['nid']);
+    _borg_events_save_old_event($edit['event_nid']);
 
     // Using this block to set global values used by related blocks.
-    config_set('borg_events_custom.settings', 'event_nid', $edit['nid']);
-    config_set('borg_events_custom.settings', 'event_open', $edit['open']);
+    config_set('borg_events_custom.settings', 'event_nid', $edit['event_nid']);
+    config_set('borg_events_custom.settings', 'event_open', $edit['event_open']);
     // Not removeing the values so they will also be saved by Layout module.
   }
 }
