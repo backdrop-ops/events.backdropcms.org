@@ -90,6 +90,23 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     '#markup' => '<p>' .  $example . '</p>',
   );
 
+
+  $dn_heading = t('Create discussion nodes');
+  $dn_help  = '<p>' . t('All <em>Time Slot</em> taxonomy terms will need at least one discussion node to build the schedule. The button below can be used to generate all nodes at once.') . '</p>';
+  $form['discussion_nodes'] = array(
+    '#type' => 'fieldset',
+    '#title' => $dn_heading,
+    '#description' => $dn_help,
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+  );
+
+  $form['discussion_nodes']['discussion_nodes_button'] = array(
+    '#type' => 'submit',
+    '#value' => $dn_heading,
+    '#submit' => array('_borg_events_generate_discussion_nodes'),
+  );
+
   // @todo - why is this necessary?
   $form['#submit'][] = 'borg_events_custom_settings_form_submit';
 
@@ -102,6 +119,64 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
 function borg_events_custom_settings_form_submit(&$form, &$form_state) {
   // Change the current event.
   _borg_events_change_current_event($form_state['values']['event_nid']);
+}
+
+/**
+ * Submit handler for the generate discussion nodes button.
+ */
+function _borg_events_generate_discussion_nodes(&$form, &$form_state) {
+  // Get all term ids for the vocab.
+  $tids = db_query("SELECT tid FROM {taxonomy_term_data} WHERE vocabulary = 'time_slot' ORDER BY weight")->fetchCol();
+  foreach ($tids as $tid) {
+    $term = taxonomy_term_load($tid);
+
+    module_load_include('inc', 'devel_generate', 'devel_generate');
+    $results = array(
+      'node_types' => array('session'),
+      'users' => array('1'),
+      'title' => 'TBD',
+    );
+    _borg_events_generate_content_add_node($tid, 38);
+    _borg_events_generate_content_add_node($tid, 39);
+  }
+
+  $node_count = count($tids) * 2;
+  backdrop_set_message(t(':count discussion nodes have been created.', array(':count' => $node_count)));
+}
+
+/**
+ * Create one node. Used by both batch and non-batch code branches.
+ *
+ * @param $tid
+ *   Taxonomy Term ID for the current time slot.
+ */
+function _borg_events_generate_content_add_node($time_slot_tid, $room_tid) {
+  $node = new Node();
+  $node->nid = NULL;
+  $node->type = 'session';
+  node_object_prepare($node);
+  $node->title = '<open>';
+  $node->uid = 1; // Drop
+
+  // Set to the current event.
+  $config = config('borg_events_custom.settings');
+  $current_event = (int) $config->get('event_nid');
+  $node->field_event[LANGUAGE_NONE]['0']['target_id'] = $current_event;
+
+  // Set time slot to the current time slot.
+  $node->field_schedule_slot[LANGUAGE_NONE]['0']['tid'] = $time_slot_tid;
+
+  // Set room to the current room.
+  $node->field_room[LANGUAGE_NONE]['0']['tid'] = $room_tid;
+
+  // Set the body of this node.
+  $node->body[LANGUAGE_NONE]['0']['value'] = '';
+
+  $node->sticky = 0;
+  $node->revision = 0;
+  $node->promote = 0;
+
+  node_save($node);
 }
 
 /**
@@ -146,6 +221,9 @@ function _borg_events_update_time_slots(&$form, &$form_state) {
   backdrop_set_message(t(':count time slots have been updated.', array(':count' => $hour_count)));
 }
 
+/**
+ * Helper function: update the term date.
+ */
 function _borg_event_update_term_date($new_date_ymd, $old_date) {
   $old_ymd = substr($old_date, 0, 10);
   //$old_time = substr($date_example, 11);
@@ -154,6 +232,9 @@ function _borg_event_update_term_date($new_date_ymd, $old_date) {
   return $new_date;
 }
 
+/**
+ * Helper function: update the term description.
+ */
 function _borg_event_update_term_description($new_date_ymd, $old_description) {
   // <strong>Slot 1</strong>: [utz-datetime:2022-03-11 8:00 PST|g:i a e - F j, Y]
   $old_description_array = explode('utz-datetime:', $old_description);
