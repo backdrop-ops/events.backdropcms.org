@@ -3,18 +3,17 @@
     "field_name": "field_city_country",
     "entity_type": "registration",
     "bundle": "backdrop_live",
-    "label": "City / Country",
+    "label": "What city and country will you be participating from?",
     "widget": {
         "weight": "2",
         "type": "text_textfield",
         "module": "text",
         "active": 1,
         "settings": {
-            "rows": "2",
-            "size": 60
+            "size": "60"
         }
     },
-    "description": "Help us understand the geographic diversity of this event. What city/country will you be participating from?",
+    "description": "Help us understand the geographic diversity of this event. ",
     "required": 0,
     "deleted": 0,
     "default_value": null,
