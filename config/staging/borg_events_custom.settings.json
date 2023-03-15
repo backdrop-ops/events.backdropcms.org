@@ -1,7 +1,7 @@
 {
     "_config_name": "borg_events_custom.settings",
-    "event_nid": null,
-    "event_open": null,
+    "event_nid": "243",
+    "event_open": "1",
     "event_old_nid": "181",
     "event_next_start_date": "",
     "event_next_start_time": "08:00:00"

@@ -782,7 +782,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "181"
+                            "value": "243"
                         },
                         "group": "1",
                         "exposed": false,
@@ -902,7 +902,7 @@
                         }
                     }
                 },
-                "title": "Backdrop LIVE Schedule, Oct 2022",
+                "title": "Backdrop LIVE Schedule - March 2023",
                 "style_options": {
                     "grouping": [
                         {
@@ -988,7 +988,14 @@
                     "type": "views_query",
                     "options": []
                 },
-                "path": "schedule-page"
+                "path": "schedule-page",
+                "filters": {
+                    "field_event_target_id": {
+                        "value": {
+                            "value": "243"
+                        }
+                    }
+                }
             }
         },
         "block_1": {
@@ -1111,7 +1118,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "181"
+                            "value": "243"
                         },
                         "group": "1",
                         "exposed": false,
@@ -1557,6 +1564,13 @@
                 },
                 "defaults": {
                     "relationships": false
+                },
+                "filters": {
+                    "field_event_target_id": {
+                        "value": {
+                            "value": "243"
+                        }
+                    }
                 }
             }
         }
