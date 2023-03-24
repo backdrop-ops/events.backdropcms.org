@@ -255,7 +255,9 @@
                     "style_options": false,
                     "row_plugin": false,
                     "row_options": false,
-                    "fields": false
+                    "fields": false,
+                    "pager": false,
+                    "pager_options": false
                 },
                 "style_plugin": "list",
                 "row_plugin": "fields",
@@ -296,7 +298,30 @@
                         "label": ""
                     }
                 },
-                "path": "comments/recent"
+                "path": "comments/recent",
+                "pager": {
+                    "type": "mini",
+                    "options": {
+                        "items_per_page": "15",
+                        "offset": "0",
+                        "id": "0",
+                        "total_pages": "",
+                        "tags": {
+                            "previous": "‹ previous",
+                            "next": "next ›"
+                        },
+                        "expose": {
+                            "items_per_page": 0,
+                            "items_per_page_label": "Items per page",
+                            "items_per_page_options": "5, 10, 20, 40, 60",
+                            "items_per_page_options_all": 0,
+                            "items_per_page_options_all_label": "- All -",
+                            "offset": 0,
+                            "offset_label": "Offset"
+                        }
+                    }
+                },
+                "pager_options": null
             }
         },
         "block": {

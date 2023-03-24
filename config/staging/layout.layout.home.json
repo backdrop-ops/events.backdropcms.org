@@ -131,7 +131,7 @@
         "4041d660-481e-4608-a40b-11a4749caf06": {
             "plugin": "views:schedule-block_1",
             "data": {
-                "status": 0,
+                "status": 1,
                 "module": "views",
                 "delta": "schedule-block_1",
                 "settings": {
@@ -168,7 +168,7 @@
         "8b8f39f3-acaa-451a-b909-9ca9bff3242f": {
             "plugin": "views:next_event-block",
             "data": {
-                "status": 1,
+                "status": 0,
                 "module": "views",
                 "delta": "next_event-block",
                 "settings": {
