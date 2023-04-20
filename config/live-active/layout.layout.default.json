@@ -411,7 +411,7 @@
         "ecd28596-fba5-4a54-8218-240e41bd5b7d": {
             "plugin": "block:newsletter",
             "data": {
-                "status": 1,
+                "status": 0,
                 "module": "block",
                 "delta": "newsletter",
                 "settings": {
