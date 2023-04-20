@@ -327,7 +327,7 @@
                         },
                         "granularity": "day",
                         "form_type": "date_select",
-                        "default_date": "now - 2 days",
+                        "default_date": "now",
                         "default_to_date": "",
                         "year_range": "-3:+3",
                         "add_delta": ""
@@ -429,7 +429,7 @@
                         },
                         "granularity": "day",
                         "form_type": "date_select",
-                        "default_date": "now - 2 days",
+                        "default_date": "now",
                         "default_to_date": "",
                         "year_range": "-3:+3",
                         "add_delta": ""

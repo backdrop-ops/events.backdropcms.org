@@ -1,0 +1,37 @@
+{
+    "_config_name": "field.instance.node.session.field_related_documents",
+    "field_name": "field_related_documents",
+    "entity_type": "node",
+    "bundle": "session",
+    "label": "Related Documents",
+    "widget": {
+        "weight": "15",
+        "type": "file_generic",
+        "module": "file",
+        "active": 1,
+        "settings": {
+            "progress_indicator": "throbber"
+        }
+    },
+    "description": "",
+    "required": 0,
+    "deleted": 0,
+    "default_value": null,
+    "default_value_function": null,
+    "settings": {
+        "file_directory": "discussion",
+        "file_extensions": "txt pdf",
+        "max_filesize": "",
+        "description_field": 0,
+        "user_register_form": false
+    },
+    "display": {
+        "default": {
+            "label": "hidden",
+            "type": "file_default",
+            "weight": "4",
+            "settings": [],
+            "module": "file"
+        }
+    }
+}

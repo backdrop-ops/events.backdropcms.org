@@ -27,7 +27,7 @@
         "default": {
             "label": "hidden",
             "type": "hidden",
-            "weight": "10",
+            "weight": "11",
             "settings": []
         },
         "teaser": {

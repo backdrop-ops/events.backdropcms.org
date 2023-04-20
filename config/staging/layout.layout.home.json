@@ -31,9 +31,9 @@
         ],
         "sidebar": [
             "3e2ba52b-1d50-4cda-8500-f36ed6142917",
-            "cfa18cb5-ae2a-430c-8600-a270ec97829a",
             "ef578328-75a4-4fb3-9400-d5c7bb238838",
-            "495fc21c-26ad-4692-8000-b5a9e9117a6d"
+            "495fc21c-26ad-4692-8000-b5a9e9117a6d",
+            "cfa18cb5-ae2a-430c-8600-a270ec97829a"
         ],
         "bottom": [],
         "footer": [
@@ -85,7 +85,7 @@
                         "display_date": "March 24th &amp; 25th, 2023",
                         "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
                         "event_nid": "243",
-                        "event_open": "1"
+                        "event_open": "0"
                     },
                     "contexts": [],
                     "admin_label": "",
@@ -131,7 +131,7 @@
         "4041d660-481e-4608-a40b-11a4749caf06": {
             "plugin": "views:schedule-block_1",
             "data": {
-                "status": 1,
+                "status": 0,
                 "module": "views",
                 "delta": "schedule-block_1",
                 "settings": {
@@ -168,7 +168,7 @@
         "8b8f39f3-acaa-451a-b909-9ca9bff3242f": {
             "plugin": "views:next_event-block",
             "data": {
-                "status": 0,
+                "status": 1,
                 "module": "views",
                 "delta": "next_event-block",
                 "settings": {
@@ -290,43 +290,6 @@
                 }
             }
         },
-        "cfa18cb5-ae2a-430c-8600-a270ec97829a": {
-            "plugin": "views:next_event-block_1",
-            "data": {
-                "status": 1,
-                "module": "views",
-                "delta": "next_event-block_1",
-                "settings": {
-                    "link_to_view": 0,
-                    "more_link": false,
-                    "use_pager": false,
-                    "pager_id": 0,
-                    "items_per_page": "1",
-                    "offset": 0,
-                    "path": null,
-                    "fields_override": null,
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": [],
-                    "contexts": [],
-                    "allowed": [],
-                    "path_override": false,
-                    "exposed": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "cfa18cb5-ae2a-430c-8600-a270ec97829a",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
-            }
-        },
         "ef578328-75a4-4fb3-9400-d5c7bb238838": {
             "plugin": "block:contact_us_block",
             "data": {
@@ -377,6 +340,43 @@
                     "admin_description": ""
                 },
                 "uuid": "495fc21c-26ad-4692-8000-b5a9e9117a6d",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "cfa18cb5-ae2a-430c-8600-a270ec97829a": {
+            "plugin": "views:next_event-block_1",
+            "data": {
+                "status": 1,
+                "module": "views",
+                "delta": "next_event-block_1",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": "1",
+                    "offset": 0,
+                    "path": null,
+                    "fields_override": null,
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "cfa18cb5-ae2a-430c-8600-a270ec97829a",
                 "style": {
                     "plugin": "default",
                     "data": {

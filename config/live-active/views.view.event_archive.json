@@ -258,7 +258,7 @@
                         "group_type": "group",
                         "ui_name": "",
                         "label": "",
-                        "exclude": 0,
+                        "exclude": 1,
                         "alter": {
                             "alter_text": true,
                             "text": "<a aria-label=\"View presentations from [title]\" href=\"/archive/presentations/[nid]\">View presentations</a><br>",

@@ -28,9 +28,9 @@
             "6341a709-6bb9-414e-b703-3ce725ceef76"
         ],
         "sidebar": [
-            "94762949-66cf-4040-8200-c0d28819c416",
             "cf904e28-1aab-4328-9c5f-95c8204bad71",
-            "273c4846-8d3e-47a3-bc0b-1113d15b76f8"
+            "273c4846-8d3e-47a3-bc0b-1113d15b76f8",
+            "ba9739db-df88-44f5-8300-d17e59ea808e"
         ],
         "bottom": [],
         "footer": [
@@ -47,6 +47,7 @@
         "84c43df4-1165-4faf-8700-c362a7153c0b": {
             "plugin": "system:header",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "header",
                 "settings": {
@@ -77,6 +78,7 @@
         "a4c0c80d-534b-40f4-b100-b9d4e1ca9fa0": {
             "plugin": "system:user-menu",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "user-menu",
                 "settings": {
@@ -110,6 +112,7 @@
         "13b2f325-af26-40bb-8c61-97fe1d93f19f": {
             "plugin": "system:main-menu",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "main-menu",
                 "settings": {
@@ -137,6 +140,7 @@
         "ae546727-1010-40f9-a53b-59bc05afd1b5": {
             "plugin": "block:schedule_subject_to_change_message",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "schedule_subject_to_change_message",
                 "settings": {
@@ -178,6 +182,7 @@
         "default": {
             "plugin": "system:main",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "main",
                 "settings": {
@@ -201,6 +206,7 @@
         "6341a709-6bb9-414e-b703-3ce725ceef76": {
             "plugin": "user:login",
             "data": {
+                "status": 1,
                 "module": "user",
                 "delta": "login",
                 "settings": {
@@ -247,38 +253,10 @@
                 ]
             }
         },
-        "94762949-66cf-4040-8200-c0d28819c416": {
-            "plugin": "block:schedule_link",
-            "data": {
-                "module": "block",
-                "delta": "schedule_link",
-                "settings": {
-                    "title_display": "none",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": {
-                        "delta": "schedule_link",
-                        "description": "",
-                        "reusable": true
-                    },
-                    "contexts": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "94762949-66cf-4040-8200-c0d28819c416",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
-            }
-        },
         "cf904e28-1aab-4328-9c5f-95c8204bad71": {
             "plugin": "borg_events_custom:steps",
             "data": {
+                "status": 1,
                 "module": "borg_events_custom",
                 "delta": "steps",
                 "settings": {
@@ -304,6 +282,7 @@
         "273c4846-8d3e-47a3-bc0b-1113d15b76f8": {
             "plugin": "block:contact_us_block",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "contact_us_block",
                 "settings": {
@@ -330,9 +309,47 @@
                 }
             }
         },
+        "ba9739db-df88-44f5-8300-d17e59ea808e": {
+            "plugin": "views:next_event-block_1",
+            "data": {
+                "status": 1,
+                "module": "views",
+                "delta": "next_event-block_1",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": "1",
+                    "offset": 0,
+                    "path": null,
+                    "fields_override": null,
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "ba9739db-df88-44f5-8300-d17e59ea808e",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
         "cd4d033d-3f67-4191-8655-85ee758877c0": {
             "plugin": "system:powered-by",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "powered-by",
                 "settings": {
@@ -356,6 +373,7 @@
         "3e68519b-7c2b-4293-9000-db975374fa6e": {
             "plugin": "on_the_web:social_links",
             "data": {
+                "status": 1,
                 "module": "on_the_web",
                 "delta": "social_links",
                 "settings": {
@@ -393,6 +411,7 @@
         "ecd28596-fba5-4a54-8218-240e41bd5b7d": {
             "plugin": "block:newsletter",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "newsletter",
                 "settings": {
@@ -422,6 +441,7 @@
         "0099e07e-04a3-4c04-b000-b3e95a570458": {
             "plugin": "menu:menu-footer-menu",
             "data": {
+                "status": 1,
                 "module": "menu",
                 "delta": "menu-footer-menu",
                 "settings": {
