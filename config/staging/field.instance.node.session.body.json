@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Description",
     "widget": {
-        "weight": "3",
+        "weight": "1",
         "type": "text_textarea_with_summary",
         "module": "text",
         "active": 1,
@@ -17,7 +17,8 @@
     "settings": {
         "text_processing": "1",
         "display_summary": 0,
-        "user_register_form": false
+        "user_register_form": false,
+        "allowed_formats": []
     },
     "display": {
         "default": {

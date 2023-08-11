@@ -5,7 +5,7 @@
     "bundle": "session",
     "label": "Topics",
     "widget": {
-        "weight": "7",
+        "weight": "5",
         "type": "options_buttons",
         "module": "options",
         "active": 1,

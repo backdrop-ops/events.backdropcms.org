@@ -223,5 +223,6 @@
         "create backdrop_live registration other anonymous",
         "edit backdrop_live registration state",
         "administer_borg_events"
-    ]
+    ],
+    "description": ""
 }

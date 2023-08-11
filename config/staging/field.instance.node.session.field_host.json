@@ -3,9 +3,9 @@
     "field_name": "field_host",
     "entity_type": "node",
     "bundle": "session",
-    "label": "Facilitator(s) if known",
+    "label": "Facilitator(s)",
     "widget": {
-        "weight": "5",
+        "weight": "2",
         "type": "reference_autocomplete",
         "module": "reference",
         "active": 0,

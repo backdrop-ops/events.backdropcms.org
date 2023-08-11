@@ -3,9 +3,9 @@
     "field_name": "field_audience",
     "entity_type": "node",
     "bundle": "session",
-    "label": "Audience",
+    "label": "Intended Audience",
     "widget": {
-        "weight": "6",
+        "weight": "4",
         "type": "options_buttons",
         "module": "options",
         "active": 1,
@@ -14,7 +14,11 @@
     "description": "",
     "required": 0,
     "deleted": 0,
-    "default_value": null,
+    "default_value": [
+        {
+            "tid": "94"
+        }
+    ],
     "default_value_function": null,
     "settings": {
         "user_register_form": false

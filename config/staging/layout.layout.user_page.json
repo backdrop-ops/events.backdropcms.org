@@ -37,7 +37,7 @@
         "footer": [
             "3d47551b-9b00-47a3-b043-6701485061ce",
             "4e0606c0-99b5-4b06-9706-6b2c38e1c7ed",
-            "3af3f8df-c13f-4eb3-bb04-4b9548608ecb",
+            "7e6b52ad-1162-4cc7-bd05-5f23473c3fe2",
             "f4764d5f-38b4-434b-a708-08ea8aceb8be"
         ],
         "title": []
@@ -48,6 +48,7 @@
         "91eac222-eabb-4af5-b34e-78e5628f9b22": {
             "plugin": "system:header",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "header",
                 "settings": {
@@ -78,6 +79,7 @@
         "35f073ae-951d-4d5a-8500-e98fbc84e2a2": {
             "plugin": "system:user-menu",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "user-menu",
                 "settings": {
@@ -111,6 +113,7 @@
         "ee80a846-2fa8-4a0e-8a00-c90c0284da90": {
             "plugin": "system:main-menu",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "main-menu",
                 "settings": {
@@ -138,6 +141,7 @@
         "ea0e46f1-66fb-4b1a-b500-ce6fec83ce3f": {
             "plugin": "block:schedule_subject_to_change_message",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "schedule_subject_to_change_message",
                 "settings": {
@@ -167,6 +171,7 @@
         "f987357e-d810-4f7a-8d00-af095e010935": {
             "plugin": "system:page_components:title",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "page_components",
                 "settings": {
@@ -195,6 +200,7 @@
         "eea6011a-c3e8-4f93-8b06-6c7df88bae96": {
             "plugin": "system:main",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "main",
                 "settings": {
@@ -218,6 +224,7 @@
         "69a47ce7-8922-4426-a500-a8592c7c07df": {
             "plugin": "user:login",
             "data": {
+                "status": 1,
                 "module": "user",
                 "delta": "login",
                 "settings": {
@@ -267,6 +274,7 @@
         "8734d4d8-383c-4223-8c0f-15d6510449e1": {
             "plugin": "views:my_flagged_topics-block",
             "data": {
+                "status": 1,
                 "module": "views",
                 "delta": "my_flagged_topics-block",
                 "settings": {
@@ -303,6 +311,7 @@
         "430c1671-aa7f-4b38-9c00-bcc7b0cc33c8": {
             "plugin": "borg_events_custom:steps",
             "data": {
+                "status": 1,
                 "module": "borg_events_custom",
                 "delta": "steps",
                 "settings": {
@@ -328,6 +337,7 @@
         "7ae61bea-c7bf-45c0-bb0f-15970b3c4bd5": {
             "plugin": "block:contact_us_block",
             "data": {
+                "status": 1,
                 "module": "block",
                 "delta": "contact_us_block",
                 "settings": {
@@ -357,6 +367,7 @@
         "3d47551b-9b00-47a3-b043-6701485061ce": {
             "plugin": "system:powered-by",
             "data": {
+                "status": 1,
                 "module": "system",
                 "delta": "powered-by",
                 "settings": {
@@ -380,6 +391,7 @@
         "4e0606c0-99b5-4b06-9706-6b2c38e1c7ed": {
             "plugin": "on_the_web:social_links",
             "data": {
+                "status": 1,
                 "module": "on_the_web",
                 "delta": "social_links",
                 "settings": {
@@ -414,25 +426,22 @@
                 }
             }
         },
-        "3af3f8df-c13f-4eb3-bb04-4b9548608ecb": {
-            "plugin": "block:newsletter",
+        "7e6b52ad-1162-4cc7-bd05-5f23473c3fe2": {
+            "plugin": "borg_signup:newsletter",
             "data": {
-                "module": "block",
+                "status": 1,
+                "module": "borg_signup",
                 "delta": "newsletter",
                 "settings": {
                     "title_display": "default",
+                    "title": "",
                     "style": "default",
-                    "block_settings": {
-                        "delta": "newsletter",
-                        "description": "",
-                        "reusable": true
-                    },
+                    "block_settings": [],
                     "contexts": [],
-                    "admin_label": "Newsletter",
-                    "admin_description": "",
-                    "title": ""
+                    "admin_label": "",
+                    "admin_description": ""
                 },
-                "uuid": "3af3f8df-c13f-4eb3-bb04-4b9548608ecb",
+                "uuid": "7e6b52ad-1162-4cc7-bd05-5f23473c3fe2",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -446,6 +455,7 @@
         "f4764d5f-38b4-434b-a708-08ea8aceb8be": {
             "plugin": "menu:menu-footer-menu",
             "data": {
+                "status": 1,
                 "module": "menu",
                 "delta": "menu-footer-menu",
                 "settings": {
