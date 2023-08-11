@@ -16,7 +16,7 @@
     "deleted": 0,
     "default_value": [
         {
-            "target_id": "180"
+            "target_id": "293"
         }
     ],
     "default_value_function": null,
@@ -29,6 +29,7 @@
             "post": 0,
             "presentation": 0,
             "session": 0,
+            "test": 0,
             "webform": 0
         },
         "user_register_form": false

@@ -1,9 +1,9 @@
 {
     "_config_name": "borg_events_custom.settings",
     "event_nid": "293",
-    "event_open": "0",
+    "event_open": "1",
     "event_old_nid": "181",
-    "event_next_start_date": "2023-03-24",
+    "event_next_start_date": "2023-09-22",
     "event_next_start_time": "08:00:00",
     "discussion_nodes_button": "Create discussion nodes",
     "notes_link_url": ""

@@ -3,9 +3,9 @@
     "field_name": "field_related_documents",
     "entity_type": "node",
     "bundle": "session",
-    "label": "Related Documents",
+    "label": "Related Documents (optional)",
     "widget": {
-        "weight": "15",
+        "weight": "7",
         "type": "file_generic",
         "module": "file",
         "active": 1,

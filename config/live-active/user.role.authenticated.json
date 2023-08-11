@@ -22,5 +22,6 @@
         "view own unpublished content",
         "flag interested",
         "unflag interested"
-    ]
+    ],
+    "description": ""
 }

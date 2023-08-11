@@ -6,22 +6,24 @@
     "mode": "form",
     "children": [
         "field_event",
+        "field_notes",
         "field_room",
         "field_schedule_slot",
         "field_zoom"
     ],
     "parent_name": "",
     "weight": "8",
-    "label": "Schedule",
+    "label": "Scheduling (admin only)",
     "format_type": "fieldset",
     "format_settings": {
-        "formatter": "collapsible",
+        "label": "Scheduling (admin only)",
         "instance_settings": {
-            "description": "",
-            "classes": "group-schedule field-group-fieldset",
             "required_fields": 1,
-            "id": ""
-        }
+            "id": "",
+            "classes": "group-schedule field-group-fieldset",
+            "description": ""
+        },
+        "formatter": "collapsible"
     },
     "collapsible": true,
     "collapsed": false
