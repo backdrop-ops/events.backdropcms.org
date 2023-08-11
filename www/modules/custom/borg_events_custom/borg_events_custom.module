@@ -375,12 +375,27 @@ function _borg_events_change_current_event($event_nid) {
 
     // Update the title of the default display.
     $next_event_info = _borg_events_get_event_info($event_nid);
-    $schedule_title = str_replace('Backdrop Live', 'Backdrop LIVE Schedule', $next_event_info['title']);
-    $schedule_view_config->set('display.default.display_options.title', $schedule_title);
-  }
+    if ($next_event_info) {
+      $schedule_title = str_replace('Backdrop Live', 'Backdrop LIVE Schedule', $next_event_info['title']);
+      $schedule_view_config->set('display.default.display_options.title', $schedule_title);
+    }
 
-  // Save changes to the view.
-  $schedule_view_config->save();
+    // Save changes to the view.
+    $schedule_view_config->save();
+
+    // Update the default value for discussion nodes.
+    $discussion_config = config('field.instance.node.session.field_event');
+    $discussion_config->set('default_value.target_id', $event_nid);
+    $discussion_config->save();
+
+    // Update the default value for event nodes.
+    $presentation_config = config('field.instance.node.presentation.field_event');
+    $presentation_config->set('default_value.target_id', $event_nid);
+    $presentation_config->save();
+
+    // Clear field cache.
+    field_cache_clear();
+  }
 }
 
 /**
