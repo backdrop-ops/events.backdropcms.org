@@ -1,0 +1,16 @@
+<?php
+/**
+ * @file
+ * Install, Uninstall, and Update functions.
+ */
+
+ /**
+  * Removes all unsupported text formats from body field.
+  */
+function borg_events_update_1000(&$sandbox) {
+  // Switch to Raw HTML.
+  db_update("UPDATE {field_data_body} SET body_format = 'full_html' WHERE body_format = 'raw_html_tokens'");
+  // Switch to Filtered HTML.
+  db_update("UPDATE {field_data_body} SET body_format = 'full_html' WHERE body_format = 'raw_html_tokens'");
+}
+

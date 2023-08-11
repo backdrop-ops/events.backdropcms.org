@@ -140,10 +140,12 @@ function _borg_events_get_event_info($nid) {
  *   Array of information about the next event from _borg_events_get_event_info().
  */
 function _borg_events_add_event_source_description(&$element, $next_event_info) {
-  $element['#description'] = t('This date is pulled from the event: :title (!edit)', array(
-    ':title' => $next_event_info['title'],
-    '!edit' => $next_event_info['edit'],
-  ));
+  if (!empty($next_event_info)) {
+    $element['#description'] = t('This date is pulled from the event: :title (!edit)', array(
+      ':title' => $next_event_info['title'],
+      '!edit' => $next_event_info['edit'],
+    ));
+  }
 }
 
 /**

@@ -52,14 +52,6 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     ));
   }
 
-  $form['time_slot_dates']['event_next_start_date'] = array(
-    '#type' => 'textfield',
-    '#title' => t('Next event start date'),
-    '#default_value' => $next_event_info['start_date_ymd'],
-    '#disabled' => TRUE,
-    '#size' => 20,
-  );
-
   _borg_events_add_event_source_description($form['time_slot_dates']['event_next_start_date'],$next_event_info);
 
   $term_example_edit = l(t('edit time slot'), 'taxonomy/term/' . $term_example->tid . '/edit');
@@ -78,19 +70,22 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
   $form['time_slot_dates']['time_slot_button'] = array(
     '#type' => 'submit',
     '#value' => $heading,
+    '#disabled' => empty($next_event_info),
     '#submit' => array('_borg_events_update_time_slots'),
   );
 
-  $new_date = str_replace($ymd, $next_event_info['start_date_ymd'], $date_example);
-  $new_description = str_replace('2022-03-11', $next_event_info['start_date_ymd'], $desc_example);
+  if (!empty($next_event_info)) {
+    $new_date = str_replace($ymd, $next_event_info['start_date_ymd'], $date_example);
+    $new_description = str_replace('2022-03-11', $next_event_info['start_date_ymd'], $desc_example);
 
-  $example  = t('<strong>Slot 1 example:</strong><br>');
-  $example .= t('<strong>Date:</strong> <code>:example</code><br>', array(':example' => $new_date ));
-  $example .= t('<strong>Description:</strong> <code>:example</code>', array(':example' => $new_description));
-  $form['time_slot_dates']['time_slot_example'] = array(
-    '#type' => 'markup',
-    '#markup' => '<p>' .  $example . '</p>',
-  );
+    $example  = t('<strong>Slot 1 example:</strong><br>');
+    $example .= t('<strong>Date:</strong> <code>:example</code><br>', array(':example' => $new_date ));
+    $example .= t('<strong>Description:</strong> <code>:example</code>', array(':example' => $new_description));
+    $form['time_slot_dates']['time_slot_example'] = array(
+      '#type' => 'markup',
+      '#markup' => '<p>' .  $example . '</p>',
+    );
+  }
 
   /** Discussion nodes Fieldset ***********************************************/
 
