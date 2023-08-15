@@ -21,7 +21,9 @@
         "edit own comments",
         "view own unpublished content",
         "flag interested",
-        "unflag interested"
+        "unflag interested",
+        "delete own presentation content",
+        "delete own session content"
     ],
     "description": ""
 }
