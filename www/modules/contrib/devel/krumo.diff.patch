@@ -1,0 +1,826 @@
+diff -uprN -wiEB --ignore-file-name-case krumo-0.2.1a/class.krumo.php krumoOLD/class.krumo.php
+--- krumo-0.2.1a/class.krumo.php	2007-12-02 18:44:35.000000000 +1100
++++ krumoOLD/class.krumo.php	2020-11-02 16:50:05.513657189 +1100
+@@ -10,7 +10,6 @@
+ * @license http://opensource.org/licenses/lgpl-license.php GNU Lesser General Public License Version 2.1
+ *
+ * @package Krumo
+-* @version $Id$
+ */
+
+ //////////////////////////////////////////////////////////////////////////////
+@@ -568,18 +567,19 @@ This is a list of all the values from th
+ 		krumo::_css();
+
+ 		// find caller
+-		//
+-		$_ = debug_backtrace();
++    // DEVEL: we added array_reverse() so the proper file+line number is found.
++    $_ = array_reverse(debug_backtrace());
+ 		while($d = array_pop($_)) {
+-			if ((strToLower($d['function']) == 'krumo') || (strToLower(@$d['class']) == 'krumo')) {
++      // DEVEL: changed if() condition below
++      if ((strpos(@$d['file'], 'devel') === FALSE) && (strpos(@$d['file'], 'krumo') === FALSE) && @$d['class'] != 'krumo') {
+ 				break;
+ 				}
+ 			}
+
+ 		// the content
+-		//
++    // DEVEL: we add an ltr here.
+ 		?>
+-<div class="krumo-root">
++<div class="krumo-root" dir="ltr">
+ 	<ul class="krumo-node krumo-first">
+ 		<?php echo krumo::_dump($data);?>
+ 		<li class="krumo-footnote">
+@@ -606,7 +606,8 @@ This is a list of all the values from th
+ 			foreach($hive as $i=>$bee){
+ 				if (is_object($bee)) {
+ 					unset($hive[$i]->$_recursion_marker);
+-					} else {
++          // DEVEL: changed 'else' to 'elseif' below
++          } elseif (is_array($bee)) {
+ 					unset($hive[$i][$_recursion_marker]);
+ 					}
+ 				}
+@@ -654,6 +655,15 @@ This is a list of all the values from th
+ 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+ 	/**
++  * Allows CSS and Javascript to be included without performing a krumo::dump().
++  */
++  Public Static Function addCssJs() {
++    return krumo::_css();
++  }
++
++  // -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
++
++  /**
+ 	* Print the skin (CSS)
+ 	*
+ 	* @return boolean
+@@ -671,11 +681,15 @@ This is a list of all the values from th
+ 			}
+
+ 		$css = '';
+-		$skin = krumo::_config('skin', 'selected', 'default');
++    // DEVEL: changed for Backdrop config system.
++    $skin = config_get('devel.settings', 'krumo_skin');
++    if (!$skin) {
++      $skin = 'default';
++    }
+
+ 		// custom selected skin ?
+ 		//
+-		$_ = KRUMO_DIR . "skins/{$skin}/skin.css";
++    $_ = KRUMO_DIR . "skins/default/skin.css";
+ 		if ($fp = @fopen($_, 'r', 1)) {
+ 			$css = fread($fp, filesize($_));
+ 			fclose($fp);
+@@ -695,30 +709,15 @@ This is a list of all the values from th
+
+ 			// fix the urls
+ 			//
+-			$css_url = krumo::_config('css', 'url') . "skins/{$skin}/";
++      // DEVEL: changed for Drupal path system.
++      $css_url = file_create_url(backdrop_get_path('module', 'devel') . "/lib/krumo/skins/{$skin}/");
++
+ 			$css = preg_replace('~%url%~Uis', $css_url, $css);
+
+ 			// the CSS
+ 			//
+-			?>
+-<!-- Using Krumo Skin: <?php echo preg_replace('~^' . preg_quote(realpath(KRUMO_DIR) . DIRECTORY_SEPARATOR) . '~Uis', '', realpath($_));?> -->
+-<style type="text/css">
+-<!--/**/
+-<?php echo $css?>
+-
+-/**/-->
+-</style>
+-<?php
+-			// the JS
+-			//
+-			?>
+-<script type="text/javascript">
+-<!--//
+-<?php echo join(file(KRUMO_DIR . "krumo.js"));?>
+-
+-//-->
+-</script>
+-<?php
++      backdrop_add_css($css, 'inline');
++      backdrop_add_js(join(file(KRUMO_DIR . "krumo.js")), 'inline');
+ 			}
+
+ 		return $_css;
+@@ -867,7 +866,8 @@ This is a list of all the values from th
+ 		onMouseOver="krumo.over(this);"
+ 		onMouseOut="krumo.out(this);">
+
+-			<a class="krumo-name"><?php echo $name;?></a>
++      <?php /* DEVEL: added htmlSpecialChars */ ?>
++      <a class="krumo-name"><?php echo htmlSpecialChars($name);?></a>
+ 			(<em class="krumo-type krumo-null">NULL</em>)
+ 	</div>
+ </li>
+@@ -917,12 +917,34 @@ This is a list of all the values from th
+ 			// stain it
+ 			//
+ 			$_recursion_marker = krumo::_marker();
+-			(is_object($bee))
+-				? @($bee->$_recursion_marker++)
+-				: @($bee[$_recursion_marker]++);
+-
++      if (is_object($bee)) {
++        if (method_exists($bee, '__set') || method_exists($bee, '__get')) {
++          // Objects with setters and getters can block our attempts to stain
++          // or detect the stain on an object.  Use a stunt object, instead.
++          $obj_hash = spl_object_hash($bee);
++          if (array_key_exists($obj_hash, $_[0])) {
++            $_[0][$obj_hash]->$_recursion_marker++;
++          }
++          else {
++            $stunt_object = new stdClass();
++            $stunt_object->$_recursion_marker = 1;
++            $_[0][$obj_hash] = $stunt_object;
++          }
++        }
++        else {
++          // Stain everything else directly.
++          empty($bee->$_recursion_marker) ?
++            ($bee->$_recursion_marker = 1) :
++            $bee->$_recursion_marker++;
++          $_[0][] =& $bee;
++        }
++      }
++      else {
++        // Stain an array.
++        @($bee[$_recursion_marker]++);
+ 			$_[0][] =& $bee;
+ 			}
++    }
+
+ 		// return all bees
+ 		//
+@@ -932,6 +954,35 @@ This is a list of all the values from th
+ 	// -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+
+ 	/**
++   * Detect if an object has been stained.  For objects with getters or setters,
++   * we look for the stunt object in the hive.
++   *
++   * @param midex &$data
++   * @access private
++   * @static
++   */
++  Private Static Function _isStained($data) {
++    $_recursion_marker = krumo::_marker();
++
++    if (is_object($data)) {
++      if (method_exists($data, '__set') || method_exists($data, '__get')) {
++        // Objects with getters or setters have a stunt object in the hive.
++        $dummy = NULL;
++        $hive = krumo::_hive($dummy);
++        return !empty($hive[spl_object_hash($data)]->$_recursion_marker);
++      }
++      else {
++        return !empty($data->$_recursion_marker);
++      }
++    }
++    elseif (is_array($data)) {
++      return !empty($data[$_recursion_marker]);
++    }
++
++    return FALSE;
++  }
++
++  /**
+ 	* Render a dump for the properties of an array or objeect
+ 	*
+ 	* @param mixed &$data
+@@ -942,18 +993,9 @@ This is a list of all the values from th
+
+ 		$_is_object = is_object($data);
+
+-		// test for references in order to
+-		// prevent endless recursion loops
+-		//
+-		$_recursion_marker = krumo::_marker();
+-		$_r = ($_is_object)
+-			? @$data->$_recursion_marker
+-			: @$data[$_recursion_marker] ;
+-		$_r = (integer) $_r;
+-
+ 		// recursion detected
+ 		//
+-		if ($_r > 0) {
++    if (krumo::_isStained($data)) {
+ 			return krumo::_recursion();
+ 			}
+
+@@ -968,6 +1010,29 @@ This is a list of all the values from th
+ 	<ul class="krumo-node">
+ 	<?php
+
++  if ($_is_object && get_class($data) != 'stdClass') {
++    // this part for protected/private properties only
++    $refl = new ReflectionClass($data);
++    foreach ($refl->getProperties() as $property) {
++      $k = $property->getName();
++      if ($k === $_recursion_marker || $property->isPublic()) {
++        continue;
++      }
++
++      // add key indicators
++      if ($property->isProtected()) {
++        $k .= ':protected';
++      }
++      elseif ($property->isPrivate()) {
++        $k .= ':private';
++      }
++
++      $property->setAccessible(TRUE);
++      $v = $property->getValue($data);
++      krumo::_dump($v, $k);
++    }
++  }
++
+ 	// keys ?
+ 	//
+ 	$keys = ($_is_object)
+@@ -976,6 +1041,7 @@ This is a list of all the values from th
+
+ 	// itterate
+ 	//
++  $_recursion_marker = krumo::_marker();
+ 	foreach($keys as $k) {
+
+ 		// skip marker
+@@ -1039,12 +1105,9 @@ This is a list of all the values from th
+ ?>
+ <li class="krumo-child">
+
+-	<div class="krumo-element<?php echo count($data) > 0 ? ' krumo-expand' : '';?>"
+-		<?php if (count($data) > 0) {?> onClick="krumo.toggle(this);"<?php } ?>
+-		onMouseOver="krumo.over(this);"
+-		onMouseOut="krumo.out(this);">
+-
+-			<a class="krumo-name"><?php echo $name;?></a>
++  <div class="krumo-element<?php echo count($data) > 0 ? ' krumo-expand' : '';?>">
++      <?php /* DEVEL: added htmlSpecialChars */ ?>
++      <a class="krumo-name"><?php echo htmlSpecialChars($name);?></a>
+ 			(<em class="krumo-type">Array, <strong class="krumo-array-length"><?php echo
+ 				(count($data)==1)
+ 					?("1 element")
+@@ -1090,19 +1153,15 @@ This is a list of all the values from th
+ ?>
+ <li class="krumo-child">
+
+-	<div class="krumo-element<?php echo count($data) > 0 ? ' krumo-expand' : '';?>"
+-		<?php if (count($data) > 0) {?> onClick="krumo.toggle(this);"<?php } ?>
+-		onMouseOver="krumo.over(this);"
+-		onMouseOut="krumo.out(this);">
++  <div class="krumo-element<?php echo count($data) > 0 ? ' krumo-expand' : '';?>">
+
+-			<a class="krumo-name"><?php echo $name;?></a>
++      <?php /* DEVEL: added htmlSpecialChars */ ?>
++      <a class="krumo-name"><?php echo htmlSpecialChars($name);?></a>
+ 			(<em class="krumo-type">Object</em>)
+ 			<strong class="krumo-class"><?php echo get_class($data);?></strong>
+ 	</div>
+
+-	<?php if (count($data)) {
+-		krumo::_vars($data);
+-		} ?>
++  <?php krumo::_vars($data); ?>
+ </li>
+ <?php
+ 		}
+@@ -1125,7 +1184,8 @@ This is a list of all the values from th
+ 		onMouseOver="krumo.over(this);"
+ 		onMouseOut="krumo.out(this);">
+
+-			<a class="krumo-name"><?php echo $name;?></a>
++      <?php /* DEVEL: added htmlSpecialChars */ ?>
++      <a class="krumo-name"><?php echo htmlSpecialChars($name);?></a>
+ 			(<em class="krumo-type">Resource</em>)
+ 			<strong class="krumo-resource"><?php echo get_resource_type($data);?></strong>
+ 	</div>
+@@ -1152,7 +1212,8 @@ This is a list of all the values from th
+ 		onMouseOver="krumo.over(this);"
+ 		onMouseOut="krumo.out(this);">
+
+-			<a class="krumo-name"><?php echo $name;?></a>
++      <?php /* DEVEL: added htmlSpecialChars */ ?>
++      <a class="krumo-name"><?php echo htmlSpecialChars($name);?></a>
+ 			(<em class="krumo-type">Boolean</em>)
+ 			<strong class="krumo-boolean"><?php echo $data?'TRUE':'FALSE'?></strong>
+ 	</div>
+@@ -1179,7 +1240,8 @@ This is a list of all the values from th
+ 		onMouseOver="krumo.over(this);"
+ 		onMouseOut="krumo.out(this);">
+
+-			<a class="krumo-name"><?php echo $name;?></a>
++      <?php /* DEVEL: added htmlSpecialChars */ ?>
++      <a class="krumo-name"><?php echo htmlSpecialChars($name);?></a>
+ 			(<em class="krumo-type">Integer</em>)
+ 			<strong class="krumo-integer"><?php echo $data;?></strong>
+ 	</div>
+@@ -1206,7 +1268,8 @@ This is a list of all the values from th
+ 		onMouseOver="krumo.over(this);"
+ 		onMouseOut="krumo.out(this);">
+
+-			<a class="krumo-name"><?php echo $name;?></a>
++      <?php /* DEVEL: added htmlSpecialChars */ ?>
++      <a class="krumo-name"><?php echo htmlSpecialChars($name);?></a>
+ 			(<em class="krumo-type">Float</em>)
+ 			<strong class="krumo-float"><?php echo $data;?></strong>
+ 	</div>
+@@ -1232,18 +1295,16 @@ This is a list of all the values from th
+ 		$_extra = false;
+ 		$_ = $data;
+ 		if (strLen($data) > KRUMO_TRUNCATE_LENGTH) {
+-			$_ = substr($data, 0, KRUMO_TRUNCATE_LENGTH - 3) . '...';
++      $_ = backdrop_substr($data, 0, KRUMO_TRUNCATE_LENGTH - 3) . '...';
+ 			$_extra = true;
+ 			}
+ ?>
+ <li class="krumo-child">
+
+-	<div class="krumo-element<?php echo $_extra ? ' krumo-expand' : '';?>"
+-		<?php if ($_extra) {?> onClick="krumo.toggle(this);"<?php } ?>
+-		onMouseOver="krumo.over(this);"
+-		onMouseOut="krumo.out(this);">
++  <div class="krumo-element<?php echo $_extra ? ' krumo-expand' : '';?>">
+
+-			<a class="krumo-name"><?php echo $name;?></a>
++      <?php /* DEVEL: added htmlSpecialChars */ ?>
++      <a class="krumo-name"><?php echo htmlSpecialChars($name);?></a>
+ 			(<em class="krumo-type">String,
+ 				<strong class="krumo-string-length"><?php
+ 					echo strlen($data) ?> characters</strong> </em>)
+diff -uprN -wiEB --ignore-file-name-case krumo-0.2.1a/krumo.ini krumoOLD/krumo.ini
+--- krumo-0.2.1a/krumo.ini	2007-12-02 18:44:35.000000000 +1100
++++ krumoOLD/krumo.ini	2020-11-02 16:50:05.517657202 +1100
+@@ -3,7 +3,7 @@
+ ;
+
+ [skin]
+-selected = "schablon.com"
++selected = "white"
+ ;
+ ; Change the above value to set the CSS skin used to render
+ ; Krumo layout. If the skin is not found, then the "default" one
+diff -uprN -wiEB --ignore-file-name-case krumo-0.2.1a/krumo.js krumoOLD/krumo.js
+--- krumo-0.2.1a/krumo.js	2007-12-02 18:44:35.000000000 +1100
++++ krumoOLD/krumo.js	2020-11-02 16:50:05.517657202 +1100
+@@ -1,7 +1,6 @@
+ /**
+ * JavaScript routines for Krumo
+ *
+-* @version $Id$
+ * @link http://sourceforge.net/projects/krumo
+ */
+
+@@ -55,7 +54,7 @@ krumo.toggle = function(el) {
+ 	var ul = el.parentNode.getElementsByTagName('ul');
+ 	for (var i=0; i<ul.length; i++) {
+ 		if (ul[i].parentNode.parentNode == el.parentNode) {
+-			ul[i].parentNode.style.display = (ul[i].parentNode.style.display == 'none')
++      ul[i].parentNode.style.display = (window.getComputedStyle(ul[i].parentNode).display == 'none')
+ 				? 'block'
+ 				: 'none';
+ 			}
+@@ -65,7 +64,8 @@ krumo.toggle = function(el) {
+ 	//
+ 	if (ul[0].parentNode.style.display == 'block') {
+ 		krumo.reclass(el, 'krumo-opened');
+-		} else {
++  }
++  else {
+ 		krumo.unclass(el, 'krumo-opened');
+ 		}
+ 	}
+diff -uprN -wiEB --ignore-file-name-case krumo-0.2.1a/skins/blue/skin.css krumoOLD/skins/blue/skin.css
+--- krumo-0.2.1a/skins/blue/skin.css	2007-12-02 18:44:35.000000000 +1100
++++ krumoOLD/skins/blue/skin.css	2020-11-02 16:50:05.517657202 +1100
+@@ -1,7 +1,6 @@
+ /**
+ * Krumo "Blue" Skin
+ *
+-* @version $Id$
+ * @author Kaloyan K. Tsvetkov <mrasnika@users.sourceforge.net>
+ */
+
+@@ -89,6 +88,7 @@ div.krumo-preview {
+ 	background: white;
+ 	border-top: 0px;
+ 	overflow:auto;
++	white-space: pre;
+ 	}
+ * html div.krumo-preview {
+ 	padding-top: 2px;
+diff -uprN -wiEB --ignore-file-name-case krumo-0.2.1a/skins/default/skin.css krumoOLD/skins/default/skin.css
+--- krumo-0.2.1a/skins/default/skin.css	2007-12-02 18:44:35.000000000 +1100
++++ krumoOLD/skins/default/skin.css	2020-11-02 16:50:05.517657202 +1100
+@@ -1,7 +1,6 @@
+ /**
+ * Krumo Default Skin
+ *
+-* @version $Id$
+ * @author Kaloyan K. Tsvetkov <mrasnika@users.sourceforge.net>
+ */
+
+@@ -89,6 +88,7 @@ div.krumo-preview {
+ 	background: white;
+ 	border-top: 0px;
+ 	overflow:auto;
++	white-space: pre;
+ 	}
+ * html div.krumo-preview {
+ 	padding-top: 2px;
+diff -uprN -wiEB --ignore-file-name-case krumo-0.2.1a/skins/green/skin.css krumoOLD/skins/green/skin.css
+--- krumo-0.2.1a/skins/green/skin.css	2007-12-02 18:44:35.000000000 +1100
++++ krumoOLD/skins/green/skin.css	2020-11-02 16:50:05.517657202 +1100
+@@ -1,7 +1,6 @@
+ /**
+ * Krumo "Green" Skin
+ *
+-* @version $Id$
+ * @author Kaloyan K. Tsvetkov <mrasnika@users.sourceforge.net>
+ */
+
+@@ -89,6 +88,7 @@ div.krumo-preview {
+ 	background: white;
+ 	border-top: 0px;
+ 	overflow:auto;
++	white-space: pre;
+ 	}
+ * html div.krumo-preview {
+ 	padding-top: 2px;
+diff -uprN -wiEB --ignore-file-name-case krumo-0.2.1a/skins/orange/skin.css krumoOLD/skins/orange/skin.css
+--- krumo-0.2.1a/skins/orange/skin.css	2007-12-02 18:44:35.000000000 +1100
++++ krumoOLD/skins/orange/skin.css	2020-11-02 16:50:05.517657202 +1100
+@@ -1,7 +1,6 @@
+ /**
+ * Krumo "Orange" Skin
+ *
+-* @version $Id$
+ * @author Kaloyan K. Tsvetkov <mrasnika@users.sourceforge.net>
+ */
+
+@@ -89,6 +88,7 @@ div.krumo-preview {
+ 	background: white;
+ 	border-top: 0px;
+ 	overflow:auto;
++	white-space: pre;
+ 	}
+ * html div.krumo-preview {
+ 	padding-top: 2px;
+Binary files krumo-0.2.1a/skins/schablon.com/collapsed.gif and krumoOLD/skins/schablon.com/collapsed.gif differ
+Binary files krumo-0.2.1a/skins/schablon.com/dotted.gif and krumoOLD/skins/schablon.com/dotted.gif differ
+Binary files krumo-0.2.1a/skins/schablon.com/empty.gif and krumoOLD/skins/schablon.com/empty.gif differ
+Binary files krumo-0.2.1a/skins/schablon.com/expanded.gif and krumoOLD/skins/schablon.com/expanded.gif differ
+diff -uprN -wiEB --ignore-file-name-case krumo-0.2.1a/skins/schablon.com/skin.css krumoOLD/skins/schablon.com/skin.css
+--- krumo-0.2.1a/skins/schablon.com/skin.css	2007-12-02 18:44:35.000000000 +1100
++++ krumoOLD/skins/schablon.com/skin.css	1970-01-01 10:00:00.000000000 +1000
+@@ -1,165 +0,0 @@
+-/**
+-* Krumo `Schablon.com` Skin
+-*
+-* @version $Id$
+-* @author Kaloyan K. Tsvetkov <mrasnika@users.sourceforge.net>
+-*/
+-
+-/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+-
+-ul.krumo-node {
+-	margin: 0px;
+-	padding: 0px;
+-	background-color: white;
+-	}
+-ul.krumo-node ul {
+-	margin-left: 20px;
+-	}
+-* html ul.krumo-node ul {
+-	margin-left: 24px;
+-	}
+-div.krumo-root {
+-	border: solid 1px black;
+-	margin: 1em 0em;
+-	}
+-ul.krumo-first {
+-	font: normal 11px tahoma, verdana;
+-	border: solid 1px white;
+-	}
+-
+-/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+-
+-li.krumo-child {
+-	display:block;
+-	list-style: none;
+-	padding: 0px;
+-	margin: 0px;
+-	overflow:hidden;
+-	}
+-div.krumo-element {
+-	cursor:default;
+-	display:block;
+-	clear:both;
+-	white-space:nowrap;
+-
+-	background-color: white;
+-	background-image: url(%url%empty.gif);
+-	background-repeat: no-repeat;
+-	background-position: 6px 5px;
+-	padding: 2px 0px 3px 20px;
+-	}
+-* html div.krumo-element {
+-	padding-bottom: 3px;
+-	line-height: 13px;
+-	}
+-div.krumo-expand {
+-	background-image: url(%url%collapsed.gif);
+-	cursor:pointer;
+-	}
+-div.krumo-hover {
+-	background-color: #BFDFFF;
+-	}
+-div.krumo-opened {
+-	background-image: url(%url%expanded.gif);
+-	}
+-a.krumo-name {
+-	color:navy;
+-	font: bold 13px courier new;
+-	line-height:12px;
+-	}
+-a.krumo-name big {
+-	font: bold 16pt Georgia;
+-	line-height: 10px;
+-	position:relative;
+-	top:2px;
+-	left:-2px;
+-	}
+-* html a.krumo-name big {
+-	font: bold 15pt Georgia;
+-	float:left;
+-	top: -5px;
+-	left: 0px;
+-	padding: 0px;
+-	margin: 0px;
+-	}
+-em.krumo-type {
+-	font-style:normal;
+-	margin: 0px 2px;
+-	}
+-
+-/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+-
+-div.krumo-preview {
+-	font: normal 13px courier new;
+-	padding: 5px ;
+-	background: lightyellow;
+-	border: solid 1px #808000;
+-	overflow:auto;
+-	margin: 5px 1em 1em 0px;
+-	}
+-* html div.krumo-preview {
+-	padding-top: 2px;
+-	}
+-
+-/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+-
+-li.krumo-footnote {
+-	background: white url(%url%dotted.gif) repeat-x;
+-	padding: 4px 5px 3px 5px;
+-	list-style:none;
+-	cursor:default;
+-	}
+-* html li.krumo-footnote {
+-	line-height: 13px;
+-	}
+-div.krumo-version {
+-	float:right;
+-	}
+-li.krumo-footnote h6 {
+-	font: bold 11px verdana;
+-	margin: 0px;
+-	padding: 0px;
+-	color:navy;
+-	display:inline;
+-	}
+-* html li.krumo-footnote h6 {
+-	margin-right: 3px;
+-	}
+-li.krumo-footnote a {
+-	font: bold 10px arial;
+-	color: #434343;
+-	text-decoration:none;
+-	}
+-li.krumo-footnote a:hover {
+-	color:black;
+-	}
+-
+-
+-li.krumo-footnote span.krumo-call {
+-	font:normal 11px tahoma, verdana;
+-	position: relative;
+-	top: 1px;
+-	}
+-li.krumo-footnote span.krumo-call code {
+-	font-weight:bold;
+-	}
+-
+-/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+-
+-div.krumo-title {
+-	font: normal 11px tahoma, verdana;
+-	position:relative;
+-	top:9px;
+-	cursor:default;
+-	line-height:2px;
+-	}
+-
+-/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+-
+-strong.krumo-array-length,
+-strong.krumo-string-length {
+-	font-weight: normal;
+-	color: #000099;
+-	}
+-
+-/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
+Binary files krumo-0.2.1a/skins/white/collapsed.gif and krumoOLD/skins/white/collapsed.gif differ
+Binary files krumo-0.2.1a/skins/white/dotted.gif and krumoOLD/skins/white/dotted.gif differ
+Binary files krumo-0.2.1a/skins/white/empty.gif and krumoOLD/skins/white/empty.gif differ
+Binary files krumo-0.2.1a/skins/white/expanded.gif and krumoOLD/skins/white/expanded.gif differ
+diff -uprN -wiEB --ignore-file-name-case krumo-0.2.1a/skins/white/skin.css krumoOLD/skins/white/skin.css
+--- krumo-0.2.1a/skins/white/skin.css	1970-01-01 10:00:00.000000000 +1000
++++ krumoOLD/skins/white/skin.css	2020-11-02 16:50:05.517657202 +1100
+@@ -0,0 +1,165 @@
++/**
++* Krumo `Schablon.com` Skin
++*
++* @author Kaloyan K. Tsvetkov <mrasnika@users.sourceforge.net>
++*/
++
++/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
++
++ul.krumo-node {
++	margin: 0px;
++	padding: 0px;
++	background-color: white;
++	}
++ul.krumo-node ul {
++	margin-left: 20px;
++	}
++* html ul.krumo-node ul {
++	margin-left: 24px;
++	}
++div.krumo-root {
++	border: solid 1px black;
++	margin: 1em 0em;
++	}
++ul.krumo-first {
++	font: normal 11px tahoma, verdana;
++	border: solid 1px white;
++	}
++
++/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
++
++li.krumo-child {
++	display:block;
++	list-style: none;
++	padding: 0px;
++	margin: 0px;
++	overflow:hidden;
++	}
++div.krumo-element {
++	cursor:default;
++	display:block;
++	clear:both;
++	white-space:nowrap;
++
++	background-color: white;
++	background-image: url(%url%empty.gif);
++	background-repeat: no-repeat;
++	background-position: 6px 5px;
++	padding: 2px 0px 3px 20px;
++	}
++* html div.krumo-element {
++	padding-bottom: 3px;
++	line-height: 13px;
++	}
++div.krumo-expand {
++	background-image: url(%url%collapsed.gif);
++	cursor:pointer;
++	}
++div.krumo-hover {
++	background-color: #BFDFFF;
++	}
++div.krumo-opened {
++	background-image: url(%url%expanded.gif);
++	}
++a.krumo-name {
++	color:navy;
++	font: bold 13px courier new;
++	line-height:12px;
++	}
++a.krumo-name big {
++	font: bold 16pt Georgia;
++	line-height: 10px;
++	position:relative;
++	top:2px;
++	left:-2px;
++	}
++* html a.krumo-name big {
++	font: bold 15pt Georgia;
++	float:left;
++	top: -5px;
++	left: 0px;
++	padding: 0px;
++	margin: 0px;
++	}
++em.krumo-type {
++	font-style:normal;
++	margin: 0px 2px;
++	}
++
++/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
++
++div.krumo-preview {
++	font: normal 13px courier new;
++	padding: 5px ;
++	background: lightyellow;
++	border: solid 1px #808000;
++	overflow:auto;
++	margin: 5px 1em 1em 0px;
++	white-space: pre;
++	}
++* html div.krumo-preview {
++	padding-top: 2px;
++	}
++
++/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
++
++li.krumo-footnote {
++	background: white url(%url%dotted.gif) repeat-x;
++	padding: 4px 5px 3px 5px;
++	list-style:none;
++	cursor:default;
++	}
++* html li.krumo-footnote {
++	line-height: 13px;
++	}
++div.krumo-version {
++	float:right;
++	}
++li.krumo-footnote h6 {
++	font: bold 11px verdana;
++	margin: 0px;
++	padding: 0px;
++	color:navy;
++	display:inline;
++	}
++* html li.krumo-footnote h6 {
++	margin-right: 3px;
++	}
++li.krumo-footnote a {
++	font: bold 10px arial;
++	color: #434343;
++	text-decoration:none;
++	}
++li.krumo-footnote a:hover {
++	color:black;
++	}
++
++
++li.krumo-footnote span.krumo-call {
++	font:normal 11px tahoma, verdana;
++	position: relative;
++	top: 1px;
++	}
++li.krumo-footnote span.krumo-call code {
++	font-weight:bold;
++	}
++
++/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
++
++div.krumo-title {
++	font: normal 11px tahoma, verdana;
++	position:relative;
++	top:9px;
++	cursor:default;
++	line-height:2px;
++	}
++
++/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
++
++strong.krumo-array-length,
++strong.krumo-string-length {
++	font-weight: normal;
++	color: #000099;
++	}
++
++/* -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- */
