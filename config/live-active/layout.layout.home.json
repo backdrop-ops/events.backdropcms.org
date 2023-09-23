@@ -131,7 +131,7 @@
         "4041d660-481e-4608-a40b-11a4749caf06": {
             "plugin": "views:schedule-block_1",
             "data": {
-                "status": 0,
+                "status": 1,
                 "module": "views",
                 "delta": "schedule-block_1",
                 "settings": {
