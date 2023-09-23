@@ -7,6 +7,10 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
   $config = config('borg_events_custom.settings');
   $form['#config'] = 'borg_events_custom.settings';
 
+  $form['#attached']['css'] = array(
+    backdrop_get_path('module', 'borg_events_custom') . '/css/borg_events_admin.css',
+  );
+
   $form['event_open'] = array(
     '#type' => 'fieldset',
     '#title' => t('How to open registration for Backdrop LIVE'),
@@ -27,7 +31,7 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
   );
   $update_site = array(
     'Visit this Backdrop Event settings page at <code>admin/config/event</code>',
-    'Under <strong>Borg event status</strong> change the answer to <strong>Is Registration open?</strong> from "no" to "yes"',
+    'Under <strong>Borg event status</strong> change the answer to <strong>Has Registration been opened</strong> from "no" to "yes"',
   );
   $markup = '<p>' . t('First, edit the current event node as follows:') . '</p>';
   $markup .= theme('item_list', array('items' => $open_regisration, 'type' => 'ol'));
@@ -47,9 +51,9 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
 
   _borg_events_add_event_settings($form['event_settings'], FALSE);
 
-  $more_desc = t('Changing the event Node ID will do the following:');
+  $more_nid_desc = t('Changing the <em>event Node ID</em> will do the following:');
   // @see _borg_events_change_current_event() in .module file.
-  $changes = array(
+  $nid_changes = array(
     $form['event_settings']['event_nid']['#description'],
     'Enable the schuedle view',
     'Update the schedule view to reference the current event',
@@ -57,7 +61,25 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     'Update the default value for the node-referene field on Discussions',
     'Update the default value for the node-referene field on Presentations',
   );
-  $form['event_settings']['event_nid']['#description'] = $more_desc . theme('item_list', array('items' => $changes));
+  $form['event_settings']['event_nid']['#description'] = $more_nid_desc . theme('item_list', array('items' => $nid_changes));
+
+  $more_now_desc = t('Changing the <em>happening now</em> setting will do the following:');
+  $now_changes = array(
+    'Enable the schuedle display on the home page',
+    'Set the home page block to block A',
+    'Enable the schedule menu link',
+    'Make all the Zoom Links public',
+  );
+  $form['event_settings']['event_now'] = array(
+    '#type' => 'radios',
+    '#title' => t('Is the event happening now?'),
+    '#description' => $more_now_desc . theme('item_list', array('items' => $now_changes)),
+    '#options' => array(
+      '0' => t('No'),
+      '1' => t('Yes'),
+    ),
+    '#default_value' => $config->get('event_now'),
+  );
 
   /** Time Slots Fieldset *****************************************************/
 
@@ -186,7 +208,7 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
   );
   $update_site = array(
     'Visit this Backdrop Event settings page at <code>admin/config/event</code>',
-    'Under <strong>Borg event status</strong> change the answer to <strong>Is Registration open?</strong> from "yes" to "no".',
+    'Under <strong>Borg event status</strong> change the answer to <strong>Has Registration been opened</strong> from "yes" to "no".',
   );
   $close_registration = array(
     'Select <strong>Manage registrations</strong> tab',
@@ -228,8 +250,41 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
  * Submit handler for Event Settings form.
  */
 function borg_events_custom_settings_form_submit(&$form, &$form_state) {
-  // Change the current event.
+  // Change the current event. @see borg_events_custom.module
   _borg_events_change_current_event($form_state['values']['event_nid']);
+
+  _borg_events_change_happening_now($form_state['values']['event_now']);
+}
+
+/**
+ * Submit handler changing the happening now stuff.
+ */
+function _borg_events_change_happening_now($event_now) {
+
+  if ($event_now) {
+    // Enable the schuedle display on the home page.
+    config_set('layout.layout.home', 'content.4041d660-481e-4608-a40b-11a4749caf06.data.status', 1);
+    layout_reset_caches();
+    // Set the home page block to block A
+    config_set('views.view.schedule', 'display.block_1.display_options.filters.field_time_block_tid.value', array(40 => 40));
+    // Enable the schedule menu link
+    db_query("update {menu_links} SET hidden = 0 where mlid = 489");
+    // Make all the Zoom Links visible
+    config_set('field.instance.node.session.field_zoom', 'display.default.type', 'link_default');
+    config_set('field.instance.node.session.field_zoom', 'display.teaser.type', 'link_default');
+    cache_clear_all();
+  }
+  else {
+    // Disable the schuedle display on the home page.
+    config_set('layout.layout.home', 'content.4041d660-481e-4608-a40b-11a4749caf06.data.status', 0);
+    layout_reset_caches();
+    // Disable the schedule menu link
+    db_query("update {menu_links} SET hidden = 1 where mlid = 489");
+    // Make all the Zoom Links hidden
+    config_set('field.instance.node.session.field_zoom', 'display.default.type', 'hidden');
+    config_set('field.instance.node.session.field_zoom', 'display.teaser.type', 'hidden');
+    cache_clear_all();
+  }
 }
 
 /**

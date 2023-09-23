@@ -171,7 +171,7 @@ function _borg_events_add_event_settings(&$form, $warning = TRUE) {
   );
   $form['event_open'] = array(
     '#type' => 'radios',
-    '#title' => t('Is Registration open?'),
+    '#title' => t('Has Registration been opened?'),
     '#description' => t($warning_text),
     '#options' => array(
       '0' => t('No'), 
