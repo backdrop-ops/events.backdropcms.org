@@ -11,7 +11,7 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     backdrop_get_path('module', 'borg_events_custom') . '/css/borg_events_admin.css',
   );
 
-  $form['event_open'] = array(
+  $form['howto_open_event'] = array(
     '#type' => 'fieldset',
     '#title' => t('How to open registration for Backdrop LIVE'),
     '#collapsible' => TRUE,
@@ -37,7 +37,7 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
   $markup .= theme('item_list', array('items' => $open_regisration, 'type' => 'ol'));
   $markup .= '<p>' . t('Then, tell the website that registration is open:') . '</p>';
   $markup .= theme('item_list', array('items' => $update_site, 'type' => 'ol'));
-  $form['event_open']['steps'] = array(
+  $form['howto_open_event']['steps'] = array(
     '#type' => 'help',
     '#markup' => $markup,
   );
@@ -54,14 +54,20 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
   $more_nid_desc = t('Changing the <em>event Node ID</em> will do the following:');
   // @see _borg_events_change_current_event() in .module file.
   $nid_changes = array(
-    $form['event_settings']['event_nid']['#description'],
-    'Enable the schuedle view',
     'Update the schedule view to reference the current event',
     'Update the title for the default schedule view display',
     'Update the default value for the node-referene field on Discussions',
     'Update the default value for the node-referene field on Presentations',
   );
   $form['event_settings']['event_nid']['#description'] = $more_nid_desc . theme('item_list', array('items' => $nid_changes));
+
+  $more_reg_desc = t('Changing the <em>Has Registration been opened?</em> setting to YES will do the following:');
+  // @see _borg_events_change_current_event() in .module file.
+  $more_reg_changes = array(
+    'Add a "Register Now" button on the home page hero block',
+    'Add the "Next Steps" block into the sidebar',
+  );
+  $form['event_settings']['event_open']['#description'] = $more_reg_desc . theme('item_list', array('items' => $more_reg_changes));
 
   $more_now_desc = t('Changing the <em>happening now</em> setting will do the following:');
   $now_changes = array(
