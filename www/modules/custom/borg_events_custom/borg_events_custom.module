@@ -57,11 +57,15 @@ function borg_events_custom_config_info() {
 function borg_events_custom_block_info() {
   $blocks['live'] = array(
     'info' => t('Backdrop Live Promo Block'),
-    'description' => t('A block about Backdrop live, with registration link.'),
+    'description' => t('Hero block often containing registration link.'),
   );
   $blocks['steps'] = array(
     'info' => t('Backdrop Live Next Steps'),
-    'description' => t('A block with actions for attendees.'),
+    'description' => t('Actions for attendees.'),
+  );
+  $blocks['registered'] = array(
+    'info' => t('Backdrop Live Registration State'),
+    'description' => t('Registration state for current event.'),
   );
   return $blocks;
 }
@@ -109,83 +113,12 @@ function borg_events_custom_block_configure($delta = '', $settings = array()) {
 }
 
 /**
- * Helper function: Load current event.
- */
-function _borg_events_get_event_info($nid) {
-  $event_node = node_load($nid);
-  if ($event_node) {
-    $event_title = check_plain($event_node->title);
-    $start_date = $event_node->field_event_date[LANGUAGE_NONE][0]['value'];
-    $start_date_ymd = str_replace(' 00:00:00', '', $start_date);
-    $display_date = check_plain($event_node->field_display_date[LANGUAGE_NONE][0]['value']);
-
-    return array(
-      'nid' => $nid,
-      'title' => $event_title,
-      'start_date' => $start_date,
-      'start_date_ymd' => $start_date_ymd,
-      'display_date' => $display_date,
-      'edit' => l(t('edit event'), 'node/' . $nid . '/edit'),
-    );
-  }
-}
-
-/**
- * Helper function: add description referencing source of data.
- *
- * @param array $element
- *   Form API element to add the description.
- *
- * @param array $next_event_info
- *   Array of information about the next event from _borg_events_get_event_info().
- */
-function _borg_events_add_event_source_description(&$element, $next_event_info) {
-  if (!empty($next_event_info)) {
-    $element['#description'] = t('This date is pulled from the event: :title (!edit)', array(
-      ':title' => $next_event_info['title'],
-      '!edit' => $next_event_info['edit'],
-    ));
-  }
-}
-
-/**
- * Helper function: add site-wide settings options for form.
- */
-function _borg_events_add_event_settings(&$form, $warning = TRUE) {
-  $config = config('borg_events_custom.settings');
-  $defaults = $config->get();
-  $defaults['event_nid'] = (int) $defaults['event_nid'];
-
-
-  $warning_text = 'This setting will change the event status for all related blocks.';
-  if ($warning) {
-    $warning_text = str_replace('This', 'WARNING: this', $warning_text);
-    $warning_text = str_replace('will change', 'will also change', $warning_text);
-  }
-
-  $form['event_nid'] = array(
-    '#type' => 'number',
-    '#title' => t('Event Node ID'),
-    '#description' => t($warning_text),
-    '#default_value' => $defaults['event_nid'],
-  );
-  $form['event_open'] = array(
-    '#type' => 'radios',
-    '#title' => t('Has Registration been opened?'),
-    '#description' => t($warning_text),
-    '#options' => array(
-      '0' => t('No'), 
-      '1' => t('Yes'),
-    ),
-    '#default_value' => $defaults['event_open'],
-  );
-}
-
-/**
  * Implements hook_block_view().
  */
 function borg_events_custom_block_view($delta = '', $settings = array(), $contexts = array()) {
   // This example is adapted from node.module.
+  global $user;
+
   $block = array();
 
   switch ($delta) {
@@ -235,7 +168,6 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
       if ($open) {
         $steps = _borg_events_custom_block_get_steps();
 
-        global $user;
         if (!$user->uid) {
           $steps[1]['rendered'] = l($steps[1]['text'], $steps[1]['href']);
           $steps[1]['rendered'] .= ' or ' . l(t('log in'), 'user/login');
@@ -305,7 +237,6 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
         $register_steps = array(
           1 => $steps[1],
           2 => $steps[2],
-          3 => $steps[3],
         );
         $register_steps_rendered = array();
         foreach ($register_steps as $stepnum => $step) {
@@ -314,6 +245,7 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
         }
 
         $next_steps = array(
+          3 => $steps[3],
           4 => $steps[4],
           5 => $steps[5],
           6 => $steps[6],
@@ -335,6 +267,28 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
         );
         break;
       }
+
+    case 'registered' :
+
+      // Only show registration state if registration is open, and user is logged in.
+      $open = config_get('borg_events_custom.settings', 'event_open');
+      if ($open && $user->uid) {
+        // Get the event info.
+        $event_nid = config_get('borg_events_custom.settings', 'event_nid');
+        if (_borg_events_user_is_registered($event_nid)) {
+
+          $event_node = node_load($event_nid);
+          $replacements = array(':event' => check_plain($event_node->title));
+
+          $block['subject'] = t('You are registered.');
+          $block['content'] = array(
+            '##type' => 'markup',
+            '#markup' => '<i class="fa fa-check"></i> ' . t('You are registered for :event', $replacements),
+          );
+        }
+      }
+
+      break;
   }
 
   return $block;
@@ -356,15 +310,114 @@ function borg_events_custom_block_save($delta, &$edit = array()) {
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function borg_events_custom_form_registration_form_alter(&$form, &$form_state) {
+  $form['field_participation_learn']['und'][0]['value']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_participation[und][learn]"]' => array('checked' => TRUE),
+    ),
+  );
+  $form['field_participation_discuss']['und'][0]['value']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_participation[und][discuss]"]' => array('checked' => TRUE),
+    ),
+  );
+  $form['field_participation_present']['und'][0]['value']['#states'] = array(
+    'visible' => array(
+      ':input[name="field_participation[und][present]"]' => array('checked' => TRUE),
+    ),
+  );
+}
+
+/*****************************************************************************
+ * Helper functions:
+ *****************************************************************************/
+
+/**
+ * Helper function: Load current event.
+ */
+function _borg_events_get_event_info($nid) {
+  $event_node = node_load($nid);
+  if ($event_node) {
+    $event_title = check_plain($event_node->title);
+    $start_date = $event_node->field_event_date[LANGUAGE_NONE][0]['value'];
+    $start_date_ymd = str_replace(' 00:00:00', '', $start_date);
+    $display_date = check_plain($event_node->field_display_date[LANGUAGE_NONE][0]['value']);
+
+    return array(
+      'nid' => $nid,
+      'title' => $event_title,
+      'start_date' => $start_date,
+      'start_date_ymd' => $start_date_ymd,
+      'display_date' => $display_date,
+      'edit' => l(t('edit event'), 'node/' . $nid . '/edit'),
+    );
+  }
+}
+
+/**
+ * Helper function: add description referencing source of data.
+ *
+ * @param array $element
+ *   Form API element to add the description.
+ *
+ * @param array $next_event_info
+ *   Array of information about the next event from _borg_events_get_event_info().
+ */
+function _borg_events_add_event_source_description(&$element, $next_event_info) {
+  if (!empty($next_event_info)) {
+    $element['#description'] = t('This date is pulled from the event: :title (!edit)', array(
+      ':title' => $next_event_info['title'],
+      '!edit' => $next_event_info['edit'],
+    ));
+  }
+}
+
+/**
+ * Helper function: add site-wide settings options for form.
+ */
+function _borg_events_add_event_settings(&$form, $warning = TRUE) {
+  $config = config('borg_events_custom.settings');
+  $defaults = $config->get();
+  $defaults['event_nid'] = (int) $defaults['event_nid'];
+
+
+  $warning_text = 'This setting will change the event status for all related blocks.';
+  if ($warning) {
+    $warning_text = str_replace('This', 'WARNING: this', $warning_text);
+    $warning_text = str_replace('will change', 'will also change', $warning_text);
+  }
+
+  $form['event_nid'] = array(
+    '#type' => 'number',
+    '#title' => t('Event Node ID'),
+    '#description' => t($warning_text),
+    '#default_value' => $defaults['event_nid'],
+  );
+  $form['event_open'] = array(
+    '#type' => 'radios',
+    '#title' => t('Has Registration been opened?'),
+    '#description' => t($warning_text),
+    '#options' => array(
+      '0' => t('No'),
+      '1' => t('Yes'),
+    ),
+    '#default_value' => $defaults['event_open'],
+  );
+}
+
+/**
  * Helper fuction,
- * 
+ *
  * @param $new_nid
  *   Node ID of the new event being set.
  */
 function _borg_events_change_current_event($event_nid) {
-  // Enable schedule view.
   $schedule_view_config = config('views.view.schedule');
-  $schedule_view_config->set('disabled', FALSE);
+
+  // Enable schedule view -- view now remains enabled.
+  // $schedule_view_config->set('disabled', FALSE);
 
   // Update the view to use this year's event.
   if (isset($event_nid)) {
@@ -399,28 +452,6 @@ function _borg_events_change_current_event($event_nid) {
 }
 
 /**
- * Implements hook_form_FORM_ID_alter().
- */
-function borg_events_custom_form_registration_form_alter(&$form, &$form_state) {
-  $form['field_participation_learn']['und'][0]['value']['#states'] = array(
-    'visible' => array(
-      ':input[name="field_participation[und][learn]"]' => array('checked' => TRUE),
-    ),
-  );
-  $form['field_participation_discuss']['und'][0]['value']['#states'] = array(
-    'visible' => array(
-      ':input[name="field_participation[und][discuss]"]' => array('checked' => TRUE),
-    ),
-  );
-  $form['field_participation_present']['und'][0]['value']['#states'] = array(
-    'visible' => array(
-      ':input[name="field_participation[und][present]"]' => array('checked' => TRUE),
-    ),
-  );
-}
-
-
-/**
  * Helper function: determine if current user is registered.
  *
  * @param integer $event_nid
@@ -445,6 +476,9 @@ function _borg_events_user_is_registered($event_nid = NULL) {
   return FALSE;
 }
 
+/**
+ * Helper function: determine if current user has submitted a session.
+ */
 function _borg_events_has_subimtted($event_nid, $type = 'session') {
   global $user;
 
