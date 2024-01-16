@@ -18,6 +18,11 @@ function flag_config_info() {
     'label' => t('Flag settings'),
     'group' => t('Configuration'),
   );
+  $prefixes['flag.flag'] = array(
+    'name_key' => 'name',
+    'label_key' => 'title',
+    'group' => t('Flags'),
+  );
   return $prefixes;
 }
 
@@ -34,7 +39,8 @@ function flag_autoload_info() {
     'flag_node'                                  => 'includes/flag/flag_node.inc',
     'flag_comment'                               => 'includes/flag/flag_comment.inc',
 
-    'FlaggingController'                         => 'includes/flag.entity.inc',
+    'Flagging'                                   => 'includes/flag.entity.inc',
+
     'FlagCookieStorage'                          => 'includes/flag.cookie_storage.inc',
     'FlagGlobalCookieStorage'                    => 'includes/flag.cookie_storage.inc',
     'FlagNonGlobalCookieStorage'                 => 'includes/flag.cookie_storage.inc',
@@ -63,7 +69,7 @@ function flag_entity_info() {
   $return = array(
     'flagging' => array(
       'label' => t('Flagging'),
-      'controller class' => 'FlaggingController',
+      'controller class' => 'EntityDatabaseStorageController',
       'base table' => 'flagging',
       'entity class' => 'Flagging',
       'fieldable' => TRUE,
@@ -84,13 +90,11 @@ function flag_entity_info() {
     ),
   );
 
-  // Add bundle info but bypass flag_get_flags() as we cannot use it here, as
-  // it calls entity_get_info().
-  $result = db_query("SELECT name, title FROM {flag}");
-  $flag_names = $result->fetchAllKeyed();
-  foreach ($flag_names as $flag_name => $flag_title) {
+  // Add bundle info for each flag.
+  $flags = flag_get_flags();
+  foreach ($flags as $flag_name => $flag) {
     $return['flagging']['bundles'][$flag_name] = array(
-      'label' => $flag_title,
+      'label' => $flag->title,
       'admin' => array(
         'path' => FLAG_ADMIN_PATH . '/manage/%flag',
         'real path' => FLAG_ADMIN_PATH . '/manage/' . $flag_name,
@@ -115,8 +119,8 @@ function flag_entity_info() {
  *   The entity object, or FALSE if it can't be found.
  */
 function flagging_load($flagging_id, $reset = FALSE) {
-  // The flag machine name is loaded in by FlaggingController::buildQuery().
-  $result = entity_load('flagging', array($flagging_id), array(), $reset);
+  $result = entity_load_multiple('flagging', array($flagging_id), array(), $reset);
+
   return reset($result);
 }
 
@@ -127,20 +131,12 @@ function flagging_load($flagging_id, $reset = FALSE) {
  *
  * @param $values
  *   An array of values as described by the entity's property info. Only
- *   'flag_name' or 'fid' must be specified, since $flag->flag() does the rest.
+ *   'flag_name' must be specified, since $flag->flag() does the rest.
  *
  * @return
  *   An unsaved flagging object containing the property values.
  */
 function flagging_create($values = array()) {
-
-  if (!isset($values['flag_name'])) {
-    if (isset($values['fid'])) {
-      // Add flag_name, determined from fid.
-      $flag = flag_get_flag(NULL, $values['fid']);
-      $values['flag_name'] = $flag->name;
-    }
-  }
   $flagging = entity_create('flagging', $values);
 
   // Apply the given values.
@@ -158,27 +154,17 @@ function flagging_create($values = array()) {
  * the given combination of flag, entity, and user.
  *
  * @param $flagging
- *   The flagging entity. This may have either flag_name or the flag fid set,
- *   and may also omit the uid property to use the current user.
+ *   The flagging entity. The uid property may be omitted to use the current
+ *   user account UID.
  *
  * @throws Exception
  */
 function flagging_save($flagging) {
-  // Get the flag, either way.
-  if (isset($flagging->flag_name)) {
-    $flag = flag_get_flag($flagging->flag_name);
-  }
-  else {
-    $flag = flag_get_flag(NULL, $flagging->fid);
-  }
+  $flag = flag_get_flag($flagging->flag_name);
 
   if (!$flag) {
     throw new Exception('Flag not found for flagging entity.');
   }
-
-  // Fill in properties that may be omitted.
-  $flagging->fid = $flag->fid;
-  $flagging->flag_name = $flag->name;
 
   if (!empty($flagging->uid)) {
     $account = user_load($flagging->uid);
@@ -216,44 +202,6 @@ function flagging_save($flagging) {
 // - The entity type is "flagging", not "flag_flagging".
 // On the one hand this succinct version is readable and nice. On the other
 // hand, it isn't very "correct".
-
-/**
- * Implements hook_entity_query_alter().
- *
- * Replaces bundle condition in EntityFieldQuery on flagging entities
- * with query condition on [name] field in [flag] table.
- *
- * @see flag_query_flagging_flag_names_alter()
- */
-function flag_entity_query_alter(EntityFieldQuery $query) {
-  $conditions = &$query->entityConditions;
-
-  // Alter only flagging queries with bundle conditions.
-  if (isset($conditions['entity_type']) && $conditions['entity_type']['value'] == 'flagging' && isset($conditions['bundle'])) {
-    // Add tag to alter query.
-    $query->addTag('flagging_flag_names');
-    // Make value and operator of the bundle condition accessible
-    // in hook_query_TAG_alter.
-    $query->addMetaData('flag_name_value', $conditions['bundle']['value']);
-    $query->addMetaData('flag_name_operator', $conditions['bundle']['operator']);
-    unset($conditions['bundle']);
-  }
-}
-
-/**
- * Implements hook_query_TAG_alter() for flagging_flag_names tag.
- *
- * @see flag_entity_query_alter()
- */
-function flag_query_flagging_flag_names_alter(QueryAlterableInterface $query) {
-  // Get value and operator for bundle condition from meta data.
-  $value = $query->getMetaData('flag_name_value');
-  $operator = $query->getMetaData('flag_name_operator');
-  // Join [flag] and [flagging] tables by [fid] and
-  // apply bundle condition on [flag].[name] field.
-  $query->join('flag', 'f', 'flagging.fid = f.fid');
-  $query->condition('f.name', $value, $operator);
-}
 
 /**
  * Implements hook_menu().
@@ -1098,7 +1046,7 @@ function flag_node_delete($node) {
     // of a translation set, don't delete the flagging record.
     // Instead, data will be updated in hook_node_translation_change(), below.
     if (!$flag->i18n || empty($node->tnid)) {
-      _flag_entity_delete('node', $node->nid, $flag->fid);
+      _flag_entity_delete('node', $node->nid, $flag->name);
     }
   }
 }
@@ -1116,11 +1064,11 @@ function flag_node_translation_change($node) {
     foreach (flag_get_flags('node') as $flag) {
       if ($flag->i18n) {
         db_update('flagging')->fields(array('entity_id' => $entity_id))
-          ->condition('fid', $flag->fid)
+          ->condition('flag_name', $flag->name)
           ->condition('entity_id', $node->translation_change['old_tnid'])
           ->execute();
         db_update('flag_counts')->fields(array('entity_id' => $entity_id))
-          ->condition('fid', $flag->fid)
+          ->condition('flag_name', $flag->name)
           ->condition('entity_id', $node->translation_change['old_tnid'])
           ->execute();
       }
@@ -1135,19 +1083,19 @@ function flag_node_translation_change($node) {
  *   The type of the entity being deleted; e.g. 'node' or 'comment'.
  * @param $entity_id
  *   The ID of the entity being deleted.
- * @param $fid
- *   The flag id
+ * @param $flag_name
+ *   The flag name.
  */
-function _flag_entity_delete($entity_type, $entity_id, $fid = NULL) {
+function _flag_entity_delete($entity_type, $entity_id, $flag_name = NULL) {
   $query_content = db_delete('flagging')
     ->condition('entity_type', $entity_type)
     ->condition('entity_id', $entity_id);
   $query_counts = db_delete('flag_counts')
     ->condition('entity_type', $entity_type)
     ->condition('entity_id', $entity_id);
-  if (isset($fid)) {
-    $query_content->condition('fid', $fid);
-    $query_counts->condition('fid', $fid);
+  if (isset($flag_name)) {
+    $query_content->condition('flag_name', $flag_name);
+    $query_counts->condition('flag_name', $flag_name);
   }
   $query_content->execute();
   $query_counts->execute();
@@ -1162,7 +1110,7 @@ function flag_user_login(&$edit, &$account) {
     // Get a list of flagging IDs that will be moved over.
     $duplicate_flaggings = array();
     $flaggings = db_select('flagging', 'fc')
-      ->fields('fc', array('flagging_id', 'fid', 'entity_id'))
+      ->fields('fc', array('flagging_id', 'flag_name', 'entity_id'))
       ->condition('uid', 0)
       ->condition('sid', $sid)
       ->execute()
@@ -1192,7 +1140,7 @@ function flag_user_login(&$edit, &$account) {
     // and so that other modules can clean up their tables if needed.
     $anonymous_user = backdrop_anonymous_user();
     foreach ($duplicate_flaggings as $flagging_id => $flagging) {
-      $flag = flag_get_flag(NULL, $flagging['fid']);
+      $flag = flag_get_flag($flagging['flag_name']);
       $flag->flag('unflag', $flagging['entity_id'], $anonymous_user, TRUE);
     }
 
@@ -1221,9 +1169,9 @@ function flag_user_delete($account) {
 function flag_user_account_removal($account) {
   // Remove flags by this user.
   $query = db_select('flagging', 'fc');
-  $query->leftJoin('flag_counts', 'c', 'fc.entity_id = c.entity_id AND fc.entity_type = c.entity_type AND fc.fid = c.fid');
+  $query->leftJoin('flag_counts', 'c', 'fc.entity_id = c.entity_id AND fc.entity_type = c.entity_type AND fc.flag_name = c.flag_name');
   $result = $query
-    ->fields('fc', array('fid', 'entity_id'))
+    ->fields('fc', array('flag_name', 'entity_id'))
     ->fields('c', array('count'))
     ->condition('fc.uid', $account->uid)
     ->execute();
@@ -1236,13 +1184,13 @@ function flag_user_account_removal($account) {
         ->fields(array(
           'count' => $flag_data->count,
         ))
-        ->condition('fid', $flag_data->fid)
+        ->condition('flag_name', $flag_data->flag_name)
         ->condition('entity_id', $flag_data->entity_id)
         ->execute();
     }
     elseif ($flag_data->count == 0) {
       db_delete('flag_counts')
-        ->condition('fid', $flag_data->fid)
+        ->condition('flag_name', $flag_data->flag_name)
         ->condition('entity_id', $flag_data->entity_id)
         ->execute();
     }
@@ -1321,12 +1269,13 @@ function flag_session_api_cleanup($arg = 'run') {
  * Delete any flags' applicability to the deleted bundle.
  */
 function flag_field_attach_delete_bundle($entity_type, $bundle, $instances) {
-  // This query can't use db_delete() because that doesn't support a
-  // subquery: see http://drupal.org/node/1267508.
-  db_query("DELETE FROM {flag_types} WHERE type = :bundle AND fid IN (SELECT fid FROM {flag} WHERE entity_type = :entity_type)", array(
-    ':bundle' => $bundle,
-    ':entity_type' => $entity_type,
-  ));
+  $flags = flag_get_flags();
+  foreach ($flags as $flag) {
+    if ($flag->entity_type == $entity_type && in_array($bundle, $flag->types)) {
+      $flag->types = array_diff($flag->types, array($bundle));
+      $flag->save();
+    }
+  }
 }
 
 /**
@@ -1680,18 +1629,6 @@ function template_preprocess_flag(&$variables) {
 }
 
 /**
- * Return an array of flag names keyed by fid.
- */
-function _flag_get_flag_names() {
-  $flags = flag_get_flags();
-  $flag_names = array();
-  foreach ($flags as $flag) {
-    $flag_names[$flag->fid] = $flag->name;
-  }
-  return $flag_names;
-}
-
-/**
  * Return an array of flag link types suitable for a select list or radios.
  */
 function _flag_link_type_options() {
@@ -1746,8 +1683,8 @@ function flag_get_entity_flag_counts($flag, $entity_type) {
   if (!isset($counts[$flag->name][$entity_type])) {
     $counts[$flag->name][$entity_type] = array();
     $result = db_select('flagging', 'f')
-      ->fields('f', array('fid'))
-      ->condition('fid', $flag->fid)
+      ->fields('f', array('flag_name'))
+      ->condition('flag_name', $flag->name)
       ->condition('entity_type', $entity_type)
       ->countQuery()
       ->execute()
@@ -1786,8 +1723,8 @@ function flag_get_user_flag_counts($flag, $user) {
   if (!isset($counts[$flag->name][$user->uid])) {
     $counts[$flag->name][$user->uid] = array();
     $result = db_select('flagging', 'f')
-      ->fields('f', array('fid'))
-      ->condition('fid', $flag->fid)
+      ->fields('f', array('flag_name'))
+      ->condition('flag_name', $flag->name)
       ->condition('uid', $user->uid)
       ->countQuery()
       ->execute()
@@ -1818,16 +1755,14 @@ function flag_get_counts($entity_type, $entity_id) {
 
   if (!isset($counts[$entity_type][$entity_id])) {
     $counts[$entity_type][$entity_id] = array();
-    $query = db_select('flag', 'f');
-    $query->leftJoin('flag_counts', 'fc', 'f.fid = fc.fid');
+    $query = db_select('flag_counts', 'fc');
     $result = $query
-      ->fields('f', array('name'))
-      ->fields('fc', array('count'))
+      ->fields('fc', array('flag_name', 'count'))
       ->condition('fc.entity_type', $entity_type)
       ->condition('fc.entity_id', $entity_id)
       ->execute();
     foreach ($result as $row) {
-      $counts[$entity_type][$entity_id][$row->name] = $row->count;
+      $counts[$entity_type][$entity_id][$row->flag_name] = $row->count;
     }
   }
 
@@ -1853,10 +1788,9 @@ function flag_get_flag_counts($flag_name, $reset = FALSE) {
     $counts = array();
   }
   if (!isset($counts[$flag_name])) {
-    $flag = flag_get_flag($flag_name);
     $counts[$flag_name] = db_select('flag_counts', 'fc')
-      ->fields('fc', array('fid'))
-      ->condition('fid', $flag->fid)
+      ->fields('fc', array('flag_name'))
+      ->condition('flag_name', $flag_name)
       ->countQuery()
       ->execute()
       ->fetchField();
@@ -1866,28 +1800,19 @@ function flag_get_flag_counts($flag_name, $reset = FALSE) {
 }
 
 /**
- * Load a single flag either by name or by flag ID.
+ * Load a single flag by name.
  *
  * @param $name
- *  (optional) The flag name.
- * @param $fid
- *  (optional) The the flag id.
+ *   The flag name.
  *
  * @return
  *  The flag object, or FALSE if no matching flag was found.
  */
-function flag_get_flag($name = NULL, $fid = NULL) {
+function flag_get_flag($name = NULL) {
   $flags = flag_get_flags();
   if (isset($name)) {
     if (isset($flags[$name])) {
       return $flags[$name];
-    }
-  }
-  elseif (isset($fid)) {
-    foreach ($flags as $flag) {
-      if ($flag->fid == $fid) {
-        return $flag;
-      }
     }
   }
   return FALSE;
@@ -1907,8 +1832,8 @@ function flag_get_flag($name = NULL, $fid = NULL) {
  *   (optional) The user accont to filter available flags. If not set, all
  *   flags for will this node will be returned.
  *
- * @return
- *   An array of the structure [fid] = flag_object.
+ * @return flag_flag[]
+ *   An array of the structure [flag_name] = flag_object.
  */
 function flag_get_flags($entity_type = NULL, $content_subtype = NULL, $account = NULL) {
   $flags = &backdrop_static(__FUNCTION__);
@@ -1916,34 +1841,20 @@ function flag_get_flags($entity_type = NULL, $content_subtype = NULL, $account =
   // Retrieve a list of all flags, regardless of the parameters.
   if (!isset($flags)) {
     $flags = array();
-
-    // Database flags.
-    $query = db_select('flag', 'f');
-    $query->leftJoin('flag_types', 'fn', 'fn.fid = f.fid');
-    $result = $query
-      ->fields('f', array(
-        'fid',
-        'entity_type',
-        'name',
-        'title',
-        'global',
-        'options',
-      ))
-      ->fields('fn', array('type'))
-      ->execute();
-    foreach ($result as $row) {
-      if (!isset($flags[$row->name])) {
-        $flags[$row->name] = flag_flag::factory_by_row($row);
-      }
-      else {
-        $flags[$row->name]->types[] = $row->type;
-      }
+    $config_names = config_get_names_with_prefix('flag.flag.');
+    foreach ($config_names as $config_name) {
+      $flag_data = config($config_name)->get();
+      $flags[$flag_data['name']] = flag_flag::factory_by_array($flag_data);
+      $flags[$flag_data['name']]->is_new = FALSE;
+      $flags[$flag_data['name']]->api_version = FLAG_API_VERSION;
     }
 
+    // @todo: Delete hook_flag_default_flags() and have modules ship with a
+    // flag config file.
     // Add code-based flags provided by modules.
     $default_flags = flag_get_default_flags();
     foreach ($default_flags as $name => $default_flag) {
-      // Insert new enabled flags into the database to give them an FID.
+      // Save default flags into configuration.
       if ($default_flag->status && !isset($flags[$name])) {
         $default_flag->save();
         $flags[$name] = $default_flag;
@@ -2075,7 +1986,7 @@ function flag_get_flag_flagging_data($flag_name) {
   $flag = flag_get_flag($flag_name);
   $result = db_select('flagging', 'fc')
     ->fields('fc')
-    ->condition('fid', $flag->fid)
+    ->condition('flag_name', $flag->name)
     ->execute();
   return $result->fetchAllAssoc('flagging_id');
 }
@@ -2126,7 +2037,6 @@ function flag_get_user_flags($entity_type, $entity_id = NULL, $uid = NULL, $sid 
 
   if (isset($entity_id)) {
     if (!isset($flagged_content[$uid][$sid][$entity_type][$entity_id])) {
-      $flag_names = _flag_get_flag_names();
       $flagged_content[$uid][$sid][$entity_type][$entity_id] = array();
       $result = db_select('flagging', 'fc')
         ->fields('fc')
@@ -2140,7 +2050,7 @@ function flag_get_user_flags($entity_type, $entity_id = NULL, $uid = NULL, $sid 
         ->execute();
 
       foreach ($result as $flagging_data) {
-        $flagged_content[$uid][$sid][$entity_type][$entity_id][$flag_names[$flagging_data->fid]] = $flagging_data;
+        $flagged_content[$uid][$sid][$entity_type][$entity_id][$flagging_data->flag_name] = $flagging_data;
       }
     }
     return $flagged_content[$uid][$sid][$entity_type][$entity_id];
@@ -2148,7 +2058,6 @@ function flag_get_user_flags($entity_type, $entity_id = NULL, $uid = NULL, $sid 
 
   else {
     if (!isset($flagged_content[$uid][$sid][$entity_type]['all'])) {
-      $flag_names = _flag_get_flag_names();
       $flagged_content[$uid][$sid][$entity_type]['all'] = array();
       $result = db_select('flagging', 'fc')
         ->fields('fc')
@@ -2160,7 +2069,7 @@ function flag_get_user_flags($entity_type, $entity_id = NULL, $uid = NULL, $sid 
         ->condition('sid', $sid)
         ->execute();
       foreach ($result as $flagging_data) {
-        $flagged_content[$uid][$sid][$entity_type]['all'][$flag_names[$flagging_data->fid]][$flagging_data->entity_id] = $flagging_data;
+        $flagged_content[$uid][$sid][$entity_type]['all'][$flagging_data->flag_name][$flagging_data->entity_id] = $flagging_data;
       }
     }
     return $flagged_content[$uid][$sid][$entity_type]['all'];
@@ -2202,7 +2111,6 @@ function flag_get_entity_flags($entity_type, $entity_id, $flag_name = NULL) {
   $entity_flags = &backdrop_static(__FUNCTION__, array());
 
   if (!isset($entity_flags[$entity_type][$entity_id])) {
-    $flag_names = _flag_get_flag_names();
     $result = db_select('flagging', 'fc')
       ->fields('fc')
       ->condition('entity_type', $entity_type)
@@ -2212,9 +2120,9 @@ function flag_get_entity_flags($entity_type, $entity_id, $flag_name = NULL) {
     $entity_flags[$entity_type][$entity_id] = array();
     foreach ($result as $flagging_data) {
       // Build a list of flaggings for all flags by user.
-      $entity_flags[$entity_type][$entity_id]['users'][$flagging_data->uid][$flag_names[$flagging_data->fid]] = $flagging_data;
+      $entity_flags[$entity_type][$entity_id]['users'][$flagging_data->uid][$flagging_data->flag_name] = $flagging_data;
       // Build a list of flaggings for each individual flag.
-      $entity_flags[$entity_type][$entity_id]['flags'][$flag_names[$flagging_data->fid]][$flagging_data->uid] = $flagging_data;
+      $entity_flags[$entity_type][$entity_id]['flags'][$flagging_data->flag_name][$flagging_data->uid] = $flagging_data;
     }
   }
   if (empty($entity_flags[$entity_type][$entity_id])) {
@@ -2269,7 +2177,7 @@ function flag_create_link($flag_name, $entity_id, $variables = array()) {
 /**
  * Trim a flag to a certain size.
  *
- * @param $fid
+ * @param $flag
  *   The flag object.
  * @param $account
  *   The user object on behalf the trimming will occur.
@@ -2285,7 +2193,7 @@ function flag_create_link($flag_name, $entity_id, $variables = array()) {
 function flag_trim_flag($flag, $account, $cutoff_size, $trim_newest, $permissions_check = FALSE) {
   $query = db_select('flagging', 'fc')
     ->fields('fc')
-    ->condition('fid', $flag->fid)
+    ->condition('flag_name', $flag->name)
     ->condition(db_or()->condition('uid', $account->uid)->condition('uid', 0))
     // Account for session ID (in the case of anonymous users).
     ->condition('sid', flag_get_sid($account->uid));
@@ -2321,7 +2229,7 @@ function flag_trim_flag($flag, $account, $cutoff_size, $trim_newest, $permission
 function flag_reset_flag($flag, $entity_id = NULL) {
   $query = db_select('flagging', 'fc')
     ->fields('fc')
-    ->condition('fid', $flag->fid);
+    ->condition('flag_name', $flag->name);
 
   if ($entity_id) {
     $query->condition('entity_id', $entity_id);
@@ -2334,9 +2242,9 @@ function flag_reset_flag($flag, $entity_id = NULL) {
   }
   module_invoke_all('flag_reset', $flag, $entity_id, $rows);
 
-  $query = db_delete('flagging')->condition('fid', $flag->fid);
+  $query = db_delete('flagging')->condition('flag_name', $flag->name);
   // Update the flag_counts table.
-  $count_query = db_delete('flag_counts')->condition('fid', $flag->fid);
+  $count_query = db_delete('flag_counts')->condition('flag_name', $flag->name);
   if ($entity_id) {
     $query->condition('entity_id', $entity_id);
     $count_query->condition('entity_id', $entity_id);

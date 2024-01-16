@@ -54,10 +54,12 @@ class flag_entity extends flag_flag {
     $entity_view_modes = $entity_info['view modes'];
     foreach ($entity_view_modes as $name => $view_mode) {
       $options[$name] = t('Display on @name view mode', array('@name' => $view_mode['label']));
-      $defaults[$name] = !empty($this->show_in_links[$name]) ? $name : 0;
+      if (in_array($name, $this->show_in_links)) {
+        $defaults[] = $name;
+      }
     }
     // Select the first display option by default if this is a new flag.
-    if (empty($this->fid)) {
+    if ($this->is_new) {
       $first_view_mode_keys = array_keys($entity_view_modes);
       $first_view_mode = reset($first_view_mode_keys);
       $defaults[$first_view_mode] = $first_view_mode;
@@ -206,10 +208,7 @@ class flag_entity extends flag_flag {
    */
   function shows_in_entity_links($view_mode) {
     // Check for settings for the given view mode.
-    if (isset($this->show_in_links[$view_mode])) {
-      return (bool) $this->show_in_links[$view_mode];
-    }
-    return FALSE;
+    return in_array($view_mode, $this->show_in_links);
   }
 
   /**

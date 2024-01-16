@@ -20,7 +20,7 @@
  *  variable for verification by the test case.
  */
 function _flag_hook_test_record_invocation($hook_name, $function_parameters, $flagging = NULL) {
-  $variable = config_get('flag.settings', 'flag_hook_test_hook_tracking');
+  $variable = state_get('flag_hook_test_hook_tracking', array());
 
   $variable[$hook_name] = array();
   $variable[$hook_name]['parameters'] = $function_parameters;
@@ -28,7 +28,7 @@ function _flag_hook_test_record_invocation($hook_name, $function_parameters, $fl
   // If a Flagging entity was passed in, call API functions and store their data
   // for the test case to check.
   if (isset($flagging)) {
-    $flag = flag_get_flag(NULL, $flagging->fid);
+    $flag = flag_get_flag($flagging->flag_name);
 
     $variable[$hook_name]['api_calls'] = array();
 
@@ -46,7 +46,7 @@ function _flag_hook_test_record_invocation($hook_name, $function_parameters, $fl
     $variable[$hook_name]['api_calls']['flag_get_user_flag_counts'] = flag_get_user_flag_counts($flag, $account);
   }
 
-  config_set('flag.settings', 'flag_hook_test_hook_tracking', $variable);
+  state_set('flag_hook_test_hook_tracking', $variable);
 }
 
 /**
@@ -111,7 +111,7 @@ function flag_hook_test_flag_default_flags() {
     'title' => 'Test Flag',
     'global' => FALSE,
     'types' => array(
-      0 => 'article',
+      'post',
     ),
     'flag_short' => 'Flag this',
     'flag_long' => 'Flag this post',
@@ -123,8 +123,8 @@ function flag_hook_test_flag_default_flags() {
     'link_type' => 'normal',
     'weight' => 0,
     'show_in_links' => array(
-      'full' => TRUE,
-      'teaser' => TRUE,
+      'full',
+      'teaser',
     ),
     'show_as_field' => FALSE,
     'show_on_form' => FALSE,

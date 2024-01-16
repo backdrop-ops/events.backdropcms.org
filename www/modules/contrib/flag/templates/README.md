@@ -1,9 +1,9 @@
 Theming instructions
 ====================
 
-You may want to visit the Theming Guide on drupal.org, at:
+You may want to visit the Theme Development Guide at:
 
-  <http://drupal.org/node/295346>
+https://docs.backdropcms.org/documentation/developing-themes
 
 Template file
 -------------

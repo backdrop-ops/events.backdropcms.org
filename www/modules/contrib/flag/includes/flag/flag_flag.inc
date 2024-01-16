@@ -25,8 +25,7 @@
  *
  * The above all use factory methods to instantiate the object for the flag and
  * load in its settings from configuration. The factory methods are:
- * - flag_flag::factory_by_row(), creates a flag handler from a database row.
- *   This is used by all the API functions above.
+ *
  * - flag_flag::factory_by_array(), creates a flag handler from a configuration
  *   array. This is used by flag_get_default_flags() and the flag import form.
  * - flag_flag::factory_by_entity_type(), creates an empty flag handler for the
@@ -41,13 +40,11 @@
 class flag_flag {
 
   /**
-   * The database ID.
+   * Indicator if this flag has been saved to configuration yet.
    *
-   * NULL for flags that haven't been saved to the database yet.
-   *
-   * @var integer
+   * @var bool
    */
-  var $fid = NULL;
+  var $is_new = TRUE;
 
   /**
    * The entity type this flag works with.
@@ -108,45 +105,7 @@ class flag_flag {
   public $errors = array();
 
   /**
-   * Creates a flag from a database row. Returns it.
-   *
-   * This is static method.
-   *
-   * The reason this isn't a non-static instance method --like Views's init()--
-   * is because the class to instantiate changes according to the 'entity_type'
-   * database column. This design pattern is known as the "Single Table
-   * Inheritance".
-   */
-  static function factory_by_row($row) {
-    $flag = flag_create_handler($row->entity_type);
-
-    // Lump all data unto the object...
-    foreach ($row as $field => $value) {
-      $flag->$field = $value;
-    }
-    // ...but skip the following two.
-    unset($flag->options, $flag->type);
-
-    // Populate the options with the defaults.
-    $options = (array) unserialize($row->options);
-    $options += $flag->options();
-
-    // Make the unserialized options accessible as normal properties.
-    foreach ($options as $option => $value) {
-      $flag->$option = $value;
-    }
-
-    if (!empty($row->type)) {
-      // The loop loading from the database should further populate this
-      // property.
-      $flag->types[] = $row->type;
-    }
-
-    return $flag;
-  }
-
-  /**
-   * Create a complete flag (except an FID) from an array definition.
+   * Create a complete flag from an array definition.
    */
   static function factory_by_array($config) {
     // Allow for flags with a missing entity type.
@@ -195,6 +154,7 @@ class flag_flag {
       // The link type used by the flag, as defined in
       // hook_flag_link_type_info().
       'link_type' => 'toggle',
+      'show_in_links' => array('teaser', 'full'),
       'weight' => 0,
     );
 
@@ -295,8 +255,8 @@ class flag_flag {
       );
     }
     // Ensure the machine name is unique.
-    $flag = flag_get_flag($this->name);
-    if (!empty($flag) && (!isset($this->fid) || $flag->fid != $this->fid)) {
+    $existing_flag = flag_get_flag($this->name);
+    if ($this->is_new && $existing_flag) {
       $errors['name'][] = array(
         'error' => 'flag_name_unique',
         'message' => t('Flag names must be unique. This flag name is already in use.'),
@@ -835,6 +795,7 @@ class flag_flag {
 
     // Invoke insert hooks.
     field_attach_insert('flagging', $flagging);
+
     // Invoke hook_entity_insert().
     module_invoke_all('entity_insert', $flagging, 'flagging');
 
@@ -969,7 +930,6 @@ class flag_flag {
     $flagging = entity_create('flagging',  array(
       'flagging_id' => NULL,
       'flag_name' => $this->name,
-      'fid' => $this->fid,
       'entity_type' => $this->entity_type,
       'entity_id' => $entity_id,
       'uid' => $uid,
@@ -1046,7 +1006,7 @@ class flag_flag {
   function _is_flagged($entity_id, $uid, $sid) {
     return db_select('flagging', 'fc')
       ->fields('fc', array('flagging_id'))
-      ->condition('fid', $this->fid)
+      ->condition('flag_name', $this->name)
       ->condition('uid', $uid)
       ->condition('sid', $sid)
       ->condition('entity_id', $entity_id)
@@ -1067,7 +1027,7 @@ class flag_flag {
   function _increase_count($entity_id, $number = 1) {
     db_merge('flag_counts')
       ->key(array(
-        'fid' => $this->fid,
+        'flag_name' => $this->name,
         'entity_id' => $entity_id,
       ))
       ->fields(array(
@@ -1101,7 +1061,7 @@ class flag_flag {
     // Delete rows with count 0, for data consistency and space-saving.
     // Done before the db_update() to prevent out-of-bounds errors on "count".
     db_delete('flag_counts')
-      ->condition('fid', $this->fid)
+      ->condition('flag_name', $this->name)
       ->condition('entity_id', $entity_id)
       ->condition('count', $number, '<=')
       ->execute();
@@ -1112,7 +1072,7 @@ class flag_flag {
       ->fields(array(
         'last_updated' => REQUEST_TIME,
       ))
-      ->condition('fid', $this->fid)
+      ->condition('flag_name', $this->name)
       ->condition('entity_id', $entity_id)
       ->execute();
 
@@ -1163,7 +1123,7 @@ class flag_flag {
       $sid = flag_get_sid($uid);
     }
     return db_select('flagging', 'fc')->fields('fc', array('flagging_id'))
-      ->condition('fid', $this->fid)
+      ->condition('flag_name', $this->name)
       ->condition('uid', $uid)
       ->condition('sid', $sid)
       ->countQuery()
@@ -1243,10 +1203,10 @@ class flag_flag {
       $titles = array();
     }
     $slot = intval($entity_id); // Convert NULL to 0.
-    if (!isset($titles[$this->fid][$slot])) {
-      $titles[$this->fid][$slot] = $this->get_label('title', $entity_id);
+    if (!isset($titles[$this->name][$slot])) {
+      $titles[$this->name][$slot] = $this->get_label('title', $entity_id);
     }
-    return $titles[$this->fid][$slot];
+    return $titles[$this->name][$slot];
   }
 
   /**
@@ -1283,7 +1243,10 @@ class flag_flag {
   function get_valid_actions() {
     $actions = module_invoke_all('action_info');
     foreach ($actions as $callback => $action) {
-      if ($action['type'] != $this->entity_type && !in_array('any', $action['triggers'])) {
+      // Filter actions by needed type, and exclude all actions defined by flag
+      // itself, since these should not be triggered by the flag module.
+      // See https://github.com/backdrop-contrib/flag/issues/42
+      if ($action['type'] != $this->entity_type || in_array($callback, array('flag_node_action', 'flag_comment_action', 'flag_user_action'))) {
         unset($actions[$callback]);
       }
     }
@@ -1336,65 +1299,47 @@ class flag_flag {
    * Saves a flag to the database. It is a wrapper around update() and insert().
    */
   function save() {
-    // Allow the 'global' property to be a boolean, particularly when defined in
-    // hook_flag_default_flags(). Without this, a value of FALSE gets casted to
-    // an empty string which violates our schema. Other boolean properties are
-    // fine, as they are serialized.
-    $this->global = (int) $this->global;
+    $this->global = (bool) $this->global;
+    $config = config('flag.flag.' . $this->name);
+    if ($config->isNew()) {
+      $this->is_new = TRUE;
+      // Set translatables.
+      $config->set('_config_translatables', array(
+        'title',
+        'flag_short',
+        'flag_long',
+        'flag_message',
+        'unflag_short',
+        'unflag_long',
+        'unflag_message',
+        'unflag_denied_text',
+      ));
 
-    if (isset($this->fid)) {
-      $this->update();
-      $this->is_new = FALSE;
+      $config->set('name', $this->name);
+      $config->set('entity_type', $this->entity_type);
     }
     else {
-      $this->insert();
-      $this->is_new = TRUE;
+      $this->is_new = FALSE;
     }
+
+    $config->set('title', $this->title);
+    $config->set('global', (bool) $this->global);
+    $config->set('types', array_values(array_filter($this->types)));
+    foreach ($this->options() as $option_name => $option_default) {
+      // Cast each saved value to match the default type.
+      $option_type = gettype($option_default);
+      $option_value = isset($this->{$option_name}) ? $this->{$option_name} : $option_default;
+      settype($option_value, $option_type);
+      // Saving arrays assumes checkbox input.
+      if (is_array($option_value)) {
+        $option_value = array_values(array_filter($option_value));
+      }
+      $config->set($option_name, $option_value);
+    }
+    $config->save();
+
     // Clear the page cache for anonymous users.
-    cache_clear_all('*', 'cache_page', TRUE);
-  }
-
-  /**
-   * Saves an existing flag to the database. Better use save().
-   */
-  function update() {
-    db_update('flag')->fields(array(
-      'name' => $this->name,
-      'title' => $this->title,
-      'global' => $this->global,
-      'options' => $this->get_serialized_options()))
-      ->condition('fid', $this->fid)
-      ->execute();
-    db_delete('flag_types')->condition('fid', $this->fid)->execute();
-    foreach ($this->types as $type) {
-      db_insert('flag_types')->fields(array(
-        'fid' => $this->fid,
-        'type' => $type))
-        ->execute();
-    }
-  }
-
-  /**
-   * Saves a new flag to the database. Better use save().
-   */
-  function insert() {
-    $this->fid = db_insert('flag')
-      ->fields(array(
-        'entity_type' => $this->entity_type,
-        'name' => $this->name,
-        'title' => $this->title,
-        'global' => $this->global,
-        'options' => $this->get_serialized_options(),
-      ))
-      ->execute();
-    foreach ($this->types as $type) {
-      db_insert('flag_types')
-        ->fields(array(
-          'fid' => $this->fid,
-          'type' => $type,
-        ))
-        ->execute();
-    }
+    cache('page')->flush();
   }
 
   /**
@@ -1413,10 +1358,9 @@ class flag_flag {
    * Deletes a flag from the database.
    */
   function delete() {
-    db_delete('flag')->condition('fid', $this->fid)->execute();
-    db_delete('flagging')->condition('fid', $this->fid)->execute();
-    db_delete('flag_types')->condition('fid', $this->fid)->execute();
-    db_delete('flag_counts')->condition('fid', $this->fid)->execute();
+    config('flag.flag.' . $this->name)->delete();
+    db_delete('flagging')->condition('flag_name', $this->name)->execute();
+    db_delete('flag_counts')->condition('flag_name', $this->name)->execute();
     module_invoke_all('flag_delete', $this);
   }
 
@@ -1431,16 +1375,10 @@ class flag_flag {
    * structure.
    */
   function is_compatible() {
-    if (isset($this->fid)) {
-      // Database flags are always compatible.
-      return TRUE;
+    if (!isset($this->api_version)) {
+      $this->api_version = 1;
     }
-    else {
-      if (!isset($this->api_version)) {
-        $this->api_version = 1;
-      }
-      return $this->api_version == FLAG_API_VERSION;
-    }
+    return $this->api_version == FLAG_API_VERSION;
   }
 
   /**
@@ -1451,11 +1389,10 @@ class flag_flag {
    * if $this overrides no default flag.
    */
   function find_default_flag() {
-    if ($this->fid) {
-      $default_flags = flag_get_default_flags(TRUE);
-      if (isset($default_flags[$this->name])) {
-        return $default_flags[$this->name];
-      }
+    // Search all defaults to see if one matches with this name.
+    $default_flags = flag_get_default_flags(TRUE);
+    if (isset($default_flags[$this->name])) {
+      return $default_flags[$this->name];
     }
   }
 
@@ -1473,7 +1410,6 @@ class flag_flag {
     if (($default_flag = $this->find_default_flag())) {
       if ($default_flag->is_compatible()) {
         $default_flag = clone $default_flag;
-        $default_flag->fid = $this->fid;
         $default_flag->save();
         backdrop_static_reset('flag_get_flags');
         return TRUE;

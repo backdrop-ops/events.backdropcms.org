@@ -94,8 +94,6 @@ function flag_actions_get_actions($flag_name = NULL, $reset = FALSE) {
   if (!isset($flag_actions) || $reset) {
     $flag_actions = array();
     $query = db_select('flag_actions', 'a');
-    $query->innerJoin('flag', 'f', 'a.fid = f.fid');
-    $query->addField('f', 'name', 'flag');
     $result = $query
       ->fields('a')
       ->execute();
@@ -123,7 +121,7 @@ function flag_actions_get_actions($flag_name = NULL, $reset = FALSE) {
   if (isset($flag_name)) {
     $specific_flag_actions = array();
     foreach ($flag_actions as $aid => $action) {
-      if ($action->flag == $flag_name) {
+      if ($action->flag_name == $flag_name) {
         $specific_flag_actions[$aid] = $action;
       }
     }
@@ -136,8 +134,8 @@ function flag_actions_get_actions($flag_name = NULL, $reset = FALSE) {
 /**
  * Insert a new flag action.
  *
- * @param $fid
- *   The flag object ID.
+ * @param $flag_name
+ *   The flag name.
  * @param $event
  *   The flag event, such as "flag" or "unflag".
  * @param $threshold
@@ -149,10 +147,10 @@ function flag_actions_get_actions($flag_name = NULL, $reset = FALSE) {
  * @param $parameters
  *   The action parameters.
  */
-function flag_actions_insert_action($fid, $event, $threshold, $repeat_threshold, $callback, $parameters) {
+function flag_actions_insert_action($flag_name, $event, $threshold, $repeat_threshold, $callback, $parameters) {
   return db_insert('flag_actions')
     ->fields(array(
-      'fid' => $fid,
+      'flag_name' => $flag_name,
       'event' => $event,
       'threshold' => $threshold,
       'repeat_threshold' => $repeat_threshold,
@@ -288,7 +286,7 @@ function theme_flag_actions_page($variables) {
 
   $rows = array();
   foreach ($actions as $action) {
-    $flag = flag_get_flag($action->flag);
+    $flag = flag_get_flag($action->flag_name);
 
     // Build a sample string representing repeating actions.
     if ($action->repeat_threshold) {
@@ -408,7 +406,7 @@ function flag_actions_form($form, &$form_state, $aid = NULL, $flag_name = NULL) 
   if (isset($aid)) {
     $action = flag_actions_get_action($aid);
     $callback = $action->callback;
-    $flag = flag_get_flag($action->flag);
+    $flag = flag_get_flag($action->flag_name);
     backdrop_set_title(t('Edit the "@action" action for the @title flag', array('@action' => $action->label, '@title' => $flag->get_title())));
   }
   elseif (isset($flag_name)) {
@@ -584,7 +582,7 @@ function flag_actions_form_submit($form, &$form_state) {
   $parameters = function_exists($submit_function) ? $submit_function($form, $form_state) : array();
 
   if (empty($aid)) {
-    $aid = flag_actions_insert_action($flag->fid, $event, $threshold, $repeat_threshold, $callback, $parameters);
+    $aid = flag_actions_insert_action($flag->name, $event, $threshold, $repeat_threshold, $callback, $parameters);
     $form_state['values']['flag']['aid'] = $aid;
     $form_state['values']['flag']['is_new'] = TRUE;
   }
@@ -629,7 +627,7 @@ function theme_flag_actions_flag_form($variables) {
 
 function flag_actions_delete_form($form, &$form_state, $aid) {
   $action = flag_actions_get_action($aid);
-  $flag = flag_get_flag($action->flag);
+  $flag = flag_get_flag($action->flag_name);
 
   $form['action'] = array(
     '#type' => 'value',
