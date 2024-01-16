@@ -45,14 +45,14 @@
     "display": {
         "default": {
             "label": "hidden",
-            "type": "link_default",
+            "type": "hidden",
             "weight": "0",
             "settings": [],
             "module": "link"
         },
         "teaser": {
             "label": "hidden",
-            "type": "link_default",
+            "type": "hidden",
             "weight": "1",
             "settings": [],
             "module": "link"

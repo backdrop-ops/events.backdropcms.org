@@ -902,7 +902,7 @@
                         }
                     }
                 },
-                "title": "Backdrop LIVE - March 2024 tentative",
+                "title": "Backdrop LIVE - March 2024",
                 "style_options": {
                     "grouping": [
                         {
@@ -1068,7 +1068,7 @@
                         "ui_name": "",
                         "operator": "or",
                         "value": {
-                            "45": "45"
+                            "40": 40
                         },
                         "group": "1",
                         "exposed": false,

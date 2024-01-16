@@ -71,7 +71,7 @@
     "site_slogan": "Backdrop Live is a global event designed to support and sustain all people who use Backdrop CMS.",
     "theme_default": "borg_events",
     "theme_debug": 0,
-    "user_admin_role": "administrator",
+    "user_admin_role": "developer",
     "user_cancel_method": "user_cancel_block",
     "user_email_verification": 1,
     "user_email_match": 1,
@@ -113,5 +113,5 @@
     "file_additional_public_schemes": [],
     "log_max_length": 56,
     "file_not_normalized_schemes": [],
-    "user_editor_role": ""
+    "user_editor_role": "editor"
 }

@@ -82,9 +82,9 @@
                     "title": "Backdrop LIVE ",
                     "style": "default",
                     "block_settings": {
-                        "display_date": "September 22nd &amp; 23rd 2023",
+                        "display_date": "April 4th &amp; 5th 2024",
                         "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
-                        "event_nid": "293",
+                        "event_nid": "346",
                         "event_open": "1"
                     },
                     "contexts": [],
@@ -131,7 +131,7 @@
         "4041d660-481e-4608-a40b-11a4749caf06": {
             "plugin": "views:schedule-block_1",
             "data": {
-                "status": 1,
+                "status": 0,
                 "module": "views",
                 "delta": "schedule-block_1",
                 "settings": {

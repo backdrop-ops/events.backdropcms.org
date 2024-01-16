@@ -851,7 +851,7 @@
                         "ui_name": "",
                         "label": "",
                         "empty": true,
-                        "content": "<p>List of discussions will be posted here.&nbsp; You can propose your topic after you register.&nbsp;&nbsp;</p>\r\n",
+                        "content": "<p>List of discussions will be posted here.&nbsp; You can propose your topic once you are registered.&nbsp;&nbsp;</p>\r\n",
                         "format": "filtered_html",
                         "tokenize": 0
                     }
