@@ -342,7 +342,7 @@ function flag_form($form, &$form_state, $flag) {
   // there are too many unpleasant consequences in either direction.
   // @todo: Allow this, but with a confirmation form, assuming anyone actually
   // needs this feature.
-  if (!empty($flag->fid) && flag_get_flag_counts($flag->name)) {
+  if ($flag->is_new === FALSE && flag_get_flag_counts($flag->name)) {
     $form['global']['#disabled'] = TRUE;
     $form['global']['#description'] .= '<br />' . t('This setting cannot be changed when flaggings exist for this flag.');
   }
@@ -439,7 +439,7 @@ function flag_form($form, &$form_state, $flag) {
   }
 
   // Load the user permissions into the flag.
-  if (isset($flag->fid)) {
+  if ($flag->is_new === FALSE) {
     $flag->fetch_roles();
   }
   elseif (isset($flag->import_roles)) {

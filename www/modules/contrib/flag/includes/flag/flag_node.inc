@@ -58,7 +58,7 @@ class flag_node extends flag_entity {
 
     // Add the 'teaser' view mode as a default value for the entity link display
     // option if this is a new flag.
-    if (empty($this->fid)) {
+    if ($this->is_new) {
       $form['display']['show_in_links']['#default_value']['teaser'] = 'teaser';
     }
   }

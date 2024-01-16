@@ -159,9 +159,9 @@ class flag_handler_relationship_content extends flag_handler_relationship {
     }
 
     $this->definition['extra'][] = array(
-      'field' => 'fid',
-      'value' => $flag->fid,
-      'numeric' => TRUE,
+      'field' => 'flag_name',
+      'value' => $flag->name,
+      'numeric' => FALSE,
     );
     if ($this->options['user_scope'] == 'current' && !$flag->global) {
       $this->definition['extra'][] = array(
@@ -223,9 +223,9 @@ class flag_handler_relationship_counts extends flag_handler_relationship {
     }
 
     $this->definition['extra'][] = array(
-      'field' => 'fid',
-      'value' => $flag->fid,
-      'numeric' => TRUE,
+      'field' => 'flag_name',
+      'value' => $flag->name,
+      'numeric' => FALSE,
     );
     if (!empty($this->options['required'])) {
       // Unfortunately, we may have zeros in our table, so having
@@ -277,9 +277,9 @@ class flag_handler_relationship_user_content extends flag_handler_relationship {
     }
 
     $this->definition['extra'][] = array(
-      'field' => 'fid',
-      'value' => $flag->fid,
-      'numeric' => TRUE,
+      'field' => 'flag_name',
+      'value' => $flag->name,
+      'numeric' => FALSE,
     );
     parent::query();
   }

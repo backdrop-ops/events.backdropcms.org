@@ -204,7 +204,7 @@ class flag_plugin_argument_validate_flaggability extends views_plugin_argument_v
     // view_break_phrase() is guaranteed to return only integers, so this is SQL
     // safe.
     $flattened_ids = implode(',', $ids);
-    return $this->_test_by_sql("SELECT entity_id FROM {flag_counts} WHERE fid = :fid AND entity_id IN ($flattened_ids) AND count > 0", array(':fid' => $flag->fid));
+    return $this->_test_by_sql("SELECT entity_id FROM {flag_counts} WHERE flag_name = :flag_name AND entity_id IN ($flattened_ids) AND count > 0", array(':flag_name' => $flag->name));
   }
 
   function test_flagged_by_current_user($ids, $flag) {
@@ -214,7 +214,7 @@ class flag_plugin_argument_validate_flaggability extends views_plugin_argument_v
       return array();
     }
     $flattened_ids = implode(',', $ids);
-    return $this->_test_by_sql("SELECT entity_id FROM {flagging} WHERE fid = :fid AND entity_id IN ($flattened_ids) AND uid = :uid", array(':fid' => $flag->fid, ':uid' => $user->uid));
+    return $this->_test_by_sql("SELECT entity_id FROM {flagging} WHERE flag_name = :flag_name AND entity_id IN ($flattened_ids) AND uid = :uid", array(':flag_name' => $flag->name, ':uid' => $user->uid));
   }
 
   // Helper: executes an SQL query and returns all the entity_id's.

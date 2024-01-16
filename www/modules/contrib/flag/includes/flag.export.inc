@@ -50,8 +50,6 @@ function flag_export_flags($flags = array(), $module = '', $indent = '') {
 
     // Remove properties we don't export.
     $unset_properties = array(
-      // Remove the flag ID.
-      'fid',
       // The name is emitted as the key for the array.
       'name',
       // The entity info is just used as helper data.
@@ -117,10 +115,9 @@ function flag_import_form_validate($form, &$form_state) {
     );
     $new_flag = flag_flag::factory_by_array($flag_info);
 
-    // Give new flags with the same name a matching FID, which tells Flag to
-    // update the existing flag, rather than creating a new one.
+    // If an existing flag already exists, it is not "new", but an update.
     if ($existing_flag = flag_get_flag($new_flag->name)) {
-      $new_flag->fid = $existing_flag->fid;
+      $new_flag->is_new = FALSE;
     }
 
     if ($errors = $new_flag->validate()) {

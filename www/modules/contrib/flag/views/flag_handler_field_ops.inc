@@ -87,7 +87,7 @@ class flag_handler_field_ops extends views_handler_field {
     // Otherwise, let's set up the alias, keeping it unique for this flag in
     // case there are multiple flag relationships in a single view.
     else {
-      $table_alias = 'flagging_current_user_' . $flag->fid;
+      $table_alias = 'flagging_current_user_' . $flag->name;
     }
     // Now that we have the table alias, let's see if it's already been joined
     // to. If it hasn't, we'll set up a join.
@@ -95,9 +95,9 @@ class flag_handler_field_ops extends views_handler_field {
       $join = new views_join();
       $join->construct('flagging', $info['views table'], $info['join field'], 'entity_id');
       $join->extra[] = array(
-        'field' => 'fid',
-        'value' => $flag->fid,
-        'numeric' => TRUE,
+        'field' => 'flag_name',
+        'value' => $flag->name,
+        'numeric' => FALSE,
       );
       if (!$flag->global) {
         $join->extra[] = array(

@@ -26,11 +26,8 @@ function flag_fields_test_flag_default_flags() {
     'link_type' => 'confirm',
     'weight' => -15,
     'show_in_links' => array(
-      'full' => 'full',
-      'teaser' => 'teaser',
-      'rss' => 0,
-      'token' => 0,
-      'revision' => 0,
+      'full',
+      'teaser',
     ),
     'show_as_field' => 0,
     'show_on_form' => 0,

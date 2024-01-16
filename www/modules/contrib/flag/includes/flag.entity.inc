@@ -22,13 +22,6 @@ class Flagging extends Entity {
   public $flagging_id;
 
   /**
-   * The flag ID.
-   *
-   * @var integer
-   */
-  public $fid;
-
-  /**
    * The flag name.
    *
    * @var string
@@ -93,19 +86,5 @@ class Flagging extends Entity {
     return array(
       'path' => '',
     );
-  }
-}
-
-/**
- * Controller class for flaggings.
- */
-class FlaggingController extends EntityDatabaseStorageController {
-
-  protected function buildQuery($ids, $conditions = array(), $revision_id = FALSE) {
-    $query = parent::buildQuery($ids, $conditions, $revision_id);
-    // Add the flag name, which determines the bundle.
-    $query->innerJoin('flag', 'flag', 'base.fid = flag.fid');
-    $query->addField('flag', 'name', 'flag_name');
-    return $query;
   }
 }

@@ -417,7 +417,7 @@ function flag_rules_action_fetch_users($flag, $entity) {
     ->fields('fc', array('uid'))
     ->condition('entity_type', $flag->entity_type)
     ->condition('entity_id', $flag->get_entity_id($entity))
-    ->condition('fid', $flag->fid)
+    ->condition('flag_name', $flag->name)
     ->execute();
   $uids = $result->fetchCol();
   // Filter out anonymous users.
@@ -431,7 +431,7 @@ function flag_rules_action_fetch_entity_by_user($flag, $entity) {
   $query = db_select('flagging', 'fc')
     ->fields('fc', array('entity_id'))
     ->condition('entity_type', $flag->entity_type)
-    ->condition('fid', $flag->fid);
+    ->condition('flag_name', $flag->name);
   // For global flags the user parameter is ignored, so we add the
   // extra 'uid' condition when the flag is NOT global.
   if (!$flag->global) {
