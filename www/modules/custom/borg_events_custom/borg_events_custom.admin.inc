@@ -4,8 +4,11 @@
  * Admin functions for borg events modile.
  */
 function borg_events_custom_settings_form($form = array(), &$form_settings = array()) {
-  $config = config('borg_events_custom.settings');
   $form['#config'] = 'borg_events_custom.settings';
+
+  $config = config('borg_events_custom.settings');
+  $event_path = 'node/' . $config->get('event_nid');
+  $event_edit_path = $event_path . '/edit';
 
   $form['#attached']['css'] = array(
     backdrop_get_path('module', 'borg_events_custom') . '/css/borg_events_admin.css',
@@ -17,24 +20,30 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
-  $open_regisration = array(
+  $open_regisration1 = array(
     'Remove "tentative" from node title',
     'Set <strong>Registration type</strong> to "Backdrop Live"',
-    'Save',
-    'Select <strong>Manage registrations</strong> tab',
-    'Select <strong>Settings</strong> sub-tab',
-    'Review <strong>Scheduling</strong> fieldset',
-    'Review <strong>Confirmation</strong> fieldset',
+    '<strong>Save</strong> the event',
+  );
+  $open_regisration2 = array(
+    'Select the <strong>Manage registrations</strong> tab',
+    'Select the <strong>Settings</strong> sub-tab',
+    'Review the <strong>Scheduling</strong> fieldset',
+    'Set the <strong>Confirmation</strong> message to <code>You are registered for Backdrop LIVE. We ask for $20, but any amount is appreciated.</code>',
     'Under <strong>Additional settings</strong> set <strong>Spaces allowed</strong> to 200',
     'Under <strong>Additional settings</strong> set <strong>Confirmation redirect path</strong> to <code>donate</code>',
-    'Save settings',
+    '<strong>Save settings</strong> for event registration',
   );
+
   $update_site = array(
     'Visit this Backdrop Event settings page at <code>admin/config/event</code>',
     'Under <strong>Borg event status</strong> change the answer to <strong>Has Registration been opened</strong> from "no" to "yes"',
   );
-  $markup = '<p>' . t('First, edit the current event node as follows:') . '</p>';
-  $markup .= theme('item_list', array('items' => $open_regisration, 'type' => 'ol'));
+  $replacements = array('!url' => url($event_edit_path));
+  $markup = '<p>' . t('First, edit the <a href="!url">current event node</a> as follows:', $replacements) . '</p>';
+  $markup .= theme('item_list', array('items' => $open_regisration1, 'type' => 'ol'));
+  $markup .= '<p>' . t('Next, edit the <a href="!url">current event node</a> again:', $replacements) . '</p>';
+  $markup .= theme('item_list', array('items' => $open_regisration2, 'type' => 'ol'));
   $markup .= '<p>' . t('Then, tell the website that registration is open:') . '</p>';
   $markup .= theme('item_list', array('items' => $update_site, 'type' => 'ol'));
   $form['howto_open_event']['steps'] = array(
