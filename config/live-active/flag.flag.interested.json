@@ -1,0 +1,41 @@
+{
+    "_config_name": "flag.flag.interested",
+    "_config_translatables": [
+        "title",
+        "flag_short",
+        "flag_long",
+        "flag_message",
+        "unflag_short",
+        "unflag_long",
+        "unflag_message",
+        "unflag_denied_text"
+    ],
+    "name": "interested",
+    "entity_type": "node",
+    "title": "Interested",
+    "global": false,
+    "types": [
+        "session"
+    ],
+    "flag_short": "Interested",
+    "flag_long": "I'm interested in this topic.",
+    "flag_message": "Marked as interested.",
+    "unflag_short": "Remove preference",
+    "unflag_long": "I'm NOT interested in this topic.",
+    "unflag_message": "Marked as NOT interested.",
+    "unflag_denied_text": "",
+    "link_type": "toggle",
+    "weight": 0,
+    "show_in_links": {
+        "full": "full",
+        "teaser": "teaser",
+        "rss": 0,
+        "token": 0,
+        "front_page": 0
+    },
+    "show_as_field": 0,
+    "show_on_form": 0,
+    "access_author": "",
+    "show_contextual_link": 0,
+    "i18n": 0
+}
