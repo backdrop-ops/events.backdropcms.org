@@ -2,7 +2,7 @@
     "_config_name": "taxonomy.vocabulary.time_slot",
     "name": "Time Slot",
     "machine_name": "time_slot",
-    "description": "",
+    "description": "Time Slots are updated automatically for each Backdrop LIVE event, do not edit these manually. ",
     "hierarchy": "0",
     "language": 0,
     "weight": 0

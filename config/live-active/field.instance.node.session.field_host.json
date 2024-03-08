@@ -23,7 +23,7 @@
     },
     "display": {
         "default": {
-            "label": "inline",
+            "label": "above",
             "type": "reference_link",
             "weight": "6",
             "settings": [],

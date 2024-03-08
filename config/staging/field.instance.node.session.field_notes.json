@@ -36,11 +36,12 @@
             "title": ""
         },
         "rel_remove": "default",
-        "user_register_form": false
+        "user_register_form": false,
+        "type": "both"
     },
     "display": {
         "default": {
-            "label": "above",
+            "label": "inline",
             "type": "link_default",
             "weight": "9",
             "settings": [],
