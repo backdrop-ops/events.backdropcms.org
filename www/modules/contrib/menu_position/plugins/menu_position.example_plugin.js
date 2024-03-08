@@ -8,7 +8,7 @@ Backdrop.behaviors.menuPositionPLUGINSettingsSummary = {
     $('fieldset#edit-PLUGIN', context).backdropSetSummary(function (context) {
       var vals = [];
       $('input[type="checkbox"]:checked', context).each(function () {
-        vals.push($.trim($(this).next('label').text()));
+        vals.push($.trim($('label[for="' + $(this).attr('id') + '"]').text()));
       });
       if (!vals.length) {
         vals.push(Backdrop.t('Any language'));
