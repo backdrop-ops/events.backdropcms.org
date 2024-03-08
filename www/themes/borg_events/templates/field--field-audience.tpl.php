@@ -1,7 +1,7 @@
 <?php
 /**
  * @file field.tpl.php
- * Resources field.
+ * Audience field.
  *
  * @ingroup themeable
  */
