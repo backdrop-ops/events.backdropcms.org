@@ -419,13 +419,18 @@ function _borg_events_update_time_slots(&$form, &$form_state) {
     $term = taxonomy_term_load($tid);
 
     if ($tid == 21) {
-      $new_day = $start_date_day + 1;
-      $start_date_ymd = str_replace($start_date_day, $new_day, $start_date_ymd);
+      // On this term, we update the day by 1.
+      $start_date_ymd_array = explode('-', $start_date_ymd);
+      // Increment daay, and keep the leading zero.
+      $start_date_ymd_array[2] = str_pad($start_date_day + 1, 2, '0', STR_PAD_LEFT);
+      $start_date_ymd = implode('-', $start_date_ymd_array);
     }
   
     $old_date = $term->field_schedule_date1[LANGUAGE_NONE][0]['value'];
     $new_date = _borg_event_update_term_date($start_date_ymd, $old_date);
     $term->field_schedule_date1[LANGUAGE_NONE][0]['value'] = $new_date;
+
+    dpm('tid ' . $tid . ': old: ' . $old_date . ' new: ' . $new_date);
 
     $old_description = $term->description;
     $new_description = _borg_event_update_term_description($start_date_ymd, $old_description);
