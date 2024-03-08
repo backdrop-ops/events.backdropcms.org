@@ -369,6 +369,54 @@
                         "default_to_date": "",
                         "year_range": "-3:+3",
                         "add_delta": ""
+                    },
+                    "field_event_type_tid": {
+                        "id": "field_event_type_tid",
+                        "table": "field_data_field_event_type",
+                        "field": "field_event_type_tid",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "operator": "or",
+                        "value": {
+                            "99": "99"
+                        },
+                        "group": "1",
+                        "exposed": false,
+                        "expose": {
+                            "operator_id": false,
+                            "label": "",
+                            "description": "",
+                            "use_operator": false,
+                            "operator": "",
+                            "identifier": "",
+                            "required": false,
+                            "remember": false,
+                            "multiple": false,
+                            "remember_roles": {
+                                "authenticated": "authenticated"
+                            },
+                            "reduce": false
+                        },
+                        "is_grouped": false,
+                        "group_info": {
+                            "label": "",
+                            "description": "",
+                            "identifier": "",
+                            "optional": true,
+                            "widget": "select",
+                            "multiple": false,
+                            "remember": 0,
+                            "default_group": "All",
+                            "default_group_multiple": [],
+                            "group_items": []
+                        },
+                        "reduce_duplicates": 0,
+                        "type": "select",
+                        "limit": true,
+                        "vocabulary": "event_type",
+                        "hierarchy": 0,
+                        "error_message": true
                     }
                 },
                 "sorts": {
