@@ -384,8 +384,8 @@
                         "services": {
                             "display": "auto",
                             "enabled": {
-                                "facebook": "facebook",
                                 "github": "github",
+                                "facebook": "facebook",
                                 "linkedin": "linkedin",
                                 "rss": "rss",
                                 "twitter": "twitter",
@@ -402,7 +402,7 @@
                     "plugin": "default",
                     "data": {
                         "settings": {
-                            "classes": "col-sm-6"
+                            "classes": "col-md-6"
                         }
                     }
                 }
@@ -428,7 +428,7 @@
                     "plugin": "default",
                     "data": {
                         "settings": {
-                            "classes": "col-sm-6"
+                            "classes": "col-md-6"
                         }
                     }
                 }
