@@ -16,7 +16,11 @@
     },
     "settings": {
         "text_processing": "1",
-        "display_summary": 1,
+        "allowed_formats": [
+            "filtered_html",
+            "plain_text"
+        ],
+        "display_summary": 0,
         "user_register_form": false
     },
     "display": {
@@ -50,7 +54,7 @@
     "default_value": [
         {
             "summary": "",
-            "value": "",
+            "value": "<p>\r\n    After registration you will be taken to a donation form. We are asking for a voluntary donation of $20 for each participant.&nbsp;\r\n</p>",
             "format": "filtered_html"
         }
     ],

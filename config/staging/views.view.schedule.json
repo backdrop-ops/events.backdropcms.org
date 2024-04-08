@@ -782,7 +782,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "346"
+                            "value": "402"
                         },
                         "group": "1",
                         "exposed": false,
@@ -902,7 +902,7 @@
                         }
                     }
                 },
-                "title": "Backdrop LIVE - April 2024",
+                "title": "Backdrop LIVE October 2024",
                 "style_options": {
                     "grouping": [
                         {
@@ -973,29 +973,12 @@
                         "ui_name": "",
                         "label": "",
                         "empty": 0,
-                        "content": "<p>The schedule for this event will be built by participants from now through the day of the event. Topics will be added to the schedule based upon requests that we receive during registration. Keep coming back to this page to watch the schedule grow.</p>\r\n\r\n<p>NOTE: When arriving in Zoom, <strong>you may need to select a break-out room</strong>.&nbsp;</p>\r\n",
+                        "content": "<p>\r\n    NOTE: When arriving in Zoom, <strong>you may need to select a break-out room</strong>.&nbsp;\r\n</p>",
                         "format": "filtered_html",
                         "tokenize": 0
                     }
-                }
-            }
-        },
-        "page": {
-            "display_title": "Page",
-            "display_plugin": "page",
-            "display_options": {
-                "query": {
-                    "type": "views_query",
-                    "options": []
                 },
-                "path": "schedule-page",
-                "filters": {
-                    "field_event_target_id": {
-                        "value": {
-                            "value": "346"
-                        }
-                    }
-                }
+                "footer": []
             }
         },
         "block_1": {
@@ -1068,7 +1051,7 @@
                         "ui_name": "",
                         "operator": "or",
                         "value": {
-                            "40": 40
+                            "45": "45"
                         },
                         "group": "1",
                         "exposed": false,
@@ -1118,7 +1101,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "346"
+                            "value": "402"
                         },
                         "group": "1",
                         "exposed": false,
@@ -1563,15 +1546,50 @@
                     }
                 },
                 "defaults": {
-                    "relationships": false
+                    "relationships": false,
+                    "header": false
                 },
                 "filters": {
                     "field_event_target_id": {
                         "value": {
-                            "value": "346"
+                            "value": "402"
                         }
                     }
+                },
+                "header": {
+                    "area": {
+                        "id": "area",
+                        "table": "views",
+                        "field": "area",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "",
+                        "empty": 0,
+                        "content": "<p>\r\n    The schedule for this event will be built by participants from now through the day of the event. Topics will be added to the schedule based upon requests that we receive during registration. Keep coming back to this page to watch the schedule grow.\r\n</p>\r\n<p>\r\n    NOTE: When arriving in Zoom, <strong>you may need to select a break-out room</strong>.&nbsp;\r\n</p>",
+                        "format": "filtered_html",
+                        "tokenize": 0
+                    }
                 }
+            }
+        },
+        "page": {
+            "display_title": "Page (Legacy)",
+            "display_plugin": "page",
+            "display_options": {
+                "query": {
+                    "type": "views_query",
+                    "options": []
+                },
+                "path": "schedule-page",
+                "filters": {
+                    "field_event_target_id": {
+                        "value": {
+                            "value": "402"
+                        }
+                    }
+                },
+                "display_description": ""
             }
         }
     }

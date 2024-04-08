@@ -29,7 +29,8 @@
                 "pager": {
                     "type": "some",
                     "options": {
-                        "items_per_page": "25"
+                        "items_per_page": "25",
+                        "offset": "1"
                     }
                 },
                 "style_plugin": "default",
@@ -507,6 +508,33 @@
                     "options": []
                 },
                 "display_description": ""
+            }
+        },
+        "attachment_1": {
+            "display_title": "Attachment",
+            "display_plugin": "attachment",
+            "display_options": {
+                "query": {
+                    "type": "views_query",
+                    "options": []
+                },
+                "displays": {
+                    "page": "page",
+                    "default": 0,
+                    "block_1": 0
+                },
+                "pager": {
+                    "type": "some",
+                    "options": {
+                        "items_per_page": "1",
+                        "offset": "0"
+                    }
+                },
+                "defaults": {
+                    "pager": false,
+                    "pager_options": false
+                },
+                "pager_options": null
             }
         }
     }
