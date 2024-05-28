@@ -18,7 +18,7 @@
                 },
                 "access": {
                     "type": "perm",
-                    "perm": "administer_borg_events"
+                    "perm": "access content"
                 },
                 "cache": {
                     "type": "none"
