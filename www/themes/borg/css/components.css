@@ -626,19 +626,6 @@ a.feed-icon {
 }
 
 /*******************************************************************************
- * Social media icons - general.
-*******************************************************************************/
-
-div.fa-mastodon {
-  display: inline-block;
-  -webkit-mask-image: url(../images/mastodon-logo-black.svg);
-  mask-image: url(../images/mastodon-logo-black.svg);
-  background-image: url(../images/mastodon-logo-black.svg);
-  background-color: #007CBA;
-  content: '-';
-}
-
-/*******************************************************************************
  * On The Web social media links block.
 *******************************************************************************/
 .block-on-the-web-social-links {
@@ -822,10 +809,6 @@ a.otw-svg-mask:last-child {
   margin: 0 0 1em;
 }
 
-.field-prefix {
-  line-height: 2.2em;
-}
-
 
 /*******************************************************************************
  * Site contact form.
@@ -875,8 +858,6 @@ body.user-form .page-title {
 *******************************************************************************/
 #user-login .help p {
   font-size: 1.5rem; /* 24px */
-  text-align: right;
-  margin-top: .6em;
 }
 #user-login .form-item {
   padding: 15px 0;
@@ -957,8 +938,6 @@ body.user-form .page-title {
 }
 #user-register-form .help p {
   font-size: 1.5rem; /* 24px */
-  text-align: right;
-  margin-top: .6em;
 }
 #user-register-form fieldset .form-item {
   padding: 5px 0;
@@ -1016,8 +995,7 @@ body.user-form .page-title {
   }
   #user-register-form .form-type-textfield label,
   #user-register-form .form-type-email label {
-    width: 145px;
-    text-align: right;
+    width: 140px;
   }
   #user-register-form .form-item input[type="text"],
   #user-register-form .form-item input[type="email"] {
@@ -1029,9 +1007,8 @@ body.user-form .page-title {
     padding-left: 165px;
   }
 
-  /* Hide bad descriptions.*/
-  #user-register-form .form-item-captcha-response div.description {
-    display: none;
+  #user-register-form .form-type-checkbox label {
+
   }
   #user-register-form #edit-contact .form-item input {
     flex: none;
