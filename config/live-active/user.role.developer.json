@@ -180,6 +180,9 @@
         "select account cancellation method",
         "administer views",
         "access all views",
-        "administer youtube"
+        "administer youtube",
+        "access devel information",
+        "execute php code",
+        "switch users"
     ]
 }
