@@ -398,73 +398,121 @@ function _borg_events_generate_content_add_node($time_slot_tid, $room_tid) {
 
 /**
  * Submit handler for the update terms button.
+ *
+ * Note: this does not change times on any Time Slots, only changes the dates.
  */
 function _borg_events_update_time_slots(&$form, &$form_state) {
-  $hour_count = 1;
-
-  // Get the starting date and time.
+  // Get the starting date from the event node.
   $nid = $form_state['values']['event_nid'];
   $start_date = $form_state['values']['event_next_start_date'];
-  $start_date_ymd = $start_date;
-  $start_date_ymd_array = explode('-', $start_date_ymd);
-  $start_date_day = array_pop($start_date_ymd_array);
 
-  // @todo
-  //$start_time = $form_state['values']['event_next_start_time'];
+  $date_object = new DateTime();
+  $date = $date_object->createFromFormat('Y-m-d', $start_date);
 
+  // Set the time from the time slot term.
+  $start_time = $form_state['values']['event_next_start_time'];
+  $start_time_units = explode(':', $start_time);
+  $date->setTime($start_time_units[0], $start_time_units[1], '00', '00');
 
-  // Get all term ids for the vocab.
-  $tids = db_query("SELECT tid FROM {taxonomy_term_data} WHERE vocabulary = 'time_slot' ORDER BY weight")->fetchCol();
+  // Get all term ids for the Time Slot vocab ordered by weight.
+  $query = "SELECT tid FROM {taxonomy_term_data} WHERE vocabulary = 'time_slot' ORDER BY weight";
+  $tids = db_query($query)->fetchCol();
   foreach ($tids as $tid) {
     $term = taxonomy_term_load($tid);
 
     if ($tid == 21) {
-      // On this term, we update the day by 1.
-      $start_date_ymd_array = explode('-', $start_date_ymd);
-      // Increment daay, and keep the leading zero.
-      $start_date_ymd_array[2] = str_pad($start_date_day + 1, 2, '0', STR_PAD_LEFT);
-      $start_date_ymd = implode('-', $start_date_ymd_array);
+      // On the "Block D - Slot 10" term, we update the day by 1.
+      $date->modify('+1 day');
     }
-  
+
+    // Extract the old date and time from the field.
     $old_date = $term->field_schedule_date1[LANGUAGE_NONE][0]['value'];
-    $new_date = _borg_event_update_term_date($start_date_ymd, $old_date);
+    $new_datetime = _borg_event_update_term_date($date, $old_date);
+    // Format the new date to a string for the db.
+    $new_date = $new_datetime->format('Y-m-d H:i:s');
+    // Update the field to the new date and old time.
     $term->field_schedule_date1[LANGUAGE_NONE][0]['value'] = $new_date;
 
-    dpm('tid ' . $tid . ': old: ' . $old_date . ' new: ' . $new_date);
+    //dpm($term->name . ' ' . $tid . ': old: ' . $old_date . ' new: ' . $new_date);
 
     $old_description = $term->description;
-    $new_description = _borg_event_update_term_description($start_date_ymd, $old_description);
+    $new_description = _borg_event_update_term_description($new_datetime, $old_description);
     $term->description = $new_description;
+
+    //dpm($term->name . ' ' . $tid . ': old: ' . $old_description . ' new: ' . $new_description);
 
     $term->save();
 
-    $hour_count++;
+    // Always increment time by 1 hour.
+    $date->modify('+1 hour');
+
   }
-  backdrop_set_message(t(':count time slots have been updated.', array(':count' => $hour_count)));
+
+  $count = count($tids);
+  backdrop_set_message(t(':count time slots have been updated.', array(':count' => $count)));
 }
 
 /**
  * Helper function: update the term date.
+ *
+ * @param DateTime $new_datetime
+ * @param string $old_date
+ *
+ * @return DateTime $datetime
+ *   The new date to use for updates,
  */
-function _borg_event_update_term_date($new_date_ymd, $old_date) {
-  $old_ymd = substr($old_date, 0, 10);
-  //$old_time = substr($date_example, 11);
-  $new_date = str_replace($old_ymd, $new_date_ymd, $old_date);
-  
-  return $new_date;
+function _borg_event_update_term_date($new_datetime, $old_date) {
+  // Create a new date object.
+  $date_object = new DateTime();
+  // Set the Date object to the old date.
+  $datetime = $date_object->createFromFormat('Y-m-d H:i:s', $old_date);
+
+  if ($datetime) {
+    // Collect the new date and the old time.
+    $parts = array(
+      'Y' => $new_datetime->format('Y'),
+      'm' => $new_datetime->format('m'),
+      'd' => $new_datetime->format('d'),
+      'H' => $datetime->format('H'),
+      'i' => $datetime->format('i'),
+      's' => $datetime->format('s'),
+      'u' => $datetime->format('u'),
+    );
+    // Set the date to the new date.
+    $datetime->setDate($parts['Y'], $parts['m'], $parts['d']);
+    // Set the time to the old time.
+    $datetime->setTime($parts['H'], $parts['i'], $parts['s'], $parts['u']);
+
+    return $datetime;
+  }
+  else {
+    backdrop_set_message('Unable to create datetime object for ' . $old_date);
+  }
 }
 
 /**
  * Helper function: update the term description.
+ *
+ * @param DateTime $new_date
+ * @param string $old_description
+ *
+ * @return string $new_description
  */
-function _borg_event_update_term_description($new_date_ymd, $old_description) {
-  // <strong>Slot 1</strong>: [utz-datetime:2022-03-11 8:00 PST|g:i a e - F j, Y]
-  $old_description_array = explode('utz-datetime:', $old_description);
-  $old_desc_date = array_pop($old_description_array);
-  $old_desc_date_ymd = substr($old_desc_date, 0, 10);
-  $new_description = str_replace($old_desc_date_ymd, $new_date_ymd, $old_description);
+function _borg_event_update_term_description($new_date, $old_description) {
+  // Get the parts of the token that don't change.
+  $token_front = '[utz-datetime:';
+  $token_back = '|g:i a e - F j, Y]';
 
-  // @todo update time.
+  // Get the description without the token. Description:
+  // <strong>Slot 1</strong>: [utz-datetime:2022-03-11 8:00 PST|g:i a e - F j, Y]
+  $old_description_array = explode(':', $old_description);
+  $old_description_front = array_shift($old_description_array) . ': ';
+
+  // Get the date into the format the token expects.
+  $new_date_formatted = $new_date->format('Y-m-d G:i T');
+
+  // Put the token back in the new description.
+  $new_description = $old_description_front . $token_front . $new_date_formatted . $token_back;
 
   return $new_description;
 }
