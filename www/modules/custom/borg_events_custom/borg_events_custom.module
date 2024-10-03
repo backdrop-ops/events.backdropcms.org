@@ -330,6 +330,23 @@ function borg_events_custom_form_registration_form_alter(&$form, &$form_state) {
   );
 }
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function borg_events_custom_form_taxonomy_form_term_alter(&$form, &$form_state) {
+  global $user;
+  if (isset($form['field_schedule_date1']) && $form['#term']['tid'] != 4 && $user->uid != 1) {
+    // Disable the date and time fields on time slot terms.
+    $form['field_schedule_date1']['#disabled'] = TRUE;
+
+    // Add a friendly message.
+    $message = 'Time slot dates and times are adjusted via <a href="!url">Backdrop Event Settings</a>.';
+    $note = t($message, array('!url' => '/admin/config/event'));;
+    $form['field_schedule_date1'][LANGUAGE_NONE]['0']['#description'] = $note;
+  }
+}
+
+
 /*****************************************************************************
  * Helper functions:
  *****************************************************************************/
