@@ -362,7 +362,7 @@ function _borg_events_generate_discussion_nodes(&$form, &$form_state) {
 }
 
 /**
- * Create one node. Used by both batch and non-batch code branches.
+ * Create one node. Used by both batch and non-batch.
  *
  * @param $tid
  *   Taxonomy Term ID for the current time slot.
@@ -406,10 +406,11 @@ function _borg_events_update_time_slots(&$form, &$form_state) {
   $nid = $form_state['values']['event_nid'];
   $start_date = $form_state['values']['event_next_start_date'];
 
+  // Create a universal date we can use to update all time slots.
   $date_object = new DateTime();
   $date = $date_object->createFromFormat('Y-m-d', $start_date);
 
-  // Set the time from the time slot term.
+  // Set the time from the time in the form (which comes from the first term).
   $start_time = $form_state['values']['event_next_start_time'];
   $start_time_units = explode(':', $start_time);
   $date->setTime($start_time_units[0], $start_time_units[1], '00', '00');
@@ -421,20 +422,22 @@ function _borg_events_update_time_slots(&$form, &$form_state) {
     $term = taxonomy_term_load($tid);
 
     if ($tid == 21) {
-      // On the "Block D - Slot 10" term, we update the day by 1.
+      // On the term "Block D - Slot 10", we update the day by 1.
       $date->modify('+1 day');
     }
 
-    // Extract the old date and time from the field.
+    // Extract the old date and time from the time slot.
     $old_date = $term->field_schedule_date1[LANGUAGE_NONE][0]['value'];
+    // Update the universal date to the new day and old time.
     $new_datetime = _borg_event_update_term_date($date, $old_date);
     // Format the new date to a string for the db.
     $new_date = $new_datetime->format('Y-m-d H:i:s');
-    // Update the field to the new date and old time.
+    // Update the field value for date.
     $term->field_schedule_date1[LANGUAGE_NONE][0]['value'] = $new_date;
 
     //dpm($term->name . ' ' . $tid . ': old: ' . $old_date . ' new: ' . $new_date);
 
+    // Update the field value for description.
     $old_description = $term->description;
     $new_description = _borg_event_update_term_description($new_datetime, $old_description);
     $term->description = $new_description;
@@ -444,7 +447,8 @@ function _borg_events_update_time_slots(&$form, &$form_state) {
     $term->save();
 
     // Always increment time by 1 hour.
-    $date->modify('+1 hour');
+      // @TODO: instead of using the old time - set the time based on universal value.
+    //$date->modify('+1 hour');
 
   }
 
@@ -453,7 +457,8 @@ function _borg_events_update_time_slots(&$form, &$form_state) {
 }
 
 /**
- * Helper function: update the term date.
+ * Helper function: Sets the Date to the universal date, but adds the old time.
+ *   @TODO: Use the universal date's time instead.
  *
  * @param DateTime $new_datetime
  * @param string $old_date
@@ -462,13 +467,12 @@ function _borg_events_update_time_slots(&$form, &$form_state) {
  *   The new date to use for updates,
  */
 function _borg_event_update_term_date($new_datetime, $old_date) {
-  // Create a new date object.
+  // Create another temporary date object.
   $date_object = new DateTime();
-  // Set the Date object to the old date.
+  // Set the temporary Date object to the previous date AND TIME.
   $datetime = $date_object->createFromFormat('Y-m-d H:i:s', $old_date);
-
   if ($datetime) {
-    // Collect the new date and the old time.
+    // Assemble the new universal date for day, and the previous time.
     $parts = array(
       'Y' => $new_datetime->format('Y'),
       'm' => $new_datetime->format('m'),
@@ -483,6 +487,7 @@ function _borg_event_update_term_date($new_datetime, $old_date) {
     // Set the time to the old time.
     $datetime->setTime($parts['H'], $parts['i'], $parts['s'], $parts['u']);
 
+    // Return the new day + old time.
     return $datetime;
   }
   else {
