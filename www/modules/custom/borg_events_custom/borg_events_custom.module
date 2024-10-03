@@ -340,8 +340,12 @@ function borg_events_custom_form_taxonomy_form_term_alter(&$form, &$form_state) 
     $form['field_schedule_date1']['#disabled'] = TRUE;
 
     // Add a friendly message.
-    $message = 'Time slot dates and times are adjusted via <a href="!url">Backdrop Event Settings</a>.';
-    $note = t($message, array('!url' => '/admin/config/event'));;
+    $link = t('Backdrop Event Settings');
+    $message = 'Time slot dates and times are adjusted via !link.';
+    if (user_access('administer_borg_events')) {
+      $link = l(t('Backdrop Event Settings'), '/admin/config/event');
+    }
+    $note = t($message, array('!link' => $link));
     $form['field_schedule_date1'][LANGUAGE_NONE]['0']['#description'] = $note;
   }
 }
