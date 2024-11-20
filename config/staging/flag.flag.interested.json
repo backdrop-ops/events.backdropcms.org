@@ -17,25 +17,25 @@
     "types": [
         "session"
     ],
-    "flag_short": "Interested",
+    "flag_short": "I am Interested",
     "flag_long": "I'm interested in this topic.",
     "flag_message": "Marked as interested.",
-    "unflag_short": "Remove preference",
+    "unflag_short": "Remove interest",
     "unflag_long": "I'm NOT interested in this topic.",
     "unflag_message": "Marked as NOT interested.",
     "unflag_denied_text": "",
     "link_type": "toggle",
     "weight": 0,
-    "show_in_links": {
-        "full": "full",
-        "teaser": "teaser",
-        "rss": 0,
-        "token": 0,
-        "front_page": 0
-    },
-    "show_as_field": 0,
-    "show_on_form": 0,
+    "show_in_links": [
+        "full",
+        "teaser",
+        "rss",
+        "token",
+        "front_page"
+    ],
+    "show_as_field": false,
+    "show_on_form": false,
     "access_author": "",
-    "show_contextual_link": 0,
+    "show_contextual_link": false,
     "i18n": 0
 }

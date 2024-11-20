@@ -82,10 +82,10 @@
                     "title": "Backdrop LIVE ",
                     "style": "default",
                     "block_settings": {
-                        "display_date": "October 10th &amp; 11th",
+                        "display_date": "April 3rh &amp; 4th, 2025",
                         "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
-                        "event_nid": "402",
-                        "event_open": "1"
+                        "event_nid": "502",
+                        "event_open": "0"
                     },
                     "contexts": [],
                     "admin_label": "",

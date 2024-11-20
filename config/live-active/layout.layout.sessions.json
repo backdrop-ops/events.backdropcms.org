@@ -33,7 +33,7 @@
             "865a4c47-8ebb-4ceb-9805-5c10c0f614cb",
             "207ffb0a-1b7f-4d32-9818-24ed4eb6ac74",
             "911cf395-6567-452e-a400-f89a9d2a584a",
-            "ff23916c-71b6-4e14-ae08-8de88725309e"
+            "1167e453-69c1-45ac-bf00-f0df4d618de0"
         ],
         "bottom": [],
         "footer": [
@@ -417,7 +417,7 @@
                 ]
             }
         },
-        "ff23916c-71b6-4e14-ae08-8de88725309e": {
+        "1167e453-69c1-45ac-bf00-f0df4d618de0": {
             "plugin": "views:comments_recent-block",
             "data": {
                 "status": 1,
@@ -443,7 +443,7 @@
                     "admin_label": "",
                     "admin_description": ""
                 },
-                "uuid": "ff23916c-71b6-4e14-ae08-8de88725309e",
+                "uuid": "1167e453-69c1-45ac-bf00-f0df4d618de0",
                 "style": {
                     "plugin": "default",
                     "data": {

@@ -5,7 +5,7 @@
     "module": "comment",
     "storage": 2,
     "tag": "default",
-    "disabled": true,
+    "disabled": false,
     "base_table": "comment",
     "human_name": "Recent comments",
     "core": 0,
