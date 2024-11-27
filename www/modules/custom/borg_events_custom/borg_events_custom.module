@@ -129,7 +129,7 @@ function borg_events_custom_block_view($delta = '', $settings = array(), $contex
       $markup = '<p>' . $text . '</p>';
 
       // Only add a register now button when registration is open.
-      if (isset($settings['event_open'])) {
+      if (isset($settings['event_open']) && $settings['event_open']) {
         $button_text = t('Register Now');
         $registration_node = 'node/' . $settings['event_nid'];
         $options = array('attributes' => array('class' => array('button')));
