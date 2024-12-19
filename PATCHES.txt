@@ -1,7 +1,9 @@
 CORE:
 -----
 
-none
+Icon API - alt text accidentally required (causes issue with OTW)
+  https://github.com/backdrop/backdrop-issues/issues/6784
+  https://github.com/backdrop/backdrop/pull/4944.patch
 
 
 CONTRIB:
