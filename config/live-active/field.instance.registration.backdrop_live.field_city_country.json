@@ -20,15 +20,16 @@
     "default_value_function": null,
     "settings": {
         "text_processing": "0",
-        "user_register_form": false
+        "user_register_form": false,
+        "allowed_formats": []
     },
     "display": {
         "default": {
-            "label": "hidden",
+            "label": "above",
             "type": "text_default",
+            "weight": "4",
             "settings": [],
-            "module": "text",
-            "weight": 8
+            "module": "text"
         }
     }
 }

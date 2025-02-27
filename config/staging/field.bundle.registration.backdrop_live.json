@@ -12,6 +12,55 @@
                 "weight": "1"
             }
         },
-        "display": []
+        "display": {
+            "mail": {
+                "default": {
+                    "weight": "2",
+                    "visible": true
+                }
+            },
+            "host_entity_link": {
+                "default": {
+                    "weight": "0",
+                    "visible": true
+                }
+            },
+            "created": {
+                "default": {
+                    "weight": "10",
+                    "visible": true
+                }
+            },
+            "updated": {
+                "default": {
+                    "weight": "12",
+                    "visible": false
+                }
+            },
+            "spaces": {
+                "default": {
+                    "weight": "13",
+                    "visible": false
+                }
+            },
+            "author": {
+                "default": {
+                    "weight": "11",
+                    "visible": false
+                }
+            },
+            "user": {
+                "default": {
+                    "weight": "1",
+                    "visible": true
+                }
+            },
+            "state": {
+                "default": {
+                    "weight": "14",
+                    "visible": false
+                }
+            }
+        }
     }
 }

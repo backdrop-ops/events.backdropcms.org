@@ -21,11 +21,11 @@
     },
     "display": {
         "default": {
-            "label": "hidden",
+            "label": "above",
             "type": "list_default",
+            "weight": "6",
             "settings": [],
-            "module": "list",
-            "weight": 2
+            "module": "list"
         }
     }
 }
