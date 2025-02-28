@@ -31,4 +31,4 @@ scripts[] = js/borg.js
 ; Added by Backdrop CMS packaging script on 2025-02-27
 project = borg
 version = 1.x-1.2.6
-timestamp = 1740710744
+timestamp = 1740712525
