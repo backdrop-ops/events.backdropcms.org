@@ -38,7 +38,7 @@
                         "items_per_page": 5
                     }
                 },
-                "style_plugin": "list",
+                "style_plugin": "default",
                 "row_plugin": "fields",
                 "relationships": {
                     "nid": {
@@ -74,7 +74,7 @@
                             "suffix": "",
                             "target": "",
                             "nl2br": 0,
-                            "max_length": "60",
+                            "max_length": "120",
                             "word_boundary": 1,
                             "ellipsis": 1,
                             "more_link": 0,
@@ -85,7 +85,7 @@
                             "preserve_tags": "",
                             "html": 0
                         },
-                        "element_type": "",
+                        "element_type": "p",
                         "element_class": "",
                         "element_label_type": "",
                         "element_label_class": "",
@@ -210,7 +210,7 @@
                         "element_label_colon": false,
                         "element_wrapper_type": "",
                         "element_wrapper_class": "",
-                        "element_default_classes": 0,
+                        "element_default_classes": 1,
                         "empty": "",
                         "hide_empty": 0,
                         "empty_zero": 0,
@@ -288,10 +288,7 @@
                 },
                 "row_options": {
                     "default_field_elements": 1,
-                    "inline": {
-                        "timestamp": "timestamp",
-                        "name": "name"
-                    },
+                    "inline": [],
                     "separator": "",
                     "hide_empty": 0
                 },
@@ -299,10 +296,7 @@
                     "grouping": [],
                     "row_class": "",
                     "default_row_class": 1,
-                    "row_class_special": 1,
-                    "type": "ul",
-                    "wrapper_class": "item-list",
-                    "class": ""
+                    "row_class_special": 0
                 }
             }
         },
