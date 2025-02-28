@@ -82,6 +82,18 @@
   }
 }
 
+/*******************************************************************************
+** Recent comments
+*******************************************************************************/
+.view-comments-recent .views-row {
+  margin-bottom: 1.5rem;
+}
+.view-comments-recent .views-field {
+  margin-bottom: .5rem;
+}
+.view-comments-recent p {
+  margin: .5rem 0;
+}
 
 /*******************************************************************************
 ** Event Archives view
