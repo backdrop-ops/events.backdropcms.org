@@ -30,9 +30,9 @@
   </div>
 
   <div id="smart-button-container">
-    <div class="paypal-form-item"><label for="amount">Donation </label><input name="amountInput" type="number" id="amount" value="20.00" ><span> USD</span></div>
+    <div class="paypal-form-item"><label for="amount">Donation</label><input name="amountInput" type="number" id="amount" value="25.00" ><span> USD</span></div>
       <p id="priceLabelError" style="visibility: hidden; color:red; text-align: center;">Please enter a price</p>
-    <div class="paypal-form-item"><label for="description">A friendly message? </label><input type="text" name="descriptionInput" id="description" maxlength="127" value="" ></div>
+    <div class="paypal-form-item"><label for="description">Memo</label><input type="text" name="descriptionInput" id="description" maxlength="127" value="Backdrop Live" ></div>
       <p id="descriptionError" style="visibility: hidden; color:red; text-align: center;">Please enter a description</p>
     <div id="invoiceidDiv" class="paypal-form-item" style="text-align: center; display: none;"><label for="invoiceid"> </label><input name="invoiceid" maxlength="127" type="text" id="invoiceid" value="" >
       <p id="invoiceidError" style="visibility: hidden; color:red; text-align: center;">Please enter an Invoice ID</p>
