@@ -364,6 +364,7 @@ function theme_captcha($variables) {
       '#type' => 'fieldset',
       '#title' => t('CAPTCHA'),
       '#description' => $element['#description'],
+      '#description_display' => 'after',
       '#children' => backdrop_render_children($element),
       '#attributes' => array('class' => array('captcha')),
     );
@@ -381,6 +382,10 @@ function theme_captcha($variables) {
  * CAPTCHA administration links for site administrators if this option is enabled.
  */
 function captcha_form_alter(&$form, &$form_state, $form_id) {
+
+  if (config_get('captcha.settings', 'disable_captcha')) {
+    return;
+  }
 
   // If user has skip CAPTCHA permission, doesn't do anything.
   if (!user_access('skip CAPTCHA')) {
@@ -749,7 +754,7 @@ function captcha_validate($element, &$form_state) {
       form_set_error('captcha_response', _captcha_get_error_message());
       // Update wrong response counter.
       if (config_get('captcha.settings', 'enable_stats')) {
-        config_set('captcha.settings', 'wrong_response_counter', config_get('captcha.settings', 'wrong_response_counter') + 1);
+        state_set('captcha_wrong_response_counter', state_get('captcha_wrong_response_counter') + 1);
       }
       // Log to watchdog if needed.
       if (config_get('captcha.settings', 'log_wrong_responses')) {
