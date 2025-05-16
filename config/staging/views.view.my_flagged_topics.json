@@ -148,7 +148,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "402"
+                            "value": "502"
                         },
                         "group": "1",
                         "exposed": false,
@@ -279,6 +279,21 @@
                     },
                     "default": "-1",
                     "empty_table": 0
+                },
+                "header": {
+                    "area": {
+                        "id": "area",
+                        "table": "views",
+                        "field": "area",
+                        "relationship": "none",
+                        "group_type": "group",
+                        "ui_name": "",
+                        "label": "Name of current Backdrop Live event",
+                        "empty": 1,
+                        "content": "<h3>\r\n    Backdrop Live April 2025\r\n</h3>",
+                        "format": "filtered_html",
+                        "tokenize": 0
+                    }
                 }
             }
         },

@@ -78,7 +78,7 @@
                         "order": "DESC"
                     }
                 },
-                "title": "Users Interested in This Topic",
+                "title": "People Interested in This Topic",
                 "relationships": {
                     "flag_user_content_rel": {
                         "id": "flag_user_content_rel",
