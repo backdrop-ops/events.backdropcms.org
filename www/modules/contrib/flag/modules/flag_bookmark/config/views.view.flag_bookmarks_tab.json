@@ -137,7 +137,7 @@
                         "relationship": "uid",
                         "default_action": "empty",
                         "exception": {
-                            "value": ""
+                            "value": "%1"
                         },
                         "title_enable": true,
                         "title": "%1's bookmarks",

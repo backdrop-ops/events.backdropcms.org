@@ -37,6 +37,7 @@
  * that can't be found, the special handler flag_broken. Finally, this calls
  * $flag->construct() on the new handler object.
  */
+ #[AllowDynamicProperties]
 class flag_flag {
 
   /**

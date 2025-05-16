@@ -447,3 +447,13 @@ function flag_bookmark_update_1000() {
     $config->save();
   }
 }
+
+/**
+ * Fix breadcrumb for bookmarks tab.
+ */
+function flag_bookmark_update_1001() {
+  $config = config('views.view.flag_bookmarks_tab');
+  $config->set('core', '1.0');
+  $config->set('display.default.display_options.arguments.uid.exception.value', '%1');
+  $config->save();
+}

@@ -5,7 +5,7 @@ type = module
 dependencies[] = flag
 package = Flags
 
-; Added by Backdrop CMS packaging script on 2023-12-29
+; Added by Backdrop CMS packaging script on 2025-04-16
 project = flag
-version = 1.x-3.6.0
-timestamp = 1703916147
+version = 1.x-3.6.2
+timestamp = 1744839568

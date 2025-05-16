@@ -53,6 +53,14 @@ Backdrop.flagLink = function(context) {
     // so we reference it using a variable.
     var element = this;
 
+    // Make sure the toggle link's href is a local path that starts with "flag".
+    var url_object = new URL(Backdrop.absoluteUrl(element.href));
+    var url_query = url_object.searchParams.has('q') ? '/' + url_object.searchParams.get('q') : url_object.pathname;
+    if (!Backdrop.urlIsLocal(element.href) || !url_query.startsWith(Backdrop.settings.basePath + Backdrop.settings.pathPrefix + 'flag/')) {
+      console.error('Wrong url for a flag toggle link: ' + element.href);
+      return;
+    }
+
     // While waiting for a server response, the wrapper will have a
     // 'flag-waiting' class. Themers are thus able to style the link
     // differently, e.g., by displaying a throbber.
@@ -66,41 +74,66 @@ Backdrop.flagLink = function(context) {
     // Hide any other active messages.
     $('span.flag-message:visible').fadeOut();
 
+    // Store the token that was passed to the request and confirm it is echoed
+    // back to us.
+    var tokenMatches = element.search.match(/[?&]token=([^&]+)/);
+    var previousToken = tokenMatches[1] ? tokenMatches[1] : false;
+
     // Send POST request
     $.ajax({
       type: 'POST',
       url: element.href,
       data: { js: true },
       dataType: 'json',
-      success: function (data) {
+      success: function (data, textStatus, jqXHR) {
         data.link = $wrapper.get(0);
         $.event.trigger('flagGlobalBeforeLinkUpdate', [data]);
-        if (!data.preventDefault) { // A handler may cancel updating the link.
-          data.link = updateLink(element, data.newLink);
+        // Check that Flag module returned the response.
+        var echoedToken = jqXHR.getResponseHeader('X-Flag-Token');
+        if (!echoedToken || echoedToken !== previousToken) {
+          data.preventDefault = true;
         }
 
-        // Find all the link wrappers on the page for this flag, but exclude
-        // the triggering element because Flag's own javascript updates it.
-        var $wrappers = $('.flag-wrapper.flag-' + data.flagName.flagNameToCSS() + '-' + data.contentId).not(data.link);
-        var $newLink = $(data.newLink);
+        // A handler may cancel updating the link.
+        if (!data.preventDefault) {
+          data.link = updateLink(element, data.newLink);
 
-        // Hide message, because we want the message to be shown on the triggering element alone.
-        $('.flag-message', $newLink).hide();
+          // Find all the link wrappers on the page for this flag, but exclude
+          // the triggering element because Flag's own javascript updates it.
+          var $wrappers = $('.flag-wrapper.flag-' + data.flagName.flagNameToCSS() + '-' + data.contentId).not(data.link);
+          var $newLink = $(data.newLink);
 
-        // Finally, update the page.
-        $wrappers = $newLink.replaceAll($wrappers);
-        Backdrop.attachBehaviors($wrappers.parent());
+          // Hide message, because we want the message to be shown on the
+          // triggering element alone.
+          $('.flag-message', $newLink).hide();
+
+          // Finally, update the page.
+          $wrappers = $newLink.replaceAll($wrappers);
+          Backdrop.attachBehaviors($wrappers.parent());
+        }
+        else {
+          console.error('No token was returned from the server, so the flag link cannot be updated.');
+          $wrapper.removeClass('flag-waiting');
+        }
 
         $.event.trigger('flagGlobalAfterLinkUpdate', [data]);
       },
       error: function (xmlhttp) {
-        alert('An HTTP error '+ xmlhttp.status +' occurred.\n'+ element.href);
+        console.error('An HTTP error '+ xmlhttp.status +' occurred.\n'+ element.href);
         $wrapper.removeClass('flag-waiting');
       }
     });
   }
 
-  $('a.flag-link-toggle:not(.flag-processed)', context).addClass('flag-processed').click(flagClick);
+  $('a.flag-link-toggle:not(.flag-processed)', context).each(function() {
+    var $element = $(this);
+    var queryString = this.search;
+    $element.addClass('flag-processed');
+    // Click behavior should only be applied if a token exists on the link.
+    if (queryString.match(/[?&]token=/)) {
+      $element.click(flagClick);
+    }
+  });
 };
 
 /**
@@ -200,7 +233,7 @@ Backdrop.flagCookie = function(name, value, options) {
     if (document.cookie && document.cookie != '') {
       var cookies = document.cookie.split(';');
       for (var i = 0; i < cookies.length; i++) {
-        var cookie = jQuery.trim(cookies[i]);
+        var cookie = cookies[i].trim();
         // Does this cookie string begin with the name we want?
         if (cookie.substring(0, name.length + 1) == (name + '=')) {
           cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
