@@ -679,6 +679,9 @@ function menu_position_edit_menu_link($rid, $mlid, $plid, $admin_title) {
   // If this is an existing menu link, get the existing weight.
   if ($item['mlid']) {
     $existing_item = db_query("SELECT plid, weight FROM {menu_links} WHERE mlid = :mlid", array(':mlid' => $item['mlid']))->fetchAssoc();
+    if (empty($existing_item)) {
+      $existing_item = array('plid' => 0, 'weight' => 0);
+    }
     $item['weight'] = ($existing_item['plid'] == $plid) ? $existing_item['weight'] : 0;
     // If the rule has a new parent, update the old parent.
     if ($existing_item['plid'] != $item['plid']) {
