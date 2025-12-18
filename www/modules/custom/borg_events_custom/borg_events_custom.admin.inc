@@ -28,16 +28,16 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
   $open_regisration2 = array(
     'Select the <strong>Manage registrations</strong> tab',
     'Select the <strong>Settings</strong> sub-tab',
-    'Review the <strong>Scheduling</strong> fieldset',
-    'Set the <strong>Confirmation</strong> message to <code>You are registered for Backdrop LIVE. We ask for $20, but any amount is appreciated.</code>',
-    'Under <strong>Additional settings</strong> set <strong>Spaces allowed</strong> to 200',
-    'Under <strong>Additional settings</strong> set <strong>Confirmation redirect path</strong> to <code>donate</code>',
-    '<strong>Save settings</strong> for event registration',
+    'See the <strong>Scheduling</strong> fieldset. Change the <strong>Open date</strong> to today, and the <strong>Close date</strong> to the last day of the event.',
+    'See the <strong>Confirmation</strong> fieldset. Set the <strong>Template</strong> to <code>You are registered for Backdrop LIVE. <br>We are asking for a $25 donation, but any amount is appreciated. <br> We are looking forward to seeing you on April 23 & 24!</code> (update those dates)',
+    'See the <strong>Additional settings</strong>. Set <strong>Spaces allowed</strong> to 200. Set <strong>Confirmation redirect path</strong> to <code>donate</code>',
+    '<strong>Save</strong> the settings for event registration',
   );
 
   $update_site = array(
     'Visit this Backdrop Event settings page at <code>admin/config/event</code>',
     'Under <strong>Borg event status</strong> change the answer to <strong>Has Registration been opened</strong> from "no" to "yes"',
+    '<strong>Save</strong> the settings',
   );
   $replacements = array('!url' => url($event_edit_path));
   $markup = '<p>' . t('First, edit the <a href="!url">current event node</a> as follows:', $replacements) . '</p>';
@@ -65,8 +65,8 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
   $nid_changes = array(
     'Update the schedule view to reference the current event',
     'Update the title for the default schedule view display',
-    'Update the default value for the node-referene field on Discussions',
-    'Update the default value for the node-referene field on Presentations',
+    'Update the default value for the node-reference field on Discussions',
+    'Update the default value for the node-reference field on Presentations',
   );
   $form['event_settings']['event_nid']['#description'] = $more_nid_desc . theme('item_list', array('items' => $nid_changes));
 
@@ -215,6 +215,8 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
     '#submit' => array('_borg_events_update_notes_link'),
   );
 
+  /** End Event Fieldset ******************************************************/
+
   $form['event_close'] = array(
     '#type' => 'fieldset',
     '#title' => t('How to end a successful Backdrop Live event'),
@@ -224,27 +226,31 @@ function borg_events_custom_settings_form($form = array(), &$form_settings = arr
   $update_site = array(
     'Visit this Backdrop Event settings page at <code>admin/config/event</code>',
     'Under <strong>Borg event status</strong> change the answer to <strong>Has Registration been opened</strong> from "yes" to "no".',
+    '<strong>Save</strong> the event settings',
   );
   $close_registration = array(
     'Select <strong>Manage registrations</strong> tab',
     'Select <strong>Settings</strong> sub-tab',
     'Un-check the <strong>Enable</strong> checkbox at the very top of the page.',
-    'Save settings',
+    '<strong>Save</strong> the registration settings',
   );
   $create_next = array(
     'Create the next Event node at <code>node/add/event</code>',
     'Use the dates decided at the closing session for this Backdrop LIVE',
     'Add the word "tentative" at the end of the node title.',
-    'Save the event node',
+    '<strong>Save</strong> the event node',
     'Edit the event node, and note the Node ID',
   );
   $stage_next = array(
     'Return to this Backdrop Event settings page at <code>admin/config/event</code>',
     'Under <strong>Borg event status</strong> change the <strong>Event Node ID </strong> to the one you just created',
   );
-  $markup = '<p>' . t('Stop promoting the current event.') . '</p>';
+
+  // This is already defined above, noting here for reference.
+  //$replacements = array('!url' => url($event_edit_path));
+  $markup = '<p>' . t('Stop promoting the current event.', $replacements) . '</p>';
   $markup .= theme('item_list', array('items' => $update_site, 'type' => 'ol'));
-  $markup .= '<p>' . t('Shut off regisration by editing the current event node.') . '</p>';
+  $markup .= '<p>' . t('Shut off regisration by editing <a href="!url">current event node</a>.') . '</p>';
   $markup .= theme('item_list', array('items' => $close_registration, 'type' => 'ol'));
   $markup .= '<p>' . t('Create the next Backdrop Live event node:') . '</p>';
   $markup .= theme('item_list', array('items' => $create_next, 'type' => 'ol'));
