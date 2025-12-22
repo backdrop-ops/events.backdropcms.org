@@ -21,19 +21,20 @@
         ],
         "top": [
             "f624f034-77a8-4b23-9b00-c8631bab9ad3",
-            "4896c812-5352-41dd-b800-bf0b5f63daee"
+            "4896c812-5352-41dd-b800-bf0b5f63daee",
+            "f3aa2968-4336-420c-af17-236dc294a12c"
         ],
         "content": [
-            "4041d660-481e-4608-a40b-11a4749caf06",
             "8b8f39f3-acaa-451a-b909-9ca9bff3242f",
+            "4041d660-481e-4608-a40b-11a4749caf06",
             "a184939c-6417-445d-bd09-9cba0305b436",
             "41592594-43c8-49b7-9a15-2151ba5b885f"
         ],
         "sidebar": [
+            "cfa18cb5-ae2a-430c-8600-a270ec97829a",
             "3e2ba52b-1d50-4cda-8500-f36ed6142917",
             "ef578328-75a4-4fb3-9400-d5c7bb238838",
-            "495fc21c-26ad-4692-8000-b5a9e9117a6d",
-            "cfa18cb5-ae2a-430c-8600-a270ec97829a"
+            "495fc21c-26ad-4692-8000-b5a9e9117a6d"
         ],
         "bottom": [],
         "footer": [
@@ -82,10 +83,10 @@
                     "title": "Backdrop LIVE ",
                     "style": "default",
                     "block_settings": {
-                        "display_date": "April 3rh &amp; 4th, 2025",
+                        "display_date": "April 23th &amp; 24th 2026",
                         "text": "An online global event for those who use Backdrop CMS, or want to learn more about it.",
-                        "event_nid": "502",
-                        "event_open": "0"
+                        "event_nid": "707",
+                        "event_open": "1"
                     },
                     "contexts": [],
                     "admin_label": "",
@@ -128,33 +129,24 @@
                 }
             }
         },
-        "4041d660-481e-4608-a40b-11a4749caf06": {
-            "plugin": "views:schedule-block_1",
+        "f3aa2968-4336-420c-af17-236dc294a12c": {
+            "plugin": "layout:custom_block",
             "data": {
                 "status": 0,
-                "module": "views",
-                "delta": "schedule-block_1",
+                "module": "layout",
+                "delta": "custom_block",
                 "settings": {
-                    "link_to_view": 0,
-                    "more_link": false,
-                    "use_pager": false,
-                    "pager_id": 0,
-                    "items_per_page": 10,
-                    "offset": 0,
-                    "path": "schedule-page",
-                    "fields_override": null,
                     "title_display": "default",
                     "title": "",
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
-                    "allowed": [],
-                    "path_override": false,
-                    "exposed": [],
+                    "content": "<p>\r\n    Test Text\r\n</p>",
+                    "format": "filtered_html",
                     "admin_label": "",
                     "admin_description": ""
                 },
-                "uuid": "4041d660-481e-4608-a40b-11a4749caf06",
+                "uuid": "f3aa2968-4336-420c-af17-236dc294a12c",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -192,6 +184,43 @@
                     "admin_description": ""
                 },
                 "uuid": "8b8f39f3-acaa-451a-b909-9ca9bff3242f",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "4041d660-481e-4608-a40b-11a4749caf06": {
+            "plugin": "views:schedule-block_1",
+            "data": {
+                "status": 0,
+                "module": "views",
+                "delta": "schedule-block_1",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": 10,
+                    "offset": 0,
+                    "path": "schedule-page",
+                    "fields_override": null,
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "4041d660-481e-4608-a40b-11a4749caf06",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -254,6 +283,43 @@
                     "title": ""
                 },
                 "uuid": "41592594-43c8-49b7-9a15-2151ba5b885f",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
+        "cfa18cb5-ae2a-430c-8600-a270ec97829a": {
+            "plugin": "views:next_event-block_1",
+            "data": {
+                "status": 1,
+                "module": "views",
+                "delta": "next_event-block_1",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": "1",
+                    "offset": 0,
+                    "path": null,
+                    "fields_override": null,
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "cfa18cb5-ae2a-430c-8600-a270ec97829a",
                 "style": {
                     "plugin": "default",
                     "data": {
@@ -340,43 +406,6 @@
                     "admin_description": ""
                 },
                 "uuid": "495fc21c-26ad-4692-8000-b5a9e9117a6d",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
-            }
-        },
-        "cfa18cb5-ae2a-430c-8600-a270ec97829a": {
-            "plugin": "views:next_event-block_1",
-            "data": {
-                "status": 1,
-                "module": "views",
-                "delta": "next_event-block_1",
-                "settings": {
-                    "link_to_view": 0,
-                    "more_link": false,
-                    "use_pager": false,
-                    "pager_id": 0,
-                    "items_per_page": "1",
-                    "offset": 0,
-                    "path": null,
-                    "fields_override": null,
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": [],
-                    "contexts": [],
-                    "allowed": [],
-                    "path_override": false,
-                    "exposed": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "cfa18cb5-ae2a-430c-8600-a270ec97829a",
                 "style": {
                     "plugin": "default",
                     "data": {

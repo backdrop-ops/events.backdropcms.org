@@ -28,9 +28,9 @@
             "6341a709-6bb9-414e-b703-3ce725ceef76"
         ],
         "sidebar": [
+            "ba9739db-df88-44f5-8300-d17e59ea808e",
             "cf904e28-1aab-4328-9c5f-95c8204bad71",
-            "273c4846-8d3e-47a3-bc0b-1113d15b76f8",
-            "ba9739db-df88-44f5-8300-d17e59ea808e"
+            "273c4846-8d3e-47a3-bc0b-1113d15b76f8"
         ],
         "bottom": [],
         "footer": [
@@ -253,6 +253,43 @@
                 ]
             }
         },
+        "ba9739db-df88-44f5-8300-d17e59ea808e": {
+            "plugin": "views:next_event-block_1",
+            "data": {
+                "status": 1,
+                "module": "views",
+                "delta": "next_event-block_1",
+                "settings": {
+                    "link_to_view": 0,
+                    "more_link": false,
+                    "use_pager": false,
+                    "pager_id": 0,
+                    "items_per_page": "1",
+                    "offset": 0,
+                    "path": null,
+                    "fields_override": null,
+                    "title_display": "default",
+                    "title": "",
+                    "style": "default",
+                    "block_settings": [],
+                    "contexts": [],
+                    "allowed": [],
+                    "path_override": false,
+                    "exposed": [],
+                    "admin_label": "",
+                    "admin_description": ""
+                },
+                "uuid": "ba9739db-df88-44f5-8300-d17e59ea808e",
+                "style": {
+                    "plugin": "default",
+                    "data": {
+                        "settings": {
+                            "classes": ""
+                        }
+                    }
+                }
+            }
+        },
         "cf904e28-1aab-4328-9c5f-95c8204bad71": {
             "plugin": "borg_events_custom:steps",
             "data": {
@@ -261,7 +298,7 @@
                 "delta": "steps",
                 "settings": {
                     "title_display": "default",
-                    "title": "What to do",
+                    "title": "Backdrop LIVE",
                     "style": "default",
                     "block_settings": [],
                     "contexts": [],
@@ -299,43 +336,6 @@
                     "title": ""
                 },
                 "uuid": "273c4846-8d3e-47a3-bc0b-1113d15b76f8",
-                "style": {
-                    "plugin": "default",
-                    "data": {
-                        "settings": {
-                            "classes": ""
-                        }
-                    }
-                }
-            }
-        },
-        "ba9739db-df88-44f5-8300-d17e59ea808e": {
-            "plugin": "views:next_event-block_1",
-            "data": {
-                "status": 1,
-                "module": "views",
-                "delta": "next_event-block_1",
-                "settings": {
-                    "link_to_view": 0,
-                    "more_link": false,
-                    "use_pager": false,
-                    "pager_id": 0,
-                    "items_per_page": "1",
-                    "offset": 0,
-                    "path": null,
-                    "fields_override": null,
-                    "title_display": "default",
-                    "title": "",
-                    "style": "default",
-                    "block_settings": [],
-                    "contexts": [],
-                    "allowed": [],
-                    "path_override": false,
-                    "exposed": [],
-                    "admin_label": "",
-                    "admin_description": ""
-                },
-                "uuid": "ba9739db-df88-44f5-8300-d17e59ea808e",
                 "style": {
                     "plugin": "default",
                     "data": {

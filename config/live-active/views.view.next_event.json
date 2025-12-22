@@ -325,7 +325,7 @@
                         "exclude": 0,
                         "alter": {
                             "alter_text": true,
-                            "text": "Our next <strong>[field_event_type]</strong> event will be [field_display_date]: [view_node]<br>",
+                            "text": "[field_display_date]: [view_node]<br>",
                             "make_link": 0,
                             "path": "node/[nid]",
                             "absolute": 0,
@@ -450,7 +450,7 @@
                         }
                     }
                 },
-                "title": ""
+                "title": "Our next Backdrop LIVE event"
             }
         },
         "block": {

@@ -27,9 +27,28 @@
                     "type": "basic"
                 },
                 "pager": {
-                    "type": "some",
+                    "type": "full",
                     "options": {
-                        "items_per_page": "100"
+                        "items_per_page": "100",
+                        "offset": "0",
+                        "id": "0",
+                        "total_pages": "",
+                        "quantity": "9",
+                        "tags": {
+                            "first": "« first",
+                            "previous": "‹ previous",
+                            "next": "next ›",
+                            "last": "last »"
+                        },
+                        "expose": {
+                            "items_per_page": 0,
+                            "items_per_page_label": "Items per page",
+                            "items_per_page_options": "5, 10, 20, 40, 60",
+                            "items_per_page_options_all": 0,
+                            "items_per_page_options_all_label": "- All -",
+                            "offset": 0,
+                            "offset_label": "Offset"
+                        }
                     }
                 },
                 "style_plugin": "list",
@@ -148,7 +167,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "2022-02-05",
+                            "value": "2025-08-01",
                             "type": "date"
                         },
                         "group": "1",
@@ -190,7 +209,7 @@
                         "order": "DESC"
                     }
                 },
-                "title": "discussions",
+                "title": "Discussions",
                 "style_options": {
                     "grouping": [
                         {
