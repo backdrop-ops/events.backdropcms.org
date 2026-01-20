@@ -977,7 +977,8 @@
                     "deprecated_table": 0,
                     "fill_single_line": 1,
                     "caption": "",
-                    "summary": ""
+                    "summary": "",
+                    "unresponsive": 1
                 },
                 "relationships": {
                     "field_schedule_slot_tid": {
@@ -1522,7 +1523,8 @@
                     "deprecated_table": 0,
                     "fill_single_line": 1,
                     "caption": "",
-                    "summary": ""
+                    "summary": "",
+                    "unresponsive": 1
                 },
                 "row_plugin": "fields",
                 "row_options": {
