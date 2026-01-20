@@ -1,0 +1,541 @@
+<?php
+/**
+ * @file
+ * Provides custom blocks for Backdropcms.org
+ */
+
+/**
+ * Modules included in core.
+ */
+define('MODULES_CORE', 75);
+
+/**
+ * Percent of top Drupal Modules ready.
+ */
+define('MODULES_TOP', 97);
+
+/**
+ * Projects available.
+ */
+define('MODULES_AVAILABLE', 1300);
+
+
+/**
+ * Implements hook_block_info().
+ */
+function borg_blocks_block_info() {
+  // New home page block.
+  $blocks['community'] = array(
+    'info' => t('Join the community'),
+    'description' => t('Home page: Community section'),
+  );
+  $blocks['resources'] = array(
+    'info' => t('Backdrop CMS Resources'),
+    'description' => t('Social media and other useful links'),
+  );
+
+  $blocks['branding'] = array(
+    'info' => t('Branding'),
+    'description' => t('Backdrop CMS logomark and wordmark.'),
+  );
+  $blocks['tagline'] = array(
+    'info' => t('Tagline & Download'),
+    'description' => t('Tagline and download'),
+  );
+  $blocks['audiences'] = array(
+    'info' => t('Backdrop for Audiences'),
+    'description' => t('Homepage block'),
+  );
+  $blocks['greeting'] = array(
+    'info' => t('Greeting'),
+    'description' => t('Backdrop CMS greeting block.'),
+  );
+  $blocks['upgrade'] = array(
+    'info' => t('Upgrade info'),
+    'description' => t('Information on upgrades from D7.'),
+  );
+  $blocks['handbook'] = array(
+    'info' => t('Handbook Menu'),
+    'description' => t('Backdrop CMS Handbook menu, with section titles.'),
+  );
+  $blocks['rss'] = array(
+    'info' => t('Project RSS feed'),
+    'description' => t('RSS feed for Backdrop CMS modules, themes, and layouts.'),
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements function hook_block_view().
+ */
+function borg_blocks_block_view($delta = '', $settings = array(), $contexts = array()) {
+  $block = array();
+
+  switch ($delta) {
+
+    case 'community':
+      $block_title = '<div class="visual-tag">Get Involved</div>';
+      $block_title .= '<div class="b-community__title">Join the community</div>';
+      $block['subject'] = $block_title;
+      $block['content'] = borg_blocks_community($settings);
+      break;
+
+    case 'resources':
+      $block['subject'] = t('Resources');
+      $block['content'] = borg_blocks_resources($settings);
+      break;
+
+    case 'branding':
+      $block['subject'] = NULL;
+      $block['content'] = borg_blocks_branding($settings);
+      break;
+
+    case 'tagline':
+      $block['subject'] = NULL;
+      $block['content'] = borg_blocks_tagline($settings);
+      break;
+
+    case 'greeting':
+      global $user;
+      $block['subject'] = NULL;
+      if ($user->uid) {
+        $block['content'] = t('Hi !name!', array('!name'  => theme('username', array('account' => $user))));
+      }
+      break;
+
+    case 'audiences':
+      $block['subject'] = NULL;
+      $block['content'] = borg_blocks_audiences($settings);
+      break;
+
+    case 'upgrade':
+      $block['subject'] = t('Upgrade from Drupal 7');
+      $block['content'] = borg_blocks_upgrade($settings);
+      break;
+
+    case 'handbook':
+      $tree = menu_tree('menu-handbook');
+
+      $block['subject'] = NULL;
+      $block['content'] = backdrop_render($tree);
+      break;
+
+    case 'rss':
+      $block['subject'] = NULL;
+      $block['content'] = backdrop_get_feeds();
+      break;
+  }
+
+  return $block;
+}
+
+/**
+ * Block callback.
+ */
+function borg_blocks_community($settings) {
+  $copy = t('Whether you’re a developer, designer, or enthusiast, your contributions make Backdrop better for everyone. Join a vibrant open source community.');
+
+  $button_attributes = array(
+    'class' => array('borg__button', 'borg__button--primary', 'borg__button--right-arrow'));
+  $options = array('attributes' => $button_attributes);
+  $button = l(t('Join the conversation'), 'https://forum.backdropcms.org', $options);
+
+  $image_path = backdrop_get_path('module', 'borg_blocks') . '/images/';
+  $photo_files = array(
+    'Backdrop-BDay-Nantes.jpg',
+    'Backdrop-BDay-Oakland.jpg',
+    'Justin-Laryn.jpg',
+    'migrating-backdrop-on-pantheon.jpg',
+    'tcbackdrop.jpg',
+  );
+  $items = array();
+  foreach ($photo_files as $filename) {
+    $items[] = theme('image', array('path' => $image_path . $filename));
+  }
+  $attributes = array('class' => array('b-community__photos'));
+  $photos = theme('item_list', array('items' => $items, 'attributes' => $attributes));
+
+  return array(
+    'copy' => $copy,
+    'photos' => $photos,
+    'button' => $button,
+  );
+}
+
+/**
+ * Block callback.
+ */
+function borg_blocks_resources() {
+  $link_options = array('html' => TRUE);
+  $icon_style = '-fill';
+  $icon_size = '26px';
+  $icon_attributes = array('width' => $icon_size, 'height' => $icon_size);
+  $icon_options = array('attributes' => $icon_attributes);
+
+  $zulip_icon = icon('chat-circle-dots' . $icon_style, $icon_options);
+  $office_icon = icon('building' . $icon_style, $icon_options);
+  $forum_icon  = icon('chats-circle' . $icon_style, $icon_options);
+  $newsletter_icon = icon('envelope-simple' . $icon_style, $icon_options);
+  $github_icon = icon('github-logo' . $icon_style, $icon_options);
+  $docs_icon = icon('puzzle-piece' . $icon_style, $icon_options);
+  $youtube_icon = icon('youtube-logo' . $icon_style, $icon_options);
+  $bluesky_icon = icon('butterfly' . $icon_style, $icon_options);
+  $twitter_icon = icon('twitter-logo' . $icon_style, $icon_options);
+  $mastodon_icon = icon('mastodon-logo' . $icon_style, $icon_options);
+  $face_icon = icon('facebook-logo' . $icon_style, $icon_options);
+  $linkedin_icon = icon('linkedin-logo' . $icon_style, $icon_options);
+  $group_icon = icon('users-three' . $icon_style, $icon_options);
+  $items = array(
+    'chat' => array(
+      'data' => l($zulip_icon . t('Live Chat: Zulip'), 'https://backdrop.zulipchat.com', $link_options),
+    ),
+    'office-hours' => array(
+      'data' => l($office_icon . t('Office Hours'), 'support/meetings', $link_options),
+    ),
+    'forum' => array(
+      'data' => l($forum_icon . t('Backdrop Forum'), 'https://forum.backdropcms.org', $link_options),
+    ),
+    'news' => array(
+      'data' => l($newsletter_icon . t('Newsletter signup'), 'https://backdropcms.org/newsletter', $link_options),
+    ),
+    'github' => array(
+      'data' => l($github_icon . t('GitHub Issue Queue'), 'http://github.com/backdrop/backdrop-issues/issues', $link_options),
+    ),
+    'docs' => array(
+      'data' => l($docs_icon . t('Developer Documentation & API'), 'http://api.backdropcms.org', $link_options),
+    ),
+    'videos' => array(
+      'data' => l($youtube_icon . t('Video archives: YouTube'), 'https://www.youtube.com/user/backdropcms', $link_options),
+    ),
+    'linkedin-page' => array(
+      'data' => l($linkedin_icon . t('LinkedIn page'), 'https://www.linkedin.com/company/backdrop-cms', $link_options),
+    ),
+    'linkedin-group' => array(
+      'data' => l($group_icon . t('LinkedIn group'), 'https://www.linkedin.com/groups/6930143', $link_options),
+    ),
+    'bluesky' => array(
+      'data' => l($bluesky_icon . t('Bluesky (use #BackdropCMS)'), 'https://blsky.social', $link_options),
+    ),
+    'mastodon' => array(
+      'data' => l($mastodon_icon . t('Mastodon (use #BackdropCMS)'), 'https://phpc.social/@backdropcms', $link_options),
+    ),
+    'twitter' => array(
+      'data' => l($twitter_icon . t('Twitter or X (use #BackdropCMS)'), 'http://twitter.com/backdropcms', $link_options),
+    ),
+    'facebook' => array(
+      'data' => l($face_icon . t('Facebook group'), 'http://www.facebook.com/backdropcms', $link_options),
+    ),
+  );
+
+  $output = theme('borg_list', array('items' => $items));
+
+  return $output;
+}
+
+/**
+ * Block callback.
+ */
+function borg_blocks_branding($settings) {
+  $icon_options = array('attributes' => array('width' => 40));
+  $icon = icon('backdrop-logo', $icon_options);
+  $variables['logo'] = $icon;
+
+  $link_options = array(
+    'attributes' => array(
+      'class' => array('site-name'),
+      'aria-label' => 'Backdrop CMS home page',
+    ),
+    'html' => TRUE,
+  );
+
+  $site_name = '';
+  if ($settings['site_name']) {
+    $stored_name = strtolower(check_plain(config_get('system.core', 'site_name')));
+    if (strstr($stored_name, 'backdrop cms')) {
+      $site_name = str_replace('backdrop cms', '', $stored_name);
+      $site_name = ucwords($site_name);
+    }
+    elseif (strstr($stored_name, 'backdrop')) {
+      $site_name = str_replace('backdrop', '', $stored_name);
+      $site_name = ucwords($site_name);
+    }
+  }
+  $output = l(t('backdrop'). $icon . $site_name, '', $link_options);
+
+  return $output;
+}
+
+/**
+ * Block callback.
+ */
+function borg_blocks_tagline($settings) {
+  $button_class_name = 'borg__button';
+  if (module_exists('tugboat')) {
+    $demo_text = t('Demo Backdrop CMS');
+    $demo_link = l($demo_text, 'demo',
+      array(
+        'attributes' => array(
+          'class' => array(
+            $button_class_name,
+            $button_class_name . '--primary',
+          )
+        ),
+        'html' => TRUE,
+      )
+    );
+  }
+  else {
+    $pantheon_url = 'https://dashboard.pantheon.io/sites/create?upstream_id=bf703821-4c18-45a1-88b8-3d9ec302273d';
+    $demo_text = t('Backdrop on Pantheon');
+    $demo_link = l($demo_text, $pantheon_url,
+      array(
+        'attributes' => array(
+          'class' => array(
+            $button_class_name,
+            $button_class_name . '--primary',
+          )
+        ),
+        'html' => TRUE,
+      )
+    );
+  }
+
+  // Initiate a curl session.
+  $download_link = '<span class="element-invisible">Version API error</span>';
+  if ($data = _borg_blocks_get_version()) {
+    $version = $data['latest']['version'];
+    $dl_url = $data['latest']['download_link'];
+    $dl_text = t('Download Backdrop&nbsp;CMS') . ' <span class="version">v&nbsp;' . $version . '</span>';
+
+    $download_link = l($dl_text, $dl_url,
+      array(
+        'attributes' => array(
+          'class' => array(
+            $button_class_name,
+            $button_class_name . '--secondary',
+          )
+        ),
+        'html' => TRUE,
+      )
+    );
+  }
+
+  $output  =
+    '<h1 class="tagline-block__headline-wrapper">' .
+      '<span class="tagline-block__primary-text">'. t('Put your content center stage') . '</span>' .
+    '</h1>' .
+    '<p>' .
+      t('Backdrop CMS is a free and Open Source Content Management System that helps you build modern, comprehensive websites on a reasonable budget.') .
+    '</p>';
+
+  $output .= '<ul class="tagline-block__ctas">';
+  $output .=   '<li>' . $demo_link . '</li>';
+  $output .=   '<li>' . $download_link . '</li>';
+  $output .= '</ul>';
+
+  return $output;
+}
+
+/**
+ * Block callback.
+ */
+function borg_blocks_audiences($settings) {
+  $button_class_name = 'borg__button';
+
+  $output =
+    '<span class="audiences-block__visual-tag visual-tag">'.
+      t('Sites Showcase') .
+    '</span> ' .
+    '<h2 class="audiences-block__title">' .
+      t('A flexible CMS for any person or organization') .
+    '</h2>' .
+    '<div class="audiences-block__body">' .
+        t('A flexible CMS for any person or organization') .
+      '<p>' .
+        t('Backdrop CMS is being used across more than 3,600+ sites for both individuals and organization of all kinds.') .
+      '</p>' .
+      l(
+        t('See the Showcase'),
+        'showcase',
+        array(
+          'attributes' => array(
+            'class' => array(
+              $button_class_name,
+              $button_class_name . '--primary',
+              $button_class_name . '--right-arrow',
+            )
+          ),
+        )
+      ) .
+    '</div>';
+
+  $output .= '<ul class="audiences-block__organizations chonky-link-bar__outer-wrapper">';
+  $audiences_menu = menu_load_links('menu-cms-audiences');
+  foreach ($audiences_menu as $key => $audiences_menu_item) {
+    if (!empty($audiences_menu_item['hidden'])) {
+      break;
+    }
+    $mlid = $audiences_menu_item['mlid'];
+
+    $options = $audiences_menu_item['options'];
+    $options['attributes']['class'][] = 'audiences-block__organization-link';
+    $options['attributes']['class'][] = 'audiences-block__organization-link--' . $mlid;
+    $options['attributes']['class'][] = 'chonky-link-bar';
+
+    $output .=
+      '<li class="audiences-block__organization-item chonky-link-bar__item">' .
+        l($audiences_menu_item['link_title'], $audiences_menu_item['link_path'], $options) .
+      '</li>';
+  }
+
+  $output .= '</ul>';
+
+  return $output;
+}
+
+/**
+ * Block callback.
+ */
+function borg_blocks_upgrade($settings) {
+  $icon_size = '100px';
+  $icon_attributes = array('width' => $icon_size, 'height' => $icon_size);
+  $icon_options = array('attributes' => $icon_attributes);
+  $path = backdrop_get_path('module', 'borg_blocks');
+  $button = l(t('Upgrade from Drupal'), 'node/4967', array('attributes' => array('class' => array('button'))));
+
+  $included_modules = l(MODULES_CORE . t("+ included modules"), 'https://docs.backdropcms.org/documentation/features-added-to-core');
+  $included_modules_icon = icon('gift', $icon_options);
+  $included_modules_icon_link = l($included_modules_icon, 'https://docs.backdropcms.org/documentation/features-added-to-core', array('html' => TRUE, 'attributes' => array('class' => array('icon'))));
+
+  $top_modules = l(MODULES_TOP . t("% of top modules"), 'https://docs.backdropcms.org/documentation/top-100-drupal-7-modules');
+  $top_modules_icon = icon('check-square', $icon_options);
+  $top_modules_icon_link = l($top_modules_icon, 'https://docs.backdropcms.org/documentation/top-100-drupal-7-modules', array('html' => TRUE, 'attributes' => array('class' => array('icon'))));
+
+  $total_addons = l(MODULES_AVAILABLE . t("+ total add-ons"), 'node/1686');
+  $total_addons_icon = icon('puzzle-piece', $icon_options);
+  $total_addons_icon_link = l($total_addons_icon, 'node/1686', array('html' => TRUE, 'attributes' => array('class' => array('icon'))));
+
+  $output  = '<div class="container container-fluid">';
+  $output .= '  <div class="row">';
+  $output .= '    <div class="col-md-4 column">';
+  $output .=        $included_modules_icon_link;
+  $output .= '      <h3>' . $included_modules . '</h3>';
+  $output .= '      <p>' . t("More than !modules Drupal modules have been merged into Backdrop core.", array('!modules' => MODULES_CORE)) . '</p>';
+  $output .= '    </div>';
+  $output .= '    <div class="col-md-4 column">';
+  $output .=        $top_modules_icon_link;
+  $output .= '      <h3>' . $top_modules . '</h3>';
+  $output .= '      <p>' . t("Of the top 100 Drupal 7 modules, !modules of them are ready for Backdrop CMS.", array('!modules' => MODULES_TOP)) . '</p>';
+  $output .= '    </div>';
+  $output .= '    <div class="col-md-4 column">';
+  $output .=        $total_addons_icon_link;
+  $output .= '      <h3>' . $total_addons . '</h3>';
+  $output .= '      <p>' . t("More than !modules modules, themes, and layouts are available for use today.", array('!modules' => MODULES_AVAILABLE)) . '</p>';
+  $output .= '    </div>';
+  $output .= '  </div>';
+  $output .= '</div>';
+  $output .= '<div class="upgrade-cta">';
+  $output .= '  <div class="container container-fluid">';
+  $output .= '    <p>' . t('Find out what\'s involved in upgrading your Drupal 7 site, today. &nbsp;') . $button . '</p>';
+  $output .= '  </div>';
+  $output .= '</div>';
+
+  return $output;
+}
+
+/**
+ * Implements function hook_block_configure().
+ */
+function borg_blocks_block_configure($delta = '', $settings = array()) {
+  $form = array();
+
+  if ($delta == 'tagline') {
+    $settings += array(
+      'version' => '1.13.0',
+    );
+
+    $data = _borg_blocks_get_version();
+    $version = $data['latest']['version'];
+
+    $form['version'] = array(
+      '#type' => 'textfield',
+      '#size' => 10,
+      '#title' => t('Current Version Number'),
+      '#default_value' => $version,
+      '#disabled' => TRUE,
+      '#description' => t('<strong>Clear all caches</strong> to update. This value is now determined automatically. '),
+    );
+
+  }
+  elseif ($delta == 'branding') {
+    $settings += array(
+      'site_name' => FALSE,
+    );
+
+    $form['site_name'] = array(
+      '#type' => 'checkbox',
+      '#title' => t('Display the site name'),
+      '#default_value' => $settings['site_name'],
+    );
+  }
+
+  return $form;
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * In https://github.com/backdrop/backdrop/commit/8977e8e8b191a2c7323d555ca486c248a0b55af0
+ * we added the autofocus to the title of node and taxonomy add forms, but on the
+ * front end when a node form is embeded in a block below the fold this is
+ * undesirable; causing the page load to scroll down to that form element. In
+ * this case the backdropcms.org homepage.
+ */
+function borg_blocks_form_supporter_node_form_alter(&$form, &$form_state, $form_id) {
+  // Only unset for homepage.
+  if (current_path() == 'node/19') {
+    unset($form['title']['#attributes']['autofocus']);
+    $form['actions']['submit']['#value'] = t('Submit');
+  }
+}
+
+/**
+ * Prepare variables for Block templates.
+ *
+ * @see block--borg-blocks--community.tpl.php
+ */
+function borg_blocks_preprocess_block(&$variables){
+  if ($variables['block']->module == 'borg_blocks') {
+    if ($variables['block']->delta == 'community') {
+      $variables['copy'] = $variables['content']['copy'];
+      $variables['photos'] = $variables['content']['photos'];
+      $variables['button'] = $variables['content']['button'];
+    }
+  }
+}
+
+/**
+ * Helper function, get core version from JSON API.
+ */
+function _borg_blocks_get_version() {
+  $cached = cache_get('backdrop_core_version_latest');
+  $data = isset($cached->data) ? $cached->data : array();
+  if (empty($data)) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+    curl_setopt ($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)");
+    curl_setopt($ch, CURLOPT_URL, 'https://backdropcms.org/core/latest.json');
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 1);
+    $json = curl_exec($ch);
+    $res_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    $data = json_decode($json, TRUE);
+
+    $expires = time() + 60*60; // Expire in no less than 1 hour.
+    cache_set('backdrop_core_version_latest', $data, 'cache', $expires);
+  }
+
+  return $data;
+}
