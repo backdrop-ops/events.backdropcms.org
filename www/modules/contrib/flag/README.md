@@ -112,6 +112,7 @@ This module was formerly known as Views Bookmark, which was originally was
 written by Earl Miles. Flag was written by Nathan Haug and mystery man Mooffie.
 
 Drupal Maintainers:
+
 - [Joachim Noreiko](https://www.drupal.org/u/joachim)
 - [Tess](https://www.drupal.org/u/socketwench)
 - [Shabana Navas](https://www.drupal.org/u/shabana-blackborder)

@@ -17,7 +17,7 @@ class Flagging extends Entity {
   /**
    * The flagging ID.
    *
-   * @var integer
+   * @var int
    */
   public $flagging_id;
 
@@ -39,7 +39,7 @@ class Flagging extends Entity {
   /**
    * The entity ID.
    *
-   * @var integer
+   * @var int
    */
   public $entity_id;
 
@@ -53,7 +53,7 @@ class Flagging extends Entity {
   /**
    * The user session ID.
    *
-   * @var integer
+   * @var int
    */
   public $sid;
 

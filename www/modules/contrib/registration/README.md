@@ -102,6 +102,7 @@ Current Maintainers
 
 - [Joseph Flatt](https://github.com/hosef).
 - [Andy Shillingford](https://github.com/docwilmot).
+- [Laryn Kragt Bakker](https://github.com/laryn).
 - Seeking additional maintainers.
 
 Credits

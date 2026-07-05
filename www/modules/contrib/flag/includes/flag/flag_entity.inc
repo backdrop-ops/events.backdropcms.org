@@ -75,8 +75,8 @@ class flag_entity extends flag_flag {
 
     $form['display']['show_as_field'] = array(
       '#type' => 'checkbox',
-      '#title' => t('Display link as field'),
-      '#description' => t('Show the flag link as a pseudofield, which can be ordered among other entity elements in the "Manage display" settings for the entity type.'),
+      '#title' => t('Display link as field when using "Manage display"'),
+      '#description' => t('Show the flag link as a pseudofield, which can be ordered among other entity elements in the "Manage display" settings for the entity type. CAUTION: Selecting this with other view modes may cause link to show up twice.'),
       '#default_value' => isset($this->show_as_field) ? $this->show_as_field : TRUE,
     );
     if (empty($entity_info['fieldable'])) {
@@ -165,13 +165,13 @@ class flag_entity extends flag_flag {
   /**
    * Invoke a Rules event in reaction to a flagging or unflagging.
    *
-   * @param $action
+   * @param string $action
    *   Either 'flag' or 'unflag'.
-   * @param $flagging
+   * @param Flagging $flagging
    *  The flagging entity that is either newly created or about to be deleted.
-   * @param $entity_id
+   * @param int $entity_id
    *  The entity ID of entity being flagged or unflagged.
-   * @param $account
+   * @param User $account
    *  The account performing the action.
    */
   protected function invoke_rules_event($action, $flagging, $entity_id, $account) {

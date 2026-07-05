@@ -90,18 +90,23 @@ function flag_actions_update_dependencies() {
  * Convert flagging "fid" column to "flag_name".
  */
 function flag_actions_update_1000() {
+  // Change the field to varchar.
   $flag_name_spec = array(
     'type' => 'varchar',
     'length' => '128',
     'not null' => TRUE,
     'default' => '',
   );
-  $flag_id_map = db_query('SELECT fid, name from {flag}')->fetchAllKeyed();
-
-  // Change the field to varchar.
   db_change_field('flag_actions', 'fid', 'flag_name', $flag_name_spec);
-  // Replace the field values with flag names.
-  foreach ($flag_id_map as $fid => $flag_name) {
-    db_query("UPDATE {flag_actions} SET flag_name = :flag_name WHERE flag_name = :fid", array(':flag_name' => $flag_name, ':fid' => $fid));
+
+  if (db_table_exists('flag')) {
+    $flag_id_map = db_query('SELECT fid, name from {flag}')->fetchAllKeyed();
+    // Replace the field values with flag names.
+    foreach ($flag_id_map as $fid => $flag_name) {
+      db_query("UPDATE {flag_actions} SET flag_name = :flag_name WHERE flag_name = :fid", array(':flag_name' => $flag_name, ':fid' => $fid));
+    }
+  }
+  else {
+    backdrop_set_message(t('An attempt was made to update the flag name in the <em>flag_actions</em> table. It failed to retrieve and update the flag names. You will need to <a href="@url">recreate the actions</a>.', array('@url' => url('admin/structure/flags/actions'))));
   }
 }

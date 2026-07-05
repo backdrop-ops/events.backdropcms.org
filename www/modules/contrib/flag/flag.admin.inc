@@ -81,8 +81,17 @@ function theme_flag_admin_listing($variables) {
       'flags_fields' => array('title' => t('manage fields'), 'href' => $flag->admin_path('fields')),
       // 'flags_display' => array('title' => t('manage display'), 'href' => $flag->admin_path('display')),
       'flags_delete' => array('title' => t('delete'), 'href' => $flag->admin_path('delete')),
-      'flags_export' => array('title' => t('export'), 'href' => $flag->admin_path('export')),
     );
+    if (module_exists('config') && user_access('synchronize configuration')) {
+      $ops['flags_export'] = array(
+        'title' => t('export'),
+        'href' => 'admin/config/development/configuration/single/export',
+        'query' => array(
+          'group' => 'Flags',
+          'name' => 'flag.flag.' . $flag->name,
+        ),
+      );
+    }
     if (!module_exists('field_ui')) {
       unset($ops['flags_fields']);
       // unset($ops['flags_display']);
@@ -238,7 +247,7 @@ function theme_flag_admin_page($variables) {
 /**
  * Menu callback for adding a new flag.
  *
- * @param $entity_type
+ * @param string $entity_type
  *  The entity type for the new flag, taken from the path argument. If not
  *  present (i.e., '/add'), a form showing all possible flag types is shown.
  *  Otherwise, this shows a form for adding af flag the given type.
@@ -264,6 +273,12 @@ function flag_add_page($entity_type = NULL) {
  * Present a form for creating a new flag, setting the type of flag.
  */
 function flag_add_form($form, &$form_state) {
+  $form['help'] = array(
+    '#type' => 'help',
+    '#markup' => '<p>' . t('Select the type of flag to create. An individual flag can only affect one type of object. This cannot be changed once the flag is created.') . '</p>',
+    '#weight' => -5,
+  );
+
   $types = array();
   foreach (flag_fetch_definition() as $type => $info) {
     $types[$type] = $info['title'] . '<div class="description">' . $info['description'] . '</div>';
@@ -493,6 +508,37 @@ function flag_form($form, &$form_state, $flag) {
     '#default_value' => $flag->unflag_denied_text,
     '#description' => t('If a user is allowed to flag but not unflag, this text will be displayed after flagging. Often this is the past-tense of the link text, such as "flagged".'),
     '#weight' => -1,
+  );
+
+  $form['flood_control'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Flood control'),
+    '#tree' => FALSE,
+    '#weight' => 15,
+    '#collapsible' => TRUE,
+    '#collapsed' => empty($flag->flood_control_active),
+  );
+
+  $form['flood_control']['flood_control_active'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable flood control for this flag'),
+    '#default_value' => (int) (!empty($flag->flood_control_active)),
+  );
+
+  $form['flood_control']['flood_control_limit'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Number of flaggings per time window'),
+    '#default_value' => (int) (!empty($flag->flood_control_limit) ? $flag->flood_control_limit : 0),
+    '#size' => 10,
+    '#maxlength' => 10,
+  );
+
+  $form['flood_control']['flood_control_window'] = array(
+    '#type' => 'textfield',
+    '#title' => t('Time window in seconds'),
+    '#default_value' => (int) (!empty($flag->flood_control_window) ? $flag->flood_control_window : 0),
+    '#size' => 10,
+    '#maxlength' => 10,
   );
 
   $form['display'] = array(
@@ -802,9 +848,9 @@ function flag_check_link_types($element) {
 /**
  * Clears various caches when one or more flags are modified.
  *
- * @param $entity_types
+ * @param array $entity_types
  *  The entity types for the flags. May be a single value or an array.
- * @param $is_insert_or_delete
+ * @param bool $is_insert_or_delete
  *  Whether the modified flag is being inserted (saved for the first time) or
  *  deleted. This results in a more vigorous clearing of caches. In
  *  particular, when no flags exist yet, no Field admin UI paths exist and these

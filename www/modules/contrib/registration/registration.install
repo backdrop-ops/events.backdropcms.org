@@ -486,6 +486,7 @@ function registration_update_last_removed() {
 function registration_update_1000() {
   $config = config('registration.settings');
   $config->set('registration_paths_administrative', update_variable_get('registration_paths_administrative', 'FALSE'));
+  $config->save();
   update_variable_del('registration_paths_administrative');
 }
 

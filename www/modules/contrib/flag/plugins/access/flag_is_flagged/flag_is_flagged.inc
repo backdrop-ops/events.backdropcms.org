@@ -2,6 +2,10 @@
 
 /**
  * Plugin definition.
+ *
+ * @todo decide on whether to delete. This is a ctools plugin that appears to
+ * have been used by Panels. Backdrop now uses Layout which was converted from
+ * Panels. It might be possible to upgrade this to a Layout access plugin.
  */
 $plugin = array(
   'title' => t("Entity is flagged"),
@@ -30,7 +34,7 @@ function flag_flag_is_flagged_access_get_children($plugin, $parent) {
   $entities = entity_get_info();
 
   foreach ($entities as $entity_type => $info) {
-    if (entity_type_supports($entity_type, 'view')) {
+    if (module_exists('entity_plus') && entity_plus_type_supports($entity_type, 'view')) {
       $plugin['title'] = t('@entity_type is flagged', array('@entity_type' => $info['label']));
       $plugin['keyword'] = $entity_type;
       $plugin['name'] = $parent . ':' . $entity_type;

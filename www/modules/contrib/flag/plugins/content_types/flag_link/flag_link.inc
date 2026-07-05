@@ -2,6 +2,10 @@
 
 /**
  * Plugin definition.
+ *
+ * @todo decide on whether to delete. This is a ctools plugin that appears to
+ * have been used by Panels. Backdrop now uses Layout which was converted from
+ * Panels, but it appears that the content type plugin was not included.
  */
 $plugin = array(
   'title' => t('Flag link'),

@@ -44,8 +44,6 @@ function flag_autoload_info() {
     'FlagCookieStorage'                          => 'includes/flag.cookie_storage.inc',
     'FlagGlobalCookieStorage'                    => 'includes/flag.cookie_storage.inc',
     'FlagNonGlobalCookieStorage'                 => 'includes/flag.cookie_storage.inc',
-    'FlagUpdate_2'                               => 'includes/flag.export.inc',
-    'FlagUpdate_3'                               => 'includes/flag.export.inc',
     'FlagRulesDataWrapper'                       => 'flag.rules.inc',
     'FlagRulesUIClass'                           => 'flag.rules.inc',
 
@@ -110,12 +108,12 @@ function flag_entity_info() {
 /**
  * Loads a flagging entity.
  *
- * @param $flagging_id
+ * @param int $flagging_id
  *   The 'flagging_id' database serial column.
- * @param $reset
+ * @param bool $reset
  *   Whether to reset the DefaultEntityController cache.
  *
- * @return
+ * @return Flagging
  *   The entity object, or FALSE if it can't be found.
  */
 function flagging_load($flagging_id, $reset = FALSE) {
@@ -129,11 +127,11 @@ function flagging_load($flagging_id, $reset = FALSE) {
  *
  * Creates an unsaved flagging object for use with $flag->flag().
  *
- * @param $values
+ * @param array $values
  *   An array of values as described by the entity's property info. Only
  *   'flag_name' must be specified, since $flag->flag() does the rest.
  *
- * @return
+ * @return Flagging
  *   An unsaved flagging object containing the property values.
  */
 function flagging_create($values = array()) {
@@ -153,7 +151,7 @@ function flagging_create($values = array()) {
  * For a new flagging, throws an exception is the flag action is not allowed for
  * the given combination of flag, entity, and user.
  *
- * @param $flagging
+ * @param Flagging $flagging
  *   The flagging entity. The uid property may be omitted to use the current
  *   user account UID.
  *
@@ -229,24 +227,6 @@ function flag_menu() {
     'type' => MENU_LOCAL_ACTION,
     'weight' => 1,
   );
-  $items[FLAG_ADMIN_PATH . '/import'] = array(
-    'title' => 'Import',
-    'page callback' => 'backdrop_get_form',
-    'page arguments' => array('flag_import_form'),
-    'access arguments' => array('use flag import'),
-    'file' => 'includes/flag.export.inc',
-    'type' => MENU_LOCAL_ACTION,
-    'weight' => 2,
-  );
-  $items[FLAG_ADMIN_PATH . '/export'] = array(
-    'title' => 'Export',
-    'page callback' => 'backdrop_get_form',
-    'page arguments' => array('flag_export_form'),
-    'access arguments' => array('administer flags'),
-    'file' => 'includes/flag.export.inc',
-    'type' => MENU_LOCAL_ACTION,
-    'weight' => 3,
-  );
 
   $items[FLAG_ADMIN_PATH . '/manage/%flag'] = array(
     // Allow for disabled flags.
@@ -268,15 +248,6 @@ function flag_menu() {
     'type' => MENU_DEFAULT_LOCAL_TASK,
     'weight' => -10,
   );
-  $items[FLAG_ADMIN_PATH . '/manage/%flag/export'] = array(
-    'title' => 'Export',
-    'page callback' => 'backdrop_get_form',
-    'page arguments' => array('flag_export_form', FLAG_ADMIN_PATH_START + 1),
-    'access arguments' => array('administer flags'),
-    'file' => 'includes/flag.export.inc',
-    'type' => MENU_LOCAL_TASK,
-    'weight' => 20,
-  );
   $items[FLAG_ADMIN_PATH . '/manage/%flag/delete'] = array(
     'title' => 'Delete flag',
     'page callback' => 'backdrop_get_form',
@@ -284,16 +255,6 @@ function flag_menu() {
     'access callback' => 'user_access',
     'access arguments' => array('administer flags'),
     'file' => 'flag.admin.inc',
-    'type' => MENU_CALLBACK,
-  );
-  $items[FLAG_ADMIN_PATH . '/manage/%flag/update'] = array(
-    // Allow for disabled flags.
-    'load arguments' => array(TRUE),
-    'title' => 'Update',
-    'page callback' => 'flag_update_page',
-    'page arguments' => array(FLAG_ADMIN_PATH_START + 1),
-    'access arguments' => array('administer flags'),
-    'file' => 'includes/flag.export.inc',
     'type' => MENU_CALLBACK,
   );
 
@@ -343,9 +304,9 @@ function flag_admin_menu_map() {
 /**
  * Menu loader for '%flag' arguments.
  *
- * @param $flag_name
+ * @param string $flag_name
  *   The machine name of the flag.
- * @param $include_disabled
+ * @param bool $include_disabled
  *   (optional) Whether to return a disabled flag too. Normally only enabled
  *   flags are returned. Some menu items operate on disabled flags and in this
  *   case you need to turn on this switch by doing:
@@ -354,7 +315,7 @@ function flag_admin_menu_map() {
  *   @endcode
  *   in your hook_menu().
  *
- * @return
+ * @return flag_flag|false
  *   Either the flag object, or FALSE if none was found.
  */
 function flag_load($flag_name, $include_disabled = FALSE) {
@@ -376,6 +337,8 @@ function flag_load($flag_name, $include_disabled = FALSE) {
 
 /**
  * Menu title callback.
+ *
+ * @param flag_flag $flag
  */
 function _flag_menu_title($flag) {
   // The following conditional it to handle a D7 bug (@todo: link).
@@ -383,85 +346,131 @@ function _flag_menu_title($flag) {
 }
 
 /**
- * Implements hook_help().
+ * Alter the fields overview and display overview screen.
  *
- * @todo move to admin page or remove.
+ * @param array $form
+ *   An associative array containing the structure of the form, which is passed
+ *   by reference.
+ * @param array $form_state
+ *   An associative array containing the current state of the form, which is
+ *   passed by reference.
  */
-function flag_help($path, $arg) {
-  switch ($path) {
-    case FLAG_ADMIN_PATH:
-      $output = '<p>' . t('This page lists all the <em>flags</em> that are currently defined on this system.') . '</p>';
-      return $output;
-
-    case FLAG_ADMIN_PATH . '/add':
-      $output = '<p>' . t('Select the type of flag to create. An individual flag can only affect one type of object. This cannot be changed once the flag is created.') . '</p>';
-      return $output;
-
-    case FLAG_ADMIN_PATH . '/manage/%/fields':
-      // Get the existing link types that provide a flagging form.
-      $link_types = flag_get_link_types();
-      $form_link_types = array();
-      foreach (flag_get_link_types() as $link_type) {
-        if ($link_type['provides form']) {
-          $form_link_types[] = '<em>' . $link_type['title'] . '</em>';
-        }
-      }
-
-      // Get the flag for which we're managing fields.
-      $flag = menu_get_object('flag', FLAG_ADMIN_PATH_START + 1);
-
-      // Common text.
-      $output  = '<p>' . t('Flags can have fields added to them. For example, a "Spam" flag could have a <em>Reason</em> field where a user could type in why he believes the item flagged is spam. A "Bookmarks" flag could have a <em>Folder</em> field into which a user could arrange her bookmarks.') . '</p>';
-      $output .= '<p>' . t('On this page you can add fields to flags, delete them, and otherwise manage them.') . '</p>';
-
-      // Three cases:
-      if ($flag->link_type == 'form') {
-        // Case 1: the current link type is the flagging form. Don't tell the
-        // user anything extra, all is fine.
-      }
-      elseif ($link_types[$flag->link_type]['provides form']) {
-        // Case 2: the current link type shows the form for creation of the
-        // flagging, but it not the flagging form. Tell the user they can't edit
-        // existing flagging fields.
-        $output .= t("Field values may be edited when flaggings are created because this flag's link type shows a form for the flagging. However, to edit field values on existing flaggings, you will need to set your flag to use the <em>Flagging form</em> link type. This is provided by the <em><a href='!flagging-form-url'>Flagging Form</a></em> module.", array(
-          '!flagging-form-url' => 'http://drupal.org/project/flagging_form',
-        ));
-        if (!module_exists('flagging_form')) {
-          $output .= ' <span class="warning">'
-            . t("You do not currently have this module enabled.")
-            . '</span>';
-        }
-        $output .= '</p>';
-      }
-      else {
-        // Case 3: the current link type does not allow access to the flagging
-        // form. Tell the user they should change it.
-        $output .= '<p class="warning">' . t("To allow users to enter values for fields you will need to <a href='!form-link-type-url'>set your flag</a> to use one of the following link types which allow users to access the flagging form: !link-types-list. (In case a form isn't used, the fields are assigned their default values.)", array(
-          '!form-link-type-url' => url('admin/structure/flags/manage/' . $flag->name, array('fragment' => 'edit-link-type')),
-          // The list of labels from link types. These are all defined in code
-          // in hook_flag_link_type_info() and therefore safe to output raw.
-          '!link-types-list' => implode(', ', $form_link_types),
-        )) . '</p>';
-        $output .= '<p>' . t("Additionally, to edit field values on existing flaggings, you will need to set your flag to use the Flagging form link type. This is provided by the <em><a href='!flagging-form-url'>Flagging Form</a></em> module.", array(
-          '!flagging-form-url' => 'http://drupal.org/project/flagging_form',
-        ));
-        if (!module_exists('flagging_form')) {
-          $output .= ' <span class="warning">'
-            . t("You do not currently have this module enabled.")
-            . '</span>';
-        }
-        $output .= '</p>';
-      }
-
-      return $output;
+function flag_form_field_ui_field_overview_form_alter(&$form, &$form_state) {
+  if (!isset($form['#entity_type']) || $form['#entity_type'] != 'flagging') {
+    return;
   }
+
+  // Get the existing link types that provide a flagging form.
+  $link_types = flag_get_link_types();
+  $form_link_types = array();
+  foreach (flag_get_link_types() as $link_type) {
+    if ($link_type['provides form']) {
+      $form_link_types[] = '<em>' . $link_type['title'] . '</em>';
+    }
+  }
+
+  // Get the flag for which we're managing fields.
+  $flag = menu_get_object('flag', FLAG_ADMIN_PATH_START + 1);
+
+  // Common text.
+  $output  = '<p>' . t('Flags can have fields added to them. For example, a "Spam" flag could have a <em>Reason</em> field where a user could type in why he believes the item flagged is spam. A "Bookmarks" flag could have a <em>Folder</em> field into which a user could arrange her bookmarks.') . '</p>';
+  $output .= '<p>' . t('On this page you can add fields to flags, delete them, and otherwise manage them.') . '</p>';
+
+  // Three cases:
+  if ($flag->link_type == 'form') {
+    // Case 1: the current link type is the flagging form. Don't tell the
+    // user anything extra, all is fine.
+  } elseif ($link_types[$flag->link_type]['provides form']) {
+    // Case 2: the current link type shows the form for creation of the
+    // flagging, but it not the flagging form. Tell the user they can't edit
+    // existing flagging fields.
+    $output .= t("Field values may be edited when flaggings are created because this flag's link type shows a form for the flagging. However, to edit field values on existing flaggings, you will need to set your flag to use the <em>Flagging form</em> link type. This is provided by the <em><a href='!flagging-form-url'>Flagging Form</a></em> module  (not yet available for Backdrop).", array(
+      '!flagging-form-url' => 'http://drupal.org/project/flagging_form',
+    ));
+    if (!module_exists('flagging_form')) {
+      $output .= ' <span class="warning">'
+        . t("You do not currently have this module enabled.")
+        . '</span>';
+    }
+    $output .= '</p>';
+  } else {
+    // Case 3: the current link type does not allow access to the flagging
+    // form. Tell the user they should change it.
+    $output .= '<p class="warning">' . t("To allow users to enter values for fields you will need to <a href='!form-link-type-url'>set your flag</a> to use one of the following link types which allow users to access the flagging form: !link-types-list. (In case a form isn't used, the fields are assigned their default values.)", array(
+      '!form-link-type-url' => url('admin/structure/flags/manage/' . $flag->name, array('fragment' => 'edit-link-type')),
+      // The list of labels from link types. These are all defined in code
+      // in hook_flag_link_type_info() and therefore safe to output raw.
+      '!link-types-list' => implode(', ', $form_link_types),
+    )) . '</p>';
+    $output .= '<p>' . t("Additionally, to edit field values on existing flaggings, you will need to set your flag to use the Flagging form link type. This is provided by the <em><a href='!flagging-form-url'>Flagging Form</a></em> module.", array(
+      '!flagging-form-url' => 'http://drupal.org/project/flagging_form',
+    ));
+    if (!module_exists('flagging_form')) {
+      $output .= ' <span class="warning">'
+        . t("You do not currently have this module enabled.")
+        . '</span>';
+    }
+    $output .= '</p>';
+  }
+
+  // Add additional settings vertical tab.
+  if (!isset($form['additional_settings'])) {
+    $form['additional_settings'] = array(
+      '#type' => 'vertical_tabs',
+      '#theme_wrappers' => array('vertical_tabs'),
+      '#prefix' => '<div>',
+      '#suffix' => '</div>',
+      '#tree' => TRUE,
+    );
+    $form['#attached']['js'][] = 'core/misc/form.js';
+    $form['#attached']['js'][] = 'core/misc/collapse.js';
+  }
+
+  $form['additional_settings']['flag'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Flag fields'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    '#parents' => array('additional_settings'),
+    '#weight' => -10,
+  );
+  $form['additional_settings']['flag']['help_title'] = array(
+    '#type' => 'item',
+    '#title' => t('Configuring fields on flags'),
+  );
+  $form['additional_settings']['flag']['help'] = array(
+    '#type' => 'help',
+    '#markup' => $output,
+  );
 }
 
 /**
- * Implements hook_init().
+ * Implements hook_action_info().
  */
-function flag_init() {
-  module_load_include('inc', 'flag', 'includes/flag.actions');
+function flag_action_info() {
+  $flags = flag_get_flags();
+  $index = 0;
+  $info = array();
+  foreach ($flags as $flag) {
+    $info["flag_flag_{$flag->name}_{$flag->entity_type}_action"] = array(
+      'label' => $flag->get_label('flag_short'),
+      'type' => $flag->entity_type,
+      'flag_name' => $flag->name,
+      'callback' => 'flag_flag_entity_action',
+      'file' => 'flag.actions.inc',
+      'weight' => 1 + $index,
+    );
+    $info["flag_unflag_{$flag->name}_{$flag->entity_type}_action"] = array(
+      'label' => $flag->get_label('flag_short'),
+      'type' => $flag->entity_type,
+      'flag_name' => $flag->name,
+      'callback' => 'flag_unflag_entity_action',
+      'file' => 'flag.actions.inc',
+      'weight' => 1 + $index,
+    );
+  }
+
+  return $info;
 }
 
 /**
@@ -486,11 +495,11 @@ function flag_hook_info() {
 /**
  * Get a flag type definition.
  *
- * @param $entity_type
+ * @param string|null $entity_type
  *   (optional) The entity type to get the definition for, or NULL to return
  *   all flag types.
  *
- * @return
+ * @return array
  *   The flag type definition array.
  *
  * @see hook_flag_type_info()
@@ -522,7 +531,7 @@ function flag_fetch_definition($entity_type = NULL) {
 /**
  * Returns all flag types defined on the system.
  *
- * @return
+ * @return array
  *   An array of flag type names.
  */
 function flag_get_types() {
@@ -539,12 +548,12 @@ function flag_get_types() {
  * A flag handler is more commonly know as "a flag". A factory method usually
  * populates this empty flag with settings loaded from the database.
  *
- * @param $entity_type
+ * @param string $entity_type
  *  The entity type to create a flag handler for. This may be FALSE if the
  *  entity type property could not be found in the flag configuration data.
  *
- * @return
- *  A flag handler object. This may be the special class flag_broken is there is
+ * @return flag_flag
+ *  A flag handler object. This may be the special class flag_broken if there is
  *  a problem with the flag.
  */
 function flag_create_handler($entity_type) {
@@ -572,6 +581,11 @@ function flag_permission() {
     'use flag import' => array(
       'title' => t('Use flag importer'),
       'description' => t('Access the flag import functionality.'),
+      'restrict access' => TRUE,
+    ),
+    'bypass flagging flood control' => array(
+      'title' => t('Bypass the flagging flood control'),
+      'description' => t('Bypass the flagging flood control.'),
       'restrict access' => TRUE,
     ),
   );
@@ -999,6 +1013,8 @@ function flag_node_update($node) {
 
 /**
  * Shared saving routine between flag_node_insert() and flag_node_update().
+ *
+ * @param Node $node
  */
 function flag_node_save($node) {
   // Response to the flag checkboxes added to the form in flag_form_alter().
@@ -1079,11 +1095,11 @@ function flag_node_translation_change($node) {
 /**
  * Deletes flagging records for the entity.
  *
- * @param $entity_type
+ * @param string $entity_type
  *   The type of the entity being deleted; e.g. 'node' or 'comment'.
- * @param $entity_id
+ * @param int $entity_id
  *   The ID of the entity being deleted.
- * @param $flag_name
+ * @param string $flag_name
  *   The flag name.
  */
 function _flag_entity_delete($entity_type, $entity_id, $flag_name = NULL) {
@@ -1281,18 +1297,18 @@ function flag_field_attach_delete_bundle($entity_type, $bundle, $instances) {
 /**
  * Flags or unflags an item.
  *
- * @param $action
+ * @param string $action
  *   Either 'flag' or 'unflag'.
- * @param $flag_name
+ * @param string $flag_name
  *   The name of the flag to use.
- * @param $entity_id
+ * @param int $entity_id
  *   The ID of the item to flag or unflag.
- * @param $account
+ * @param User|null $account
  *   (optional) The user on whose behalf to flag. Omit for the current user.
- * @param permissions_check
+ * @param bool $permissions_check
  *   (optional) A boolean indicating whether to skip permissions.
  *
- * @return
+ * @return bool
  *   FALSE if some error occured (e.g., user has no permission, flag isn't
  *   applicable to the item, etc.), TRUE otherwise.
  */
@@ -1325,15 +1341,15 @@ function flag_flag_unflag($flag, $entity_id, $account, $flagging) {
 /**
  * Trigger actions if any are available. Helper for hook_flag_(un)flag().
  *
- * @param $op
+ * @param string $action
  *  The operation being performed: one of 'flag' or 'unflag'.
- * @param $flag
+ * @param flag_flag $flag
  *  The flag object.
- * @param $entity_id
+ * @param int $entity_id
  *  The id of the entity the flag is on.
- * @param $account
+ * @param User $account
  *  The user account performing the action.
- * @param $flagging_id
+ * @param Flagging $flagging
  *  The flagging entity.
  */
 function flag_flag_trigger($action, $flag, $entity_id, $account, $flagging) {
@@ -1564,6 +1580,13 @@ function template_preprocess_flag(&$variables) {
     unset($link['href']);
   }
 
+  // When flood control is active and the limit is exceeded, strip the href so
+  // the flag text remains visible as disabled text (a <span> instead of <a>),
+  // matching D10's render-blocking behaviour. Applies to both flag and unflag.
+  if (isset($link['href']) && !$flag->flood_control_access()) {
+    unset($link['href']);
+  }
+
   // Anonymous users always need the JavaScript to maintain their flag state.
   if ($user->uid == 0) {
     $link_type['uses standard js'] = TRUE;
@@ -1630,6 +1653,8 @@ function template_preprocess_flag(&$variables) {
 
 /**
  * Return an array of flag link types suitable for a select list or radios.
+ *
+ * @return array
  */
 function _flag_link_type_options() {
   $options = array();
@@ -1642,6 +1667,8 @@ function _flag_link_type_options() {
 
 /**
  * Return an array of flag link type descriptions.
+ *
+ * @return array
  */
 function _flag_link_type_descriptions() {
   $options = array();
@@ -1667,12 +1694,12 @@ function _flag_link_type_descriptions() {
  * This is because this queries the {flagging} table, which only has its record
  * deleted at the very end of the unflagging process.
  *
- * @param $flag
+ * @param flag_flag $flag
  *   The flag.
- * @param $entity_type
+ * @param string $entity_type
  *   The entity type. For example, 'node'.
  *
- * @return
+ * @return array
  *   The flag count with the flag name and entity type as the array key.
  */
 function flag_get_entity_flag_counts($flag, $entity_type) {
@@ -1707,12 +1734,12 @@ function flag_get_entity_flag_counts($flag, $entity_type) {
  * This is because this queries the {flagging} table, which only has its record
  * deleted at the very end of the unflagging process.
  *
- * @param $flag
+ * @param flag_flag $flag
  *   The flag.
- * @param $user
+ * @param User $user
  *   The user object.
  *
- * @return
+ * @return array
  *   The flag count with the flag name and the uid as the array key.
  */
 function flag_get_user_flag_counts($flag, $user) {
@@ -1742,12 +1769,12 @@ function flag_get_user_flag_counts($flag, $user) {
  * implementation or from Rules), the count this returns takes into account the
  * the flagging or unflagging that is in the process of being performed.
  *
- * @param $entity_type
+ * @param string $entity_type
  *   The entity type (usually 'node').
- * @param $entity_id
+ * @param int $entity_id
  *   The entity ID (usually the node ID).
  *
- * @return
+ * @return array
  *   The flag count with the flag names as array keys.
  */
 function flag_get_counts($entity_type, $entity_id) {
@@ -1776,9 +1803,9 @@ function flag_get_counts($entity_type, $entity_id) {
  * implementation or from Rules), the count this returns takes into account the
  * the flagging or unflagging that is in the process of being performed.
  *
- * @param $flag_name
+ * @param string $flag_name
  *   The flag name for which to retrieve a flag count.
- * @param $reset
+ * @param bool $reset
  *   (optional) Reset the internal cache and execute the SQL query another time.
  */
 function flag_get_flag_counts($flag_name, $reset = FALSE) {
@@ -1802,10 +1829,10 @@ function flag_get_flag_counts($flag_name, $reset = FALSE) {
 /**
  * Load a single flag by name.
  *
- * @param $name
+ * @param string|null $name
  *   The flag name.
  *
- * @return
+ * @return flag_flag|false
  *  The flag object, or FALSE if no matching flag was found.
  */
 function flag_get_flag($name = NULL) {
@@ -1824,11 +1851,11 @@ function flag_get_flag($name = NULL) {
  * If node type or account are entered, a list of all possible flags will be
  * returned.
  *
- * @param $entity_type
+ * @param string|null $entity_type
  *   (optional) The type of entity for which to load the flags. Usually 'node'.
- * @param $content_subtype
+ * @param string|null $content_subtype
  *   (optional) The node type for which to load the flags.
- * @param $account
+ * @param User|null $account
  *   (optional) The user accont to filter available flags. If not set, all
  *   flags for will this node will be returned.
  *
@@ -1912,6 +1939,11 @@ function flag_get_flags($entity_type = NULL, $content_subtype = NULL, $account =
 
 /**
  * Comparison function for uasort().
+ *
+ * @param flag_flag $flag1
+ * @param flag_flag $flag2
+ *
+ * @return int
  */
 function _flag_compare_weight($flag1, $flag2) {
   if ($flag1->weight == $flag2->weight) {
@@ -1923,10 +1955,10 @@ function _flag_compare_weight($flag1, $flag2) {
 /**
  * Retrieve a list of flags defined by modules.
  *
- * @param $include_disabled
+ * @param bool $include_disabled
  *   (optional) Unless specified, only enabled flags will be returned.
  *
- * @return
+ * @return array
  *   An array of flag prototypes, not usable for flagging. Use flag_get_flags()
  *   if needing to perform a flagging with any enabled flag.
  */
@@ -1976,10 +2008,10 @@ function flag_get_default_flags($include_disabled = FALSE) {
 /**
  * Get all flagged entities in a flag.
  *
- * @param $flag_name
+ * @param string $flag_name
  *   The flag name for which to retrieve flagged entites.
  *
- * @return
+ * @return array
  *   An array of flagging data, keyed by the flagging ID.
  */
 function flag_get_flag_flagging_data($flag_name) {
@@ -2003,20 +2035,20 @@ function flag_get_flag_flagging_data($flag_name) {
  * This is because this queries the {flagging} table, which only has its record
  * deleted at the very end of the unflagging process.
  *
- * @param $entity_type
+ * @param string $entity_type
  *   The type of entity that will be retrieved. Usually 'node'.
- * @param $entity_id
+ * @param int|null $entity_id
  *   (optional) The entity ID to check for flagging. If none given, all
  *   entities flagged by this user will be returned.
- * @param $uid
+ * @param int|null $uid
  *   (optional) The user ID whose flags we're checking. If none given, the
  *   current user will be used.
- * @param $sid
+ * @param int|null $sid
  *   (optional) The user SID (provided by Session API) whose flags we're
  *   checking. If none given, the current user will be used. The SID is 0 for
  *   logged in users.
  *
- * @return
+ * @return array
  *   If returning a single item's flags (that is, when $entity_id isn't NULL),
  *   an array of the structure
  *   [flag_name] => (
@@ -2089,14 +2121,14 @@ function flag_get_user_flags($entity_type, $entity_id = NULL, $uid = NULL, $sid 
  * This is because this queries the {flagging} table, which only has its record
  * deleted at the very end of the unflagging process.
  *
- * @param $entity_type
+ * @param string $entity_type
  *   The type of entity that will be retrieved. Usually 'node'.
- * @param $entity_id
+ * @param int $entity_id
  *   The entity ID to check for flagging.
- * @param $flag_name
+ * @param string|null $flag_name
  *   (optional) The name of a flag if wanting a list specific to a single flag.
  *
- * @return
+ * @return array
  *   A nested array of flagging records (i.e. rows from the {flagging} table,
  *   rather than complete Flagging entities). The structure depends on the
  *   presence of the $flag_name parameter:
@@ -2147,18 +2179,18 @@ function flag_get_entity_flags($entity_type, $entity_id, $flag_name = NULL) {
  * $variables['my_flag_link'] = flag_create_link('bookmarks', $node->nid);
  * @endcode
  *
- * @param $flag_name
+ * @param string $flag_name
  *   The "machine readable" name of the flag; e.g. 'bookmarks'.
- * @param $entity_id
+ * @param int $entity_id
  *   The entity ID to check for flagging, for example a node ID.
- * @param $variables
+ * @param array $variables
  *  An array of further variables to pass to theme('flag'). For the full list
  *  of parameters, see flag.tpl.php. Of particular interest:
  *  - after_flagging: Set to TRUE if this flag link is being displayed as the
  *    result of a flagging action.
  *  - errors: An array of error messages.
  *
- * @return
+ * @return string
  *   The HTML for the themed flag link.
  */
 function flag_create_link($flag_name, $entity_id, $variables = array()) {
@@ -2177,15 +2209,15 @@ function flag_create_link($flag_name, $entity_id, $variables = array()) {
 /**
  * Trim a flag to a certain size.
  *
- * @param $flag
+ * @param flag_flag $flag
  *   The flag object.
- * @param $account
+ * @param User $account
  *   The user object on behalf the trimming will occur.
- * @param $cutoff_size
+ * @param int $cutoff_size
  *   The number of flaggings allowed. Any flaggings beyond that will be trimmed.
- * @param $trim_newest
+ * @param bool $trim_newest
  *   An optional boolean indicating whether to trim the newest flags.
- * @param $permissions_check
+ * @param bool $permissions_check
  *   (optional) A boolean indicating whether to skip permissions.
  *   This will trim the flag if $permissions_check is TRUE even if the user
  *   doesn't have the permission to flag/unflag.
@@ -2220,9 +2252,9 @@ function flag_trim_flag($flag, $account, $cutoff_size, $trim_newest, $permission
 /**
  * Remove all flagged entities from a flag.
  *
- * @param $flag
+ * @param flag_flag $flag
  *   The flag object.
- * @param $entity_id
+ * @param int|null $entity_id
  *   (optional) The entity ID on which all flaggings will be removed. If left
  *   empty, this will remove all of this flag's entities.
  */
@@ -2256,7 +2288,7 @@ function flag_reset_flag($flag, $entity_id = NULL) {
 /**
  * Return an array of link types provided by modules.
  *
- * @return
+ * @return array
  *  An array of link types as defined by hook_flag_link_type_info(). These are
  *  keyed by the type name, and each value is an array of properties. In
  *  addition to those defined in hook_flag_link_type_info(), the following
@@ -2304,6 +2336,10 @@ function flag_get_link_types() {
 
 /**
  * Get a private token used to protect links from spoofing - CSRF.
+ *
+ * @param int $entity_id
+ *
+ * @return string
  */
 function flag_get_token($entity_id) {
   // Anonymous users get a less secure token, since it must be the same for all
@@ -2313,6 +2349,11 @@ function flag_get_token($entity_id) {
 
 /**
  * Check to see if a token value matches the specified node.
+ *
+ * @param string $token
+ * @param int $entity_id
+ *
+ * @return bool
  */
 function flag_check_token($token, $entity_id) {
   return flag_get_token($entity_id) == $token;
@@ -2331,7 +2372,7 @@ function flag_check_token($token, $entity_id) {
  *   (optional) Determines whether a session should be created if it doesn't
  *   exist yet. Defaults to TRUE.
  *
- * @return
+ * @return int
  *   The session ID, if a session was created. If not, the return value is 0.
  *
  * @see flag_get_sid()
@@ -2375,7 +2416,7 @@ function flag_set_sid($uid = NULL, $create = TRUE) {
  *   (optional) Determines whether a session should be created if it doesn't
  *   exist yet. Defaults to FALSE.
  *
- * @return
+ * @return int
  *   The session ID, if the session exists. If not, the return value is 0.
  *
  * @see flag_set_sid()
@@ -2417,6 +2458,10 @@ function flag_node_operations() {
 
 /**
  * Callback function for hook_node_operations().
+ *
+ * @param Node[] $nodes
+ * @param string $action
+ * @param string $flag_name
  */
 function flag_nodes($nodes, $action, $flag_name) {
   $performed = FALSE;
@@ -2453,6 +2498,10 @@ function flag_user_operations() {
 }
 /**
  * Callback function for hook_user_operations().
+ *
+ * @param User[] $users
+ * @param string $action
+ * @param string $flag_name
  */
 function flag_users($users, $action, $flag_name) {
   foreach ($users as $uid) {
@@ -2485,15 +2534,6 @@ function flag_features_api() {
       'file' => backdrop_get_path('module', 'flag') . '/includes/flag.features.inc',
     ),
   );
-}
-
-/**
- * Implements hook_ctools_plugin_directory().
- */
-function flag_ctools_plugin_directory($module, $plugin) {
-  if ($module == 'ctools' && !empty($plugin)) {
-    return "plugins/$plugin";
-  }
 }
 
 // ---------------------------------------------------------------------------
@@ -2541,7 +2581,7 @@ function flag_properties_get_flagging_users($entity, array $options, $name, $ent
  *
  * Callback for hook_entity_property_info_alter().
  *
- * @param stdobj $entity
+ * @param EntityInterface $entity
  *  The entity object representing a user for which we are getting inforamtion for.
  *
  * @param array $options
@@ -2556,7 +2596,8 @@ function flag_properties_get_flagging_users($entity, array $options, $name, $ent
  * @param $property_info
  *  The ifnromatin that represents the property we are providing a result for.
  *
- * @return an integer representing the user's sid field from the session_api table
+ * @return int
+ *   An integer representing the user's sid field from the session_api table
  *
  * @ingroup callbacks
  */

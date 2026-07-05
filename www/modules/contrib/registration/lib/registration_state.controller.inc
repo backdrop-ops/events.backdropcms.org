@@ -4,7 +4,7 @@
  * @file
  * The controller class used for registration state entities
  */
-class RegistrationStateController extends EntityPlusController {
+class RegistrationStateController extends EntityPlusControllerExportable {
   protected $cache;
 
   public function save($entity, DatabaseTransaction $transaction = NULL) {

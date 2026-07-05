@@ -105,9 +105,9 @@ function registration_form($form, &$form_state, Registration $registration) {
   if ($capacity && $limit) {
     $description = t('The number of spaces you wish to reserve. @spaces_remaining spaces remaining. You may register up to @max spaces.',
       array(
-      '@spaces_remaining' => $remaining,
-      '@max' => min($limit, $remaining),
-    )
+        '@spaces_remaining' => $remaining,
+        '@max' => min($limit, $remaining),
+      )
     );
   }
   elseif ($capacity) {
@@ -167,7 +167,7 @@ function registration_form($form, &$form_state, Registration $registration) {
     );
   }
 
-  if ($host && entity_access('view', $registration->entity_type, $host)) {
+  if ($host && entity_plus_access('view', $registration->entity_type, $host)) {
     $uri = entity_uri($registration->entity_type, $host);
     if (isset($uri['path'])) {
       $form['actions']['cancel'] = array(
@@ -393,11 +393,13 @@ function registration_send_confirmation($form, &$form_state) {
         'subject' => $subject,
         'message' => $message,
       );
+      if (!empty($settings['settings']['from_address'])) {
+        $params['from'] = $settings['settings']['from_address'];
+      }
       global $language;
-      $from = $settings['settings']['from_address'];
 
       // Send the confirmation email.
-      backdrop_mail('registration', 'confirmation', $email, $language, $params, $from);
+      backdrop_mail('registration', 'confirmation', $email, $language, $params);
     }
   }
 }
@@ -584,11 +586,6 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
       'entity_type' => $entity_type,
     );
   }
-  // Check to see if date_popup is installed so we can provide a friendlier UI.
-  $date_popup_installed = FALSE;
-  if (module_exists('date_popup')) {
-    $date_popup_installed = TRUE;
-  }
   $form['status'] = array(
     '#type' => 'checkbox',
     '#title' => t('Enable'),
@@ -604,7 +601,6 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     '#required' => TRUE,
     '#default_value' => isset($settings['capacity']) ? $settings['capacity'] : 0,
   );
-
   $form['scheduling'] = array(
     '#type' => 'fieldset',
     '#title' => t('Scheduling'),
@@ -612,47 +608,24 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     '#collapsed' => FALSE,
     '#tree' => TRUE,
   );
-
   $form['scheduling']['open'] = array(
-    '#type' => 'textfield',
+    '#type' => 'date_popup',
+    '#date_format' => 'Y-m-d H:i:s O',
     '#title' => t('Open Date'),
-    '#maxlength' => 25,
-    '#description' => t('When to automatically open registrations. Format: %time. The date format is YYYY-MM-DD and %timezone is the time zone offset from UTC. Leave blank to disable.', array(
-      '%time' => !empty($settings['open']) ? date_format(date_create($settings['open']), 'Y-m-d H:i:s O') : format_date(time(), 'custom', 'Y-m-d H:i:s O'),
-      '%timezone' => !empty($settings['open']) ? date_format(date_create($settings['open']), 'O') : format_date(time(), 'custom', 'O'),
-    )
-    ),
+    '#description' => t('When to automatically open registrations. (This uses the !timezone.)', array(
+      '!timezone' => l(t('site default time zone'), 'admin/config/regional/settings'),
+    )),
     '#default_value' => !empty($settings['open']) ? $settings['open'] : '',
   );
-  if ($date_popup_installed) {
-    $form['scheduling']['open']['#type'] = 'date_popup';
-    $form['scheduling']['open']['#date_format'] = 'Y-m-d H:i:s O';
-    $form['scheduling']['open']['#description'] = t('When to automatically open registrations. (This uses the !timezone.)', array(
-      '!timezone' => l(t('site default time zone'), 'admin/config/regional/settings'),
-    ));
-    unset($form['scheduling']['open']['#maxlength']);
-  }
-
   $form['scheduling']['close'] = array(
-    '#type' => 'textfield',
+    '#type' => 'date_popup',
+    '#date_format' => 'Y-m-d H:i:s O',
     '#title' => t('Close Date'),
-    '#maxlength' => 25,
-    '#description' => t('When to automatically close registrations. Format: %time. The date format is YYYY-MM-DD and %timezone is the time zone offset from UTC. Leave blank to disable.', array(
-      '%time' => !empty($settings['close']) ? date_format(date_create($settings['close']), 'Y-m-d H:i:s O') : format_date(time(), 'custom', 'Y-m-d H:i:s O'),
-      '%timezone' => !empty($settings['close']) ? date_format(date_create($settings['close']), 'O') : format_date(time(), 'custom', 'O'),
-    )
-    ),
+    '#description' => t('When to automatically close registrations. (This uses the !timezone.)', array(
+      '!timezone' => l(t('site default time zone'), 'admin/config/regional/settings'),
+    )),
     '#default_value' => !empty($settings['close']) ? $settings['close'] : '',
   );
-  if ($date_popup_installed) {
-    $form['scheduling']['close']['#type'] = 'date_popup';
-    $form['scheduling']['close']['#date_format'] = 'Y-m-d H:i:s O';
-    $form['scheduling']['close']['#description'] = t('When to automatically close registrations.. (This uses the !timezone.)', array(
-      '!timezone' => l(t('site default time zone'), 'admin/config/regional/settings'),
-    ));
-    unset($form['scheduling']['close']['#maxlength']);
-  }
-
   $form['confirmation'] = array(
     '#type' => 'fieldset',
     '#title' => t('Confirmation'),
@@ -719,17 +692,14 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     ),
   );
   $form['reminder']['reminder_settings']['reminder_date'] = array(
-    '#type' => 'textfield',
+    '#type' => 'date_popup',
+    '#date_format' => 'Y-m-d H:i:s O',
     '#title' => t('Reminder Date'),
-    '#maxlength' => 25,
-    '#description' => t('When to send reminders. Format: %time. The date format is YYYY-MM-DD and %timezone is the time zone offset from UTC.', array(
-      '%time' => !empty($settings['open']) ? date_format(date_create($settings['reminder_date']), 'Y-m-d H:i:s O') : format_date(time(), 'custom', 'Y-m-d H:i:s O'),
-      '%timezone' => !empty($settings['open']) ? date_format(date_create($settings['reminder_date']), 'O') : format_date(time(), 'custom', 'O'),
-    )
-    ),
+    '#description' => t('When to send reminders. (This uses the !timezone.)', array(
+      '!timezone' => l(t('site default time zone'), 'admin/config/regional/settings'),
+    )),
     '#default_value' => !empty($settings['reminder_date']) ? $settings['reminder_date'] : '',
   );
-
   $form['reminder']['reminder_settings']['reminder_subject'] = array(
     '#type' => 'textfield',
     '#title' => 'Reminder subject',
@@ -737,14 +707,6 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     '#size' => 128,
     '#disabled' => TRUE,
   );
-  if ($date_popup_installed) {
-    $form['reminder']['reminder_settings']['reminder_date']['#type'] = 'date_popup';
-    $form['reminder']['reminder_settings']['reminder_date']['#date_format'] = 'Y-m-d H:i:s O';
-    $form['reminder']['reminder_settings']['reminder_date']['#description'] = t('When to send reminders. (This uses the !timezone.)', array(
-      '!timezone' => l(t('site default time zone'), 'admin/config/regional/settings'),
-    ));
-    unset($form['reminder']['reminder_settings']['reminder_date']['#maxlength']);
-  }
   $form['reminder']['reminder_settings']['reminder_template'] = array(
     '#type' => 'textarea',
     '#title' => t('Template'),
@@ -760,7 +722,6 @@ function registration_entity_settings_form($form, &$form_state, $settings, $enti
     ),
     '#global_types' => FALSE,
   );
-
   $form['settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Additional Settings'),
@@ -980,7 +941,7 @@ function registration_state_form($form, &$form_state, $registration_state, $op =
     '#type' => 'machine_name',
     '#default_value' => $registration_state->id(),
     '#maxlength' => 32,
-    //'#disabled' => $registration_state->locked && $op != 'clone',
+    // '#disabled' => $registration_state->locked && $op != 'clone',
     '#machine_name' => array(
       'exists' => 'registration_get_states',
       'source' => array('label'),

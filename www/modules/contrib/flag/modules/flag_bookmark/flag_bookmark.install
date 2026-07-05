@@ -15,7 +15,8 @@ function flag_bookmark_enable() {
   // Load the flag API in case we want to use it when enabling.
   include_once backdrop_get_path('module', 'flag') . '/flag.module';
 
-  if (!flag_get_flags()) {
+  $config = config('flag.flag.bookmarks');
+  if ($config->isNew()) {
     // Install a demonstration flag only if no flag exists. This is to prevent
     // a case where a disables and enables the module, and the demonstration
     // flag is overwritten or re-created.

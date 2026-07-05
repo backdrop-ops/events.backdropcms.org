@@ -1,9 +1,11 @@
-name = Flag hook_flag_access test
-description = Tests for hook_flag_access
+name = Flag Comment Flag Test
+description = Test module for comment flags.
 backdrop = 1.x
-dependencies[] = flag
-package = Flags
+type = module
 hidden = TRUE
+
+dependencies[] = flag
+dependencies[] = comment
 
 ; Added by Backdrop CMS packaging script on 2026-06-10
 project = flag

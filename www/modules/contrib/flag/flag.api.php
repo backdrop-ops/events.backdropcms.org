@@ -15,7 +15,7 @@
  *
  * This hook may be placed in a $module.flag.inc file.
  *
- * @return
+ * @return array
  *  An array whose keys are flag type names and whose values are properties of
  *  the flag type.
  *  When a flag type is for an entity, the flag type name must match the entity
@@ -46,7 +46,7 @@ function hook_flag_type_info() {
  *
  * This hook may be placed in a $module.flag.inc file.
  *
- * @param $definitions
+ * @param array $definitions
  *  An array of flag definitions returned by hook_flag_type_info().
  */
 function hook_flag_type_info_alter(&$definitions) {
@@ -121,7 +121,7 @@ function hook_flag_alter(&$flag) {
  * @param $options
  *  The array of default options for the flag type, with the options for the
  *  flag's link type merged in.
- * @param $flag
+ * @param flag_flag $flag
  *  The flag object.
  *
  * @see flag_flag::options()
@@ -133,13 +133,13 @@ function hook_flag_options_alter(&$options, $flag) {
 /**
  * Act on an object being flagged.
  *
- * @param $flag
+ * @param flag_flag $flag
  *  The flag object.
- * @param $entity_id
+ * @param int $entity_id
  *  The id of the entity the flag is on.
- * @param $account
+ * @param User $account
  *  The user account performing the action.
- * @param $flagging_id
+ * @param Flagging $flagging
  *  The flagging entity.
  */
 function hook_flag_flag($flag, $entity_id, $account, $flagging) {
@@ -152,13 +152,13 @@ function hook_flag_flag($flag, $entity_id, $account, $flagging) {
  * This is invoked after the flag count has been decreased, but before the
  * flagging entity has been deleted.
  *
- * @param $flag
+ * @param flag_flag $flag
  *  The flag object.
- * @param $entity_id
+ * @param int $entity_id
  *  The id of the entity the flag is on.
- * @param $account
+ * @param User $account
  *  The user account performing the action.
- * @param $flagging
+ * @param Flagging $flagging
  *  The flagging entity.
  */
 function hook_flag_unflag($flag, $entity_id, $account, $flagging) {
@@ -168,18 +168,18 @@ function hook_flag_unflag($flag, $entity_id, $account, $flagging) {
 /**
  * Perform custom validation on a flag before flagging/unflagging.
  *
- * @param $action
+ * @param string $action
  *  The action about to be carried out. Either 'flag' or 'unflag'.
- * @param $flag
+ * @param flag_flag $flag
  *  The flag object.
- * @param $entity_id
+ * @param int $entity_id
  *  The id of the entity the user is trying to flag or unflag.
- * @param $account
+ * @param User $account
  *  The user account performing the action.
- * @param $flagging
+ * @param Flagging $flagging
  *  The flagging entity.
  *
- * @return
+ * @return array
  *   Optional array: textual error with the error-name as the key.
  *   If the error name is 'access-denied' and javascript is disabled,
  *   backdrop_access_denied will be called and a 403 will be returned.
@@ -207,16 +207,16 @@ function hook_flag_validate($action, $flag, $entity_id, $account, $skip_permissi
  * Called when displaying a single entity view or edit page.  For flag access
  * checks from within Views, implement hook_flag_access_multiple().
  *
- * @param $flag
+ * @param flag_flag $flag
  *  The flag object.
- * @param $entity_id
+ * @param int $entity_id
  *  The id of the entity in question.
- * @param $action
+ * @param string $action
  *  The action to test. Either 'flag' or 'unflag'.
- * @param $account
+ * @param User $account
  *  The user on whose behalf to test the flagging action.
  *
- * @return
+ * @return bool|null
  *   One of the following values:
  *     - TRUE: User has access to the flag.
  *     - FALSE: User does not have access to the flag.
@@ -238,14 +238,14 @@ function hook_flag_access($flag, $entity_id, $action, $account) {
  * Called when preparing a View or list of multiple flaggable entities.
  * For flag access checks for individual entities, see hook_flag_access().
  *
- * @param $flag
+ * @param flag_flag $flag
  *  The flag object.
- * @param $entity_ids
+ * @param array $entity_ids
  *  An array of object ids to check access.
- * @param $account
+ * @param User $account
  *  The user on whose behalf to test the flagging action.
  *
- * @return
+ * @return array
  *   An array whose keys are the object IDs and values are booleans indicating
  *   access.
  *
@@ -263,7 +263,7 @@ function hook_flag_access_multiple($flag, $entity_ids, $account) {
  *
  * This hook may be placed in a $module.flag.inc file.
  *
- * @return
+ * @return array
  *  An array of one or more types, keyed by the machine name of the type, and
  *  where each value is a link type definition as an array with the following
  *  properties:
@@ -291,7 +291,7 @@ function hook_flag_link_type_info() {
  *
  * This hook may be placed in a $module.flag.inc file.
  *
- * @param $link_types
+ * @param array $link_types
  *  An array of the link types defined by all modules.
  *
  * @see flag_get_link_types()
@@ -311,11 +311,11 @@ function hook_flag_link_type_info_alter(&$link_types) {
  * attributes, using the same structure as hook_link(). Note that "title" is
  * provided by the Flag configuration if not specified here.
  *
- * @param $flag
+ * @param flag_flag $flag
  *   The full flag object for the flag link being generated.
- * @param $action
+ * @param string $action
  *   The action this link should perform. Either 'flag' or 'unflag'.
- * @param $entity_id
+ * @param int $entity_id
  *   The ID of the node, comment, user, or other object being flagged. The type
  *   of the object can be deduced from the flag type.
  *
@@ -335,7 +335,7 @@ function hook_flag_link() {
  * This is invoked after all the flag database tables have had their relevant
  * entries deleted.
  *
- * @param $flag
+ * @param flag_flag $flag
  *  The flag object that has been deleted.
  */
 function hook_flag_delete($flag) {
@@ -345,12 +345,12 @@ function hook_flag_delete($flag) {
 /**
  * Act when a flag is reset.
  *
- * @param $flag
+ * @param flag_flag $flag
  *  The flag object.
- * @param $entity_id
+ * @param int $entity_id
  *  The entity ID on which all flaggings are to be removed. May be NULL, in
  *  which case all of this flag's entities are to be unflagged.
- * @param $rows
+ * @param array $rows
  *  Database rows from the {flagging} table.
  *
  * @see flag_reset_flag()
@@ -362,9 +362,9 @@ function hook_flag_reset($flag, $entity_id, $rows) {
 /**
  * Alter the javascript structure that describes the flag operation.
  *
- * @param $info
+ * @param array $info
  *   The info array before it is returned from flag_build_javascript_info().
- * @param $flag
+ * @param flag_flag $flag
  *   The full flag object.
  *
  * @see flag_build_javascript_info()
@@ -379,16 +379,4 @@ function hook_flag_javascript_info_alter(&$info, $flag) {
       'hide_text' => TRUE,
     ));
   }
-}
-
-/**
- * Alter a flag object that is being prepared for exporting.
- *
- * @param $flag
- *  The flag object.
- *
- * @see flag_export_flags()
- */
-function hook_flag_export_alter($flag) {
-
 }

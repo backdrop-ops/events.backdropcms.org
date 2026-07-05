@@ -26,7 +26,7 @@ Backdrop.behaviors.flagRoles.attach = function(context) {
   });
 
   $('#flag-roles input.unflag-access', context).change(function() {
-    if ($(this).parents('table:first').find('input.unflag-access:enabled:not(:checked)').size() == 0) {
+    if ($(this).parents('table:first').find('input.unflag-access:enabled:not(:checked)').length == 0) {
       $('div.form-item-unflag-denied-text').slideUp();
     }
     else {
@@ -35,7 +35,7 @@ Backdrop.behaviors.flagRoles.attach = function(context) {
   });
 
   // Hide the link options by default if needed.
-  if ($('#flag-roles input.unflag-access:enabled:not(:checked)').size() == 0) {
+  if ($('#flag-roles input.unflag-access:enabled:not(:checked)').length == 0) {
     $('div.form-item-unflag-denied-text').css('display', 'none');
   }
 };

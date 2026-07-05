@@ -63,7 +63,8 @@ function registration_entity_info() {
       'token type' => 'registration',
       'module' => 'registration',
       'label callback' => 'entity_class_label',
-      'entity cache' => module_exists('entitycache'),
+      'entity cache' => TRUE,
+      'field cache' => FALSE,
     ),
     'registration_type' => array(
       'label' => t('Registration type'),
@@ -87,7 +88,8 @@ function registration_entity_info() {
         'file path' => backdrop_get_path('module', 'registration') . '/includes',
         'controller class' => 'RegistrationTypeUIController',
       ),
-      'entity cache' => module_exists('entitycache'),
+      'entity cache' => TRUE,
+      'field cache' => FALSE,
     ),
     'registration_state' => array(
       'label' => t('Registration State'),
@@ -116,7 +118,8 @@ function registration_entity_info() {
       'module' => 'registration',
       'access callback' => 'registration_state_access',
       'exportable' => TRUE,
-      'entity cache' => module_exists('entitycache'),
+      'entity cache' => TRUE,
+      'field cache' => FALSE,
     ),
   );
 
@@ -421,9 +424,10 @@ function registration_own_access($action, $registration, $hash = NULL) {
  */
 function registration_config_info() {
   $prefixes['registration.settings'] = array(
-    'label' => t('Module name settings'),
+    'label' => t('Registration settings'),
     'group' => t('Configuration'),
   );
+  return $prefixes;
 }
 
 /**
@@ -684,7 +688,7 @@ function registration_administer_registrations_access($entity_type, $entity, $ac
     if (user_access("administer $registration_type registration", $account)) {
       return TRUE;
     }
-    elseif (user_access("update own $registration_type registration", $account) && entity_access('update', $entity_type, $entity, $account)) {
+    elseif (user_access("administer own $registration_type registration", $account) && entity_access('update', $entity_type, $entity, $account)) {
       return TRUE;
     }
   }
@@ -1168,6 +1172,8 @@ function registration_mail($key, &$message, $params) {
   $body = $params['message'];
   $message['subject'] .= str_replace(array("\r", "\n"), '', $subject);
   $message['body'][] = backdrop_html_to_text($body);
+  $message['from'] = $params['from'];
+  $message['headers']['From'] = $params['from'];
 }
 
 /**
@@ -1196,7 +1202,7 @@ function registration_send_broadcast($entity_type, $entity_id, $subject, $messag
 
   // grab registration entity settings
   $settings = registration_entity_settings($entity_type, $entity_id);
-  $from = $settings['settings']['from_address'];
+  $from = $settings['settings']['from_address'] ? $settings['settings']['from_address'] : '';
 
   // grab all registrations
   $query = new EntityFieldQuery();
@@ -1250,10 +1256,9 @@ function registration_send_broadcast($entity_type, $entity_id, $subject, $messag
       );
       $message = token_replace($message_template, $data, array('clear' => TRUE));
       $params['message'] = $message;
+      $params['from'] = $from;
 
-      $result = backdrop_mail('registration', 'broadcast',
-        $wrapper->mail->value(), $language, $params, $from
-      );
+      $result = backdrop_mail('registration', 'broadcast', $wrapper->mail->value(), $language, $params);
       if ($result['result'] !== FALSE) {
         $success_count++;
       }
@@ -1500,8 +1505,8 @@ function registration_get_registration_instances($params = array()) {
       $field_name = array(
         'field_name' => $field_name,
       );
-      $params = array_merge($field_name, $params);
-      $registration_instance = field_read_instances($params);
+      $params_copy = array_merge($field_name, $params);
+      $registration_instance = field_read_instances($params_copy);
       $registration_instances += $registration_instance;
     }
   }
@@ -1845,8 +1850,8 @@ function registration_get_default_state($type = NULL) {
  *   If set, the type with the given name is returned.
  */
 function registration_get_states($name = NULL) {
-  $types = entity_load_multiple_by_name('registration_state', isset($name) ? array($name) : FALSE);
-  return isset($name) ? reset($types) : $types;
+  $types = entity_load_multiple_by_name('registration_state', FALSE);
+  return (isset($name) && !empty($types[$name])) ? $types[$name] : $types;
 }
 
 /**
@@ -2256,4 +2261,62 @@ function registration_autoload_info() {
     'RegistrationType' => 'lib/registration_type.entity.inc',
     'RegistrationTypeUIController' => 'lib/registration_type.ui_controller.inc',
   );
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function registration_form_alter(&$form, &$form_state, $form_id) {
+  // Add the value per space
+  if ($form_id === 'field_ui_field_edit_form') {
+    if (isset($form['#instance']['entity_type']) && $form['#instance']['entity_type'] === 'registration') {
+      $form['instance']['settings']['value_per_space'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Require one value per space'),
+        '#default_value' => isset($form['#instance']['settings']['value_per_space']) ? $form['#instance']['settings']['value_per_space'] : FALSE,
+        '#description' => t('If set, the user will need to add a value to this field for each space they register for. This will require the field to have Number of values set to unlimited.'),
+        '#weight' => 10,
+      );
+    }
+  }
+
+  // Add validation handler for registration forms.
+  if ($form_id === 'registration_form' && !empty($form_state['field'])) {
+    $value_per_space = FALSE;
+    foreach ($form_state['field'] as $field_name => $field_settings) {
+      if (isset($field_settings[LANGUAGE_NONE]['instance']['settings']['value_per_space'])) {
+        if ($field_settings[LANGUAGE_NONE]['instance']['settings']['value_per_space']) {
+          $value_per_space = TRUE;
+        }
+      }
+    }
+    if ($value_per_space === TRUE) {
+      $form['#validate'][] = 'registration_value_per_space_validate';
+    }
+  }
+}
+
+/**
+ * Validation handler to check the value per space settings and apply them.
+ */
+function registration_value_per_space_validate($form, &$form_state) {
+  foreach ($form_state['field'] as $field_name => $field_settings) {
+    if (isset($field_settings[LANGUAGE_NONE]['instance']['settings']['value_per_space'])) {
+      if ($field_settings[LANGUAGE_NONE]['instance']['settings']['value_per_space']) {
+        // Add up the values, skipping the add more link.
+        $count = 0;
+        foreach ($form_state['values'][$field_name][LANGUAGE_NONE] as $key => $value) {
+          if ($key !== 'add_more' && !empty(array_pop(array_reverse($value)))) {
+            $count++;
+          }
+        }
+        // Set a form error on the field that does not have the correct number of values.
+        if ($count !== (int) $form_state['values']['count']) {
+          form_set_error($field_name, t('@field needs 1 value to be filled out for each space used.', array(
+            '@field' => $form[$field_name][LANGUAGE_NONE]['#title'],
+          )));
+        }
+      }
+    }
+  }
 }

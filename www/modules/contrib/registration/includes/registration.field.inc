@@ -37,12 +37,12 @@ function registration_field_info() {
           'settings' => array(
             'maximum_spaces' => 1,
             'multiple_registrations' => -1,
-            'from_address' => config_get('system.performance', 'site_mail'),
+            'from_address' => config_get('system.core', 'site_mail'),
           ),
         ),
       ),
       'default_widget' => 'registration_select',
-      'default_formatter' => 'registration_default',
+      'default_formatter' => 'registration_link',
       'no_ui' => FALSE,
     ),
   );

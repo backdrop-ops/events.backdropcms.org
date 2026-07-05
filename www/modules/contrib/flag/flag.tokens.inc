@@ -198,7 +198,7 @@ function flag_tokens($type, $tokens, array $data = array(), array $options = arr
 /**
  * Returns HTML for a tokens browser.
  *
- * @param $variables
+ * @param array $variables
  *   An associative array containing:
  *   - types: An array naming the types of tokens to show.
  *   - global_types: Whether to show global tokens.
@@ -210,13 +210,13 @@ function theme_flag_tokens_browser($variables) {
   return theme('token_tree', array('token_types' => $types, 'global_types' => $global_types));
 }
 
-/*
+/**
  * Returns corresponding token type name given entity type name.
  *
- * @parm $entity_type
+ * @param string $entity_type
  *   Entity type name.
  *
- * @return
+ * @return string
  *   Token type name.
  *
  * Flag module can add flags to any entity, and provide flag-related tokens
@@ -240,13 +240,13 @@ function _flag_entity_token_type($entity_type) {
   return $entity_type;
 }
 
-/*
+/**
  * Returns corresponding entity type name given token type name.
  *
- * @param $token_type
+ * @param string $token_type
  *   A token type string
  *
- * @return
+ * @return string
  *   An entity type name.
  */
 function _flag_token_entity_type($token_type) {

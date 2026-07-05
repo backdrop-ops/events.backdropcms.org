@@ -108,7 +108,7 @@ function flag_actions_get_actions($flag_name = NULL, $reset = FALSE) {
       }
       $action->parameters = unserialize($action->parameters);
       $action->label = $actions[$action->callback]['label'];
-      $action->configurable = $actions[$action->callback]['configurable'];
+      $action->configurable = $actions[$action->callback]['configurable'] ?? NULL;
       $action->behavior = isset($actions[$action->callback]['behavior']) ? $actions[$action->callback]['behavior'] : array();
       $action->type = $actions[$action->callback]['type'];
       $action->missing = !empty($actions[$action->callback]['missing']);
@@ -309,7 +309,7 @@ function theme_flag_actions_page($variables) {
     }
 
     $row = array();
-    $row[] = $flag->get_title();
+    $row[] = $flag ? $flag->get_title() : t('Unknown flag');
     $row[] = ($action->event == 'flag' ? '&ge; ' : '&lt; ') . $action->threshold;
     $row[] = $repeat_string;
     $row[] = empty($action->missing) ? $action->label : '<div class="error">' . $action->label . '</div>';
@@ -639,7 +639,7 @@ function flag_actions_delete_form($form, &$form_state, $aid) {
     '#value' => $flag,
   );
 
-  $question = t('Delete the "@action" action for the @title flag?', array('@action' => $action->label, '@title' => $flag->get_title()));
+  $question = t('Delete the "@action" action for the @title flag?', array('@action' => $action->label, '@title' => ($flag ? $flag->get_title() : t('unknown'))));
   $path = FLAG_ADMIN_PATH . '/actions';
 
   return confirm_form($form, $question, $path, NULL, t('Delete'));
@@ -647,7 +647,9 @@ function flag_actions_delete_form($form, &$form_state, $aid) {
 
 function flag_actions_delete_form_submit(&$form, &$form_state) {
   flag_actions_delete_action($form_state['values']['action']->aid);
-  backdrop_set_message(t('The "@action" action for the @title flag has been deleted.', array('@action' => $form_state['values']['action']->label, '@title' => $form_state['values']['flag']->get_title())));
+  $flag = $form_state['values']['flag'];
+  $flag_title = $flag ? $flag->get_title() : t('unknown');
+  backdrop_set_message(t('The "@action" action for the @title flag has been deleted.', array('@action' => $form_state['values']['action']->label, '@title' => $flag_title)));
   $form_state['redirect'] = FLAG_ADMIN_PATH . '/actions';
 }
 

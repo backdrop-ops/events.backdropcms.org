@@ -15,7 +15,7 @@ class RegistrationMetadataController extends EntityDefaultMetadataController {
       'type' => 'integer',
       'description' => t("The unique ID of the registration."),
       'schema field' => 'registration_id',
-      'setter callback' => 'entity_property_verbatim_set',
+      'setter callback' => 'entity_plus_property_verbatim_set',
     );
 
     $properties['type'] = array(
@@ -25,7 +25,7 @@ class RegistrationMetadataController extends EntityDefaultMetadataController {
       'options list' => 'registration_type_get_names',
       'required' => TRUE,
       'schema field' => 'type',
-      'setter callback' => 'entity_property_verbatim_set',
+      'setter callback' => 'entity_plus_property_verbatim_set',
     );
 
     $properties['entity_type'] = array(
@@ -34,7 +34,7 @@ class RegistrationMetadataController extends EntityDefaultMetadataController {
       'description' => t("The entity type of the host entity."),
       'required' => TRUE,
       'schema field' => 'entity_type',
-      'setter callback' => 'entity_property_verbatim_set',
+      'setter callback' => 'entity_plus_property_verbatim_set',
     );
 
     $properties['entity_id'] = array(
@@ -43,7 +43,7 @@ class RegistrationMetadataController extends EntityDefaultMetadataController {
       'description' => t("The entity ID of the host entity."),
       'required' => TRUE,
       'schema field' => 'entity_id',
-      'setter callback' => 'entity_property_verbatim_set',
+      'setter callback' => 'entity_plus_property_verbatim_set',
     );
 
     $properties['count'] = array(
@@ -51,7 +51,7 @@ class RegistrationMetadataController extends EntityDefaultMetadataController {
       'type' => 'integer',
       'description' => t("How many slots the registration consumes from the host entity."),
       'schema field' => 'count',
-      'setter callback' => 'entity_property_verbatim_set',
+      'setter callback' => 'entity_plus_property_verbatim_set',
     );
 
     $properties['created'] = array(
@@ -59,7 +59,7 @@ class RegistrationMetadataController extends EntityDefaultMetadataController {
       'type' => 'date',
       'schema field' => 'created',
       'description' => t("The date the registration was created."),
-      'setter callback' => 'entity_property_verbatim_set',
+      'setter callback' => 'entity_plus_property_verbatim_set',
     );
 
     $properties['updated'] = array(
@@ -67,7 +67,7 @@ class RegistrationMetadataController extends EntityDefaultMetadataController {
       'type' => 'date',
       'schema field' => 'updated',
       'description' => t("The date the registration was most recently updated."),
-      'setter callback' => 'entity_property_verbatim_set',
+      'setter callback' => 'entity_plus_property_verbatim_set',
     );
 
     $properties['anon_mail'] = array(
@@ -124,12 +124,12 @@ class RegistrationMetadataController extends EntityDefaultMetadataController {
       'schema field' => 'author_uid',
       'description' => t("The user who created the registration."),
       'getter callback' => 'registration_property_author_get',
-      'setter callback' => 'entity_property_verbatim_set',
+      'setter callback' => 'entity_plus_property_verbatim_set',
     );
 
     $properties['user'] = array(
       'label' => t("User entity"),
-      'type' => 'entity',
+      'type' => 'user',
       'schema field' => 'user_uid',
       'description' => t("The entity for which the registration belongs to. Usually a user."),
       'getter callback' => 'registration_property_user_get',
@@ -142,7 +142,7 @@ class RegistrationMetadataController extends EntityDefaultMetadataController {
       'schema field' => 'state',
       'options list' => 'registration_get_states_options',
       'description' => t("The state of the registration."),
-      'setter callback' => 'entity_property_verbatim_set',
+      'setter callback' => 'entity_plus_property_verbatim_set',
     );
     return $info;
   }
