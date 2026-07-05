@@ -117,5 +117,6 @@
     "backdrop_http_request": {
         "strip_sensitive_headers_on_host_change": true,
         "strip_sensitive_headers_on_https_downgrade": true
-    }
+    },
+    "icon_browser_icons_per_page": 110
 }
