@@ -37,5 +37,8 @@
     "show_on_form": false,
     "access_author": "",
     "show_contextual_link": false,
-    "i18n": 0
+    "i18n": 0,
+    "flood_control_active": false,
+    "flood_control_limit": 0,
+    "flood_control_window": 0
 }
