@@ -60,7 +60,8 @@
         "views": true,
         "views_field_view": true,
         "views_ui": true,
-        "youtube": true
+        "youtube": true,
+        "borg_blocks": true
     },
     "themes": {
         "basis": true,
