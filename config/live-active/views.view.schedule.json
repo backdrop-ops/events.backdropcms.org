@@ -835,7 +835,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "707"
+                            "value": "750"
                         },
                         "group": "1",
                         "exposed": false,
@@ -955,7 +955,7 @@
                         }
                     }
                 },
-                "title": "Backdrop LIVE - April 2026",
+                "title": "Backdrop LIVE - Oct 2026",
                 "style_options": {
                     "grouping": [
                         {
@@ -1155,7 +1155,7 @@
                         "value": {
                             "min": "",
                             "max": "",
-                            "value": "707"
+                            "value": "750"
                         },
                         "group": "1",
                         "exposed": false,
@@ -1607,7 +1607,7 @@
                 "filters": {
                     "field_event_target_id": {
                         "value": {
-                            "value": "707"
+                            "value": "750"
                         }
                     }
                 },
@@ -1635,7 +1635,7 @@
                 "filters": {
                     "field_event_target_id": {
                         "value": {
-                            "value": "707"
+                            "value": "750"
                         }
                     }
                 }

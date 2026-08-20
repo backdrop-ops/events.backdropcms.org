@@ -82,10 +82,10 @@
                     "title": "Backdrop LIVE ",
                     "style": "default",
                     "block_settings": {
-                        "display_date": "April 23th &amp; 24th 2026",
+                        "display_date": "Oct 22 - 24 2026",
                         "text": "An online global event for those who use Backdrop CMS, or those who want to learn more about it.",
-                        "event_nid": "707",
-                        "event_open": "1"
+                        "event_nid": "750",
+                        "event_open": "0"
                     },
                     "contexts": [],
                     "admin_label": "",
