@@ -15,6 +15,16 @@
  ******************************************************************************/
 
 /**
+ * Preprocess header templates.
+ * @see header.tpl.php
+ */
+function borg_events_preprocess_header(&$variables) {
+  $variables['branding_classes'] = array('col-xs-6', 'col-sm-4', 'col-md-3', 'col-lg-2');
+  // Note: these may be added to the Primary Menu block instead.
+  $variables['navigation_classes'] = array('col-xs-6', 'col-sm-8', 'col-md-9', 'col-lg-10');
+}
+
+/**
  * Prepares variables for views grid templates.
  * @see views-view-grid.tpl.php
  */
