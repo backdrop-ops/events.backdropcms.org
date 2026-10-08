@@ -8,30 +8,27 @@
 ** header area
 *******************************************************************************/
 
+/* Shrink the logo on smaller screens */
 .site-name {
   font-size: 1.5rem; /* 24px */
 }
-
 @media (min-width: 25em) { /* 400px @ 16px font size */
+
+}
+@media (min-width: 34em) { /* 544px @ 16px font size -- SM */
+
+}
+@media (min-width: 48em) {  /* 768px @ 16px font size  -- MD */
   .site-name {
     font-size: 2.125rem; /* 34px */
   }
 }
-
-@media (min-width: 34em) { /* 544px @ 16px font size -- SM */
-  .menu-main {
-    flex: 1;
-  }
-  .menu-demo {
-    flex: 1.5;
-  }
-}
 @media (min-width: 62em) { /* 992px @ 16px font size -- LG */
-  .menu-main,
-  .menu-account,
-  .menu-demo {
-    display: flex;
-    flex: auto;
+  .site-name {
+    font-size: 1.75rem; /* 24px */
+  }
+  .menu-account {
+    min-width: 100px;
   }
 }
 
