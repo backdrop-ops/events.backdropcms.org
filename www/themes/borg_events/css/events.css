@@ -12,23 +12,34 @@
 .site-name {
   font-size: 1.5rem; /* 24px */
 }
-@media (min-width: 25em) { /* 400px @ 16px font size */
-
-}
-@media (min-width: 34em) { /* 544px @ 16px font size -- SM */
-
-}
 @media (min-width: 48em) {  /* 768px @ 16px font size  -- MD */
   .site-name {
     font-size: 2.125rem; /* 34px */
+  }
+  .l-header .block-system-main-menu,
+  .l-header .borg-navigation {
+    margin-top: 17px; /* add 2px to match basline of larger font */
   }
 }
 @media (min-width: 62em) { /* 992px @ 16px font size -- LG */
   .site-name {
     font-size: 1.75rem; /* 24px */
   }
+  .l-header .block-system-main-menu,
+  .l-header .borg-navigation {
+    margin-top: 15px;
+  }
   .menu-account {
     min-width: 100px;
+  }
+}
+@media (min-width: 75em) { /* 1200px @ 16px font size -- XL */
+  .site-name {
+    font-size: 2.125rem; /* 34px */
+  }
+  .l-header .block-system-main-menu,
+  .l-header .borg-navigation {
+    margin-top: 17px; /* add 2px to match basline of larger font */
   }
 }
 
